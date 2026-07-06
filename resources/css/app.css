@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+
+    --color-accent-50: #ecfdf5;
+    --color-accent-100: #d1fae5;
+    --color-accent-200: #a7f3d0;
+    --color-accent-500: #10b981;
+
+    --color-lavender-100: #f0eaff;
+    --color-lavender-200: #e0d5ff;
+    --color-lavender-500: #8b6cf7;
+
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    --shadow-card-hover: 0 20px 40px -12px rgba(0, 0, 0, 0.08), 0 8px 24px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* ===== BASE ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    @apply bg-gradient-to-br from-slate-50 via-white to-blue-50/30 min-h-screen relative;
+}
+
+/* ===== 🌟 FLOATING ORNAMENTS ===== */
+.ornament {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    opacity: 0.15;
+}
+
+.ornament-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%);
+    top: -80px;
+    right: -100px;
+    animation: floatOrb 8s ease-in-out infinite;
+}
+
+.ornament-2 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+    bottom: 10%;
+    left: -60px;
+    animation: floatOrb 10s ease-in-out infinite reverse;
+}
+
+.ornament-3 {
+    width: 150px;
+    height: 150px;
+    border: 2px solid rgba(139,108,247,0.1);
+    top: 40%;
+    right: 5%;
+    animation: floatOrb 12s ease-in-out infinite 2s;
+}
+
+.ornament-4 {
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    top: 20%;
+    left: 10%;
+    animation: floatOrb 7s ease-in-out infinite 1s;
+}
+
+.ornament-5 {
+    width: 120px;
+    height: 120px;
+    border: 2px solid rgba(16,185,129,0.15);
+    bottom: 30%;
+    right: 15%;
+    animation: floatOrb 9s ease-in-out infinite 3s;
+}
+
+/* Dot grid pattern subtle */
+.ornament-dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(rgba(59,130,246,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* ===== FLOATING ORB KEYFRAMES ===== */
+@keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(15px, -20px) scale(1.05); }
+    50% { transform: translate(-10px, 10px) scale(0.95); }
+    75% { transform: translate(20px, 15px) scale(1.02); }
+}
+
+/* ===== FLOATING SHAPES ===== */
+.float-shape {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.float-shape-1 {
+    top: 15%;
+    left: 3%;
+    animation: drift 6s ease-in-out infinite;
+}
+
+.float-shape-2 {
+    bottom: 20%;
+    right: 2%;
+    animation: drift 8s ease-in-out infinite reverse;
+}
+
+.float-shape-3 {
+    top: 60%;
+    left: 5%;
+    animation: drift 7s ease-in-out infinite 1s;
+}
+
+@keyframes drift {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-12px) rotate(2deg); }
+    66% { transform: translateY(8px) rotate(-1deg); }
+}
+
+/* ===== HERO ===== */
+.hero-gradient {
+    background: linear-gradient(135deg, #f0f5ff 0%, #ffffff 50%, #ecfdf5 100%);
+}
+
+/* ===== 3D CARD ===== */
+.card-3d {
+    @apply bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 relative;
+    box-shadow: var(--shadow-card);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+.card-3d:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-6px) rotateX(2deg) scale(1.01);
+    @apply border-white/80;
+}
+
+/* Card shimmer */
+.card-3d::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.6) 50%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.card-3d:hover::before {
+    opacity: 1;
+}
+
+/* ===== GLASS CARD ===== */
+.glass-card {
+    @apply bg-white/60 backdrop-blur-xl rounded-2xl border border-white/70;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    @apply bg-white/90;
+    box-shadow: 0 8px 40px rgba(59, 130, 246, 0.06);
+}
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #2563eb, #10b981);
+}
+
+/* ===== ICON CONTAINER 3D ===== */
+.icon-3d {
+    @apply rounded-xl flex items-center justify-center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.card-3d:hover .icon-3d {
+    transform: translateZ(12px) scale(1.1);
+}
+
+/* ===== NAV LINK ===== */
+.nav-link {
+    @apply text-gray-500 transition-all duration-200 relative;
+}
+
+/* Remove the default underline style from app.css since we're styling differently inline */
+.nav-link-inline {
+    @apply text-gray-500 hover:text-primary-600 transition-colors duration-200;
+}
+
+/* ===== SECTION DIVIDER ===== */
+.section-gradient {
+    background: linear-gradient(180deg, transparent 0%, rgba(59, 130, 246, 0.02) 50%, transparent 100%);
+}
+
+/* ===== BUTTON 3D ===== */
+.btn-3d {
+    @apply relative inline-flex items-center font-medium rounded-xl transition-all duration-200;
+    transform-style: preserve-3d;
+}
+
+.btn-3d:active {
+    transform: translateY(2px);
+}
+
+/* ===== CTA SECTION ===== */
+.cta-gradient {
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #059669 100%);
+}
+
+/* CTA pulse ring */
+.cta-pulse {
+    position: relative;
+}
+
+.cta-pulse::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 2px solid rgba(255,255,255,0.2);
+    animation: ctaPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ctaPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0; }
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+
+/* ===== SECTION SEPARATOR WAVE ===== */
+.wave-divider {
+    position: relative;
+    height: 60px;
+    overflow: hidden;
+}
+
+.wave-divider svg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+}
+
+/* ===== NUMBER BADGE ===== */
+.number-badge {
+    @apply w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-bold;
+    transition: all 0.3s ease;
+}
+
+.card-3d:hover .number-badge {
+    transform: scale(1.1);
+}
+
+/* ===== COUNTER ANIMATION ===== */
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== REVEAL TEXT ===== */
+.reveal-text {
+    position: relative;
+    display: inline-block;
+}
+
+.reveal-text::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--color-primary-500), var(--color-accent-500));
+    animation: revealLine 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes revealLine {
+    0% { width: 100%; }
+    100% { width: 0; }
+}
+
+/* ===== IMAGE WRAPPER ===== */
+.img-wrapper {
+    @apply relative overflow-hidden rounded-2xl;
+}
+
+.img-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(16,185,129,0.05));
+    pointer-events: none;
+}
+
+/* ===== STATUS DOT ===== */
+.status-dot {
+    @apply w-2 h-2 rounded-full;
+}
+
+.status-dot.pulse {
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}
