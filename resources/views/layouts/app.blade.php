@@ -3,127 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('description', 'Rumah Bahasa Surabaya — program literasi bahasa di Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
-    <meta name="keywords" content="rumah bahasa surabaya, perpustakaan surabaya, kearsipan surabaya, literasi surabaya, bahasa jawa surabaya">
-
+    <meta name="description" content="@yield('meta_desc', 'Rumah Belajar Surabaya — program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
+    <meta name="keywords" content="rumah belajar surabaya, perpustakaan surabaya, kearsipan surabaya, literasi surabaya">
+    <meta property="og:title" content="@yield('title', 'Rumah Belajar Surabaya')">
+    <meta property="og:description" content="@yield('meta_desc', 'Program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', 'Rumah Bahasa Surabaya')">
-    <meta property="og:description" content="@yield('description', 'Rumah Bahasa Surabaya — program literasi bahasa.')">
-    <meta property="og:image" content="@yield('image', asset('images/og-default.jpg'))">
-
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="@yield('title', 'Rumah Bahasa Surabaya')">
-    <meta property="twitter:description" content="@yield('description', 'Rumah Bahasa Surabaya')">
-
-    <title>@yield('title', 'Rumah Bahasa Surabaya') - Dinas Perpustakaan dan Kearsipan Kota Surabaya</title>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>@yield('title', 'Rumah Belajar Surabaya') — Dinas Perpustakaan dan Kearsipan Kota Surabaya</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body class="bg-white text-gray-600 font-sans antialiased overflow-x-hidden">
-
-    {{-- GLOBAL FLOATING ORNAMENTS --}}
-    <div class="ornament ornament-1 fixed"></div>
-    <div class="ornament ornament-2 fixed"></div>
-    <div class="ornament ornament-3 fixed"></div>
-    <div class="ornament ornament-4 fixed"></div>
-    <div class="ornament ornament-5 fixed"></div>
-    <div class="ornament-dots fixed"></div>
+<body>
 
     {{-- NAVBAR --}}
-    <nav class="bg-white/80 backdrop-blur-xl border-b border-gray-100/80 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-500">Rumah Bahasa</span>
-                    <span class="text-xl font-light text-gray-400">Surabaya</span>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ route('home') }}" class="navbar-brand">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="flex-shrink:0;">
+                    <rect width="28" height="28" rx="6" fill="#005f73"/>
+                    <path d="M14 7v14M7 10h14M7 18h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
+                </svg>
+                <span class="brand-teal">Rumah Belajar</span>
+                <span class="brand-light">Surabaya</span>
+            </a>
+            <div class="navbar-links">
+                <a href="{{ route('home') }}">Beranda</a>
+                <a href="{{ route('home') }}#about">Tentang</a>
+                <a href="{{ route('home') }}#berita">Berita</a>
+                <a href="{{ route('home') }}#layanan">Layanan</a>
+                <a href="{{ route('home') }}#kontak">Kontak</a>
+                <a href="{{ route('login') }}" class="btn-login">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    Login Admin
                 </a>
-
-                {{-- Desktop Nav --}}
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="{{ route('home') }}" class="nav-link px-4 py-2 rounded-xl {{ request()->routeIs('home') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">Beranda</a>
-                    <a href="{{ route('profil') }}" class="nav-link px-4 py-2 rounded-xl {{ request()->routeIs('profil') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">Profil</a>
-                    <a href="{{ route('layanan') }}" class="nav-link px-4 py-2 rounded-xl {{ request()->routeIs('layanan') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">Layanan</a>
-                    <a href="{{ route('berita') }}" class="nav-link px-4 py-2 rounded-xl {{ request()->routeIs('berita*') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">Berita</a>
-                    <a href="{{ route('galeri') }}" class="nav-link px-4 py-2 rounded-xl {{ request()->routeIs('galeri') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">Galeri</a>
-                    <a href="{{ route('kontak') }}" class="nav-link px-4 py-2 rounded-xl {{ request()->routeIs('kontak') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">Kontak</a>
-                </div>
-
-                {{-- Mobile menu button --}}
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors">
-                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
             </div>
-        </div>
-
-        {{-- Mobile Nav --}}
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100/80 bg-white/95 backdrop-blur-lg">
-            <div class="px-4 py-3 space-y-1">
-                <a href="{{ route('home') }}" class="block px-4 py-2.5 rounded-xl {{ request()->routeIs('home') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:bg-gray-50' }}">Beranda</a>
-                <a href="{{ route('profil') }}" class="block px-4 py-2.5 rounded-xl {{ request()->routeIs('profil') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:bg-gray-50' }}">Profil</a>
-                <a href="{{ route('layanan') }}" class="block px-4 py-2.5 rounded-xl {{ request()->routeIs('layanan') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:bg-gray-50' }}">Layanan</a>
-                <a href="{{ route('berita') }}" class="block px-4 py-2.5 rounded-xl {{ request()->routeIs('berita*') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:bg-gray-50' }}">Berita</a>
-                <a href="{{ route('galeri') }}" class="block px-4 py-2.5 rounded-xl {{ request()->routeIs('galeri') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:bg-gray-50' }}">Galeri</a>
-                <a href="{{ route('kontak') }}" class="block px-4 py-2.5 rounded-xl {{ request()->routeIs('kontak') ? 'text-primary-600 bg-primary-50/60 font-medium' : 'text-gray-500 hover:bg-gray-50' }}">Kontak</a>
-            </div>
+            <button class="nav-toggle" onclick="document.querySelector('.navbar-links').classList.toggle('show')">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    {{-- KONTEN UTAMA --}}
-    <main>
-        @yield('content')
-    </main>
+    @yield('content')
 
     {{-- FOOTER --}}
-    <footer class="bg-gray-900 text-gray-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer class="footer" id="kontak">
+        <div class="container">
+            <div class="footer-grid">
                 <div>
-                    <h3 class="text-white font-semibold text-lg mb-4">Rumah Bahasa Surabaya</h3>
-                    <p class="text-sm leading-relaxed">
-                        Program literasi kebahasaan di bawah Dinas Perpustakaan dan Kearsipan Kota Surabaya.
-                    </p>
+                    <h3>Kontak & Alamat</h3>
+                    <div class="footer-item">
+                        <div class="footer-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div>
+                            <h4>Alamat</h4>
+                            <p>Dinas Perpustakaan dan Kearsipan<br>Kota Surabaya, Jawa Timur</p>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="footer-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@rumahbelajar-surabaya.go.id</p>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="footer-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <div>
+                            <h4>Telepon</h4>
+                            <p>(031) 1234567</p>
+                        </div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="footer-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div>
+                            <h4>Jam Operasional</h4>
+                            <p>Senin — Jumat, 08.00 — 16.00 WIB</p>
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <h3 class="text-white font-semibold text-lg mb-4">Kontak</h3>
-                    <address class="text-sm not-italic leading-relaxed">
-                        Dinas Perpustakaan dan Kearsipan Kota Surabaya<br>
-                        Jl. Raya Surabaya<br>
-                        Email: info@rumahbahasa-surabaya.go.id<br>
-                        Telp: (031) 1234567
-                    </address>
-                </div>
-                <div>
-                    <h3 class="text-white font-semibold text-lg mb-4">Navigasi</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('home') }}" class="hover:text-white">Beranda</a></li>
-                        <li><a href="{{ route('profil') }}" class="hover:text-white">Profil</a></li>
-                        <li><a href="{{ route('layanan') }}" class="hover:text-white">Layanan</a></li>
-                        <li><a href="{{ route('berita') }}" class="hover:text-white">Berita</a></li>
-                        <li><a href="{{ route('galeri') }}" class="hover:text-white">Galeri</a></li>
-                        <li><a href="{{ route('kontak') }}" class="hover:text-white">Kontak</a></li>
-                    </ul>
+                    <h3>Peta Lokasi</h3>
+                    <div class="footer-map">
+                        <svg viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="398" height="258" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+                            <path d="M40 200 Q80 170 120 190 Q160 210 200 180 Q240 150 280 170 Q320 190 360 160" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none"/>
+                            <path d="M40 180 Q90 140 140 160 Q190 180 240 140 Q290 100 360 130" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+                            <circle cx="200" cy="180" r="20" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/>
+                            <circle cx="200" cy="180" r="10" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
+                            <circle cx="200" cy="180" r="4" fill="var(--teal-300)"/>
+                            <rect x="160" y="100" width="80" height="50" rx="4" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" fill="rgba(255,255,255,0.02)"/>
+                            <path d="M175 100 v50 M185 100 v50 M195 100 v50 M205 100 v50 M215 100 v50 M225 100 v50" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                            <path d="M160 110 h80 M160 120 h80 M160 130 h80 M160 140 h80" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                            <text x="200" y="95" text-anchor="middle" fill="rgba(255,255,255,0.12)" font-size="8">DINAS PERPUSTAKAAN</text>
+                            <path d="M80 40 Q120 20 160 40 Q200 60 240 30 Q280 0 320 30" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" fill="none"/>
+                            <path d="M60 50 L60 30 L80 20 L100 30 L100 50 Z" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="rgba(255,255,255,0.02)"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
-                &copy; {{ date('Y') }} Dinas Perpustakaan dan Kearsipan Kota Surabaya. All rights reserved.
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                &copy; {{ date('Y') }} Dinas Perpustakaan dan Kearsipan Kota Surabaya. Seluruh hak cipta dilindungi.
             </div>
         </div>
     </footer>
 
     <script>
-        document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
-            document.getElementById('mobile-menu')?.classList.toggle('hidden');
+        // Mobile nav toggle
+        document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+            const links = document.querySelector('.navbar-links');
+            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Smooth reveal on scroll (simple)
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
         });
     </script>
-
-    <style>
-        .nav-link {
-            @apply text-gray-500 hover:text-blue-600 transition-colors duration-200;
-        }
-    </style>
 </body>
 </html>

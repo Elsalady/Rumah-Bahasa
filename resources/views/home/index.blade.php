@@ -1,182 +1,141 @@
 @extends('layouts.app')
 
 @section('title', 'Beranda')
-@section('description', 'Rumah Bahasa Surabaya — program literasi bahasa oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')
+@section('meta_desc', 'Rumah Belajar Surabaya — pusat literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')
 
 @section('content')
 
-{{-- HERO --}}
-<section class="hero-gradient py-20 md:py-28 relative overflow-hidden">
-    <div class="hero-glow"></div>
-
-    {{-- Floating decorative shapes --}}
-    <div class="float-shape float-shape-1">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="23" stroke="rgba(59,130,246,0.12)" stroke-width="2" stroke-dasharray="6 4"/>
-            <circle cx="24" cy="24" r="8" fill="rgba(59,130,246,0.06)"/>
-        </svg>
-    </div>
-    <div class="float-shape float-shape-2">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="32" height="32" rx="8" stroke="rgba(16,185,129,0.12)" stroke-width="2"/>
-            <rect x="12" y="12" width="12" height="12" rx="3" fill="rgba(16,185,129,0.06)"/>
-        </svg>
-    </div>
-    <div class="float-shape float-shape-3">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 2L17.09 8.26L24 9.27L19 14.14L20.18 21.02L14 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L14 2Z" fill="rgba(139,108,247,0.08)" stroke="rgba(139,108,247,0.15)" stroke-width="1.5"/>
-        </svg>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-3xl mx-auto">
-            <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-white/60 rounded-full px-4 py-1.5 mb-8 text-sm text-gray-500 shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+{{-- ===== HERO ===== --}}
+<section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="container" style="position:relative;z-index:2;width:100%;">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
                 Dinas Perpustakaan dan Kearsipan Kota Surabaya
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight font-heading">
-                Selamat Datang di <br>
-                <span class="gradient-text">Rumah Bahasa</span> Surabaya
-            </h1>
-            <p class="text-lg md:text-xl text-gray-500 leading-relaxed mb-10 max-w-2xl mx-auto">
-                Pusat literasi dan kebahasaan yang menyenangkan. Mari bersama tingkatkan 
-                budaya literasi dan cinta bahasa.
-            </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="{{ route('profil') }}" class="btn-3d px-7 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5">
-                    Jelajahi Profil
-                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-                <a href="{{ route('kontak') }}" class="btn-3d px-7 py-3.5 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 shadow-sm hover:shadow-md hover:bg-white hover:-translate-y-0.5">
-                    Hubungi Kami
-                </a>
+            <h1>Selamat Datang di <span>Rumah Belajar</span> Surabaya</h1>
+            <p>Pusat literasi dan pembelajaran untuk masyarakat Surabaya. Mari bersama tingkatkan budaya literasi dan cinta bahasa.</p>
+            <div class="search-box">
+                <input type="text" placeholder="Cari informasi, berita, atau layanan..." aria-label="Cari">
+                <button type="submit">Cari</button>
             </div>
         </div>
     </div>
 </section>
 
-{{-- LAYANAN --}}
-<section class="py-20 section-gradient">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-14">
-            <span class="text-sm font-semibold text-primary-600 uppercase tracking-wider">Layanan</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 font-heading">Apa yang Kami Tawarkan</h2>
-            <p class="mt-3 text-gray-500 max-w-xl mx-auto">Berbagai program literasi dan kebahasaan untuk masyarakat Surabaya</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="card-3d p-8">
-                <div class="icon-3d w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-500 text-white shadow-lg shadow-blue-200 mb-5">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Pojok Baca</h3>
-                <p class="text-gray-500 leading-relaxed">Koleksi buku bahasa daerah, nasional, dan internasional yang nyaman untuk dibaca.</p>
+{{-- Wave Separator --}}
+<div class="wave-separator" style="background:var(--white);">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C320,100 480,0 720,40 C960,80 1120,0 1440,40 L1440,80 L0,80 Z" fill="var(--teal-900)" opacity="0.03"/>
+        <path d="M0,30 C360,80 540,10 720,30 C900,50 1080,10 1440,30 L1440,80 L0,80 Z" fill="var(--white)"/>
+    </svg>
+</div>
+
+{{-- ===== ABOUT ===== --}}
+<section class="about" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content fade-up" style="opacity:0;transform:translateY(30px);">
+                <h2>Tentang <span>Rumah Belajar</span> Surabaya</h2>
+                <p>Rumah Belajar Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
+                <p>Kami menyediakan berbagai layanan mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
             </div>
-            <div class="card-3d p-8">
-                <div class="icon-3d w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-500 text-white shadow-lg shadow-emerald-200 mb-5">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            <div class="about-visual fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.15s;">
+                <div class="icon-circle">
+                    <div class="icon-circle-ring"></div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        <path d="M12 19.5v-2" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Kelas Literasi</h3>
-                <p class="text-gray-500 leading-relaxed">Kelas bahasa asing, bahasa daerah, dan pelatihan menulis untuk semua usia.</p>
-            </div>
-            <div class="card-3d p-8">
-                <div class="icon-3d w-14 h-14 bg-gradient-to-br from-violet-400 to-violet-500 text-white shadow-lg shadow-violet-200 mb-5">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Kegiatan Budaya</h3>
-                <p class="text-gray-500 leading-relaxed">Lomba bercerita, menulis aksara Jawa, dan festival literasi bahasa.</p>
             </div>
         </div>
     </div>
 </section>
 
-{{-- TENTANG --}}
-<section class="py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row items-center gap-14">
-            <div class="flex-1">
-                <span class="text-sm font-semibold text-primary-600 uppercase tracking-wider">Tentang Kami</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-6 font-heading">Mengenal Rumah Bahasa</h2>
-                <p class="text-gray-500 leading-relaxed mb-4">
-                    Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan 
-                    Kota Surabaya yang bertujuan meningkatkan literasi kebahasaan masyarakat.
-                </p>
-                <p class="text-gray-500 leading-relaxed mb-8">
-                    Kami menyediakan berbagai layanan mulai dari pojok baca, kelas literasi, 
-                    hingga kegiatan pelestarian bahasa daerah Surabaya.
-                </p>
-                <a href="{{ route('profil') }}" class="btn-3d px-6 py-3 bg-white border border-gray-200 text-gray-700 shadow-sm hover:shadow-md hover:text-primary-600 hover:border-primary-200 gap-1">
-                    Selengkapnya
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-            <div class="flex-1">
-                <div class="glass-card h-72 md:h-96 w-full flex items-center justify-center overflow-hidden">
-                    <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary-100 to-primary-50 rounded-2xl flex items-center justify-center">
-                            <svg class="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        <span class="text-gray-400">Foto Rumah Bahasa</span>
+{{-- Wave Separator --}}
+<div class="wave-separator" style="background:var(--gray-50);">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,50 C240,10 480,90 720,50 C960,10 1200,90 1440,50 L1440,80 L0,80 Z" fill="var(--white)"/>
+    </svg>
+</div>
+
+{{-- ===== NEWS ===== --}}
+<section class="news-section" id="berita">
+    <div class="container">
+        <div class="section-title">
+            <h2>Berita & Info Terkini</h2>
+            <p>Informasi terbaru seputar kegiatan dan program Rumah Belajar Surabaya</p>
+        </div>
+        <div class="news-grid">
+            @forelse($berita as $item)
+                <article class="news-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
+                    <div class="news-card-img">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     </div>
+                    <div class="news-card-body">
+                        <div class="news-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</div>
+                        <h3>{{ $item->judul }}</h3>
+                        <p>{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 120) }}</p>
+                    </div>
+                </article>
+            @empty
+                <div class="news-empty">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <p>Belum ada berita.</p>
                 </div>
+            @endforelse
+        </div>
+    </div>
+</section>
+
+{{-- Wave Separator --}}
+<div class="wave-separator" style="background:var(--white);">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C360,100 720,-10 1080,40 C1260,65 1350,35 1440,40 L1440,80 L0,80 Z" fill="var(--gray-50)"/>
+    </svg>
+</div>
+
+{{-- ===== FEATURES ===== --}}
+<section class="features" id="layanan">
+    <div class="container">
+        <div class="section-title">
+            <h2>Layanan Kami</h2>
+            <p>Berbagai program dan fasilitas yang tersedia untuk masyarakat</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card fade-up" style="opacity:0;transform:translateY(30px);">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </div>
+                <h3>Pojok Baca</h3>
+                <p>Koleksi buku bahasa daerah, nasional, dan internasional yang nyaman dibaca.</p>
+            </div>
+            <div class="feature-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.1s;">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                </div>
+                <h3>Kelas Bahasa</h3>
+                <p>Kelas bahasa asing, bahasa daerah, dan pelatihan menulis untuk semua usia.</p>
+            </div>
+            <div class="feature-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.2s;">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                </div>
+                <h3>Kegiatan Budaya</h3>
+                <p>Lomba bercerita, menulis aksara Jawa, dan festival literasi bahasa secara rutin.</p>
             </div>
         </div>
     </div>
 </section>
 
-{{-- BERITA TERBARU --}}
-<section class="py-20 section-gradient">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12">
-            <div>
-                <span class="text-sm font-semibold text-primary-600 uppercase tracking-wider">Berita</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 font-heading">Berita Terbaru</h2>
-                <p class="mt-2 text-gray-500">Informasi kegiatan dan program terbaru</p>
-            </div>
-            <a href="{{ route('berita') }}" class="btn-3d mt-4 sm:mt-0 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm shadow-sm hover:shadow-md hover:text-primary-600">
-                Lihat Semua
-                <svg class="ml-1.5 w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        </div>
-        <div class="glass-card p-12 text-center">
-            <div class="w-14 h-14 mx-auto mb-4 bg-gray-100 rounded-2xl flex items-center justify-center">
-                <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                </svg>
-            </div>
-            <p class="text-gray-400">Belum ada berita. Admin akan segera menambahkan.</p>
-        </div>
-    </div>
-</section>
-
-{{-- KONTAK CTA --}}
-<section class="cta-gradient py-20 relative overflow-hidden">
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 font-heading">Punya Pertanyaan?</h2>
-        <p class="text-white/80 mb-10 max-w-2xl mx-auto text-lg">
-            Hubungi kami untuk informasi lebih lanjut tentang program dan layanan Rumah Bahasa Surabaya.
-        </p>
-        <a href="{{ route('kontak') }}" class="btn-3d px-7 py-3.5 bg-white text-primary-700 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 font-semibold">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-            </svg>
-            Hubungi Kami
-        </a>
-    </div>
-</section>
+{{-- Wave to footer --}}
+<div class="wave-separator" style="margin-bottom:-2px;">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C320,100 480,0 720,40 C960,80 1120,0 1440,40 L1440,80 L0,80 Z" fill="var(--teal-900)"/>
+    </svg>
+</div>
 
 @endsection
