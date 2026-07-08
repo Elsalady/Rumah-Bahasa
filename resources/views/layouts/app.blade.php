@@ -51,15 +51,17 @@
             <div class="footer-grid">
                 <div>
                     <h3>Kontak & Alamat</h3>
-                    <div class="footer-item">
-                        <div class="footer-item-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=-7.2636128%2C112.7455063&travelmode=driving" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                        <div class="footer-item">
+                            <div class="footer-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <h4>Alamat</h4>
+                                <p>Jl. Yos Sudarso No.15, Embong Kaliasin<br>Kec. Genteng, Surabaya, Jawa Timur 60271</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Alamat</h4>
-                            <p>Dinas Perpustakaan dan Kearsipan<br>Kota Surabaya, Jawa Timur</p>
-                        </div>
-                    </div>
+                    </a>
                     <div class="footer-item">
                         <div class="footer-item-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -90,21 +92,24 @@
                 </div>
                 <div>
                     <h3>Peta Lokasi</h3>
-                    <div class="footer-map">
-                        <svg viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="1" y="1" width="398" height="258" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-                            <path d="M40 200 Q80 170 120 190 Q160 210 200 180 Q240 150 280 170 Q320 190 360 160" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none"/>
-                            <path d="M40 180 Q90 140 140 160 Q190 180 240 140 Q290 100 360 130" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
-                            <circle cx="200" cy="180" r="20" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/>
-                            <circle cx="200" cy="180" r="10" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
-                            <circle cx="200" cy="180" r="4" fill="var(--teal-300)"/>
-                            <rect x="160" y="100" width="80" height="50" rx="4" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" fill="rgba(255,255,255,0.02)"/>
-                            <path d="M175 100 v50 M185 100 v50 M195 100 v50 M205 100 v50 M215 100 v50 M225 100 v50" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-                            <path d="M160 110 h80 M160 120 h80 M160 130 h80 M160 140 h80" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-                            <text x="200" y="95" text-anchor="middle" fill="rgba(255,255,255,0.12)" font-size="8">DINAS PERPUSTAKAAN</text>
-                            <path d="M80 40 Q120 20 160 40 Q200 60 240 30 Q280 0 320 30" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" fill="none"/>
-                            <path d="M60 50 L60 30 L80 20 L100 30 L100 50 Z" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="rgba(255,255,255,0.02)"/>
-                        </svg>
+                    <div class="footer-map" style="padding:0;overflow:hidden;display:block;position:relative;">
+                        <iframe
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=112.738%2C-7.267%2C112.753%2C-7.260&amp;layer=mapnik&amp;marker=-7.2636128%2C112.7455063"
+                            width="100%"
+                            height="240"
+                            style="border:0;display:block;"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Peta Rumah Bahasa Surabaya"
+                        ></iframe>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=-7.2636128%2C112.7455063&travelmode=driving"
+                           target="_blank" rel="noopener noreferrer"
+                           style="position:absolute;bottom:12px;right:12px;z-index:10;padding:8px 16px;background:rgba(0,95,115,0.9);backdrop-filter:blur(4px);color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:all 0.2s;"
+                           onmouseover="this.style.background='#005f73'" onmouseout="this.style.background='rgba(0,95,115,0.9)'"
+                           title="Buka rute ke Rumah Bahasa Surabaya di Google Maps">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            Buka Google Maps
+                        </a>
                     </div>
                 </div>
             </div>
