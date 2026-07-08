@@ -15,6 +15,21 @@ class BeritaController extends Controller
         return view('home.index', compact('berita'));
     }
 
+    public function list()
+    {
+        $berita = Berita::where('is_active', true)
+                        ->orderBy('tanggal', 'desc')
+                        ->paginate(9);
+        return view('berita.index', compact('berita'));
+    }
+
+    public function show($slug)
+    {
+        $item = Berita::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $recent = Berita::where('is_active', true)->where('id', '!=', $item->id)->latest('tanggal')->limit(3)->get();
+        return view('berita.show', compact('item', 'recent'));
+    }
+
     // ===== ADMIN CRUD =====
 
     public function dashboard()
@@ -31,16 +46,22 @@ class BeritaController extends Controller
             'isi' => 'required',
             'penulis' => 'nullable|max:255',
             'tanggal' => 'required|date',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        Berita::create([
+        $data = [
             'judul' => $request->judul,
             'ringkasan' => $request->ringkasan,
             'isi' => $request->isi,
             'penulis' => $request->penulis ?: 'Admin',
             'tanggal' => $request->tanggal,
-        ]);
+        ];
 
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('berita', 'public');
+        }
+
+        Berita::create($data);
         return redirect()->route('admin.dashboard')->with('success', 'Berita berhasil ditambahkan.');
     }
 
@@ -54,16 +75,22 @@ class BeritaController extends Controller
             'isi' => 'required',
             'penulis' => 'nullable|max:255',
             'tanggal' => 'required|date',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $berita->update([
+        $data = [
             'judul' => $request->judul,
             'ringkasan' => $request->ringkasan,
             'isi' => $request->isi,
             'penulis' => $request->penulis ?: 'Admin',
             'tanggal' => $request->tanggal,
-        ]);
+        ];
 
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('berita', 'public');
+        }
+
+        $berita->update($data);
         return redirect()->route('admin.dashboard')->with('success', 'Berita berhasil diperbarui.');
     }
 
