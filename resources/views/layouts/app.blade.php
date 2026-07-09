@@ -11,6 +11,125 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <title>@yield('title', 'Rumah Belajar Surabaya') — Dinas Perpustakaan dan Kearsipan Kota Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {{-- Perbaikan Struktur CSS Responsif Navbar --}}
+    <style>
+        .navbar {
+            background: var(--white, #ffffff);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .brand-teal { color: #005f73; }
+        .brand-light { color: #2dd4bf; }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .navbar-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .navbar-links a:hover { color: #005f73; }
+        
+        .btn-login {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #005f73;
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600 !important;
+        }
+
+        /* Tombol Burger Menu (Default Tersembunyi di Desktop) */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1010;
+        }
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #005f73;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Kompabilitas Body biar gak ketutupan Navbar Fixed */
+        body { padding-top: 70px; }
+
+        /* ===== RESPONSIVE BREAKPOINT UNTUK MOBILE (HP) ===== */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex; /* Memunculkan tombol burger di HP */
+            }
+            .navbar-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Sembunyikan menu di kanan layar */
+                width: 280px;
+                height: 100vh;
+                background: white;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 90px 30px 30px 30px;
+                gap: 20px;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-sizing: border-box;
+            }
+            /* Class trigger saat menu di buka */
+            .navbar-links.show {
+                right: 0; /* Menu muncul menggeser dari kanan */
+            }
+            .navbar-links a {
+                width: 100%;
+                font-size: 1.1rem;
+                padding: 10px 0;
+                border-bottom: 1px solid #f3f4f6;
+            }
+            .btn-login {
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -23,9 +142,12 @@
                     <path d="M14 7v14M7 10h14M7 18h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
                     <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
                 </svg>
-                <span class="brand-teal">Rumah Belajar</span>
-                <span class="brand-light">Surabaya</span>
+                <div>
+                    <span class="brand-teal">Rumah Belajar</span>
+                    <span class="brand-light">Surabaya</span>
+                </div>
             </a>
+            
             <div class="navbar-links">
                 <a href="{{ route('home') }}">Beranda</a>
                 <a href="{{ route('home') }}#about">Tentang</a>
@@ -51,6 +173,7 @@
                     </a>
                 @endauth
             </div>
+            
             <button class="nav-toggle" onclick="document.querySelector('.navbar-links').classList.toggle('show')">
                 <span></span><span></span><span></span>
             </button>
@@ -58,6 +181,8 @@
     </nav>
 
     @yield('content')
+</body>
+</html>
 
     {{-- FOOTER --}}
     <footer class="footer" id="kontak">
