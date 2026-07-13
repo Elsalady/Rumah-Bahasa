@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title', 'Profil')
-@section('meta_desc', 'Profil lengkap Rumah Belajar Surabaya — visi, misi, sejarah, dan program.')
+@section('meta_desc', 'Profil lengkap Rumah Bahasa Surabaya — visi, misi, sejarah, dan program.')
 
 @section('content')
 <section style="padding:120px 0 80px;">
     <div class="container">
         <div class="section-title">
-            <h2>Profil Rumah Belajar</h2>
+            <h2>Profil Rumah Bahasa</h2>
             <p>Mengenal lebih dekat program dan tujuan kami</p>
         </div>
 

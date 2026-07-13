@@ -7,6 +7,9 @@
 - Use prominent/visible colors, avoid soft/subtle color schemes. Confidence: 0.65
 - Add floating/ornamental animations to make the website look premium. Confidence: 0.50
 
+# branding
+- The project name is "Rumah Bahasa" (not "Rumah Belajar"). Confidence: 0.85
+
 # ui
 - Use "Login" text with an arrow icon for navbar login buttons, not "Dashboard". Confidence: 0.75
 

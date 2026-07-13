@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Rumah Belajar Surabaya</title>
+    <title>Login — Rumah Bahasa Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         .auth-wrapper { 
@@ -114,7 +114,7 @@
                         <path d="M14 7v14M7 10h14M7 18h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
                         <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
                     </svg>
-                    <span class="brand-teal">Rumah Belajar</span>
+                    <span class="brand-teal">Rumah Bahasa</span>
                     <span class="brand-light">Surabaya</span>
                 </div>
                 <h1>Login</h1>

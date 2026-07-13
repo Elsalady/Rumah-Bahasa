@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         // Profil
         \App\Models\Profil::insert([
-            ['judul' => 'Sejarah Rumah Belajar', 'deskripsi' => 'Rumah Belajar Surabaya didirikan untuk meningkatkan literasi dan kompetensi bahasa masyarakat Surabaya dalam menghadapi era global.', 'kategori' => 'sejarah', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['judul' => 'Sejarah Rumah Bahasa', 'deskripsi' => 'Rumah Bahasa Surabaya didirikan untuk meningkatkan literasi dan kompetensi bahasa masyarakat Surabaya dalam menghadapi era global.', 'kategori' => 'sejarah', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
             ['judul' => 'Visi', 'deskripsi' => 'Terwujudnya masyarakat Surabaya yang literat, kompeten, dan cinta bahasa.', 'kategori' => 'visi_misi', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
             ['judul' => 'Misi', 'deskripsi' => 'Meningkatkan minat baca dan literasi masyarakat. Melestarikan bahasa daerah. Menyediakan akses literasi yang inklusif.', 'kategori' => 'visi_misi', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
             ['judul' => 'Tugas dan Fungsi', 'deskripsi' => 'Menyelenggarakan program literasi kebahasaan, mengelola pojok baca, menyelenggarakan kelas bahasa dan pelatihan.', 'kategori' => 'tugas_fungsi', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Galeri::insert([
             ['judul' => 'Kelas Bahasa Inggris', 'gambar' => 'placeholder', 'deskripsi' => 'Suasana kelas bahasa Inggris bersama native speaker.', 'kategori' => 'foto', 'tanggal' => now()->subDays(10), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
             ['judul' => 'Kelas Budaya Rusia', 'gambar' => 'placeholder', 'deskripsi' => 'Kelas membuat boneka Matryoshka.', 'kategori' => 'foto', 'tanggal' => now()->subDays(20), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
-            ['judul' => 'Kunjungan Mahasiswa Asing', 'gambar' => 'placeholder', 'deskripsi' => 'Mahasiswa asing berkunjung ke Rumah Belajar Surabaya.', 'kategori' => 'foto', 'tanggal' => now()->subDays(30), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['judul' => 'Kunjungan Mahasiswa Asing', 'gambar' => 'placeholder', 'deskripsi' => 'Mahasiswa asing berkunjung ke Rumah Bahasa Surabaya.', 'kategori' => 'foto', 'tanggal' => now()->subDays(30), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

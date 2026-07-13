@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 @section('content')
 {{-- Statistik Cards --}}
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:40px;">
+<div class="admin-stat-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:40px;">
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['berita'] }}</div>
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Berita</p>
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+<div class="admin-dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
     <div class="dashboard-card">
         <h3>Pendaftar Terbaru</h3>
         @if($recentPendaftar->count())

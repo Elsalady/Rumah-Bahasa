@@ -207,7 +207,7 @@
                         </div>
                         <div>
                             <h4>Email</h4>
-                            <p>info@rumahbelajar-surabaya.go.id</p>
+                            <p>info@rumahbahasa-surabaya.go.id</p>
                         </div>
                     </div>
                     <div class="footer-item">

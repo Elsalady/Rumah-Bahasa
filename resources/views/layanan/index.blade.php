@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Layanan')
-@section('meta_desc', 'Layanan dan program Rumah Belajar Surabaya.')
+@section('meta_desc', 'Layanan dan program Rumah Bahasa Surabaya.')
 
 @section('content')
 <section style="padding:120px 0 80px;">

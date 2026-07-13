@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('title', 'Galeri')
-@section('meta_desc', 'Galeri foto kegiatan Rumah Belajar Surabaya.')
+@section('meta_desc', 'Galeri foto kegiatan Rumah Bahasa Surabaya.')
 
 @section('content')
 <section style="padding:120px 0 80px;">
     <div class="container">
         <div class="section-title">
             <h2>Galeri Kegiatan</h2>
-            <p>Dokumentasi kegiatan dan program Rumah Belajar Surabaya</p>
+            <p>Dokumentasi kegiatan dan program Rumah Bahasa Surabaya</p>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">

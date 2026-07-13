@@ -2,7 +2,7 @@
 chcp 65001 >nul
 
 echo ============================================
-echo   🚀  Rumah Belajar Surabaya - Local Server
+echo   🚀  Rumah Bahasa Surabaya - Local Server
 echo ============================================
 echo.
 

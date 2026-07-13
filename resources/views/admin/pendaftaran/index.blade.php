@@ -28,7 +28,7 @@
                             </td>
                             <td style="font-size:13px;">{{ $item->created_at->locale('id')->isoFormat('D MMM YYYY') }}</td>
                             <td class="action-cell">
-                                <form action="{{ route('admin.pendaftaran.update', $item->id) }}" method="POST" style="display:flex;gap:4px;">
+                                <form action="{{ route('admin.pendaftaran.update', $item->id) }}" method="POST" style="display:flex;gap:4px;flex-wrap:wrap;">
                                     @csrf @method('PUT')
                                     <select name="status" style="padding:4px 8px;border:1px solid var(--gray-200);border-radius:6px;font-size:12px;background:var(--gray-50);">
                                         <option value="pending" {{ $item->status === 'pending' ? 'selected' : '' }}>Pending</option>

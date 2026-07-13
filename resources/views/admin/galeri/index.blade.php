@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div style="display:grid;grid-template-columns:1fr 2fr;gap:32px;align-items:start;">
+<div class="admin-grid-2" style="display:grid;grid-template-columns:1fr 2fr;gap:32px;align-items:start;">
     <div class="dashboard-card">
         <h3>Tambah Galeri</h3>
         <form action="{{ route('admin.galeri.store') }}" method="POST" class="dashboard-form" enctype="multipart/form-data">

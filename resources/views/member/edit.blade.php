@@ -3,47 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profil — Rumah Belajar Surabaya</title>
+    <title>Edit Profil — Rumah Bahasa Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-        /* CSS tambahan agar halaman fleksibel & responsive saat di-inspect / mode mobile */
+        * { box-sizing: border-box; }
+
         .admin-header .container {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
         }
+
         .header-title-wrapper {
             display: flex;
             align-items: center;
             gap: 12px;
         }
+
         .btn-back-header {
             display: inline-flex;
             align-items: center;
-            color: var(--white, #ffffff);
+            color: var(--white);
             text-decoration: none;
-            transition: transform 0.2s;
         }
-        .btn-back-header:hover {
-            transform: translateX(-3px);
+        .btn-back-header:hover { transform: translateX(-3px); }
+
+        .admin-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        
+
+        .btn-logout {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--teal-900);
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .btn-logout:hover { background: #f1f5f9; }
+
         @media (max-width: 768px) {
-            .admin-header {
-                padding: 12px 16px;
-            }
-            .admin-header h2 {
-                font-size: 20px;
-            }
-            .admin-main {
-                padding: 16px;
-            }
-            .dashboard-card {
-                padding: 24px 16px;
-            }
-            .admin-header-right span {
-                display: none; /* Sembunyikan nama user di mobile biar gak sesak */
-            }
+            .admin-header { padding: 12px 0; }
+            .admin-header h2 { font-size: 16px; }
+            .admin-header-right span { display: none; }
+            .btn-logout { padding: 8px 14px; font-size: 13px; }
+            .admin-main { padding: 16px; }
+            .dashboard-card { padding: 20px 16px; }
         }
     </style>
 </head>
@@ -52,8 +64,8 @@
         <header class="admin-header">
             <div class="container">
                 <div class="header-title-wrapper">
-                    <a href="{{ route('member.dashboard') }}" class="btn-back-header" title="Kembali ke Dashboard">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="{{ route('member.dashboard') }}" class="btn-back-header" title="Kembali">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
@@ -61,14 +73,16 @@
                     <h2>Edit Profil</h2>
                 </div>
                 <div class="admin-header-right">
-                    {{-- <span>{{ $user->name }}</span> --}}
-                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf<button type="submit" class="btn-logout">Logout</button></form>
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn-logout">Logout</button>
+                    </form>
                 </div>
             </div>
         </header>
 
         <main class="admin-main">
-            <div class="container" style="max-width:520px;margin:0 auto;width: 100%;box-sizing: border-box;">
+            <div class="container" style="max-width:520px;margin:0 auto;width:100%;box-sizing:border-box;">
                 @if(session('success'))
                     <div class="alert-success">{{ session('success') }}</div>
                 @endif
@@ -93,7 +107,7 @@
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" value="{{ $user->email }}" disabled style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;background:var(--gray-100);color:var(--gray-400);box-sizing: border-box;">
+                            <input type="email" value="{{ $user->email }}" disabled style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;background:var(--gray-100);color:var(--gray-400);box-sizing:border-box;">
                             <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">Email tidak dapat diubah.</p>
                         </div>
                         <div class="form-group">

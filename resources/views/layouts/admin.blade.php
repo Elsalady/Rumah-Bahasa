@@ -6,7 +6,8 @@
     <title>@yield('title', 'Admin') — Rumah Bahasa Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-        /* ===== FLEXIBLE NAVBAR STYLE ===== */
+        * { box-sizing: border-box; }
+
         .admin-header .container {
             display: flex;
             align-items: center;
@@ -14,9 +15,10 @@
             flex-wrap: wrap;
             gap: 16px;
             width: 100%;
-            max-width: 1200px; /* Sesuaikan dengan layoutmu */
+            max-width: 1200px;
             margin: 0 auto;
             box-sizing: border-box;
+            padding: 0 20px;
         }
 
         .admin-header-left {
@@ -24,7 +26,7 @@
             align-items: center;
             gap: 24px;
             flex: 1;
-            min-width: 0; /* Mencegah flex child meluap */
+            min-width: 0;
         }
 
         .admin-header h2 {
@@ -32,7 +34,6 @@
             white-space: nowrap;
         }
 
-        /* Navigasi Utama */
         .admin-nav {
             display: flex;
             gap: 6px;
@@ -60,7 +61,6 @@
             font-weight: 500;
         }
 
-        /* Sisi Kanan Navbar */
         .admin-header-right {
             display: flex;
             align-items: center;
@@ -74,41 +74,101 @@
             font-weight: 500;
         }
 
-        /* ===== RESPONSIVE & INSPECT BREAKPOINT ===== */
-        @media (max-width: 992px) {
-            /* Bungkus ulang container utama agar rapi saat ruang menyempit */
+        .btn-logout {
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,0.15); }
+
+        .admin-main .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== RESPONSIVE ALL ADMIN PAGES ===== */
+        @media (max-width: 900px) {
             .admin-header .container {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 14px;
+                gap: 12px;
+                padding: 0 16px;
             }
-
             .admin-header-left {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 10px;
                 width: 100%;
             }
-
-            /* Bikin menu navigasi bisa di-scroll horizontal di HP biar ga menumpuk kebawah */
             .admin-nav {
                 width: 100%;
                 overflow-x: auto;
-                padding-bottom: 8px;
+                padding-bottom: 6px;
                 -webkit-overflow-scrolling: touch;
-                /* Sembunyikan scrollbar bawaan di browser modern */
-                scrollbar-width: none; 
+                scrollbar-width: none;
+                gap: 4px;
             }
-            
-            .admin-nav::-webkit-scrollbar {
-                display: none; /* Sembunyikan scrollbar Chrome/Safari */
+            .admin-nav::-webkit-scrollbar { display: none; }
+            .nav-link {
+                font-size: 12px;
+                padding: 6px 10px;
             }
-
             .admin-header-right {
                 width: 100%;
                 justify-content: space-between;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-top: 1px solid rgba(255,255,255,0.1);
                 padding-top: 12px;
+            }
+            .admin-header-right span { font-size: 13px; }
+            .admin-main { padding: 24px 0; }
+            .admin-main .container { padding: 0 16px; }
+            .dashboard-card { padding: 20px 16px; }
+
+            /* Fix all admin grid layouts: profil, layanan, galeri */
+            .admin-grid-2 {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            /* Fix stat cards on dashboard mobile */
+            .admin-stat-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            .admin-stat-grid .dashboard-card {
+                padding: 20px 12px !important;
+            }
+            .admin-stat-grid .dashboard-card div:first-child {
+                font-size: 28px !important;
+            }
+
+            /* Fix dashboard 2-col layout */
+            .admin-dashboard-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            /* Make tables scrollable horizontally on mobile */
+            .table-wrap {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -16px;
+                padding: 0 16px;
+            }
+            .table-wrap table {
+                min-width: 500px;
+            }
+            .data-table th,
+            .data-table td {
+                padding: 10px 12px !important;
+                font-size: 13px !important;
             }
         }
     </style>
