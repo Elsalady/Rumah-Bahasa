@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('meta_desc', 'Rumah Belajar Surabaya — program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
-    <meta name="keywords" content="rumah belajar surabaya, perpustakaan surabaya, kearsipan surabaya, literasi surabaya">
-    <meta property="og:title" content="@yield('title', 'Rumah Belajar Surabaya')">
+    <meta name="description" content="@yield('meta_desc', 'Rumah Bahasa Surabaya — program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
+    <meta name="keywords" content="rumah bahasa surabaya, perpustakaan surabaya, kearsipan surabaya, literasi surabaya">
+    <meta property="og:title" content="@yield('title', 'Rumah Bahasa Surabaya')">
     <meta property="og:description" content="@yield('meta_desc', 'Program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <title>@yield('title', 'Rumah Belajar Surabaya') — Dinas Perpustakaan dan Kearsipan Kota Surabaya</title>
+    <title>@yield('title', 'Rumah Bahasa Surabaya') — Dinas Perpustakaan dan Kearsipan Kota Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     {{-- Perbaikan Struktur CSS Responsif Navbar --}}
@@ -143,7 +143,7 @@
                     <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
                 </svg>
                 <div>
-                    <span class="brand-teal">Rumah Belajar</span>
+                    <span class="brand-teal">Rumah Bahasa</span>
                     <span class="brand-light">Surabaya</span>
                 </div>
             </a>
@@ -157,13 +157,13 @@
                 @auth
                     @if(auth()->user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="btn-login" style="background:var(--teal-600);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v2m-6 4h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2zm10-10V7a4 4 0 0 0-8 0v4h8z"/></svg>
-                            Admin
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                            Login
                         </a>
                     @else
                         <a href="{{ route('member.dashboard') }}" class="btn-login" style="background:var(--teal-500);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            Dashboard
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                            Login
                         </a>
                     @endif
                 @else

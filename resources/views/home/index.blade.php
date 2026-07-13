@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Beranda')
-@section('meta_desc', 'Rumah Belajar Surabaya — pusat literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')
+@section('meta_desc', 'Rumah Bahasa Surabaya — pusat literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')
 
 @section('content')
 
@@ -14,7 +14,7 @@
                 <span class="dot"></span>
                 Dinas Perpustakaan dan Kearsipan Kota Surabaya
             </div>
-            <h1>Selamat Datang di <span>Rumah Belajar</span> Surabaya</h1>
+            <h1>Selamat Datang di <span>Rumah Bahasa</span> Surabaya</h1>
             <p>Pusat literasi dan pembelajaran untuk masyarakat Surabaya. Mari bersama tingkatkan budaya literasi dan cinta bahasa.</p>
             <div class="search-box">
                 <input type="text" placeholder="Cari informasi, berita, atau layanan..." aria-label="Cari">
@@ -77,7 +77,7 @@
     <div class="container">
         <div class="section-title">
             <h2>Berita & Info Terkini</h2>
-            <p>Informasi terbaru seputar kegiatan dan program Rumah Belajar Surabaya</p>
+            <p>Informasi terbaru seputar kegiatan dan program Rumah Bahasa Surabaya</p>
         </div>
         <div class="news-grid">
             @forelse($berita as $item)
@@ -113,8 +113,8 @@
     <div class="container">
         <div class="about-grid">
             <div class="about-content fade-up" style="opacity:0;transform:translateY(30px);">
-                <h2>Tentang <span>Rumah Belajar</span> Surabaya</h2>
-                <p>Rumah Belajar Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
+                <h2>Tentang <span>Rumah Bahasa</span> Surabaya</h2>
+                <p>Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
                 <p>Kami menyediakan berbagai layanan mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
             </div>
             <div class="about-visual fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.15s;">
@@ -151,32 +151,47 @@
         </div>
 
         {{-- Glassmorphism Card Form --}}
-        <div class="form-container" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-            <form action="#" method="POST" style="display: flex; flex-direction: column; gap: 24px;">
+        <div class="form-container" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+            @if(session('success'))
+                <div style="background: rgba(94, 234, 212, 0.15); border: 1px solid rgba(94, 234, 212, 0.3); color: #5eead4; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if($errors->any())
+                <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        @foreach($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('kontak.kirim') }}" method="POST" style="display: flex; flex-direction: column; gap: 24px;">
                 @csrf
                 <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
-                        <label for="name" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Nama Lengkap</label>
-                        <input type="text" id="name" name="name" placeholder="Masukkan nama kamu" required 
+                        <label for="nama" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama kamu" required 
                             style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
                         <label for="email" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Alamat Email</label>
-                        <input type="email" id="email" name="email" placeholder="nama@email.com" required 
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com" required 
                             style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                 </div>
 
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
-                    <label for="subject" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Subjek</label>
-                    <input type="text" id="subject" name="subject" placeholder="Topik pesan" required 
+                    <label for="subjek" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Subjek</label>
+                    <input type="text" id="subjek" name="subjek" value="{{ old('subjek') }}" placeholder="Topik pesan" 
                         style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                 </div>
 
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
-                    <label for="message" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Pesan Anda</label>
-                    <textarea id="message" name="message" rows="5" placeholder="Tuliskan pertanyaan atau aspirasimu di sini..." required 
-                        style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none; resize: vertical;"></textarea>
+                    <label for="pesan" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Pesan Anda</label>
+                    <textarea id="pesan" name="pesan" rows="5" placeholder="Tuliskan pertanyaan atau aspirasimu di sini..." required 
+                        style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none; resize: vertical;">{{ old('pesan') }}</textarea>
                 </div>
 
                 <div style="text-align: right; margin-top: 8px;">
@@ -202,8 +217,38 @@
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(94, 234, 212, 0.4) !important;
     }
-    @media (max-width: 576px) {
-        .form-container { padding: 24px !important; }
+
+    /* Responsive: message section */
+    @media (max-width: 640px) {
+        section.message-section {
+            padding: 40px 0 60px 0 !important;
+        }
+        section.message-section .section-title h2 {
+            font-size: 1.75rem !important;
+        }
+        .form-container {
+            padding: 24px !important;
+            border-radius: 16px !important;
+        }
+        .form-container .form-grid {
+            grid-template-columns: 1fr !important;
+        }
+        .form-container input,
+        .form-container textarea {
+            font-size: 16px !important; /* prevents iOS zoom on focus */
+        }
+        .form-container button[type="submit"] {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+    @media (max-width: 480px) {
+        section.message-section .section-title h2 {
+            font-size: 1.5rem !important;
+        }
+        .form-container {
+            padding: 18px !important;
+        }
     }
 </style>
 
