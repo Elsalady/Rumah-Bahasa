@@ -5,21 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profil — Rumah Belajar Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        /* CSS tambahan agar halaman fleksibel & responsive saat di-inspect / mode mobile */
+        .admin-header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-back-header {
+            display: inline-flex;
+            align-items: center;
+            color: var(--white, #ffffff);
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .btn-back-header:hover {
+            transform: translateX(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 12px 16px;
+            }
+            .admin-header h2 {
+                font-size: 20px;
+            }
+            .admin-main {
+                padding: 16px;
+            }
+            .dashboard-card {
+                padding: 24px 16px;
+            }
+            .admin-header-right span {
+                display: none; /* Sembunyikan nama user di mobile biar gak sesak */
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="container">
-                <h2>Edit Profil</h2>
+                <div class="header-title-wrapper">
+                    <a href="{{ route('member.dashboard') }}" class="btn-back-header" title="Kembali ke Dashboard">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </a>
+                    <h2>Edit Profil</h2>
+                </div>
                 <div class="admin-header-right">
-                    <span>{{ $user->name }}</span>
+                    {{-- <span>{{ $user->name }}</span> --}}
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf<button type="submit" class="btn-logout">Logout</button></form>
                 </div>
             </div>
         </header>
 
         <main class="admin-main">
-            <div class="container" style="max-width:520px;margin:0 auto;">
+            <div class="container" style="max-width:520px;margin:0 auto;width: 100%;box-sizing: border-box;">
                 @if(session('success'))
                     <div class="alert-success">{{ session('success') }}</div>
                 @endif
@@ -44,7 +93,7 @@
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" value="{{ $user->email }}" disabled style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;background:var(--gray-100);color:var(--gray-400);">
+                            <input type="email" value="{{ $user->email }}" disabled style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;background:var(--gray-100);color:var(--gray-400);box-sizing: border-box;">
                             <p style="font-size:12px;color:var(--gray-400);margin-top:4px;">Email tidak dapat diubah.</p>
                         </div>
                         <div class="form-group">

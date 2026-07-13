@@ -35,7 +35,7 @@
                     </div>
                     <div>
                         <h3 class="font-semibold text-gray-900 mb-1">Email</h3>
-                        <p class="text-gray-500 text-sm">info@rumahbahasa-surabaya.go.id</p>
+                        <p class="text-gray-500 text-sm">rumah.bahasa.surabaya@gmail.com</p>
                     </div>
                 </div>
                 <div class="card-3d p-6 flex items-start gap-5">
@@ -46,7 +46,7 @@
                     </div>
                     <div>
                         <h3 class="font-semibold text-gray-900 mb-1">Telepon</h3>
-                        <p class="text-gray-500 text-sm">(031) 1234567</p>
+                        <p class="text-gray-500 text-sm">(031) 5358856</p>
                     </div>
                 </div>
             </div>

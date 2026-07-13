@@ -13,10 +13,6 @@
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Member</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['pendaftar'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Total Pendaftar</p>
-    </div>
-    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:{{ $stats['pending'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending'] }}</div>
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending</p>
     </div>
