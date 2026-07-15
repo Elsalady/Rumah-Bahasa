@@ -11,7 +11,11 @@ class ProfilController extends Controller
     public function index()
     {
         $profil = Profil::orderBy('kategori')->get();
-        return view('admin.profil.index', compact('profil'));
+        $editItem = null;
+        if (request()->has('edit')) {
+            $editItem = Profil::find(request()->edit);
+        }
+        return view('admin.profil.index', compact('profil', 'editItem'));
     }
 
     public function store(Request $request)

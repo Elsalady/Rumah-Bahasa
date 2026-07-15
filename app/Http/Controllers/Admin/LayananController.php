@@ -11,7 +11,11 @@ class LayananController extends Controller
     public function index()
     {
         $layanan = Layanan::orderBy('urutan')->get();
-        return view('admin.layanan.index', compact('layanan'));
+        $editItem = null;
+        if (request()->has('edit')) {
+            $editItem = Layanan::find(request()->edit);
+        }
+        return view('admin.layanan.index', compact('layanan', 'editItem'));
     }
 
     public function store(Request $request)

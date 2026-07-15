@@ -71,6 +71,61 @@
             font-weight: 600 !important;
         }
 
+        .navbar-links a {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .navbar-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, #005f73, #0d9488, #14b8a6, #2dd4bf);
+            border-radius: 3px;
+            transition: transform 0.3s ease;
+        }
+        .navbar-links a:hover {
+            color: #0d9488 !important;
+        }
+        .navbar-links a:hover::after {
+            transform: translateX(-50%) scaleX(0.5);
+        }
+        .navbar-links a.nav-active {
+            color: #0d9488 !important;
+        }
+        .navbar-links a.nav-active::after {
+            transform: translateX(-50%) scaleX(1);
+            animation: shimmer 2s ease-in-out infinite;
+            background: linear-gradient(90deg, #005f73, #0d9488, #14b8a6, #2dd4bf, #14b8a6, #0d9488, #005f73);
+            background-size: 200% 100%;
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @media (max-width: 768px) {
+            .navbar-links a::after {
+                bottom: 8px;
+                width: 30%;
+                left: 0;
+                transform: translateX(0) scaleX(0);
+                transform-origin: left;
+            }
+            .navbar-links a:hover::after {
+                transform: translateX(0) scaleX(0.5);
+                transform-origin: left;
+            }
+            .navbar-links a.nav-active::after {
+                transform: translateX(0) scaleX(1);
+                transform-origin: left;
+                width: 30%;
+            }
+        }
+
         /* Tombol Burger Menu (Default Tersembunyi di Desktop) */
         .nav-toggle {
             display: none;
@@ -149,9 +204,10 @@
             </a>
             
             <div class="navbar-links">
-                <a href="{{ route('home') }}">Beranda</a>
-                <a href="{{ route('home') }}#about">Tentang</a>
+                <a href="{{ route('home') }}#beranda">Beranda</a>
                 <a href="{{ route('home') }}#berita">Berita</a>
+                <a href="{{ route('home') }}#about">Profil</a>
+                <a href="{{ route('home') }}#galeri">Galeri</a>
                 <a href="{{ route('home') }}#layanan">Layanan</a>
                 <a href="{{ route('home') }}#kontak">Kontak</a>
                 @auth
@@ -279,6 +335,29 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+        });
+
+        // Active nav section indicator
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar-links a[href^="#"], .navbar-links a[href*="#"]');
+            
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('nav-active');
+                            const href = link.getAttribute('href');
+                            if (href && href.includes('#' + id)) {
+                                link.classList.add('nav-active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
+
+            sections.forEach(section => sectionObserver.observe(section));
         });
     </script>
 </body>

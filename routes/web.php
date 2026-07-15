@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
+Route::get('/profil/{id}', [ProfilController::class, 'show'])->name('profil.show');
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/berita', [BeritaController::class, 'list'])->name('berita.list');
@@ -53,6 +54,7 @@ Route::middleware(['auth', 'member.auth'])->group(function () {
 Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
 
+    Route::get('/berita', [BeritaController::class, 'adminIndex'])->name('berita.index');
     Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
     Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');
     Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
@@ -69,6 +71,7 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/galeri', [AdminGaleri::class, 'index'])->name('galeri.index');
     Route::post('/galeri', [AdminGaleri::class, 'store'])->name('galeri.store');
+    Route::put('/galeri/{id}', [AdminGaleri::class, 'update'])->name('galeri.update');
     Route::delete('/galeri/{id}', [AdminGaleri::class, 'destroy'])->name('galeri.destroy');
 
     Route::get('/kontak', [AdminKontak::class, 'index'])->name('kontak.index');

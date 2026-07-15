@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Galeri;
 use Illuminate\Http\Request;
 
 class BeritaController extends Controller
@@ -11,8 +12,13 @@ class BeritaController extends Controller
     {
         $berita = Berita::where('is_active', true)
                         ->orderBy('tanggal', 'desc')
+                        ->limit(3)
                         ->get();
-        return view('home.index', compact('berita'));
+        $galeri = Galeri::where('is_active', true)
+                        ->orderBy('tanggal', 'desc')
+                        ->limit(6)
+                        ->get();
+        return view('home.index', compact('berita', 'galeri'));
     }
 
     public function list()
@@ -36,6 +42,16 @@ class BeritaController extends Controller
     {
         $berita = Berita::orderBy('tanggal', 'desc')->get();
         return view('admin.dashboard', compact('berita'));
+    }
+
+    public function adminIndex()
+    {
+        $berita = Berita::orderBy('tanggal', 'desc')->get();
+        $editItem = null;
+        if (request()->has('edit')) {
+            $editItem = Berita::find(request()->edit);
+        }
+        return view('admin.berita.index', compact('berita', 'editItem'));
     }
 
     public function store(Request $request)
@@ -62,7 +78,7 @@ class BeritaController extends Controller
         }
 
         Berita::create($data);
-        return redirect()->route('admin.dashboard')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -91,13 +107,13 @@ class BeritaController extends Controller
         }
 
         $berita->update($data);
-        return redirect()->route('admin.dashboard')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $berita = Berita::findOrFail($id);
         $berita->delete();
-        return redirect()->route('admin.dashboard')->with('success', 'Berita berhasil dihapus.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
     }
 }
