@@ -18,7 +18,21 @@
         .admin-header-right {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
+        }
+
+        /* Navigasi Kembali ke Beranda (UX Lebih Bagus di Atas) */
+        .btn-back-home {
+            color: var(--gray-400);
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-back-home:hover {
+            color: var(--teal-700);
         }
 
         .btn-logout {
@@ -40,6 +54,76 @@
             grid-template-columns: 1fr 1fr;
             gap: 32px;
             align-items: start;
+            margin-top: 24px;
+        }
+
+        /* Layout Profil Baru: Rapi & Minimalis (Left-Aligned) */
+        .profile-header-block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid var(--gray-100);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--teal-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-title-meta {
+            text-align: left;
+        }
+
+        /* Baris Data Diri Kiri-Kanan Clean */
+        .info-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-50);
+        }
+        .info-row-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item-label {
+            font-size: 12px;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item-value {
+            color: var(--gray-700);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Tombol Edit Profil Solid Minimalis (Warna Teal Awal) */
+        .btn-edit-profile-solid {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 12px 20px;
+            background: #0f766e; /* Teal 700 asli */
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+        .btn-edit-profile-solid:hover {
+            background: #115e59; /* Teal 800 pas di-hover */
         }
 
         .btn-program-group {
@@ -59,13 +143,14 @@
             .admin-header { padding: 12px 0; }
             .admin-header .container { flex-wrap: wrap; }
             .admin-header h2 { font-size: 16px; }
-            .admin-header-right { gap: 8px; }
-            .btn-logout { padding: 8px 14px; font-size: 13px; }
+            .admin-header-right { gap: 12px; width: 100%; justify-content: space-between; margin-top: 8px; }
             .responsive-grid { grid-template-columns: 1fr; gap: 20px; }
             .main-container { padding: 0 16px; }
-            .dashboard-card { padding: 20px 16px; }
+            .dashboard-card { padding: 24px 20px !important; }
             .btn-program-group { flex-direction: column; }
             .btn-program-group a { width: 100%; }
+            .profile-header-block { flex-direction: column; text-align: center; gap: 12px; }
+            .profile-title-meta { text-align: center; }
         }
     </style>
 </head>
@@ -75,6 +160,7 @@
             <div class="container">
                 <h2>Dashboard</h2>
                 <div class="admin-header-right">
+                    <a href="{{ route('home') }}" class="btn-back-home">← Kembali ke Beranda</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn-logout">Logout</button>
@@ -83,7 +169,7 @@
             </div>
         </header>
 
-        <main class="admin-main">
+        <main class="admin-main" style="padding: 24px 0;">
             <div class="container main-container" style="max-width:900px;margin:0 auto;width:100%;box-sizing:border-box;">
                 @if(session('success'))
                     <div class="alert-success">{{ session('success') }}</div>
@@ -91,27 +177,38 @@
 
                 <div class="responsive-grid">
 
-                    {{-- Profil --}}
-                    <div class="dashboard-card" style="text-align:center;padding:40px;">
-                        <div style="width:80px;height:80px;border-radius:50%;background:var(--teal-50);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal-700)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        </div>
-                        <h3 style="font-size:22px;font-weight:700;color:var(--gray-900);">{{ $user->name }}</h3>
-                        <p style="color:var(--gray-500);margin-bottom:8px;">{{ $user->email }}</p>
-                        <span style="display:inline-block;padding:4px 16px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:13px;font-weight:500;">Member</span>
-                        <div style="margin-top:24px;">
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-                                <div><p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;">Telepon</p><p style="color:var(--gray-700);font-weight:500;">{{ $user->phone ?: '-' }}</p></div>
-                                <div><p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;">Bergabung</p><p style="color:var(--gray-700);font-weight:500;">{{ $user->created_at->locale('id')->isoFormat('D MMM YYYY') }}</p></div>
+                    {{-- Profil Card - Rapi & Minimalis --}}
+                    <div class="dashboard-card" style="padding:40px;">
+                        <div class="profile-header-block">
+                            <div class="profile-avatar-circle">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal-700)" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
                             </div>
-                            <div style="margin-top:12px;">
-                                <p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;margin-bottom:4px;">Alamat</p>
-                                <p style="color:var(--gray-700);font-weight:500;">{{ $user->address ?: '-' }}</p>
+                            <div class="profile-title-meta">
+                                <h3 style="font-size:22px;font-weight:700;color:var(--gray-900);margin:0;">{{ $user->name }}</h3>
+                                <p style="color:var(--gray-500);margin:4px 0 8px 0;">{{ $user->email }}</p>
+                                <span style="display:inline-block;padding:4px 16px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:13px;font-weight:500;">Member</span>
                             </div>
                         </div>
+
                         <div style="margin-top:20px;">
-                            <a href="{{ route('member.edit') }}" style="font-size:13px;color:var(--teal-700);font-weight:600;">Edit Profil →</a>
+                            <div class="info-row-item">
+                                <span class="info-item-label">Telepon</span>
+                                <span class="info-item-value">{{ $user->phone ?: '-' }}</span>
+                            </div>
+                            <div class="info-row-item">
+                                <span class="info-item-label">Bergabung</span>
+                                <span class="info-value info-item-value">{{ $user->created_at->locale('id')->isoFormat('D MMM YYYY') }}</span>
+                            </div>
+                            <div class="info-row-item">
+                                <span class="info-item-label">Alamat</span>
+                                <span class="info-item-value">{{ $user->address ?: '-' }}</span>
+                            </div>
                         </div>
+
+                        <a href="{{ route('member.edit') }}" class="btn-edit-profile-solid">Edit Profil →</a>
                     </div>
 
                     {{-- Pendaftaran --}}
@@ -121,8 +218,8 @@
                             @foreach($pendaftaran as $p)
                                 <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--gray-100);gap:10px;">
                                     <div style="min-width:0;">
-                                        <p style="font-weight:600;color:var(--gray-900);word-break:break-word;">{{ $p->program }}</p>
-                                        <p style="font-size:12px;color:var(--gray-400);">{{ $p->created_at->locale('id')->isoFormat('D MMM YYYY') }}</p>
+                                        <p style="font-weight:600;color:var(--gray-900);word-break:break-word;margin:0;">{{ $p->program }}</p>
+                                        <p style="font-size:12px;color:var(--gray-400);margin:4px 0 0 0;">{{ $p->created_at->locale('id')->isoFormat('D MMM YYYY') }}</p>
                                     </div>
                                     <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;flex-shrink:0;
                                         background: {{ $p->status === 'confirmed' ? '#ecfdf5' : ($p->status === 'rejected' ? '#fef2f2' : '#fffbeb') }}; 
@@ -132,7 +229,7 @@
                                 </div>
                             @endforeach
                         @else
-                            <p class="text-muted" style="text-align:center;padding:24px;">Belum ada pendaftaran.</p>
+                            <p class="text-muted" style="text-align:center;padding:24px;margin:0;">Belum ada pendaftaran.</p>
                         @endif
                         <div class="btn-program-group">
                             <a href="{{ route('pendaftaran') }}" class="btn-login" style="font-size:13px;">Daftar Program</a>
@@ -140,10 +237,6 @@
                         </div>
                     </div>
                 </div>
-
-                <p style="text-align:center;margin-top:24px;">
-                    <a href="{{ route('home') }}" style="color:var(--gray-400);font-size:13px;">← Kembali ke Beranda</a>
-                </p>
             </div>
         </main>
     </div>

@@ -263,7 +263,7 @@
                         </div>
                         <div>
                             <h4>Email</h4>
-                            <p>info@rumahbahasa-surabaya.go.id</p>
+                            <p>rumah.bahasa.surabaya@gmail.com</p>
                         </div>
                     </div>
                     <div class="footer-item">
@@ -272,7 +272,7 @@
                         </div>
                         <div>
                             <h4>Telepon</h4>
-                            <p>(031) 1234567</p>
+                            <p>(031) 5358856</p>
                         </div>
                     </div>
                     <div class="footer-item">
@@ -281,7 +281,8 @@
                         </div>
                         <div>
                             <h4>Jam Operasional</h4>
-                            <p>Senin — Jumat, 08.00 — 16.00 WIB</p>
+                            <p>Senin — Kamis, 08.00 — 16.00 WIB</p>
+                            <p>Jumat, 08.00 — 14.00 WIB</p>
                         </div>
                     </div>
                 </div>

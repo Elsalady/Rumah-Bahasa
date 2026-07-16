@@ -228,7 +228,6 @@
             padding: 0 20px;
         }
 
-        /* Card entrance animation */
         .dashboard-card {
             animation: cardFadeIn 0.4s ease-out both;
         }
@@ -244,7 +243,6 @@
             }
         }
 
-        /* Stagger card animations */
         .dashboard-card:nth-child(1) { animation-delay: 0.05s; }
         .dashboard-card:nth-child(2) { animation-delay: 0.1s; }
         .dashboard-card:nth-child(3) { animation-delay: 0.15s; }
@@ -254,7 +252,6 @@
         .dashboard-card:nth-child(7) { animation-delay: 0.35s; }
         .dashboard-card:nth-child(8) { animation-delay: 0.4s; }
 
-        /* Alert */
         .alert-success {
             padding: 14px 20px;
             background: linear-gradient(135deg, #d1fae5, #a7f3d0);
@@ -275,7 +272,6 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* ===== RESPONSIVE ALL ADMIN PAGES ===== */
         @media (max-width: 900px) {
             .admin-header .container {
                 flex-direction: column;
@@ -313,13 +309,11 @@
             .admin-main .container { padding: 0 16px; }
             .dashboard-card { padding: 20px 16px; }
 
-            /* Fix all admin grid layouts: profil, layanan, galeri */
             .admin-grid-2 {
                 grid-template-columns: 1fr !important;
                 gap: 20px !important;
             }
 
-            /* Fix stat cards on dashboard mobile */
             .admin-stat-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 12px !important;
@@ -331,7 +325,6 @@
                 font-size: 28px !important;
             }
 
-            /* Fix dashboard 2-col layout */
             .admin-dashboard-grid {
                 grid-template-columns: 1fr !important;
                 gap: 20px !important;
@@ -362,22 +355,19 @@
         <div class="admin-orb admin-orb-3"></div>
         <header class="admin-header">
             <div class="container">
-                
-                <!-- Sisi Kiri: Judul & Navigasi -->
+
                 <div class="admin-header-left">
                     <h2>Panel Admin</h2>
                     <nav class="admin-nav">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
                         <a href="{{ route('admin.profil.index') }}" class="nav-link {{ request()->routeIs('admin.profil.*') ? 'active' : '' }}">Konten Website</a>
                         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">Berita</a>
-                        <a href="{{ route('admin.galeri.index') }}" class="nav-link {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">Galeri</a>
                         <a href="{{ route('admin.layanan.index') }}" class="nav-link {{ request()->routeIs('admin.layanan.*') ? 'active' : '' }}">Program</a>
                         <a href="{{ route('admin.pendaftaran.index') }}" class="nav-link {{ request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Pendaftar</a>
                         <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">Pesan</a>
                     </nav>
                 </div>
                 
-                <!-- Sisi Kanan: User Info & Logout -->
                 <div class="admin-header-right">
                     <span>{{ auth()->user()->name }}</span>
                     <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="display:inline-flex;align-items:center;gap:6px;background:rgba(45,212,191,0.15);border-color:rgba(45,212,191,0.3);">
