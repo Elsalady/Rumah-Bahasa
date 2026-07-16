@@ -17,8 +17,11 @@
 - Use anchor/hash links on navbar items for section-based pages (like Profil → #about, Galeri → #galeri on the homepage) so they scroll to sections on the dashboard instead of navigating to separate routes. Confidence: 0.70
 
 # architecture
-- For "Tentang Rumah Bahasa" section on the homepage/dashboard: use hardcoded text in code files, not database-driven (the Profil model is only for the /profil page managed via admin). Confidence: 0.65
+- For "Tentang Rumah Bahasa" section on the homepage/dashboard: use hardcoded text in code files, not database-driven (the Profil model is only for the /profil page managed via admin). Confidence: 0.75
+
+# communication
+- Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.78
 
 # content
-- Show only 3 latest berita (news) items on the homepage/dashboard; the rest should be visible on the /berita page after clicking "lihat selengkapnya". Confidence: 0.65
+- Show only 3 latest berita (news) items on the homepage/dashboard; the rest should be visible on the /berita page after clicking "lihat selengkapnya". Confidence: 0.80
 

@@ -83,7 +83,11 @@
             @forelse($berita as $item)
                 <article class="news-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
                     <div class="news-card-img">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        @if($item->gambar)
+                            <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;display:block;">
+                        @else
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        @endif
                     </div>
                     <div class="news-card-body">
                         <div class="news-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</div>
@@ -98,8 +102,64 @@
                 </div>
             @endforelse
         </div>
+        <div style="text-align:center;margin-top:40px;">
+            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
+                Lihat selengkapnya
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+        </div>
     </div>
 </section>
+
+{{-- Wave Separator to Galeri --}}
+<div class="wave-separator" style="background:var(--gray-50);">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,50 C240,10 480,90 720,50 C960,10 1200,90 1440,50 L1440,80 L0,80 Z" fill="var(--white)"/>
+    </svg>
+</div>
+
+<!-- {{-- ===== GALERI SECTION ===== --}}
+<section class="galeri-section" id="galeri">
+    <div class="container">
+        <div class="section-title">
+            <h2>Galeri Kegiatan</h2>
+            <p>Dokumentasi kegiatan dan program Rumah Bahasa Surabaya</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+            @forelse($galeri as $item)
+                <div class="galeri-card-premium" style="padding:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);background:var(--white);transition:transform 0.3s ease,box-shadow 0.3s ease;">
+                    @if($item->gambar)
+                        <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:200px;object-fit:cover;display:block;">
+                    @else
+                        <div style="height:200px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));display:flex;align-items:center;justify-content:center;">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--teal-400)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                    @endif
+                    <div style="padding:20px;">
+                        <h3 style="font-size:16px;font-weight:600;color:var(--gray-900);margin-bottom:4px;">{{ $item->judul }}</h3>
+                        @if($item->deskripsi)
+                            <p style="color:var(--gray-500);font-size:13px;">{{ $item->deskripsi }}</p>
+                        @endif
+                        @if($item->tanggal)
+                            <p style="color:var(--gray-400);font-size:12px;margin-top:8px;">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</p>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray-400);">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 16px;display:block;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <p>Belum ada galeri.</p>
+                </div>
+            @endforelse
+        </div>
+        <div style="text-align:center;margin-top:40px;">
+            <a href="{{ route('galeri') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
+                Lihat selengkapnya
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+        </div>
+    </div>
+</section> -->
 
 {{-- Wave Separator to About --}}
 <div class="wave-separator" style="background:var(--white);">
@@ -108,7 +168,7 @@
     </svg>
 </div>
 
-{{-- ===== 4. ABOUT (TENTANG) - SEKARANG DI ATAS KONTAK/MESSAGE ===== --}}
+{{-- ===== 4. ABOUT (TENTANG) ===== --}}
 <section class="about" id="about">
     <div class="container">
         <div class="about-grid">
@@ -116,6 +176,12 @@
                 <h2>Tentang <span>Rumah Bahasa</span> Surabaya</h2>
                 <p>Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
                 <p>Kami menyediakan berbagai layanan mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
+                <div style="margin-top:20px;">
+                    <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
+                        Lihat selengkapnya
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </a>
+                </div>
             </div>
             <div class="about-visual fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.15s;">
                 <div class="icon-circle">
@@ -128,6 +194,8 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
     </div>
 </section>
 
