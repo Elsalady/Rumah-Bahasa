@@ -21,12 +21,23 @@ class BeritaController extends Controller
         return view('home.index', compact('berita', 'galeri'));
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $keyword = $request->input('q');
+
         $berita = Berita::where('is_active', true)
+                        ->when($keyword, function ($query) use ($keyword) {
+                            $query->where(function ($q) use ($keyword) {
+                                $q->where('judul', 'like', '%' . $keyword . '%')
+                                  ->orWhere('ringkasan', 'like', '%' . $keyword . '%')
+                                  ->orWhere('isi', 'like', '%' . $keyword . '%');
+                            });
+                        })
                         ->orderBy('tanggal', 'desc')
-                        ->paginate(9);
-        return view('berita.index', compact('berita'));
+                        ->paginate(9)
+                        ->withQueryString();
+
+        return view('berita.index', compact('berita', 'keyword'));
     }
 
     public function show($slug)

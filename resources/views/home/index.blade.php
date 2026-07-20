@@ -16,10 +16,10 @@
             </div>
             <h1>Selamat Datang di <span>Rumah Bahasa</span> Surabaya</h1>
             <p>Pusat literasi dan pembelajaran untuk masyarakat Surabaya. Mari bersama tingkatkan budaya literasi dan cinta bahasa.</p>
-            <div class="search-box">
-                <input type="text" placeholder="Cari informasi, berita, atau layanan..." aria-label="Cari">
+            <form class="search-box" action="{{ route('berita.list') }}" method="GET">
+                <input type="text" name="q" placeholder="Cari informasi, berita, atau layanan..." aria-label="Cari">
                 <button type="submit">Cari</button>
-            </div>
+            </form>
         </div>
     </div>
 </section>
@@ -102,12 +102,12 @@
                 </div>
             @endforelse
         </div>
-        <div style="text-align:center;margin-top:40px;">
-            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
-                Lihat selengkapnya
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            </a>
-        </div>
+<div style="text-align:center;margin-top:40px;">
+    <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
+        Lihat selengkapnya
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+</div>
     </div>
 </section>
 
@@ -176,12 +176,12 @@
                 <h2>Tentang <span>Rumah Bahasa</span> Surabaya</h2>
                 <p>Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
                 <p>Kami menyediakan berbagai layanan mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
-                <div style="margin-top:20px;">
-                    <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
-                        Lihat selengkapnya
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                    </a>
-                </div>
+<div style="margin-top:20px;">
+    <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
+        Lihat selengkapnya
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+</div>
             </div>
             <div class="about-visual fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.15s;">
                 <div class="icon-circle">
@@ -211,7 +211,7 @@
     {{-- Ornamen Dekoratif Minimalis / Floating Shapes --}}
     <div class="ornament-blur" style="position: absolute; top: -10%; left: -5%; width: 300px; height: 300px; background: rgba(255,255,255,0.03); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
     <div class="ornament-blur" style="position: absolute; bottom: -10%; right: -5%; width: 400px; height: 400px; background: rgba(0,0,0,0.15); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
-    
+
     <div class="container" style="position: relative; z-index: 3; max-width: 800px; margin: 0 auto; padding: 0 20px;">
         <div class="section-title" style="text-align: center; margin-bottom: 40px;">
             <h2 style="color: var(--white); font-size: 2.25rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">Hubungi <span style="color: #5eead4;">Kami</span></h2>
@@ -240,25 +240,25 @@
                 <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
                         <label for="nama" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Nama Lengkap</label>
-                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama kamu" required 
+                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama kamu" required
                             style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
                         <label for="email" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Alamat Email</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com" required 
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com" required
                             style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                 </div>
 
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
                     <label for="subjek" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Subjek</label>
-                    <input type="text" id="subjek" name="subjek" value="{{ old('subjek') }}" placeholder="Topik pesan" 
+                    <input type="text" id="subjek" name="subjek" value="{{ old('subjek') }}" placeholder="Topik pesan"
                         style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                 </div>
 
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
                     <label for="pesan" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Pesan Anda</label>
-                    <textarea id="pesan" name="pesan" rows="5" placeholder="Tuliskan pertanyaan atau aspirasimu di sini..." required 
+                    <textarea id="pesan" name="pesan" rows="5" placeholder="Tuliskan pertanyaan atau aspirasimu di sini..." required
                         style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none; resize: vertical;">{{ old('pesan') }}</textarea>
                 </div>
 
@@ -303,7 +303,7 @@
         }
         .form-container input,
         .form-container textarea {
-            font-size: 16px !important; /* prevents iOS zoom on focus */
+            font-size: 16px !important;
         }
         .form-container button[type="submit"] {
             width: 100% !important;

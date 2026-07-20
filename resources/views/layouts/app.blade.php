@@ -154,6 +154,7 @@
                 display: flex; /* Memunculkan tombol burger di HP */
             }
             .navbar-links {
+                display: flex; /* tetap flex, disembunyikan lewat posisi + transisi geser */
                 position: fixed;
                 top: 0;
                 right: -100%; /* Sembunyikan menu di kanan layar */
@@ -207,7 +208,6 @@
                 <a href="{{ route('home') }}#beranda">Beranda</a>
                 <a href="{{ route('home') }}#berita">Berita</a>
                 <a href="{{ route('home') }}#about">Profil</a>
-                <a href="{{ route('home') }}#galeri">Galeri</a>
                 <a href="{{ route('home') }}#layanan">Layanan</a>
                 <a href="{{ route('home') }}#kontak">Kontak</a>
                 @auth
@@ -237,8 +237,6 @@
     </nav>
 
     @yield('content')
-</body>
-</html>
 
     {{-- FOOTER --}}
     <footer class="footer" id="kontak">
@@ -318,22 +316,16 @@
     </footer>
 
     <script>
-        // Mobile nav toggle
-        document.querySelector('.nav-toggle')?.addEventListener('click', function() {
-            const links = document.querySelector('.navbar-links');
-            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-        });
-
-        // Smooth reveal on scroll (simple)
+        // Smooth reveal on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target); // stop mantau setelah animasi jalan sekali
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
 
             document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
         });
@@ -359,6 +351,15 @@
             }, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
 
             sections.forEach(section => sectionObserver.observe(section));
+        });
+
+        // Tutup menu mobile otomatis saat salah satu link diklik
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.navbar-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.querySelector('.navbar-links').classList.remove('show');
+                });
+            });
         });
     </script>
 </body>
