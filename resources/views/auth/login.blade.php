@@ -40,7 +40,7 @@
             transition: all 0.2s ease-in-out; 
         }
         .back-to-home:hover { 
-            color: #5eead4; /* Warna mint green neon biar estetik pas hover di desktop */
+            color: #5eb7ea; /* Warna mint green neon biar estetik pas hover di desktop */
             transform: translateX(-3px); 
         }
 

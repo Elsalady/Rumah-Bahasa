@@ -214,14 +214,14 @@
 
     <div class="container" style="position: relative; z-index: 3; max-width: 800px; margin: 0 auto; padding: 0 20px;">
         <div class="section-title" style="text-align: center; margin-bottom: 40px;">
-            <h2 style="color: var(--white); font-size: 2.25rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">Hubungi <span style="color: #5eead4;">Kami</span></h2>
+            <h2 style="color: var(--white); font-size: 2.25rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">Hubungi <span style="color: #013b7e;">Kami</span></h2>
             <p style="color: rgba(255,255,255,0.75); font-size: 1rem; max-width: 500px; margin: 0 auto;">Punya pertanyaan atau masukan? Kirimkan pesanmu langsung di bawah ini.</p>
         </div>
 
         {{-- Glassmorphism Card Form --}}
         <div class="form-container" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
             @if(session('success'))
-                <div style="background: rgba(94, 234, 212, 0.15); border: 1px solid rgba(94, 234, 212, 0.3); color: #5eead4; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #5eadea; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     {{ session('success') }}
                 </div>
@@ -259,11 +259,11 @@
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 8px;">
                     <label for="pesan" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500;">Pesan Anda</label>
                     <textarea id="pesan" name="pesan" rows="5" placeholder="Tuliskan pertanyaan atau aspirasimu di sini..." required
-                        style="width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none; resize: vertical;">{{ old('pesan') }}</textarea>
+                        style="width: 100%; padding: 14px 18px; background: rgba(229, 239, 253, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; color: var(--white); font-size: 0.95rem; transition: all 0.3s ease; outline: none; resize: vertical;">{{ old('pesan') }}</textarea>
                 </div>
 
                 <div style="text-align: right; margin-top: 8px;">
-                    <button type="submit" style="background: #5eead4; color: var(--teal-900); font-weight: 600; padding: 14px 32px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(94, 234, 212, 0.3);">
+                    <button type="submit" style="background: #05255c; color: var(--teal-900); font-weight: 600; padding: 14px 32px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(94, 190, 234, 0.3);">
                         Kirim Pesan
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
@@ -276,14 +276,14 @@
 {{-- Tambahan CSS Efek Hover & Responsif Inline untuk Input Form --}}
 <style>
     .input-group input:focus, .input-group textarea:focus {
-        border-color: #5eead4 !important;
+        border-color: #5eadea !important;
         background: rgba(255,255,255,0.12) !important;
-        box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.15);
+        box-shadow: 0 0 0 3px rgba(94, 190, 234, 0.15);
     }
     .form-container button:hover {
-        background: #2dd4bf !important;
+        background: #2d8ed4 !important;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(94, 234, 212, 0.4) !important;
+        box-shadow: 0 6px 20px rgba(94, 162, 234, 0.4) !important;
     }
 
     /* Responsive: message section */

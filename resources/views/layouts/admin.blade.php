@@ -22,11 +22,11 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(ellipse 600px 400px at 10% 20%, rgba(13, 148, 136, 0.06) 0%, transparent 100%),
-                radial-gradient(ellipse 500px 500px at 90% 30%, rgba(45, 212, 191, 0.06) 0%, transparent 100%),
-                radial-gradient(ellipse 400px 300px at 50% 80%, rgba(0, 95, 115, 0.04) 0%, transparent 100%),
-                radial-gradient(ellipse 300px 400px at 20% 70%, rgba(52, 211, 153, 0.04) 0%, transparent 100%),
-                radial-gradient(ellipse 350px 350px at 80% 70%, rgba(13, 148, 136, 0.05) 0%, transparent 100%);
+                radial-gradient(ellipse 600px 400px at 10% 20%, rgba(13, 112, 148, 0.06) 0%, transparent 100%),
+                radial-gradient(ellipse 500px 500px at 90% 30%, rgba(45, 140, 212, 0.06) 0%, transparent 100%),
+                radial-gradient(ellipse 400px 300px at 50% 80%, rgba(0, 48, 115, 0.04) 0%, transparent 100%),
+                radial-gradient(ellipse 300px 400px at 20% 70%, rgba(52, 155, 211, 0.04) 0%, transparent 100%),
+                radial-gradient(ellipse 350px 350px at 80% 70%, rgba(13, 107, 148, 0.05) 0%, transparent 100%);
             pointer-events: none;
             z-index: 0;
         }
@@ -50,7 +50,7 @@
         .admin-orb-1 {
             width: 300px;
             height: 300px;
-            background: rgba(13, 148, 136, 0.08);
+            background: rgba(13, 80, 148, 0.08);
             top: -80px;
             right: -80px;
             animation-delay: 0s;
@@ -59,7 +59,7 @@
         .admin-orb-2 {
             width: 200px;
             height: 200px;
-            background: rgba(45, 212, 191, 0.07);
+            background: rgba(45, 140, 212, 0.07);
             bottom: 10%;
             left: -60px;
             animation-delay: -4s;
@@ -95,11 +95,11 @@
         }
 
         .admin-header {
-            background: linear-gradient(135deg, #005f73 0%, #0d9488 50%, #0f766e 100%);
+            background: linear-gradient(135deg, #0167a2 0%, #1680bd 50%, #2073c7 100%);
             background-size: 200% 200%;
             animation: gradientMove 8s ease-in-out infinite;
             padding: 16px 0;
-            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.2);
+            box-shadow: 0 4px 20px rgba(13, 80, 148, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -165,7 +165,7 @@
             transform: translateX(-50%) scaleX(0);
             width: 60%;
             height: 3px;
-            background: #2dd4bf;
+            background: #37b1e6;
             border-radius: 3px;
             transition: transform 0.3s ease;
         }
@@ -254,10 +254,10 @@
 
         .alert-success {
             padding: 14px 20px;
-            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-            border: 1px solid #6ee7b7;
+            background: linear-gradient(135deg, #d1fae5, #a7cdf3);
+            border: 1px solid #6ec7e7;
             border-radius: 12px;
-            color: #065f46;
+            color: #044095;
             font-weight: 500;
             font-size: 14px;
             margin-bottom: 24px;
@@ -370,7 +370,7 @@
                 
                 <div class="admin-header-right">
                     <span>{{ auth()->user()->name }}</span>
-                    <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="display:inline-flex;align-items:center;gap:6px;background:rgba(45,212,191,0.15);border-color:rgba(45,212,191,0.3);">
+                    <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="display:inline-flex;align-items:center;gap:6px;background:rgba(45, 109, 212, 0.15);border-color:rgba(45,212,191,0.3);">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         Website
                     </a>

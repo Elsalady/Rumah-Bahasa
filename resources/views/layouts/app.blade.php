@@ -43,8 +43,8 @@
             font-size: 1.25rem;
             flex-shrink: 0;
         }
-        .brand-teal { color: #005f73; }
-        .brand-light { color: #2dd4bf; }
+        .brand-blue { color: #2284d9; }
+        .brand-light { color: #42c1f4; }
 
         .navbar-links {
             display: flex;
@@ -58,13 +58,13 @@
             font-size: 0.95rem;
             transition: color 0.3s ease;
         }
-        .navbar-links a:hover { color: #005f73; }
+        .navbar-links a:hover { color: #1076ad; }
         
         .btn-login {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: #005f73;
+            background: #1282c3;
             color: white !important;
             padding: 8px 20px;
             border-radius: 8px;
@@ -83,23 +83,23 @@
             transform: translateX(-50%) scaleX(0);
             width: 80%;
             height: 3px;
-            background: linear-gradient(90deg, #005f73, #0d9488, #14b8a6, #2dd4bf);
+            background: linear-gradient(90deg, #1272e0, #328aee, #36b1f4, #5acaf7);
             border-radius: 3px;
             transition: transform 0.3s ease;
         }
         .navbar-links a:hover {
-            color: #0d9488 !important;
+            color: #1b95c9 !important;
         }
         .navbar-links a:hover::after {
             transform: translateX(-50%) scaleX(0.5);
         }
         .navbar-links a.nav-active {
-            color: #0d9488 !important;
+            color: #1a8fd8 !important;
         }
         .navbar-links a.nav-active::after {
             transform: translateX(-50%) scaleX(1);
             animation: shimmer 2s ease-in-out infinite;
-            background: linear-gradient(90deg, #005f73, #0d9488, #14b8a6, #2dd4bf, #14b8a6, #0d9488, #005f73);
+            background: linear-gradient(90deg, #023ea7, #0f5fc1, #1a8fca, #59b8f7, #3cb3ef, #2784e0, #0258ad);
             background-size: 200% 100%;
         }
         @keyframes shimmer {
@@ -140,7 +140,7 @@
         .nav-toggle span {
             width: 25px;
             height: 3px;
-            background: #005f73;
+            background: #1360dc;
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -298,8 +298,8 @@
                         ></iframe>
                         <a href="https://www.google.com/maps/dir/?api=1&destination=-7.2636128%2C112.7455063&travelmode=driving"
                            target="_blank" rel="noopener noreferrer"
-                           style="position:absolute;bottom:12px;right:12px;z-index:10;padding:8px 16px;background:rgba(0,95,115,0.9);backdrop-filter:blur(4px);color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:all 0.2s;"
-                           onmouseover="this.style.background='#005f73'" onmouseout="this.style.background='rgba(0,95,115,0.9)'"
+                           style="position:absolute;bottom:12px;right:12px;z-index:10;padding:8px 16px;background:rgba(0, 44, 115, 0.9);backdrop-filter:blur(4px);color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:all 0.2s;"
+                           onmouseover="this.style.background='#07459c'" onmouseout="this.style.background='rgba(0, 38, 115, 0.9)'"
                            title="Buka rute ke Rumah Bahasa Surabaya di Google Maps">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                             Buka Google Maps

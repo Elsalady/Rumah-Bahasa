@@ -113,7 +113,7 @@
             width: 100%;
             text-align: center;
             padding: 12px 20px;
-            background: #0f766e; /* Teal 700 asli */
+            background: #0c4e91; /* Teal 700 asli */
             color: #ffffff;
             border-radius: 8px;
             font-size: 13px;
@@ -123,7 +123,7 @@
             transition: background 0.2s;
         }
         .btn-edit-profile-solid:hover {
-            background: #115e59; /* Teal 800 pas di-hover */
+            background: #4d9ce2; /* Teal 800 pas di-hover */
         }
 
         .btn-program-group {
@@ -223,7 +223,7 @@
                                     </div>
                                     <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;flex-shrink:0;
                                         background: {{ $p->status === 'confirmed' ? '#ecfdf5' : ($p->status === 'rejected' ? '#fef2f2' : '#fffbeb') }}; 
-                                        color: {{ $p->status === 'confirmed' ? '#166534' : ($p->status === 'rejected' ? '#dc2626' : '#b45309') }};">
+                                        color: {{ $p->status === 'confirmed' ? '#164065' : ($p->status === 'rejected' ? '#dc2626' : '#b45309') }};">
                                         {{ ucfirst($p->status) }}
                                     </span>
                                 </div>
