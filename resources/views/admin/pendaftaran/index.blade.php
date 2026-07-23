@@ -12,10 +12,11 @@
     @if($daftar->count())
         <div class="table-wrap">
             <table class="data-table">
-                <thead><tr><th>Nama</th><th>Program</th><th>Status</th><th>Tanggal Daftar</th><th>Aksi</th></tr></thead>
+                <thead><tr><th>No</th><th>Nama</th><th>Program</th><th>Status</th><th>Tanggal Daftar</th><th>Aksi</th></tr></thead>
                 <tbody>
-                    @foreach($daftar as $item)
+                    @foreach($daftar as $i => $item)
                         <tr>
+                            <td>{{ $i + 1 }}</td>
                             <td><div class="title-cell">{{ $item->user->name }}</div><div style="font-size:12px;color:var(--gray-400);">{{ $item->user->email }}</div></td>
                             <td>{{ $item->program }}</td>
                             <td>
@@ -26,7 +27,7 @@
                                     {{ ucfirst($item->status) }}
                                 </span>
                             </td>
-                            <td style="font-size:13px;">{{ $item->created_at->locale('id')->isoFormat('D MMM YYYY') }}</td>
+                            <td style="font-size:13px;">{{ $item->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                             <td class="action-cell">
                                 <form action="{{ route('admin.pendaftaran.update', $item->id) }}" method="POST" style="display:flex;gap:4px;flex-wrap:wrap;">
                                     @csrf @method('PUT')

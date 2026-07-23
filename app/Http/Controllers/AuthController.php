@@ -51,16 +51,32 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
             'phone' => 'nullable|max:20',
             'address' => 'nullable|max:500',
+            'foto_profile' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'surat_domisili' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'ktm' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'kk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $user = User::create([
+        $data = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'phone' => $validated['phone'] ?? null,
             'address' => $validated['address'] ?? null,
             'role' => 'member',
-        ]);
+            'status' => 'pending',
+        ];
+
+        // Upload dokumen
+        $dokumenFields = ['foto_profile', 'ktp', 'surat_domisili', 'ktm', 'kk'];
+        foreach ($dokumenFields as $field) {
+            if ($request->hasFile($field)) {
+                $data[$field] = $request->file($field)->store('member-dokumen', 'public');
+            }
+        }
+
+        $user = User::create($data);
 
         Auth::login($user);
         $request->session()->regenerate();

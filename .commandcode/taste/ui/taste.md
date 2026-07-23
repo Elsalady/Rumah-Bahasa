@@ -1,0 +1,8 @@
+# ui
+- Use flexible/inclusive labels for identity document form fields (e.g., "KTM / Kartu Pelajar / Identitas Lembaga Pendidikan") to accommodate various user types (students, ibu-ibu, etc.) rather than narrow, rigid labels. Confidence: 0.75
+- On member-facing program listing pages, include a prominent "Daftar Program Sekarang" (Register Now) call-to-action button beneath the list so members can proceed to registration immediately after browsing. Confidence: 0.78
+- Consolidate related member workflows (program listing, class schedules/jadwal, and the registration form) into a single combined page rather than splitting them across separate pages/routes — members should be able to browse programs, check schedules, and register all in one place without navigating between pages. Confidence: 0.82
+- Include visible explanatory legends or contextual help text for domain-specific terminology (e.g., "Tematik" vs "Tentative") on user-facing pages so that non-expert members can understand the meaning without confusion. Confidence: 0.78
+- Make identity/document form fields optional with contextual guidance text when they don't apply to all user demographics (e.g., KTM optional for non-students with note explaining when to fill vs skip). Confidence: 0.80
+- Display user-uploaded profile photos (e.g., on member dashboard, admin detail pages) using the actual uploaded image file rather than a generic icon/fallback SVG. Confidence: 0.70
+- Show an unread notification count badge (red circle with number) on a bell icon in the member dashboard header, and display recent unread notifications in a card on the dashboard itself. Confidence: 0.78

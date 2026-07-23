@@ -10,19 +10,23 @@
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:#7c3aed;">{{ $stats['profil'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Konten Website</p>
-    </div>
-    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:#0891b2;">{{ $stats['galeri'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Galeri</p>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Profil</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:{{ $stats['pending'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending</p>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending Program</p>
+    </div>
+    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-size:36px;font-weight:800;color:{{ $stats['pending_member'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending_member'] }}</div>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending Member</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['member'] }}</div>
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Member</p>
+    </div>
+    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-size:36px;font-weight:800;color:#0891b2;">{{ $stats['jadwal_kelas'] }}</div>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Jadwal Kelas</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:{{ $stats['pesan_baru'] > 0 ? '#dc2626' : 'var(--teal-700)' }};">{{ $stats['pesan_baru'] }}</div>

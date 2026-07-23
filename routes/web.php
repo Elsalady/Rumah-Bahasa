@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JadwalKelasController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Admin\LayananController as AdminLayanan;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleri;
 use App\Http\Controllers\Admin\KontakController as AdminKontak;
 use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
+use App\Http\Controllers\Admin\MemberController as AdminMember;
+use App\Http\Controllers\Admin\JadwalKelasController as AdminJadwalKelas;
 
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
@@ -27,6 +30,12 @@ Route::get('/berita', [BeritaController::class, 'list'])->name('berita.list');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::post('/kontak', [KontakController::class, 'kirim'])->name('kontak.kirim');
+Route::get('/jadwal', [JadwalKelasController::class, 'index'])->name('jadwal');
+
+// ===== CONTOH SURAT (public) =====
+Route::get('/contoh-surat-domisili', function () {
+    return view('auth.contoh-surat-domisili');
+})->name('contoh.surat.domisili');
 
 // ===== AUTH (guest) =====
 Route::middleware('guest')->group(function () {
@@ -45,6 +54,11 @@ Route::middleware(['auth', 'member.auth'])->group(function () {
 
     Route::prefix('member')->name('member.')->group(function () {
         Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
+        Route::get('/program', [MemberController::class, 'program'])->name('program');
+        Route::get('/jadwal', [MemberController::class, 'jadwal'])->name('jadwal');
+        Route::get('/notifikasi', [MemberController::class, 'notifikasiIndex'])->name('notifikasi');
+        Route::get('/notifikasi/baca-semua', [MemberController::class, 'notifikasiBacaSemua'])->name('notifikasi.baca.semua');
+        Route::get('/notifikasi/{id}', [MemberController::class, 'notifikasiBaca'])->name('notifikasi.baca');
         Route::get('/edit', [MemberController::class, 'edit'])->name('edit');
         Route::put('/update', [MemberController::class, 'update'])->name('update');
     });
@@ -78,7 +92,19 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::get('/kontak/{id}/read', [AdminKontak::class, 'markRead'])->name('kontak.markRead');
     Route::delete('/kontak/{id}', [AdminKontak::class, 'destroy'])->name('kontak.destroy');
 
+    Route::get('/jadwal-kelas', [AdminJadwalKelas::class, 'index'])->name('jadwal-kelas.index');
+    Route::post('/jadwal-kelas', [AdminJadwalKelas::class, 'store'])->name('jadwal-kelas.store');
+    Route::put('/jadwal-kelas/{id}', [AdminJadwalKelas::class, 'update'])->name('jadwal-kelas.update');
+    Route::delete('/jadwal-kelas/{id}', [AdminJadwalKelas::class, 'destroy'])->name('jadwal-kelas.destroy');
+
     Route::get('/pendaftaran', [AdminPendaftaran::class, 'index'])->name('pendaftaran.index');
     Route::put('/pendaftaran/{id}', [AdminPendaftaran::class, 'update'])->name('pendaftaran.update');
     Route::get('/pendaftaran/export', [AdminPendaftaran::class, 'export'])->name('pendaftaran.export');
+
+    Route::prefix('member')->name('member.')->group(function () {
+        Route::get('/', [AdminMember::class, 'index'])->name('index');
+        Route::get('/export', [AdminMember::class, 'export'])->name('export');
+        Route::get('/{id}', [AdminMember::class, 'show'])->name('show');
+        Route::put('/{id}', [AdminMember::class, 'update'])->name('update');
+    });
 });

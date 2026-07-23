@@ -99,7 +99,7 @@
 
                 <div class="dashboard-card">
                     <h3>Update Data Diri</h3>
-                    <form action="{{ route('member.update') }}" method="POST" class="dashboard-form">
+                    <form action="{{ route('member.update') }}" method="POST" class="dashboard-form" enctype="multipart/form-data">
                         @csrf @method('PUT')
                         <div class="form-group">
                             <label for="name">Nama Lengkap</label>
@@ -127,6 +127,42 @@
                             <label for="password_confirmation">Konfirmasi Password Baru</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Ulangi password">
                         </div>
+
+                        {{-- Dokumen Member --}}
+                        <hr style="border:none;border-top:2px solid var(--teal-100);margin:20px 0;">
+                        <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Dokumen Member</h3>
+                        <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">Upload ulang hanya jika ingin mengganti dokumen. Format: JPG/JPEG/PNG, maks. 2MB.</p>
+
+                        @php
+                            $dokumenList = [
+                                'foto_profile' => 'Foto Profil',
+                                'ktp' => 'KTP',
+                                'surat_domisili' => 'Surat Keterangan Domisili / Bekerja di Surabaya',
+                                'ktm' => 'KTM / Kartu Pelajar / Identitas Lembaga Pendidikan',
+                                'kk' => 'Kartu Keluarga (KK)',
+                            ];
+                            $opsionalFields = ['ktm'];
+                        @endphp
+
+                        @foreach($dokumenList as $field => $label)
+                            <div class="form-group">
+                                <label for="{{ $field }}">{{ $label }}</label>
+                                @if(in_array($field, $opsionalFields))
+                                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:4px;">Kosongkan jika tidak ada.</p>
+                                @endif
+                                @if($user->$field)
+                                    <div style="margin-bottom:6px;">
+                                        <a href="{{ asset('storage/' . $user->$field) }}" target="_blank" style="font-size:13px;color:var(--teal-600);">
+                                            📄 Lihat dokumen saat ini
+                                        </a>
+                                    </div>
+                                @else
+                                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Belum diupload</p>
+                                @endif
+                                <input type="file" id="{{ $field }}" name="{{ $field }}" accept="image/jpeg,image/png,image/jpg">
+                            </div>
+                        @endforeach
+
                         <button type="submit" class="btn-submit">Simpan Perubahan</button>
                     </form>
                     <p style="text-align:center;margin-top:16px;">

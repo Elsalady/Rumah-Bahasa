@@ -25,6 +25,13 @@ class User extends Authenticatable
         'role',
         'phone',
         'address',
+        'foto_profile',
+        'ktp',
+        'surat_domisili',
+        'ktm',
+        'kk',
+        'status',
+        'catatan_member',
     ];
 
     /**
@@ -47,6 +54,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => 'string',
         ];
+    }
+
+    public function notifikasi()
+    {
+        return $this->hasMany(Notifikasi::class);
     }
 }

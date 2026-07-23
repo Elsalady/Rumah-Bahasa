@@ -44,6 +44,41 @@
             transform: translateX(-3px); 
         }
 
+        .required-star { color: #e74c3c; }
+
+        /* ===== STYLE FILE INPUT ===== */
+        .file-input-wrapper input[type="file"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px dashed var(--teal-300);
+            border-radius: 10px;
+            background: var(--teal-50);
+            font-size: 14px;
+            color: var(--gray-700);
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .file-input-wrapper input[type="file"]:hover {
+            border-color: var(--teal-500);
+            background: #e0f5f0;
+        }
+        .file-input-wrapper input[type="file"]::file-selector-button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            background: var(--teal-600);
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+        .file-input-wrapper input[type="file"]::file-selector-button:hover {
+            background: var(--teal-700);
+        }
+
         .auth-header { text-align: center; margin-bottom: 32px; }
         .auth-logo { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; margin-bottom: 16px; }
         .auth-logo .brand-teal { color: var(--teal-700); }
@@ -135,7 +170,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('register.post') }}" method="POST">
+            <form action="{{ route('register.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="name">Nama Lengkap</label>
@@ -168,13 +203,59 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phone">No. Telepon (opsional)</label>
-                    <input type="text" id="phone" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx">
+                    <label for="phone">No. Telepon</label>
+                    <input type="text" id="phone" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx" required>
                 </div>
                 <div class="form-group">
-                    <label for="address">Alamat (opsional)</label>
-                    <textarea id="address" name="address" rows="2" placeholder="Alamat lengkap">{{ old('address') }}</textarea>
+                    <label for="address">Alamat</label>
+                    <textarea id="address" name="address" rows="2" placeholder="Alamat lengkap" required>{{ old('address') }}</textarea>
                 </div>
+
+                {{-- Dokumen Wajib --}}
+                <hr style="border:none;border-top:2px solid var(--teal-100);margin:20px 0;">
+                <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:16px;">Upload Dokumen</h3>
+                <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">Tanda <span class="required-star">*</span> wajib diisi. Format: JPG/JPEG/PNG, maks. 2MB per file.</p>
+
+                <div class="form-group">
+                    <label for="foto_profile">Foto Profil <span class="required-star">*</span></label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="foto_profile" name="foto_profile" accept="image/jpeg,image/png,image/jpg" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ktp">KTP <span class="required-star">*</span></label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="ktp" name="ktp" accept="image/jpeg,image/png,image/jpg" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="surat_domisili">
+                        Surat Keterangan Domisili / Surat Keterangan Bekerja di Surabaya
+                        <span class="required-star">*</span>
+                        <a href="{{ route('contoh.surat.domisili') }}" target="_blank" style="font-size:12px;color:var(--teal-600);margin-left:6px;">Lihat contoh surat →</a>
+                    </label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="surat_domisili" name="surat_domisili" accept="image/jpeg,image/png,image/jpg" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ktm">KTM / Kartu Pelajar / Identitas Lembaga Pendidikan</label>
+                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Diisi jika kamu pelajar, mahasiswa, atau terdaftar di lembaga pendidikan. Untuk umum (ibu-ibu, pekerja, dll.) bisa dikosongkan.</p>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="ktm" name="ktm" accept="image/jpeg,image/png,image/jpg">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="kk">Kartu Keluarga (KK) <span class="required-star">*</span></label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="kk" name="kk" accept="image/jpeg,image/png,image/jpg" required>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn-submit">Daftar</button>
             </form>
 

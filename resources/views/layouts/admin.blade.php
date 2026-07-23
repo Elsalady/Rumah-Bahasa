@@ -360,10 +360,12 @@
                     <h2>Panel Admin</h2>
                     <nav class="admin-nav">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-                        <a href="{{ route('admin.profil.index') }}" class="nav-link {{ request()->routeIs('admin.profil.*') ? 'active' : '' }}">Konten Website</a>
+                        <a href="{{ route('admin.profil.index') }}" class="nav-link {{ request()->routeIs('admin.profil.*') ? 'active' : '' }}">Profil</a>
                         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">Berita</a>
                         <a href="{{ route('admin.layanan.index') }}" class="nav-link {{ request()->routeIs('admin.layanan.*') ? 'active' : '' }}">Program</a>
-                        <a href="{{ route('admin.pendaftaran.index') }}" class="nav-link {{ request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Pendaftar</a>
+                        <a href="{{ route('admin.jadwal-kelas.index') }}" class="nav-link {{ request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">Jadwal Kelas</a>
+                        <a href="{{ route('admin.member.index') }}" class="nav-link {{ request()->routeIs('admin.member.*') ? 'active' : '' }}">Data Member</a>
+                        <a href="{{ route('admin.pendaftaran.index') }}" class="nav-link {{ request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Pendaftar Program</a>
                         <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">Pesan</a>
                     </nav>
                 </div>

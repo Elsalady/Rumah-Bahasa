@@ -30,7 +30,7 @@
         @auth
             @if(auth()->user()->role === 'member')
                 <div style="text-align:center;margin-top:48px;">
-                    <a href="{{ route('pendaftaran') }}" class="btn-login" style="display:inline-flex;padding:14px 32px;font-size:15px;">
+                    <a href="{{ route('member.program') }}" class="btn-login" style="display:inline-flex;padding:14px 32px;font-size:15px;">
                         Daftar Program
                     </a>
                 </div>
