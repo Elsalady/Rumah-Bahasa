@@ -95,7 +95,7 @@
                         </div>
                         <button type="submit"
                             class="w-full px-6 py-3 bg-gradient-to-r from-emerald-600 to-green-500 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5 transition-all duration-200">
-                            Kirim Pesan
+                            Kirim 
                         </button>
                     </form>
                 </div>

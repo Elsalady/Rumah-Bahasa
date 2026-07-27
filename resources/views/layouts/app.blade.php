@@ -189,54 +189,148 @@
 </head>
 <body>
 
-    {{-- NAVBAR --}}
-    <nav class="navbar">
-        <div class="container">
-            <a href="{{ route('home') }}" class="navbar-brand">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="flex-shrink:0;">
-                    <rect width="28" height="28" rx="6" fill="#005f73"/>
-                    <path d="M14 7v14M7 10h14M7 18h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                    <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
-                </svg>
-                <div>
-                    <span class="brand-teal">Rumah Bahasa</span>
-                    <span class="brand-light">Surabaya</span>
-                </div>
-            </a>
-            
-            <div class="navbar-links">
-                <a href="{{ route('home') }}">Beranda</a>
-                <a href="{{ route('home') }}#berita">Berita</a>
-                <a href="{{ route('home') }}#about">Profil</a>
-                <a href="{{ route('home') }}#layanan">Layanan</a>
-                <a href="{{ route('home') }}#kontak">Kontak</a>
-                @auth
-                    @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="btn-login" style="background:var(--teal-600);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                            Login
-                        </a>
-                    @else
-                        <a href="{{ route('member.dashboard') }}" class="btn-login" style="background:var(--teal-500);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                            Login
-                        </a>
-                    @endif
-                @else
-                    <a href="{{ route('login') }}" class="btn-login">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+ {{-- NAVBAR --}}
+<nav class="navbar">
+    <div class="container">
+        <a href="{{ route('home') }}" class="navbar-brand">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo Rumah Bahasa" class="brand-logo">
+        </a>
+        
+        <div class="navbar-links">
+            <a href="{{ route('home') }}">Beranda</a>
+            <a href="{{ route('home') }}#berita">Berita</a>
+            <a href="{{ route('home') }}#about">Profil</a>
+            <a href="{{ route('home') }}#layanan">Layanan</a>
+            <a href="{{ route('home') }}#kontak">Kontak</a>
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" class="btn-login" style="background:var(--teal-600);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                         Login
                     </a>
-                @endauth
-            </div>
+                @else
+                    <a href="{{ route('member.dashboard') }}" class="btn-login" style="background:var(--teal-500);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                        Login
+                    </a>
+                @endif
+            @else
+                <a href="{{ route('login') }}" class="btn-login">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    Login
+                </a>
+            @endauth
+        </div>
+        
+        {{-- Area Samping Burger khusus Mobile --}}
+        <div class="mobile-nav-actions">
+            <a href="{{ route('login') }}" class="btn-login btn-mobile-register">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                Daftar
+            </a>
             
             <button class="nav-toggle" onclick="document.querySelector('.navbar-links').classList.toggle('show')">
                 <span></span><span></span><span></span>
             </button>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    @yield('content')
+{{-- Styling Khusus Navbar & Responsive Mobile --}}
+<style>
+    /* Styling Logo Custom */
+    .navbar-brand img.brand-logo {
+        height: 32px;
+        width: auto;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    /* Ukuran Font Standar Brand */
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+    .navbar-brand .brand-teal {
+        font-weight: 700;
+        font-size: 16px;
+    }
+    .navbar-brand .brand-light {
+        font-weight: 400;
+        font-size: 15px;
+        color: #64748b;
+    }
+
+    /* Wrapper Actions di Mobile */
+    .mobile-nav-actions {
+        display: none;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* BURGER MENU HITAM */
+    .nav-toggle span {
+        background-color: #1e293b !important; /* Warna hitam pekat/dark slate */
+        height: 2.5px !important;
+        border-radius: 2px;
+    }
+
+    /* Optimization untuk Layar Mobile */
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 10px 0 !important; /* Memperkecil tinggi navbar */
+        }
+        
+        .navbar-brand img.brand-logo {
+            height: 28px; /* Lebih ramping di mobile */
+        }
+
+        .navbar-brand .brand-teal {
+            font-size: 14px;
+        }
+        
+        .navbar-brand .brand-light {
+            font-size: 13px;
+        }
+
+        /* Tampilkan wrapper mobile actions */
+        .mobile-nav-actions {
+            display: flex !important;
+        }
+
+        /* Styling khusus Button Daftar di Mobile */
+        .btn-mobile-register {
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+            border-radius: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            text-decoration: none !important;
+        }
+
+        /* Menu Dropdown Mobile */
+        .navbar-links {
+            padding: 12px 16px !important;
+            gap: 10px !important;
+        }
+
+        .navbar-links a {
+            font-size: 14px !important; /* Font standar mobile */
+            padding: 8px 0 !important;
+        }
+
+        .navbar-links .btn-login {
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+            justify-content: center;
+        }
+    }
+</style>
+
+@yield('content')
 
     {{-- FOOTER --}}
     <footer class="footer" id="kontak">
