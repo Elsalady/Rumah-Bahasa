@@ -18,11 +18,11 @@
         }
         .auth-card { 
             background: var(--white); 
-            border-radius: 20px; 
-            padding: 48px 40px; 
+            border-radius: 16px; 
+            padding: 40px 32px; 
             width: 100%; 
-            max-width: 420px; 
-            box-shadow: 0 24px 48px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12); 
             box-sizing: border-box;
         }
         
@@ -31,7 +31,7 @@
             display: inline-flex; 
             align-items: center; 
             gap: 8px; 
-            color: rgba(255, 255, 255, 0.8); 
+            color: rgba(255, 255, 255, 0.9); 
             text-decoration: none; 
             font-size: 14px; 
             font-weight: 500; 
@@ -44,15 +44,38 @@
             transform: translateX(-3px); 
         }
 
-        .auth-header { text-align: center; margin-bottom: 32px; }
-        .auth-logo { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; margin-bottom: 16px; }
-        .auth-logo .brand-teal { color: var(--teal-700); }
-        .auth-logo .brand-light { color: var(--gray-400); font-weight: 300; }
-        .auth-header h1 { font-size: 28px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
-        .auth-header p { color: var(--gray-500); font-size: 14px; }
+        .auth-header { 
+            text-align: center; 
+            margin-bottom: 28px; 
+        }
+        .auth-logo { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 6px; 
+            font-size: 20px; 
+            font-weight: 700; 
+            margin-bottom: 12px; 
+            line-height: 1.2;
+        }
+        .auth-logo .brand-teal { color: var(--teal-700); font-weight: 800; }
+        .auth-logo .brand-light { color: var(--gray-400); font-weight: 400; }
+        
+        .auth-header h1 { 
+            font-size: 24px; 
+            font-weight: 700; 
+            color: var(--gray-900); 
+            margin: 0 0 6px 0; 
+        }
+        .auth-header p { 
+            color: var(--gray-500); 
+            font-size: 14px; 
+            margin: 0;
+        }
+        
         .auth-footer { text-align: center; margin-top: 24px; }
-        .auth-footer a { color: var(--gray-500); font-size: 13px; transition: color 0.2s; }
-        .auth-footer a:hover { color: var(--teal-700); }
+        .auth-footer a { color: var(--teal-700); font-size: 13px; font-weight: 600; text-decoration: none; transition: color 0.2s; }
+        .auth-footer a:hover { text-decoration: underline; }
 
         /* ===== PASSWORD TOGGLE ===== */
         .password-wrapper { position: relative; }
@@ -89,7 +112,7 @@
                 padding-top: 80px; /* Jarak aman dari top bar biar card gak ketutupan */
             }
             .auth-card {
-                padding: 32px 24px; /* Responsif padding di HP kecil */
+                padding: 32px 20px; /* Responsif padding di HP kecil */
             }
         }
     </style>
@@ -109,11 +132,6 @@
         <div class="auth-card">
             <div class="auth-header">
                 <div class="auth-logo">
-                    <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
-                        <rect width="28" height="28" rx="6" fill="#005f73"/>
-                        <path d="M14 7v14M7 10h14M7 18h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                        <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
-                    </svg>
                     <span class="brand-teal">Rumah Bahasa</span>
                     <span class="brand-light">Surabaya</span>
                 </div>
