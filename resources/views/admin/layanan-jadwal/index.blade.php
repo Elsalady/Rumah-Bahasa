@@ -28,8 +28,10 @@
     .program-card-header .left { display:flex;align-items:center;gap:12px;flex:1;min-width:0; }
     .program-card-header h3 { margin:0;font-size:18px;font-weight:700;color:var(--gray-900); }
     .program-card-body { padding: 24px; }
-    .toggle-icon { font-size:12px;color:var(--gray-400);transition:transform 0.2s; }
-    .toggle-icon.open { transform:rotate(90deg); }
+    .toggle-icon { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; color:var(--gray-500); background:var(--gray-100); padding:4px 10px 4px 8px; border-radius:6px; transition:all 0.2s; white-space:nowrap; }
+    .toggle-icon:hover { background:var(--gray-200); color:var(--gray-700); }
+    .toggle-icon.open { background:var(--teal-50); color:var(--teal-700); }
+    .toggle-icon svg { width:16px; height:16px; }
     .jadwal-row {
         display: flex;
         align-items: center;
@@ -46,7 +48,7 @@
         align-items: center;
         gap: 6px;
         padding: 8px 16px;
-        background: #0c4e91;
+        background: #0882c4;
         color: #fff;
         border: none;
         border-radius: 8px;
@@ -55,7 +57,7 @@
         cursor: pointer;
         transition: background 0.2s;
     }
-    .btn-add-jadwal:hover { background: #4d9ce2; }
+    .btn-add-jadwal:hover { background: #0167a2; }
     .jadwal-form {
         background: #f8fafc;
         border: 1px solid var(--gray-200);
@@ -105,7 +107,10 @@
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
                     <a href="{{ route('admin.layanan.index', ['edit' => $program->id]) }}" class="btn-sm btn-edit" style="text-decoration:none;" onclick="event.stopPropagation();">Edit</a>
-                    <span class="toggle-icon" id="toggle-{{ $program->id }}">▶</span>
+                    <span class="toggle-icon" id="toggle-{{ $program->id }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        Jadwal
+                    </span>
                 </div>
             </div>
             <div class="program-card-body" id="body-{{ $program->id }}" style="display:none;">

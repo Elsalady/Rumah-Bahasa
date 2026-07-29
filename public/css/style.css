@@ -100,7 +100,7 @@ ul { list-style: none; }
     align-items: center;
     gap: 6px;
     padding: 10px 24px;
-    background: var(--teal-700);
+    background: #0882c4;
     color: var(--white) !important;
     border-radius: 8px;
     font-size: 14px;
@@ -109,7 +109,7 @@ ul { list-style: none; }
     border: none;
     cursor: pointer;
 }
-.btn-login:hover { background: var(--teal-800); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,95,115,0.3); }
+.btn-login:hover { background: #0167a2; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,95,115,0.3); }
 .btn-login::after { display: none !important; }
 
 .nav-toggle {
@@ -655,7 +655,7 @@ ul { list-style: none; }
 .btn-submit {
     width: 100%;
     padding: 14px;
-    background: var(--teal-700);
+    background: #0882c4;
     color: var(--white);
     border: none;
     border-radius: 10px;
@@ -664,7 +664,7 @@ ul { list-style: none; }
     cursor: pointer;
     transition: all 0.25s;
 }
-.btn-submit:hover { background: var(--teal-800); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,95,115,0.3); }
+.btn-submit:hover { background: #0167a2; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,95,115,0.3); }
 .alert-error {
     padding: 12px 16px;
     background: #fef2f2;
@@ -831,8 +831,8 @@ ul { list-style: none; }
     cursor: pointer;
     transition: all 0.2s;
 }
-.btn-edit { background: #0c4e91; color: #fff; }
-.btn-edit:hover { background: #4d9ce2; }
+.btn-edit { background: #0882c4; color: #fff; }
+.btn-edit:hover { background: #0167a2; }
 .btn-delete { background: #dc2626; color: #fff; }
 .btn-delete:hover { background: #b91c1c; }
 .btn-cancel {

@@ -181,9 +181,9 @@
         }
 
         .nav-link.active {
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 400;
+            background: rgba(255, 255, 255, 0.92);
+            color: #0167a2;
+            font-weight: 700;
         }
 
         .nav-link.active::before {
@@ -205,17 +205,17 @@
 
         .btn-logout {
             padding: 8px 20px;
-            background: rgba(255,255,255,0.1);
-            color: var(--white);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: #ffffff;
+            color: #0167a2;
+            border: none;
             border-radius: 8px;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
         .btn-logout:hover { 
-            background: rgba(255,255,255,0.2);
+            background: #e2e8f0;
             transform: translateY(-1px);
         }
 
@@ -347,6 +347,30 @@
                 font-size: 13px !important;
             }
         }
+
+        @media (max-width: 480px) {
+            .admin-header { padding: 10px 0; }
+            .admin-header h2 { font-size: 16px; }
+            .admin-header .container { padding: 0 12px; gap: 8px; }
+            .nav-link { font-size: 11px; padding: 5px 8px; }
+            .admin-header-right span { font-size: 12px; }
+            .btn-logout { font-size: 12px; padding: 6px 14px; }
+            .admin-main { padding: 16px 0; }
+            .admin-main .container { padding: 0 12px; }
+            .dashboard-card { padding: 16px 12px !important; border-radius: 12px !important; }
+            .dashboard-card h3 { font-size: 15px; margin-bottom: 16px; padding-bottom: 12px; }
+            .card-header-row { flex-direction: column; align-items: flex-start !important; gap: 8px !important; }
+
+            /* Table adjustments */
+            .table-wrap { margin: 0 -12px; padding: 0 12px; }
+            .data-table th,
+            .data-table td {
+                padding: 8px 10px !important;
+                font-size: 12px !important;
+            }
+            .data-table .title-cell { font-size: 13px; }
+            .btn-sm { font-size: 11px; padding: 5px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -361,8 +385,7 @@
                     <h2>Panel Admin</h2>
                     <nav class="admin-nav">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-                        <a href="{{ route('admin.profil.index') }}" class="nav-link {{ request()->routeIs('admin.profil.*') ? 'active' : '' }}">Profil</a>
-                        <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">Berita</a>
+                        <a href="{{ route('admin.konten.index') }}" class="nav-link {{ request()->routeIs('admin.konten.*') || request()->routeIs('admin.berita.*') || request()->routeIs('admin.profil.*') ? 'active' : '' }}">Konten</a>
                         <a href="{{ route('admin.layanan-jadwal.index') }}" class="nav-link {{ request()->routeIs('admin.layanan-jadwal.*') || request()->routeIs('admin.layanan.*') || request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">Program & Jadwal</a>
                         <a href="{{ route('admin.member.kelola') }}" class="nav-link {{ request()->routeIs('admin.member.*') || request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Member</a>
                         <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">Pesan</a>
@@ -370,8 +393,7 @@
                 </div>
                 
                 <div class="admin-header-right">
-                    <span>{{ auth()->user()->name }}</span>
-                    <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="display:inline-flex;align-items:center;gap:6px;background:rgba(45, 109, 212, 0.15);border-color:rgba(45,212,191,0.3);">
+                    <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="display:inline-flex;align-items:center;gap:6px;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         Website
                     </a>

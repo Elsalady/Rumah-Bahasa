@@ -18,10 +18,29 @@
         .jadwal-card { background:#fff; border:1px solid var(--gray-100); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s; }
         .jadwal-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); }
         .section-divider { border:none; border-top:2px solid var(--teal-100); margin:40px 0; }
-        .btn-daftar { display:inline-block; width:100%; text-align:center; padding:10px 16px; background:#0c4e91; color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:16px; text-decoration:none; }
-        .btn-daftar:hover { background:#4d9ce2; }
+        .btn-daftar { display:inline-block; width:100%; text-align:center; padding:10px 16px; background:#0882c4; color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:16px; text-decoration:none; }
+        .btn-daftar:hover { background:#0167a2; }
         .btn-daftar-terdaftar { background:#e5e7eb; color:#9ca3af; cursor:default; }
         .btn-daftar-terdaftar:hover { background:#e5e7eb; }
+
+        @media (max-width: 768px) {
+            .program-grid { grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .admin-main { padding: 16px 0 !important; }
+            .container[style*="max-width:900px"] { padding: 0 12px !important; }
+            h1[style*="font-size:28px"] { font-size: 22px !important; }
+            .program-grid { grid-template-columns: 1fr; gap: 12px; }
+            .program-card { padding: 16px; }
+            .program-card h3 { font-size: 16px !important; }
+            .jadwal-card { padding: 12px 14px; flex-direction: column; align-items: flex-start; }
+            .jadwal-card p { font-size: 13px !important; }
+            .btn-daftar { font-size: 12px; padding: 8px 12px; }
+            .section-divider { margin: 24px 0 !important; }
+            h2[style*="font-size:20px"] { font-size: 17px !important; }
+            [style*="gap:12px;flex-wrap:wrap"] > div { font-size: 11px !important; padding: 4px 10px !important; }
+        }
     </style>
 </head>
 <body>

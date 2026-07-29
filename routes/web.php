@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\GaleriController as AdminGaleri;
 use App\Http\Controllers\Admin\KontakController as AdminKontak;
 use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
 use App\Http\Controllers\Admin\MemberController as AdminMember;
+use App\Http\Controllers\Admin\KontenController as AdminKonten;
 
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
@@ -68,6 +69,8 @@ Route::middleware(['auth', 'member.auth'])->group(function () {
 // ===== ADMIN =====
 Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
+
+    Route::get('/konten', [AdminKonten::class, 'index'])->name('konten.index');
 
     Route::get('/berita', [BeritaController::class, 'adminIndex'])->name('berita.index');
     Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');

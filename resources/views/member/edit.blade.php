@@ -133,35 +133,58 @@
                         <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Dokumen Member</h3>
                         <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">Upload ulang hanya jika ingin mengganti dokumen. Format: JPG/JPEG/PNG, maks. 2MB.</p>
 
+                        {{-- Foto Profil --}}
+                        <div class="form-group">
+                            <label for="foto_profile">Foto Profil</label>
+                            @if($user->foto_profile)
+                                <div style="margin-bottom:6px;">
+                                    <a href="{{ asset('storage/' . $user->foto_profile) }}" target="_blank" style="font-size:13px;color:var(--teal-600);">
+                                        📄 Lihat foto profil saat ini
+                                    </a>
+                                </div>
+                            @else
+                                <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Belum diupload</p>
+                            @endif
+                            <input type="file" id="foto_profile" name="foto_profile" accept="image/jpeg,image/png,image/jpg">
+                        </div>
+
+                        {{-- Dokumen Pendukung --}}
                         @php
-                            $dokumenList = [
-                                'foto_profile' => 'Foto Profil',
-                                'ktp' => 'KTP',
-                                'surat_domisili' => 'Surat Keterangan Domisili / Bekerja di Surabaya',
-                                'ktm' => 'KTM / Kartu Pelajar / Identitas Lembaga Pendidikan',
-                                'kk' => 'Kartu Keluarga (KK)',
-                            ];
-                            $opsionalFields = ['ktm'];
+                            $dokumenFields = ['ktp' => 'KTP', 'surat_domisili' => 'Surat Domisili / Bekerja di Surabaya', 'ktm' => 'KTM / Kartu Pelajar', 'kk' => 'Kartu Keluarga (KK)'];
+                            $dokumenTerisi = [];
+                            foreach (array_keys($dokumenFields) as $f) {
+                                if ($user->$f) $dokumenTerisi[$f] = $dokumenFields[$f];
+                            }
                         @endphp
 
-                        @foreach($dokumenList as $field => $label)
-                            <div class="form-group">
-                                <label for="{{ $field }}">{{ $label }}</label>
-                                @if(in_array($field, $opsionalFields))
-                                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:4px;">Kosongkan jika tidak ada.</p>
-                                @endif
-                                @if($user->$field)
-                                    <div style="margin-bottom:6px;">
-                                        <a href="{{ asset('storage/' . $user->$field) }}" target="_blank" style="font-size:13px;color:var(--teal-600);">
-                                            📄 Lihat dokumen saat ini
-                                        </a>
-                                    </div>
-                                @else
-                                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Belum diupload</p>
-                                @endif
-                                <input type="file" id="{{ $field }}" name="{{ $field }}" accept="image/jpeg,image/png,image/jpg">
-                            </div>
-                        @endforeach
+                        <div class="form-group">
+                            <label for="jenis_dokumen">Ganti Dokumen Pendukung</label>
+                            <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Pilih jenis dokumen yang ingin diganti, lalu upload file baru. Kosongkan jika tidak ingin mengubah.</p>
+
+                            @if(!empty($dokumenTerisi))
+                                <div style="margin-bottom:10px;font-size:13px;color:var(--gray-600);">
+                                    <strong>Dokumen saat ini:</strong>
+                                    @foreach($dokumenTerisi as $field => $label)
+                                        <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
+                                            <span>{{ $label }}</span>
+                                            <a href="{{ asset('storage/' . $user->$field) }}" target="_blank" style="font-size:12px;color:var(--teal-600);">Lihat</a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p style="font-size:12px;color:var(--gray-400);margin-bottom:10px;">Belum ada dokumen pendukung.</p>
+                            @endif
+
+                            <select id="jenis_dokumen" name="jenis_dokumen"
+                                style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;outline:none;color:var(--gray-900);background:var(--gray-50);margin-bottom:12px;box-sizing:border-box;">
+                                <option value="">— Pilih jenis dokumen (jika ingin mengganti) —</option>
+                                <option value="ktp">KTP</option>
+                                <option value="surat_domisili">Surat Domisili / Surat Keterangan Bekerja di Surabaya</option>
+                                <option value="ktm">KTM / Kartu Pelajar / Identitas Lembaga Pendidikan</option>
+                                <option value="kk">Kartu Keluarga (KK)</option>
+                            </select>
+                            <input type="file" id="dokumen" name="dokumen" accept="image/jpeg,image/png,image/jpg">
+                        </div>
 
                         <button type="submit" class="btn-submit">Simpan Perubahan</button>
                     </form>

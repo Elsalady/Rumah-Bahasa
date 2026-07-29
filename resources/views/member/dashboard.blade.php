@@ -113,7 +113,7 @@
             width: 100%;
             text-align: center;
             padding: 12px 20px;
-            background: #0c4e91; /* Teal 700 asli */
+            background: #0882c4; /* Teal cerah untuk tombol */
             color: #ffffff;
             border-radius: 8px;
             font-size: 13px;
@@ -123,7 +123,7 @@
             transition: background 0.2s;
         }
         .btn-edit-profile-solid:hover {
-            background: #4d9ce2; /* Teal 800 pas di-hover */
+            background: #0167a2; /* Teal 800 pas di-hover */
         }
 
         .btn-program-group {
@@ -151,6 +151,33 @@
             .btn-program-group a { width: 100%; }
             .profile-header-block { flex-direction: column; text-align: center; gap: 12px; }
             .profile-title-meta { text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .admin-main { padding: 16px 0 !important; }
+            .main-container { padding: 0 12px !important; }
+            .dashboard-card { padding: 20px 14px !important; border-radius: 12px !important; }
+            .admin-header h2 { font-size: 14px; }
+            .admin-header-right { gap: 8px; }
+            .btn-back-home { font-size: 11px; }
+            .btn-logout { font-size: 12px; padding: 8px 14px; }
+            .profile-header-block { flex-direction: column; text-align: center; gap: 8px; padding-bottom: 14px; }
+            .profile-avatar-circle { width: 48px; height: 48px; }
+            .profile-title-meta h3 { font-size: 18px !important; }
+            .profile-title-meta p { font-size: 13px !important; }
+            .info-row-item { padding: 10px 0; }
+            .info-item-label { font-size: 11px; }
+            .info-item-value { font-size: 13px; }
+            .btn-edit-profile-solid { font-size: 12px; padding: 10px 16px; }
+            .btn-program-group { gap: 8px; }
+            .btn-program-group a { font-size: 12px !important; }
+            /* Status banners */
+            [style*="padding:20px 24px"] { padding: 14px 16px !important; }
+            [style*="padding:20px 24px"] svg { width: 20px; height: 20px; }
+            [style*="padding:20px 24px"] p:first-child { font-size: 14px !important; }
+            [style*="padding:20px 24px"] p { font-size: 12px !important; }
+            /* Notification card */
+            .dashboard-card[style*="grid-column"] { padding: 12px 14px !important; }
         }
     </style>
 </head>
@@ -316,7 +343,7 @@
                             <p class="text-muted" style="text-align:center;padding:24px;margin:0;">Belum ada pendaftaran.</p>
                         @endif
                         <div class="btn-program-group">
-                            <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;background:#0c4e91;color:#fff;">Lihat Program & Jadwal</a>
+                            <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;">Lihat Program & Jadwal</a>
                         </div>
                     </div>
                     @endif

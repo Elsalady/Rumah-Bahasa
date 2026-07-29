@@ -27,7 +27,7 @@ class ProfilController extends Controller
         ]);
 
         Profil::create($request->all());
-        return redirect()->route('admin.profil.index')->with('success', 'Konten profil berhasil ditambahkan.');
+        return redirect()->route('admin.konten.index')->with('success', 'Konten profil berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -40,12 +40,12 @@ class ProfilController extends Controller
         ]);
 
         $profil->update($request->all());
-        return redirect()->route('admin.profil.index')->with('success', 'Konten profil berhasil diperbarui.');
+        return redirect()->route('admin.konten.index')->with('success', 'Konten profil berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         Profil::findOrFail($id)->delete();
-        return redirect()->route('admin.profil.index')->with('success', 'Konten profil berhasil dihapus.');
+        return redirect()->route('admin.konten.index')->with('success', 'Konten profil berhasil dihapus.');
     }
 }

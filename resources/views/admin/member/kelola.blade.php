@@ -19,11 +19,11 @@
     </div>
 
     <!-- Tab Navigation -->
-    <div style="display:flex;gap:0;border-bottom:2px solid #e5e7eb;margin-bottom:24px;">
-        <button type="button" class="tab-btn active" data-tab="tab-member" style="padding:10px 24px;font-size:14px;font-weight:600;background:none;border:none;border-bottom:2px solid #0167a2;color:#0167a2;cursor:pointer;margin-bottom:-2px;transition:all 0.2s;">
-            Data Member ({{ $members->count() }})
+    <div class="tab-nav" style="display:flex;gap:0;border-bottom:2px solid #e5e7eb;margin-bottom:24px;">
+        <button type="button" class="tab-btn active" data-tab="tab-member" style="padding:10px 24px;font-size:14px;font-weight:600;background:none;border:none;border-bottom:2px solid #0167a2;color:#0167a2;cursor:pointer;margin-bottom:-2px;transition:all 0.2s;white-space:nowrap;">
+            pendaftar Member ({{ $members->count() }})
         </button>
-        <button type="button" class="tab-btn" data-tab="tab-pendaftar" style="padding:10px 24px;font-size:14px;font-weight:500;background:none;border:none;border-bottom:2px solid transparent;color:#6b7280;cursor:pointer;transition:all 0.2s;">
+        <button type="button" class="tab-btn" data-tab="tab-pendaftar" style="padding:10px 24px;font-size:14px;font-weight:500;background:none;border:none;border-bottom:2px solid transparent;color:#6b7280;cursor:pointer;transition:all 0.2s;white-space:nowrap;">
             Pendaftar Program ({{ $daftar->count() }})
         </button>
     </div>
@@ -116,6 +116,14 @@
     </div>
 </div>
 
+<style>
+    @media (max-width: 480px) {
+        .card-header-row { flex-direction: column; align-items: flex-start !important; gap: 8px !important; }
+        .tab-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 0; }
+        .tab-nav::-webkit-scrollbar { display: none; }
+        .tab-btn { font-size: 12px !important; padding: 8px 14px !important; }
+    }
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab-btn');

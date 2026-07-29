@@ -142,9 +142,9 @@
                         @if($sudahTerdaftar)
                             <div style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#ecfdf5;color:#166534;border-radius:8px;font-size:15px;font-weight:600;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                Kamu sudah terdaftar
+                                kamu sudah terdaftar
                             </div>
-                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Menunggu konfirmasi admin atau sudah dikonfirmasi.</p>
+                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">silahkan cek jadwal yang sudah terdaftar di dashboard.</p>
                         @else
                             <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">

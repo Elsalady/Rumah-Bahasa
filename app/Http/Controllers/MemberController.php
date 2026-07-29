@@ -36,10 +36,8 @@ class MemberController extends Controller
             'address' => 'nullable|max:500',
             'password' => 'nullable|min:6|confirmed',
             'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'surat_domisili' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'ktm' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'kk' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'jenis_dokumen' => 'nullable|in:ktp,surat_domisili,ktm,kk',
+            'dokumen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->only(['name', 'phone', 'address']);
@@ -47,14 +45,21 @@ class MemberController extends Controller
             $data['password'] = $request->password;
         }
 
-        $dokumenFields = ['foto_profile', 'ktp', 'surat_domisili', 'ktm', 'kk'];
-        foreach ($dokumenFields as $field) {
-            if ($request->hasFile($field)) {
-                if ($user->$field) {
-                    Storage::disk('public')->delete($user->$field);
-                }
-                $data[$field] = $request->file($field)->store('member-dokumen', 'public');
+        // Upload foto profil
+        if ($request->hasFile('foto_profile')) {
+            if ($user->foto_profile) {
+                Storage::disk('public')->delete($user->foto_profile);
             }
+            $data['foto_profile'] = $request->file('foto_profile')->store('member-dokumen', 'public');
+        }
+
+        // Upload dokumen pendukung — simpan ke kolom sesuai jenis yang dipilih
+        if ($request->hasFile('dokumen') && $request->filled('jenis_dokumen')) {
+            $fieldTarget = $request->jenis_dokumen;
+            if ($user->$fieldTarget) {
+                Storage::disk('public')->delete($user->$fieldTarget);
+            }
+            $data[$fieldTarget] = $request->file('dokumen')->store('member-dokumen', 'public');
         }
 
         $user->update($data);

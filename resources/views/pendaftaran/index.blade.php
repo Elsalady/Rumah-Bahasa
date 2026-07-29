@@ -95,7 +95,7 @@
                             </select>
                         </div>
                         <p style="color:var(--gray-400);font-size:13px;margin-bottom:20px;">
-                            Kamu terdaftar sebagai: <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->email }})
+                            menunggu konfirmasi Admin: <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->email }})
                         </p>
                         <button type="submit" class="btn-submit btn-program-action">Kirim Pendaftaran</button>
                     </form>

@@ -101,21 +101,21 @@
         }
         .password-toggle:hover { color: var(--teal-700); }
 
-        /* ===== BREAKPOINT MOBILE RESPONSIVE ===== */
+        /* ===== BREAKPOINT TABLET & MOBILE ===== */
         @media (max-width: 768px) {
             .form-row { 
                 grid-template-columns: 1fr; 
             }
             .back-to-home {
-                position: fixed; /* Kunci melayang di atas layar HP */
+                position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
-                background: #ffffff; /* Background solid biar teks form pas di-scroll ke bawah gak tabrakan */
-                color: var(--teal-900) !important; /* Ubah warna teks jadi gelap biar kontras dengan bg putih */
+                background: #ffffff;
+                color: var(--teal-900) !important;
                 padding: 16px 24px; 
                 margin-bottom: 0;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.08); /* Efek shadow tipis elegan */
+                box-shadow: 0 2px 10px rgba(0,0,0,0.08);
                 z-index: 9999; 
                 box-sizing: border-box;
                 justify-content: flex-start;
@@ -125,10 +125,78 @@
                 transform: none;
             }
             .auth-wrapper {
-                padding-top: 80px; /* Jarak aman dari top bar biar card gak ketutupan */
+                padding: 80px 16px 24px;
             }
             .auth-card {
-                padding: 32px 24px; /* Responsif padding di HP kecil */
+                padding: 32px 24px;
+            }
+        }
+
+        /* ===== BREAKPOINT HP KECIL (480px ke bawah) ===== */
+        @media (max-width: 480px) {
+            .auth-wrapper {
+                padding: 76px 12px 20px;
+            }
+            .auth-card {
+                padding: 24px 16px;
+                border-radius: 16px;
+            }
+            .auth-header h1 {
+                font-size: 22px;
+            }
+            .auth-header p {
+                font-size: 13px;
+            }
+            .auth-logo {
+                font-size: 17px;
+            }
+            .form-group {
+                margin-bottom: 14px;
+            }
+            .form-group label {
+                font-size: 12px;
+            }
+            .form-group input,
+            .form-group textarea {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            .file-input-wrapper input[type="file"] {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+            .file-input-wrapper input[type="file"]::file-selector-button {
+                padding: 4px 10px;
+                font-size: 12px;
+            }
+            .btn-submit {
+                padding: 12px;
+                font-size: 14px;
+            }
+            .auth-footer {
+                margin-top: 16px;
+            }
+            .auth-footer a {
+                font-size: 12px;
+            }
+            .alert-error {
+                padding: 10px 14px;
+                font-size: 12px;
+            }
+            .back-to-home {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            hr {
+                margin: 14px 0 !important;
+            }
+            h3 {
+                font-size: 14px !important;
+                margin-bottom: 12px !important;
+            }
+            p {
+                font-size: 12px !important;
+                margin-bottom: 12px !important;
             }
         }
     </style>
@@ -149,12 +217,9 @@
             <div class="auth-header">
                 <div class="auth-logo">
                     <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
-                        <rect width="28" height="28" rx="6" fill="#005f73"/>
                         <path d="M14 7v14M7 10h14M7 18h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
                         <circle cx="14" cy="14" r="4" fill="none" stroke="white" stroke-width="1.5"/>
                     </svg>
-                    <span class="brand-teal">Rumah Bahasa</span>
-                    <span class="brand-light">Surabaya</span>
                 </div>
                 <h1>Daftar Member</h1>
                 <p>Buat akun untuk mendaftar program</p>
@@ -213,7 +278,7 @@
 
                 {{-- Dokumen Wajib --}}
                 <hr style="border:none;border-top:2px solid var(--teal-100);margin:20px 0;">
-                <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:16px;">Upload Dokumen</h3>
+                <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:8px;">Upload Dokumen</h3>
                 <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">Tanda <span class="required-star">*</span> wajib diisi. Format: JPG/JPEG/PNG, maks. 2MB per file.</p>
 
                 <div class="form-group">
@@ -223,36 +288,25 @@
                     </div>
                 </div>
 
+                {{-- Pilih jenis & upload dokumen pendukung — 1 upload saja --}}
                 <div class="form-group">
-                    <label for="ktp">KTP <span class="required-star">*</span></label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="ktp" name="ktp" accept="image/jpeg,image/png,image/jpg" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="surat_domisili">
-                        Surat Keterangan Domisili / Surat Keterangan Bekerja di Surabaya
-                        <span class="required-star">*</span>
-                        <a href="{{ route('contoh.surat.domisili') }}" target="_blank" style="font-size:12px;color:var(--teal-600);margin-left:6px;">Lihat contoh surat →</a>
+                    <label for="jenis_dokumen">
+                        Dokumen Pendukung <span class="required-star">*</span>
                     </label>
+                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">
+                        Pilih salah satu jenis dokumen yang kamu miliki, lalu upload filenya.
+                        <a href="{{ route('contoh.surat.domisili') }}" target="_blank" style="color:var(--teal-600);font-weight:500;">Lihat contoh surat →</a>
+                    </p>
+                    <select id="jenis_dokumen" name="jenis_dokumen" required
+                        style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;outline:none;color:var(--gray-900);background:var(--gray-50);margin-bottom:12px;box-sizing:border-box;transition:border-color 0.2s;">
+                        <option value="">— Pilih jenis dokumen —</option>
+                        <option value="ktp" {{ old('jenis_dokumen') === 'ktp' ? 'selected' : '' }}>KTP</option>
+                        <option value="surat_domisili" {{ old('jenis_dokumen') === 'surat_domisili' ? 'selected' : '' }}>Surat Domisili / Surat Keterangan Bekerja di Surabaya</option>
+                        <option value="ktm" {{ old('jenis_dokumen') === 'ktm' ? 'selected' : '' }}>KTM / Kartu Pelajar / Identitas Lembaga Pendidikan</option>
+                        <option value="kk" {{ old('jenis_dokumen') === 'kk' ? 'selected' : '' }}>Kartu Keluarga (KK)</option>
+                    </select>
                     <div class="file-input-wrapper">
-                        <input type="file" id="surat_domisili" name="surat_domisili" accept="image/jpeg,image/png,image/jpg" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="ktm">KTM / Kartu Pelajar / Identitas Lembaga Pendidikan</label>
-                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Diisi jika kamu pelajar, mahasiswa, atau terdaftar di lembaga pendidikan. Untuk umum (ibu-ibu, pekerja, dll.) bisa dikosongkan.</p>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="ktm" name="ktm" accept="image/jpeg,image/png,image/jpg">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="kk">Kartu Keluarga (KK) <span class="required-star">*</span></label>
-                    <div class="file-input-wrapper">
-                        <input type="file" id="kk" name="kk" accept="image/jpeg,image/png,image/jpg" required>
+                        <input type="file" id="dokumen" name="dokumen" accept="image/jpeg,image/png,image/jpg" required>
                     </div>
                 </div>
 

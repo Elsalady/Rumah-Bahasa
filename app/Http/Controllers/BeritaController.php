@@ -89,7 +89,7 @@ class BeritaController extends Controller
         }
 
         Berita::create($data);
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()->route('admin.konten.index')->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -118,13 +118,13 @@ class BeritaController extends Controller
         }
 
         $berita->update($data);
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()->route('admin.konten.index')->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $berita = Berita::findOrFail($id);
         $berita->delete();
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
+        return redirect()->route('admin.konten.index')->with('success', 'Berita berhasil dihapus.');
     }
 }
