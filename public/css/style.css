@@ -708,16 +708,18 @@ ul { list-style: none; }
 }
 .btn-logout {
     padding: 8px 20px;
-    background: rgba(255,255,255,0.1);
-    color: var(--white);
-    border: 1px solid rgba(255,255,255,0.15);
+    background: #fff;
+    color: var(--teal-900);
+    border: none;
     border-radius: 8px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
 }
-.btn-logout:hover { background: rgba(255,255,255,0.15); }
+.btn-logout:hover { background: #e2e8f0; }
+/* Logout setelah diklik (disabled) */
+.btn-logout.btn-clicked { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); cursor: default; }
 .admin-main {
     padding: 40px 0;
 }
@@ -829,22 +831,22 @@ ul { list-style: none; }
     cursor: pointer;
     transition: all 0.2s;
 }
-.btn-edit { background: var(--teal-50); color: var(--teal-700); }
-.btn-edit:hover { background: var(--teal-100); }
-.btn-delete { background: #fef2f2; color: #dc2626; }
-.btn-delete:hover { background: #fecaca; }
+.btn-edit { background: #0c4e91; color: #fff; }
+.btn-edit:hover { background: #4d9ce2; }
+.btn-delete { background: #dc2626; color: #fff; }
+.btn-delete:hover { background: #b91c1c; }
 .btn-cancel {
     padding: 8px 18px;
-    background: var(--gray-100);
-    color: var(--gray-700);
+    background: var(--gray-700);
+    color: #fff;
     border: none;
     border-radius: 8px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     margin-left: 8px;
 }
-.btn-cancel:hover { background: var(--gray-200); }
+.btn-cancel:hover { background: var(--gray-900); }
 .form-row {
     display: flex;
     gap: 12px;

@@ -14,11 +14,11 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\ProfilController as AdminProfil;
 use App\Http\Controllers\Admin\LayananController as AdminLayanan;
+use App\Http\Controllers\Admin\JadwalKelasController as AdminJadwalKelas;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleri;
 use App\Http\Controllers\Admin\KontakController as AdminKontak;
 use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
 use App\Http\Controllers\Admin\MemberController as AdminMember;
-use App\Http\Controllers\Admin\JadwalKelasController as AdminJadwalKelas;
 
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
@@ -55,7 +55,8 @@ Route::middleware(['auth', 'member.auth'])->group(function () {
     Route::prefix('member')->name('member.')->group(function () {
         Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
         Route::get('/program', [MemberController::class, 'program'])->name('program');
-        Route::get('/jadwal', [MemberController::class, 'jadwal'])->name('jadwal');
+        Route::get('/program/{nama}', [MemberController::class, 'detailProgram'])->name('program.detail');
+        Route::get('/jadwal', function () { return redirect()->route('member.program'); })->name('jadwal');
         Route::get('/notifikasi', [MemberController::class, 'notifikasiIndex'])->name('notifikasi');
         Route::get('/notifikasi/baca-semua', [MemberController::class, 'notifikasiBacaSemua'])->name('notifikasi.baca.semua');
         Route::get('/notifikasi/{id}', [MemberController::class, 'notifikasiBaca'])->name('notifikasi.baca');
@@ -83,6 +84,8 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::put('/layanan/{id}', [AdminLayanan::class, 'update'])->name('layanan.update');
     Route::delete('/layanan/{id}', [AdminLayanan::class, 'destroy'])->name('layanan.destroy');
 
+    Route::get('/layanan-jadwal', [AdminLayanan::class, 'kelola'])->name('layanan-jadwal.index');
+
     Route::get('/galeri', [AdminGaleri::class, 'index'])->name('galeri.index');
     Route::post('/galeri', [AdminGaleri::class, 'store'])->name('galeri.store');
     Route::put('/galeri/{id}', [AdminGaleri::class, 'update'])->name('galeri.update');
@@ -102,6 +105,7 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::get('/pendaftaran/export', [AdminPendaftaran::class, 'export'])->name('pendaftaran.export');
 
     Route::prefix('member')->name('member.')->group(function () {
+        Route::get('/kelola', [AdminMember::class, 'kelola'])->name('kelola');
         Route::get('/', [AdminMember::class, 'index'])->name('index');
         Route::get('/export', [AdminMember::class, 'export'])->name('export');
         Route::get('/{id}', [AdminMember::class, 'show'])->name('show');

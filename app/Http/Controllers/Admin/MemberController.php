@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -12,6 +13,13 @@ class MemberController extends Controller
     {
         $members = User::where('role', 'member')->orderBy('created_at', 'desc')->get();
         return view('admin.member.index', compact('members'));
+    }
+
+    public function kelola()
+    {
+        $members = User::where('role', 'member')->orderBy('created_at', 'desc')->get();
+        $daftar = Pendaftaran::with('user')->orderBy('created_at', 'desc')->get();
+        return view('admin.member.kelola', compact('members', 'daftar'));
     }
 
     public function show($id)

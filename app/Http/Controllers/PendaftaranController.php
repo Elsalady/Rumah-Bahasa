@@ -33,6 +33,8 @@ class PendaftaranController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('member.dashboard')->with('success', 'Pendaftaran berhasil dikirim. Mohon tunggu konfirmasi.');
+        return redirect()->route('member.program.detail', $validated['program'])
+            ->with('success', '✅ Pendaftaran berhasil dikirim!')
+            ->with('baru_daftar_program', $validated['program']);
     }
 }

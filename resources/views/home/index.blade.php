@@ -17,7 +17,7 @@
             rgba(56, 151, 224, 1) 85%, 
             #ffffff 100%
         ), 
-        url('{{ asset('images/elsa.jpg') }}') center / cover no-repeat !important;
+        url('{{ asset('images/rumbas.jpg') }}') center / cover no-repeat !important;
     padding-bottom: 30px !important;
     margin-bottom: 0 !important;
 ">
@@ -82,7 +82,7 @@
             @endforelse
         </div>
         <div style="text-align:center;margin-top:28px;">
-            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:14px;text-decoration:none;transition:gap 0.3s;">
+            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
                 Lihat selengkapnya
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -291,7 +291,7 @@
             @endforelse
         </div>
         <div style="text-align:center;margin-top:40px;">
-            <a href="{{ route('galeri') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:15px;text-decoration:none;transition:gap 0.3s;">
+            <a href="{{ route('galeri') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:15px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
                 Lihat selengkapnya
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             </a>
@@ -315,7 +315,7 @@
                 <p>Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
                 <p>Kami menyediakan berbagai layanan mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
                 <div style="margin-top:16px;">
-                    <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;color:var(--teal-700);font-weight:600;font-size:14px;text-decoration:none;transition:gap 0.3s;">
+                    <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
                         Lihat selengkapnya
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>

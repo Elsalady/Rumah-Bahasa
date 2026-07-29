@@ -12,6 +12,6 @@ class Layanan extends Model
     protected $table = 'layanan';
 
     protected $fillable = [
-        'nama', 'deskripsi', 'ikon', 'gambar', 'urutan', 'is_active',
+        'nama', 'deskripsi', 'ikon', 'gambar', 'link_wa', 'urutan', 'is_active',
     ];
 }

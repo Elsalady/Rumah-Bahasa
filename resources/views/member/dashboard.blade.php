@@ -23,16 +23,16 @@
 
         /* Navigasi Kembali ke Beranda (UX Lebih Bagus di Atas) */
         .btn-back-home {
-            color: var(--gray-400);
+            color: var(--white);
             font-size: 13px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 4px;
         }
         .btn-back-home:hover {
-            color: var(--teal-700);
+            color: var(--teal-100);
         }
 
         .btn-logout {
@@ -47,7 +47,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             white-space: nowrap;
         }
-        .btn-logout:hover { background: #f1f5f9; }
+        .btn-logout:hover { background: #e2e8f0; }
 
         .responsive-grid {
             display: grid;
@@ -316,8 +316,7 @@
                             <p class="text-muted" style="text-align:center;padding:24px;margin:0;">Belum ada pendaftaran.</p>
                         @endif
                         <div class="btn-program-group">
-                            <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;">Lihat Program</a>
-                            <a href="{{ route('member.jadwal') }}" class="btn-login" style="font-size:13px;background:var(--teal-500);">Jadwal Kelas</a>
+                            <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;background:#0c4e91;color:#fff;">Lihat Program & Jadwal</a>
                         </div>
                     </div>
                     @endif

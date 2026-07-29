@@ -150,11 +150,12 @@
             padding: 8px 14px;
             border-radius: 8px;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.85);
             text-decoration: none;
             transition: all 0.2s ease-in-out;
             white-space: nowrap;
             position: relative;
+            font-weight: 600;
         }
 
         .nav-link::before {
@@ -165,13 +166,13 @@
             transform: translateX(-50%) scaleX(0);
             width: 60%;
             height: 3px;
-            background: #37b1e6;
+            background: #fff;
             border-radius: 3px;
             transition: transform 0.3s ease;
         }
 
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             color: #fff;
         }
 
@@ -180,13 +181,13 @@
         }
 
         .nav-link.active {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-weight: 500;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
         }
 
         .nav-link.active::before {
-            transform: translateX(-50%) scaleX(1);
+            transform: translateX(-50%) scaleX(0);
         }
 
         .admin-header-right {
@@ -362,10 +363,8 @@
                         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
                         <a href="{{ route('admin.profil.index') }}" class="nav-link {{ request()->routeIs('admin.profil.*') ? 'active' : '' }}">Profil</a>
                         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">Berita</a>
-                        <a href="{{ route('admin.layanan.index') }}" class="nav-link {{ request()->routeIs('admin.layanan.*') ? 'active' : '' }}">Program</a>
-                        <a href="{{ route('admin.jadwal-kelas.index') }}" class="nav-link {{ request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">Jadwal Kelas</a>
-                        <a href="{{ route('admin.member.index') }}" class="nav-link {{ request()->routeIs('admin.member.*') ? 'active' : '' }}">Data Member</a>
-                        <a href="{{ route('admin.pendaftaran.index') }}" class="nav-link {{ request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Pendaftar Program</a>
+                        <a href="{{ route('admin.layanan-jadwal.index') }}" class="nav-link {{ request()->routeIs('admin.layanan-jadwal.*') || request()->routeIs('admin.layanan.*') || request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">Program & Jadwal</a>
+                        <a href="{{ route('admin.member.kelola') }}" class="nav-link {{ request()->routeIs('admin.member.*') || request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Member</a>
                         <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">Pesan</a>
                     </nav>
                 </div>

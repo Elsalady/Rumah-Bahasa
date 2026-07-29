@@ -568,7 +568,21 @@ php artisan view:cache
 chmod -R 775 storage bootstrap/cache
 ```
 
-### 10.3. Setup Nginx
+### 10.3. Setup Cron (Task Scheduler)
+
+Command `jadwal:reset-mingguan` akan otomatis menghapus semua jadwal kelas setiap hari Minggu jam 00:00.
+
+Pastikan cron job berikut terdaftar di server production:
+
+```bash
+* * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+Ini wajib biar Laravel Scheduler bisa jalan otomatis tiap menit. Command `jadwal:reset-mingguan` akan dipicu setiap Minggu jam 00:00 oleh Laravel.
+
+> **Local development:** Untuk testing, jalankan `php artisan jadwal:reset-mingguan` manual. Scheduler di local tidak perlu cron — cukup pakai `php artisan schedule:work` kalau mau auto-run.
+
+### 10.4. Setup Nginx
 
 ```
 server {

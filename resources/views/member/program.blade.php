@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program & Pendaftaran — Rumah Bahasa Surabaya</title>
+    <title>Program & Jadwal — Rumah Bahasa Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         * { box-sizing: border-box; }
@@ -12,19 +12,23 @@
         .btn-logout { font-size:14px; font-weight:700; color:var(--teal-900); background:#fff; border:none; border-radius:8px; padding:10px 20px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1); white-space:nowrap; }
         .btn-logout:hover { background:#f1f5f9; }
         .program-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:24px; margin-top:24px; }
-        .program-card { background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s,transform 0.2s; }
+        .program-card { background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s,transform 0.2s; display:flex; flex-direction:column; }
         .program-card:hover { box-shadow:0 8px 24px rgba(0,0,0,0.08); transform:translateY(-2px); }
+        .program-card .card-body { flex:1; }
         .jadwal-card { background:#fff; border:1px solid var(--gray-100); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s; }
         .jadwal-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); }
         .section-divider { border:none; border-top:2px solid var(--teal-100); margin:40px 0; }
-        @media (max-width:768px) { .admin-header { padding:12px 0; } .admin-header h2 { font-size:16px; } .admin-main { padding:16px; } }
+        .btn-daftar { display:inline-block; width:100%; text-align:center; padding:10px 16px; background:#0c4e91; color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:16px; text-decoration:none; }
+        .btn-daftar:hover { background:#4d9ce2; }
+        .btn-daftar-terdaftar { background:#e5e7eb; color:#9ca3af; cursor:default; }
+        .btn-daftar-terdaftar:hover { background:#e5e7eb; }
     </style>
 </head>
 <body>
     <div class="admin-page">
         <header class="admin-header">
             <div class="container" style="max-width:1200px;margin:0 auto;padding:0 20px;">
-                <h2 style="font-size:18px;">Program & Pendaftaran</h2>
+                <h2 style="font-size:18px;">Program & Jadwal</h2>
                 <div class="admin-header-right">
                     <a href="{{ route('member.dashboard') }}" style="color:rgba(255,255,255,0.7);font-size:13px;">Dashboard</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf
@@ -38,23 +42,35 @@
 
                 {{-- Header --}}
                 <div style="text-align:center;margin-bottom:32px;">
-                    <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:8px;">Program Rumah Bahasa</h1>
+                    <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:8px;">Program & Jadwal Kelas</h1>
                     <p style="color:var(--gray-500);font-size:14px;">Lihat program, jadwal kelas, dan daftar langsung di sini</p>
                 </div>
 
+                @if(session('success'))
+                    <div class="alert-success">{{ session('success') }}</div>
+                @endif
+
                 {{-- ===== PROGRAM ===== --}}
                 <h2 style="font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Daftar Program</h2>
-                <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">Pilih program yang sesuai dengan kebutuhanmu</p>
+                <p style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">Pilih program dan klik daftar untuk mendaftar</p>
 
                 @if($programs->count())
                     <div class="program-grid">
                         @foreach($programs as $item)
                             <div class="program-card">
-                                @if($item->ikon)
-                                    <div style="font-size:32px;margin-bottom:12px;">{!! $item->ikon !!}</div>
-                                @endif
-                                <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin:0 0 8px;">{{ $item->nama }}</h3>
-                                <p style="font-size:13px;color:var(--gray-500);line-height:1.6;margin:0;">{{ $item->deskripsi }}</p>
+                                <div class="card-body" style="display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;">
+                                    @if($item->ikon)
+                                        <div style="font-size:40px;margin-bottom:12px;">{!! $item->ikon !!}</div>
+                                    @endif
+                                    <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin:0;">{{ $item->nama }}</h3>
+                                </div>
+                                <a href="{{ route('member.program.detail', $item->nama) }}" class="btn-daftar" style="text-decoration:none;">
+                                    @if(in_array($item->nama, $programTerdaftar))
+                                        ✓ Terdaftar
+                                    @else
+                                        Daftar
+                                    @endif
+                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -115,31 +131,6 @@
                         <p style="color:var(--gray-400);">Belum ada jadwal kelas yang tersedia.</p>
                     </div>
                 @endif
-
-                <hr class="section-divider">
-
-                {{-- ===== FORM DAFTAR PROGRAM ===== --}}
-                <div style="max-width:500px;margin:0 auto;">
-                    <div class="dashboard-card" style="padding:28px;">
-                        <h3 style="margin-bottom:16px;">Daftar Program</h3>
-                        <form action="{{ route('pendaftaran.store') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="program">Pilih Program</label>
-                                <select id="program" name="program" required style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;outline:none;background:var(--gray-50);color:var(--gray-900);">
-                                    <option value="">— Pilih Program —</option>
-                                    @foreach($programs as $p)
-                                        <option value="{{ $p->nama }}">{{ $p->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">
-                                Kamu terdaftar sebagai: <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->email }})
-                            </p>
-                            <button type="submit" class="btn-submit">Kirim Pendaftaran</button>
-                        </form>
-                    </div>
-                </div>
 
                 <p style="text-align:center;margin-top:24px;">
                     <a href="{{ route('member.dashboard') }}" style="color:var(--gray-400);font-size:13px;">← Kembali ke Dashboard</a>
