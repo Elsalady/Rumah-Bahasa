@@ -20,35 +20,45 @@
             'visi_misi' => 'Visi & Misi',
             'tugas_fungsi' => 'Tugas & Fungsi',
             'struktur' => 'Struktur Organisasi',
+            'volunteer' => 'Volunteer',
         ]; @endphp
 
+        <div style="margin-top:48px;">
         @forelse($profil as $kategori => $items)
-            <h3 style="font-size:22px;font-weight:700;color:var(--gray-900);margin-bottom:24px;margin-top:40px;{{ $loop->first ? 'margin-top:0;' : '' }}">
+            <h3 style="font-size:22px;font-weight:700;color:var(--gray-900);margin-bottom:24px;margin-top:48px;{{ $loop->first ? 'margin-top:0;' : '' }}">
                 {{ $kategoriMap[$kategori] ?? $kategori }}
             </h3>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;">
+
+            @if($kategori === 'visi_misi')
                 @foreach($items as $item)
-                    <div class="news-card" style="display:flex;flex-direction:column;">
-                        <div class="news-card-body" style="flex:1;display:flex;flex-direction:column;">
-                            <div style="font-size:12px;color:var(--teal-500);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">
-                                {{ $kategoriMap[$kategori] ?? $kategori }}
-                            </div>
-                            <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:8px;line-height:1.4;">
-                                {{ $item->judul }}
-                            </h3>
-                            <p style="font-size:14px;color:var(--gray-500);line-height:1.7;flex:1;">
-                                {{ Str::limit(strip_tags($item->deskripsi), 200) }}
-                            </p>
-                            @if(strlen(strip_tags($item->deskripsi)) > 200)
-                                <a href="{{ route('profil.show', $item->id) }}" style="display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:600;font-size:13px;text-decoration:none;margin-top:12px;background:#0c4e91;padding:8px 20px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
-                                    Lihat Selengkapnya
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                                </a>
+                    @php $paragraf = explode("\n\n", $item->deskripsi); @endphp
+                    <div class="dashboard-card" style="padding:24px;margin-bottom:40px;">
+                        @foreach($paragraf as $p)
+                            @php $parts = explode("\n", trim($p), 2); @endphp
+                            @if(!$loop->first)
+                                <div style="margin-top:20px;"></div>
                             @endif
-                        </div>
+                            <div style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:6px;">{{ $parts[0] ?? '' }}</div>
+                            <p style="font-size:14px;color:var(--gray-500);line-height:1.8;margin:0;">{{ $parts[1] ?? '' }}</p>
+                        @endforeach
                     </div>
                 @endforeach
-            </div>
+            @else
+                @foreach($items as $item)
+                    <div class="dashboard-card" style="padding:24px;margin-bottom:24px;">
+                        <div style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:6px;">{{ $item->judul }}</div>
+                        @if(mb_strlen(strip_tags($item->deskripsi)) > 300)
+                            <p style="font-size:14px;color:var(--gray-500);line-height:1.8;margin:0 0 12px 0;">{{ Str::limit(strip_tags($item->deskripsi), 300) }}</p>
+                            <a href="{{ route('profil.show', $item->id) }}" style="display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:600;font-size:13px;text-decoration:none;background:#0c4e91;padding:8px 20px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
+                                Lihat Selengkapnya
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </a>
+                        @else
+                            <p style="font-size:14px;color:var(--gray-500);line-height:1.8;margin:0;">{{ $item->deskripsi }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            @endif
         @empty
             <div class="dashboard-card" style="text-align:center;padding:60px;max-width:800px;margin:0 auto;">
                 <p style="color:var(--gray-400);">Konten profil sedang dilengkapi.</p>

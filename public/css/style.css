@@ -529,10 +529,11 @@ ul { list-style: none; }
 .dashboard-card {
     background: var(--white);
     border-radius: 16px;
-    border: 1px solid var(--gray-100);
+    border: 1px solid #d8e2ed;
     padding: 32px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .dashboard-card::before {
     content: '';

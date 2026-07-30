@@ -12,20 +12,22 @@
         </a>
 
         <div class="dashboard-card" style="padding:40px;">
-            @php
-                $kategoriMap = [
-                    'sejarah' => 'Sejarah',
-                    'visi_misi' => 'Visi & Misi',
-                    'tugas_fungsi' => 'Tugas & Fungsi',
-                    'struktur' => 'Struktur Organisasi',
-                ];
-                $kategoriLabel = $kategoriMap[$item->kategori] ?? $item->kategori;
-            @endphp
-            <div style="font-size:12px;font-weight:600;color:var(--teal-600);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">{{ $kategoriLabel }}</div>
             <h2 style="font-size:24px;font-weight:700;color:var(--gray-900);margin-bottom:20px;">{{ $item->judul }}</h2>
-            <div style="color:var(--gray-500);line-height:1.9;font-size:15px;">
-                {!! nl2br(e($item->deskripsi)) !!}
-            </div>
+            @if($item->kategori === 'visi_misi')
+                @php $paragraf = explode("\n\n", $item->deskripsi); @endphp
+                @foreach($paragraf as $p)
+                    @php $parts = explode("\n", trim($p), 2); @endphp
+                    @if(!$loop->first)
+                        <div style="margin-top:24px;"></div>
+                    @endif
+                    <div style="font-weight:700;font-size:16px;color:var(--gray-900);margin-bottom:6px;">{{ $parts[0] ?? '' }}</div>
+                    <p style="color:var(--gray-500);line-height:1.9;font-size:15px;margin:0;">{{ $parts[1] ?? $parts[0] ?? '' }}</p>
+                @endforeach
+            @else
+                <div style="color:var(--gray-500);line-height:1.9;font-size:15px;">
+                    {!! nl2br(e($item->deskripsi)) !!}
+                </div>
+            @endif
         </div>
     </div>
 </section>

@@ -22,14 +22,22 @@
 - The project uses PostgreSQL as its database — avoid MySQL-specific SQL functions (e.g., FIELD()) and use PostgreSQL-compatible alternatives (e.g., CASE WHEN) for ordering and queries. Confidence: 0.85
 
 # architecture
-- For "Tentang Rumah Bahasa" section on the homepage/dashboard: use hardcoded text in code files, not database-driven (the Profil model is only for the /profil page managed via admin). Confidence: 0.75
-- Class schedule quota should auto-calculate remaining capacity based on confirmed registrations (sisa kuota = total kuota from all schedules - jumlah pendaftar confirmed) rather than requiring manual updates by admin. Confidence: 0.75
-- Filter which admin/system operations generate notifications for members — only member-facing content changes (e.g., new/updated programs, class schedules) should trigger member notifications; internal admin housekeeping operations (e.g., periodic schedule resets) should NOT generate member notifications. Confidence: 0.70
-- When admin creates, updates, or deletes member-facing resources (e.g., jadwal kelas), auto-create notifications for all approved members so they stay informed of changes without manual communication. Confidence: 0.82
-
+See [architecture/taste.md](architecture/taste.md)
 # communication
 - Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.78
 - Provide concise one-sentence summaries of completed technical changes/features when asked, as the user documents these in a logbook (logbook). Confidence: 0.70
+
+# spacing
+- Use generous spacing (e.g., margin-top: 48px) between major content sections on information pages, especially between descriptive/header content and the main content blocks below it. Confidence: 0.80
+
+# formatting
+- Display section titles/labels within content (e.g., "Visi", "Misi") as bold headings above their description text — the title should be visually prominent (bold/tebal), not inline or plain. Confidence: 0.80
+- On content/information pages (e.g., /profil), do NOT repeat the category name as a label/badge inside individual content cards — the section heading already identifies the category, so inline blue labels like "Sejarah" inside a Sejarah section card are redundant and should be removed. Confidence: 0.85
+
+# ui
+- For informational text-heavy content sections like Visi & Misi, use a simple stacked/layout display (title bold, then description below in a plain container) rather than the card grid pattern used for itemized content — content-rich sections should not be forced into card-grid layout. Confidence: 0.78
+- All content categories on information pages (like /profil) should use the same stacked/bold-title-above-description layout — no card grid for any category. Keep all categories visually consistent with the visi_misi style. Confidence: 0.85
+- On content/information pages, truncate overly long descriptions (e.g., >300 characters) with a "Lihat Selengkapnya" styled button linking to the detail/show page — full content is deferred to a dedicated detail page rather than shown inline. Confidence: 0.78
 
 # content
 - Show only 3 latest berita (news) items on the homepage/dashboard; the rest should be visible on the /berita page after clicking "lihat selengkapnya". Confidence: 0.80
