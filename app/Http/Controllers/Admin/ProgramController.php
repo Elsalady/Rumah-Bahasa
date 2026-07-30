@@ -7,7 +7,7 @@ use App\Models\Layanan;
 use App\Models\JadwalKelas;
 use Illuminate\Http\Request;
 
-class LayananController extends Controller
+class ProgramController extends Controller
 {
     public function index()
     {
@@ -16,7 +16,7 @@ class LayananController extends Controller
         if (request()->has('edit')) {
             $editItem = Layanan::find(request()->edit);
         }
-        return view('admin.layanan.index', compact('layanan', 'editItem'));
+        return view('admin.program.index', ['program' => Layanan::orderBy('urutan')->get(), 'editItem' => $editItem]);
     }
 
     public function store(Request $request)
@@ -29,7 +29,7 @@ class LayananController extends Controller
         ]);
 
         Layanan::create($request->all());
-        return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil ditambahkan.');
+        return redirect()->route('admin.program.index')->with('success', 'Program berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -43,13 +43,13 @@ class LayananController extends Controller
         ]);
 
         $layanan->update($request->all());
-        return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil diperbarui.');
+        return redirect()->route('admin.program.index')->with('success', 'Program berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         Layanan::findOrFail($id)->delete();
-        return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil dihapus.');
+        return redirect()->route('admin.program.index')->with('success', 'Program berhasil dihapus.');
     }
 
     public function kelola()
@@ -59,6 +59,6 @@ class LayananController extends Controller
             ->orderBy('jam_mulai')
             ->get()
             ->groupBy('nama_kelas');
-        return view('admin.layanan-jadwal.index', compact('layanan', 'allJadwal'));
+        return view('admin.program-jadwal.index', ['program' => Layanan::orderBy('urutan')->get(), 'allJadwal' => $allJadwal]);
     }
 }

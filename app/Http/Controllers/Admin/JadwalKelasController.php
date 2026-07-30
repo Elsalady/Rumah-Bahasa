@@ -10,16 +10,6 @@ use Illuminate\Http\Request;
 
 class JadwalKelasController extends Controller
 {
-    public function index()
-    {
-        $jadwalKelas = JadwalKelas::orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")->orderBy('jam_mulai')->get();
-        $editItem = null;
-        if (request()->has('edit')) {
-            $editItem = JadwalKelas::find(request()->edit);
-        }
-        return view('admin.jadwal-kelas.index', compact('jadwalKelas', 'editItem'));
-    }
-
     private function buatNotifikasiPendaftarProgram($namaKelas, $judul, $pesan, $link = null)
     {
         // Cari program (Layanan) yang relevan dengan kelas ini
@@ -73,7 +63,7 @@ class JadwalKelasController extends Controller
             route('member.jadwal')
         );
 
-        return redirect()->route('admin.jadwal-kelas.index')->with('success', 'Jadwal kelas berhasil ditambahkan.');
+        return redirect()->route('admin.program-jadwal.index')->with('success', 'Jadwal kelas berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -100,7 +90,7 @@ class JadwalKelasController extends Controller
             route('member.jadwal')
         );
 
-        return redirect()->route('admin.jadwal-kelas.index')->with('success', 'Jadwal kelas berhasil diperbarui.');
+        return redirect()->route('admin.program-jadwal.index')->with('success', 'Jadwal kelas berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -116,6 +106,6 @@ class JadwalKelasController extends Controller
             route('member.jadwal')
         );
 
-        return redirect()->route('admin.jadwal-kelas.index')->with('success', 'Jadwal kelas berhasil dihapus.');
+        return redirect()->route('admin.program-jadwal.index')->with('success', 'Jadwal kelas berhasil dihapus.');
     }
 }

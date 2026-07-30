@@ -109,17 +109,6 @@ class MemberController extends Controller
         return view('member.program-detail', compact('program', 'jadwal', 'confirmedCount', 'sudahTerdaftar', 'baruDaftar'));
     }
 
-    public function jadwal()
-    {
-        $jadwal = JadwalKelas::where('is_active', true)
-            ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
-            ->orderBy('jam_mulai')
-            ->get()
-            ->groupBy('hari');
-
-        return view('member.jadwal', compact('jadwal'));
-    }
-
     public function notifikasiIndex()
     {
         $user = auth()->user();

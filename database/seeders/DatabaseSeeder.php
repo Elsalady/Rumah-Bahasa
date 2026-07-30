@@ -51,11 +51,5 @@ class DatabaseSeeder extends Seeder
             ['nama' => 'Kelas Budaya', 'deskripsi' => 'Kelas kebudayaan dari berbagai negara, melukis, membuat kerajinan tradisional, dan banyak lagi.', 'urutan' => 6, 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        // Galeri
-        \App\Models\Galeri::insert([
-            ['judul' => 'Kelas Bahasa Inggris', 'gambar' => 'placeholder', 'deskripsi' => 'Suasana kelas bahasa Inggris bersama native speaker.', 'kategori' => 'foto', 'tanggal' => now()->subDays(10), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
-            ['judul' => 'Kelas Budaya Rusia', 'gambar' => 'placeholder', 'deskripsi' => 'Kelas membuat boneka Matryoshka.', 'kategori' => 'foto', 'tanggal' => now()->subDays(20), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
-            ['judul' => 'Kunjungan Mahasiswa Asing', 'gambar' => 'placeholder', 'deskripsi' => 'Mahasiswa asing berkunjung ke Rumah Bahasa Surabaya.', 'kategori' => 'foto', 'tanggal' => now()->subDays(30), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
-        ]);
     }
 }

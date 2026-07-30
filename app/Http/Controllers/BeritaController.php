@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
-use App\Models\Galeri;
 use Illuminate\Http\Request;
 
 class BeritaController extends Controller
@@ -14,11 +13,7 @@ class BeritaController extends Controller
                         ->orderBy('tanggal', 'desc')
                         ->limit(3)
                         ->get();
-        $galeri = Galeri::where('is_active', true)
-                        ->orderBy('tanggal', 'desc')
-                        ->limit(6)
-                        ->get();
-        return view('home.index', compact('berita', 'galeri'));
+        return view('home.index', compact('berita'));
     }
 
     public function list(Request $request)
@@ -47,22 +42,6 @@ class BeritaController extends Controller
     }
 
     // ===== ADMIN CRUD =====
-
-    public function dashboard()
-    {
-        $berita = Berita::orderBy('tanggal', 'desc')->get();
-        return view('admin.dashboard', compact('berita'));
-    }
-
-    public function adminIndex()
-    {
-        $berita = Berita::orderBy('tanggal', 'desc')->get();
-        $editItem = null;
-        if (request()->has('edit')) {
-            $editItem = Berita::find(request()->edit);
-        }
-        return view('admin.berita.index', compact('berita', 'editItem'));
-    }
 
     public function store(Request $request)
     {

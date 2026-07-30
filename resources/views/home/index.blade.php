@@ -60,7 +60,7 @@
         </div>
         <div class="news-grid">
             @forelse($berita as $item)
-                <a href="{{ route('berita.show', $item->slug) }}" class="news-card fade-up" style="display:block;text-decoration:none;color:inherit;opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
+                <a href="{{ route('berita.show', $item->slug) }}" class="dashboard-card news-card fade-up" style="display:block;overflow:hidden;padding:0;text-decoration:none;opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
                     <div class="news-card-img">
                         @if($item->gambar)
                             <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -68,10 +68,10 @@
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                         @endif
                     </div>
-                    <div class="news-card-body">
-                        <div class="news-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</div>
-                        <h3>{{ $item->judul }}</h3>
-                        <p>{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 120) }}</p>
+                    <div class="news-card-body" style="padding:24px;">
+                        <div class="news-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
+                        <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:6px;">{{ $item->judul }}</h3>
+                        <p style="color:var(--gray-500);font-size:14px;">{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 120) }}</p>
                     </div>
                 </a>
             @empty
@@ -89,6 +89,25 @@
         </div>
     </div>
 </section>
+
+{{-- Fix Grid Berita di Beranda: Dipaksa 3 kolom kotak-kotak kecil --}}
+<style>
+    #berita .news-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 24px !important;
+    }
+    @media (max-width: 900px) {
+        #berita .news-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+    @media (max-width: 640px) {
+        #berita .news-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
 
 {{-- Style Khusus Section News --}}
 <style>
@@ -173,24 +192,6 @@
     }
 </style>
 
-<!--{{-- Wave Separator to Features --}}
-<div class="wave-separator" style="background:var(--white);">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,40 C320,100 480,0 720,40 C960,80 1120,0 1440,40 L1440,80 L0,80 Z" fill="var(--teal-900)" opacity="0.03"/>
-        <path d="M0,30 C360,80 540,10 720,30 C900,50 1080,10 1440,30 L1440,80 L0,80 Z" fill="var(--white)"/>
-    </svg>
-</div> -->
-
-
-<!--{{-- Wave Separator to News --}}
-<div class="wave-separator" style="background:var(--gray-50);">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,50 C240,10 480,90 720,50 C960,10 1200,90 1440,50 L1440,80 L0,80 Z" fill="var(--white)"/>
-    </svg>
-</div>] -->
-
-
-
 {{-- Wave Separator dari News ke About --}}
 <div class="news-to-about-wave">
     <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -224,55 +225,6 @@
         }
     }
 </style>
-<!-- {{-- ===== GALERI SECTION ===== --}}
-<section class="galeri-section" id="galeri">
-    <div class="container">
-        <div class="section-title">
-            <h2>Galeri Kegiatan</h2>
-            <p>Dokumentasi kegiatan dan program Rumah Bahasa Surabaya</p>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
-            @forelse($galeri as $item)
-                <div class="galeri-card-premium" style="padding:0;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);background:var(--white);transition:transform 0.3s ease,box-shadow 0.3s ease;">
-                    @if($item->gambar)
-                        <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:200px;object-fit:cover;display:block;">
-                    @else
-                        <div style="height:200px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));display:flex;align-items:center;justify-content:center;">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--teal-400)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        </div>
-                    @endif
-                    <div style="padding:20px;">
-                        <h3 style="font-size:16px;font-weight:600;color:var(--gray-900);margin-bottom:4px;">{{ $item->judul }}</h3>
-                        @if($item->deskripsi)
-                            <p style="color:var(--gray-500);font-size:13px;">{{ $item->deskripsi }}</p>
-                        @endif
-                        @if($item->tanggal)
-                            <p style="color:var(--gray-400);font-size:12px;margin-top:8px;">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</p>
-                        @endif
-                    </div>
-                </div>
-            @empty
-                <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray-400);">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 16px;display:block;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                    <p>Belum ada galeri.</p>
-                </div>
-            @endforelse
-        </div>
-        <div style="text-align:center;margin-top:40px;">
-            <a href="{{ route('galeri') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:15px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
-                Lihat selengkapnya
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            </a>
-        </div>
-    </div>
-</section> -->
-
-<!--{{-- Wave Separator to About --}}
-<div class="wave-separator" style="background:var(--white);">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,40 C360,100 720,-10 1080,40 C1260,65 1350,35 1440,40 L1440,80 L0,80 Z" fill="var(--gray-50)"/>
-    </svg>
-</div> -->
 
 {{-- ===== 4. ABOUT (TENTANG) ===== --}}
 <section class="about" id="about">

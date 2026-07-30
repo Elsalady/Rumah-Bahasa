@@ -33,6 +33,7 @@
 
 # content
 - Show only 3 latest berita (news) items on the homepage/dashboard; the rest should be visible on the /berita page after clicking "lihat selengkapnya". Confidence: 0.80
+- Berita (news) items on the homepage should be clickable cards linking to individual detail pages (`/berita/{slug}`), not display-only static previews — each news card should have a clickable area wrapping the entire card. Confidence: 0.85
 
 # architecture
 - New user registrations should start with a "pending" status and require admin/staff approval before granting full access to the application. Confidence: 0.85
@@ -52,5 +53,15 @@
 - After registration/submission, redirect users back to the program detail page (not a generic dashboard/success page) so they can see status, quota info, and post-registration content (like WhatsApp group links). Confidence: 0.75
 - For programs that have class schedules and registration, provide a WhatsApp group link after successful registration so members can immediately join the group for further information — display the link prominently on the post-registration page with a clear call-to-action button. Confidence: 0.80
 
+# naming
+- Use clear, domain-matching terminology in admin UI labels and route names (e.g., "Program" for academic programs/courses, not "Layanan"/Services) so the interface is immediately understandable and avoids confusion. Confidence: 0.85
+
+# maintenance
+- Remove dead/unused files (code files, views, duplicate files) AND orphaned directories/folders from the project entirely rather than leaving them in place — prefers a clean codebase without orphaned files or leftover folders. Confidence: 0.85
+- Clean up unused database tables (Laravel default tables like sessions, cache, jobs that aren't used by the application) as part of project maintenance to keep the database schema focused and minimal. Confidence: 0.75
+- Proactively identify gaps and missing features across the entire project (public website, admin panel, member area) and suggest/add improvements, not just follow the literal request — expects thoroughness and completeness checking. Confidence: 0.70
+
 # ui
+- Homepage berita/news cards should use a square/grid card layout matching the visual style of the /berita listing page ("kotak-kotak kayak yang didalam lihat selengkapnya"), not elongated rectangular cards. Confidence: 0.78
+- Visual/CSS styling of the same component used on different pages must be exactly identical — same CSS classes, same padding (e.g., 24px body), same typography (title 18px bold, description 14px gray), same colors. When a component (like news cards) appears on both the homepage and the /berita listing page, their styling must match precisely, not just be "similar". Confidence: 0.82
 See [ui/taste.md](ui/taste.md)

@@ -9,12 +9,6 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    public function index()
-    {
-        $members = User::where('role', 'member')->orderBy('created_at', 'desc')->get();
-        return view('admin.member.index', compact('members'));
-    }
-
     public function kelola()
     {
         $members = User::where('role', 'member')->orderBy('created_at', 'desc')->get();

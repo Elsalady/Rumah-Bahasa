@@ -167,7 +167,7 @@
 
 <div class="detail-header">
     <h3>Detail Member</h3>
-    <a href="{{ route('admin.member.index') }}" class="back-link">← Kembali ke Data Member</a>
+    <a href="{{ route('admin.member.kelola') }}" class="back-link">← Kembali ke Data Member</a>
 </div>
 
 @if(session('success'))

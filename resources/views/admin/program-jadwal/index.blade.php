@@ -83,40 +83,40 @@
     <div class="alert-success">{{ session('success') }}</div>
 @endif
 
-@if($layanan->count())
-    @foreach($layanan as $program)
+@if($program->count())
+    @foreach($program as $prog)
         @php
-            $keyword = str_replace('Kelas ', '', $program->nama);
+            $keyword = str_replace('Kelas ', '', $prog->nama);
             $jadwalProgram = $allJadwal->filter(function($items, $key) use ($keyword) {
                 return stripos($key, $keyword) !== false;
             })->flatten();
         @endphp
         <div class="program-card">
-            <div class="program-card-header" onclick="toggleProgram({{ $program->id }})">
+            <div class="program-card-header" onclick="toggleProgram({{ $prog->id }})">
                 <div class="left">
-                    @if($program->ikon)
-                        <span style="font-size:24px;">{!! $program->ikon !!}</span>
+                    @if($prog->ikon)
+                        <span style="font-size:24px;">{!! $prog->ikon !!}</span>
                     @endif
                     <div>
-                        <h3>{{ $program->nama }}</h3>
+                        <h3>{{ $prog->nama }}</h3>
                         <p style="font-size:12px;color:var(--gray-400);margin:2px 0 0;">
                             {{ $jadwalProgram->count() }} jadwal
-                            @if($program->link_wa) &middot; <a href="{{ $program->link_wa }}" target="_blank" style="color:#25d366;">WA Grup</a> @endif
+                            @if($prog->link_wa) &middot; <a href="{{ $prog->link_wa }}" target="_blank" style="color:#25d366;">WA Grup</a> @endif
                         </p>
                     </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                    <a href="{{ route('admin.layanan.index', ['edit' => $program->id]) }}" class="btn-sm btn-edit" style="text-decoration:none;" onclick="event.stopPropagation();">Edit</a>
-                    <span class="toggle-icon" id="toggle-{{ $program->id }}">
+                    <a href="{{ route('admin.program.index', ['edit' => $prog->id]) }}" class="btn-sm btn-edit" style="text-decoration:none;" onclick="event.stopPropagation();">Edit</a>
+                    <span class="toggle-icon" id="toggle-{{ $prog->id }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         Jadwal
                     </span>
                 </div>
             </div>
-            <div class="program-card-body" id="body-{{ $program->id }}" style="display:none;">
+            <div class="program-card-body" id="body-{{ $prog->id }}" style="display:none;">
                 {{-- Form tambah jadwal --}}
-                <div class="jadwal-form" id="form-{{ $program->id }}">
-                    <h4 style="margin:0 0 12px;font-size:14px;">Tambah Jadwal untuk {{ $program->nama }}</h4>
+                <div class="jadwal-form" id="form-{{ $prog->id }}">
+                    <h4 style="margin:0 0 12px;font-size:14px;">Tambah Jadwal untuk {{ $prog->nama }}</h4>
                     <form action="{{ route('admin.jadwal-kelas.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="nama_kelas" value="{{ $keyword }}">
@@ -171,7 +171,7 @@
                         </div>
                         <div style="display:flex;gap:10px;margin-top:12px;">
                             <button type="submit" class="btn-submit" style="padding:10px 20px;font-size:13px;width:auto;">Simpan Jadwal</button>
-                            <button type="button" onclick="document.getElementById('form-{{ $program->id }}').classList.remove('open')" style="padding:10px 20px;font-size:13px;background:var(--gray-200);color:var(--gray-700);border:none;border-radius:8px;cursor:pointer;">Batal</button>
+                            <button type="button" onclick="document.getElementById('form-{{ $prog->id }}').classList.remove('open')" style="padding:10px 20px;font-size:13px;background:var(--gray-200);color:var(--gray-700);border:none;border-radius:8px;cursor:pointer;">Batal</button>
                         </div>
                     </form>
                 </div>
@@ -202,7 +202,6 @@
                                             @endif
                                         </div>
                                         <div style="display:flex;gap:4px;">
-                                            <a href="{{ route('admin.jadwal-kelas.index', ['edit' => $item->id]) }}" class="btn-sm btn-edit" style="text-decoration:none;">Edit</a>
                                             <form action="{{ route('admin.jadwal-kelas.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus jadwal ini?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="btn-sm btn-delete">Hapus</button>
@@ -217,13 +216,13 @@
                     <p style="font-size:13px;color:var(--gray-400);text-align:center;padding:20px;">Belum ada jadwal untuk program ini.</p>
                 @endif
 
-                <button type="button" class="btn-add-jadwal" onclick="document.getElementById('form-{{ $program->id }}').classList.toggle('open')">+ Tambah Jadwal</button>
+                <button type="button" class="btn-add-jadwal" onclick="document.getElementById('form-{{ $prog->id }}').classList.toggle('open')">+ Tambah Jadwal</button>
             </div>
         </div>
     @endforeach
 @else
     <div style="text-align:center;padding:60px;">
-        <p style="color:var(--gray-400);">Belum ada program. <a href="{{ route('admin.layanan.index') }}" style="color:var(--teal-600);">Buat program dulu</a></p>
+        <p style="color:var(--gray-400);">Belum ada program. <a href="{{ route('admin.program.index') }}" style="color:var(--teal-600);">Buat program dulu</a></p>
     </div>
 @endif
 
