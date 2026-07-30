@@ -14,7 +14,7 @@
 - Use "Login" text with an arrow icon for navbar login buttons, not "Dashboard". Confidence: 0.75
 - Keep member-facing pages (program listing, jadwal, notifications) self-contained within the member area rather than redirecting members to public website pages — members should not need to leave their dashboard to access features. Confidence: 0.83
 - Reuse existing CSS card components (like .news-card) for new card-based content pages instead of creating custom card styles, for visual consistency. Confidence: 0.60
-- Add an active/highlighted color indicator on navbar links to show which section the user is currently viewing. Confidence: 0.70
+- Add an active/highlighted color indicator on navbar links to show which section the user is currently viewing. Every section linked in the navbar (including the hero/landing "Beranda" section) must have a corresponding `id` attribute so scroll-spy works correctly for all navigation items. Confidence: 0.75
 - Use anchor/hash links on navbar items for section-based pages (like Profil → #about, Galeri → #galeri on the homepage) so they scroll to sections on the dashboard instead of navigating to separate routes. Confidence: 0.70
 
 # architecture
@@ -36,6 +36,7 @@
 
 # architecture
 - New user registrations should start with a "pending" status and require admin/staff approval before granting full access to the application. Confidence: 0.85
+- Program/class enrollment (pendaftaran program) should use instant-confirmation flow — set status directly to "confirmed" upon registration without requiring admin approval — unlike user account registration which needs admin approval. Members should be immediately enrolled and appear in the admin panel as registered participants. Confidence: 0.80
 
 # admin-ui
 - Consolidate related admin management sections (e.g., "Data Member" and "Pendaftar Program", or "Program" and "Jadwal Kelas") into a single navbar menu item to keep the sidebar clean and uncluttered — prefer inline/embedded management of child data within the parent page (expandable cards with inline add/edit/delete forms) rather than separate sub-pages or tab-separated views. Confidence: 0.90

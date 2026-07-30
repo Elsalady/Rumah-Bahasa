@@ -7,7 +7,7 @@
 
 
 {{-- ===== 1. HERO (BERANDA) ===== --}}
-<section class="hero" style="
+<section class="hero" id="beranda" style="
     position: relative !important;
     background: 
         linear-gradient(
@@ -43,7 +43,7 @@
     Pusat literasi dan pembelajaran untuk masyarakat Surabaya. Mari bersama tingkatkan budaya literasi dan cinta bahasa.
 </p>
             <form class="search-box" action="{{ route('berita.list') }}" method="GET">
-                <input type="text" name="q" placeholder="Cari informasi, berita, atau layanan..." aria-label="Cari">
+                <input type="text" name="q" placeholder="Cari informasi atau berita..." aria-label="Cari">
                 <button type="submit">Cari</button>
             </form>
         </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="news-grid">
             @forelse($berita as $item)
-                <article class="news-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
+                <a href="{{ route('berita.show', $item->slug) }}" class="news-card fade-up" style="display:block;text-decoration:none;color:inherit;opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
                     <div class="news-card-img">
                         @if($item->gambar)
                             <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -73,7 +73,7 @@
                         <h3>{{ $item->judul }}</h3>
                         <p>{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 120) }}</p>
                     </div>
-                </article>
+                </a>
             @empty
                 <div class="news-empty">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -181,38 +181,6 @@
     </svg>
 </div> -->
 
-<!--{{-- ===== 2. FEATURES (LAYANAN) - SEKARANG DI BAWAH BERANDA ===== --}}
-<section class="features" id="layanan">
-    <div class="container">
-        <div class="section-title">
-            <h2>Layanan Kami</h2>
-            <p>Berbagai program dan fasilitas yang tersedia untuk masyarakat</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card fade-up" style="opacity:0;transform:translateY(30px);">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                </div>
-                <h3>Pojok Baca</h3>
-                <p>Koleksi buku bahasa daerah, nasional, dan internasional yang nyaman dibaca.</p>
-            </div>
-            <div class="feature-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.1s;">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                </div>
-                <h3>Kelas Bahasa</h3>
-                <p>Kelas bahasa asing, bahasa daerah, dan pelatihan menulis untuk semua usia.</p>
-            </div>
-            <div class="feature-card fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.2s;">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-                </div>
-                <h3>Kegiatan Budaya</h3>
-                <p>Lomba bercerita, menulis aksara Jawa, dan festival literasi bahasa secara rutin.</p>
-            </div>
-        </div>
-    </div>
-</section> -->
 
 <!--{{-- Wave Separator to News --}}
 <div class="wave-separator" style="background:var(--gray-50);">
@@ -313,7 +281,7 @@
             <div class="about-content fade-up" style="opacity:0;transform:translateY(30px);">
                 <h2>Tentang <span style="color: #045981;">Rumah Bahasa</span> Surabaya</h2>
                 <p>Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
-                <p>Kami menyediakan berbagai layanan mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
+                <p>Kami menyediakan berbagai program mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
                 <div style="margin-top:16px;">
                     <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
                         Lihat selengkapnya

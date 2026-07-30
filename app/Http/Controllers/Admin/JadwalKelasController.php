@@ -20,9 +20,26 @@ class JadwalKelasController extends Controller
         return view('admin.jadwal-kelas.index', compact('jadwalKelas', 'editItem'));
     }
 
-    private function buatNotifikasiSemuaMember($judul, $pesan, $link = null)
+    private function buatNotifikasiPendaftarProgram($namaKelas, $judul, $pesan, $link = null)
     {
-        $members = User::where('role', 'member')->where('status', 'approved')->get();
+        // Cari program (Layanan) yang relevan dengan kelas ini
+        $program = \App\Models\Layanan::where('is_active', true)->get()->first(function ($p) use ($namaKelas) {
+            $keyword = str_replace('Kelas ', '', $p->nama);
+            return stripos($namaKelas, $keyword) !== false;
+        });
+
+        if (!$program) {
+            // Fallback: kirim ke semua member approved jika program tidak ditemukan
+            $members = User::where('role', 'member')->where('status', 'approved')->get();
+        } else {
+            // Kirim hanya ke member yang terdaftar di program ini
+            $memberIds = \App\Models\Pendaftaran::where('program', $program->nama)
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->pluck('user_id');
+
+            $members = User::whereIn('id', $memberIds)->where('status', 'approved')->get();
+        }
+
         foreach ($members as $member) {
             Notifikasi::create([
                 'user_id' => $member->id,
@@ -49,7 +66,8 @@ class JadwalKelasController extends Controller
 
         JadwalKelas::create($request->all());
 
-        $this->buatNotifikasiSemuaMember(
+        $this->buatNotifikasiPendaftarProgram(
+            $request->nama_kelas,
             '📢 Jadwal Kelas Baru',
             "Kelas {$request->nama_kelas} ({$request->jenis}, {$request->mode}) telah ditambahkan — {$request->hari}, {$request->jam_mulai} - {$request->jam_selesai}.",
             route('member.jadwal')
@@ -75,7 +93,8 @@ class JadwalKelasController extends Controller
 
         $jadwal->update($request->all());
 
-        $this->buatNotifikasiSemuaMember(
+        $this->buatNotifikasiPendaftarProgram(
+            $jadwal->nama_kelas,
             '✏️ Jadwal Kelas Diperbarui',
             "Kelas {$jadwal->nama_kelas} telah diperbarui — {$jadwal->hari}, {$jadwal->jam_mulai} - {$jadwal->jam_selesai} ({$jadwal->jenis}, {$jadwal->mode}). Silakan cek jadwal terbaru.",
             route('member.jadwal')
@@ -90,7 +109,8 @@ class JadwalKelasController extends Controller
         $nama = $jadwal->nama_kelas;
         $jadwal->delete();
 
-        $this->buatNotifikasiSemuaMember(
+        $this->buatNotifikasiPendaftarProgram(
+            $nama,
             '🗑️ Jadwal Kelas Dihapus',
             "Kelas {$nama} telah dihapus dari jadwal.",
             route('member.jadwal')

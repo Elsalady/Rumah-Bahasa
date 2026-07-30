@@ -43,8 +43,7 @@ class BeritaController extends Controller
     public function show($slug)
     {
         $item = Berita::where('slug', $slug)->where('is_active', true)->firstOrFail();
-        $recent = Berita::where('is_active', true)->where('id', '!=', $item->id)->latest('tanggal')->limit(3)->get();
-        return view('berita.show', compact('item', 'recent'));
+        return view('berita.show', compact('item'));
     }
 
     // ===== ADMIN CRUD =====

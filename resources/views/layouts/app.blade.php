@@ -197,10 +197,9 @@
         </a>
         
         <div class="navbar-links">
-            <a href="{{ route('home') }}">Beranda</a>
+            <a href="{{ route('home') }}#beranda">Beranda</a>
             <a href="{{ route('home') }}#berita">Berita</a>
             <a href="{{ route('home') }}#about">Profil</a>
-            <a href="{{ route('home') }}#layanan">Layanan</a>
             <a href="{{ route('home') }}#kontak">Kontak</a>
             @auth
                 @if(auth()->user()->role === 'admin')

@@ -30,11 +30,11 @@ class PendaftaranController extends Controller
         Pendaftaran::create([
             'user_id' => auth()->id(),
             'program' => $validated['program'],
-            'status' => 'pending',
+            'status' => 'confirmed',
         ]);
 
         return redirect()->route('member.program.detail', $validated['program'])
-            ->with('success', '✅ Pendaftaran berhasil dikirim!')
+            ->with('success', '✅ Kamu berhasil mendaftar!')
             ->with('baru_daftar_program', $validated['program']);
     }
 }

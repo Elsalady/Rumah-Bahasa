@@ -20,30 +20,19 @@
                 <p style="color:var(--gray-400);font-size:14px;margin-bottom:32px;">Oleh: {{ $item->penulis }}</p>
             @endif
 
-            <div style="height:240px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:40px;">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-400)" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
+            @if($item->gambar)
+                <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:240px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;">
+            @else
+                <div style="height:240px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:40px;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-400)" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+            @endif
 
             <div style="color:var(--gray-700);line-height:1.9;font-size:16px;">
                 <p style="margin-bottom:16px;">{{ $item->ringkasan }}</p>
                 <p>{{ $item->isi }}</p>
             </div>
         </article>
-
-        @if($recent && $recent->count())
-            <hr style="border:none;border-top:1px solid var(--gray-100);margin:48px 0;">
-            <h3 style="font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:24px;">Berita Lainnya</h3>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
-                @foreach($recent as $r)
-                    <a href="{{ route('berita.show', $r->slug) }}" style="display:block;color:inherit;text-decoration:none;">
-                        <div class="dashboard-card" style="padding:16px;">
-                            <div style="font-size:12px;color:var(--teal-500);font-weight:600;">{{ \Carbon\Carbon::parse($r->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
-                            <h4 style="font-size:14px;font-weight:600;color:var(--gray-900);margin-top:4px;">{{ $r->judul }}</h4>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-        @endif
     </div>
 </section>
 @endsection
