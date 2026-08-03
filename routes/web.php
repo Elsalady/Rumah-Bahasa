@@ -8,6 +8,9 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\TataCaraController;
+use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\SitemapController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\ProfilController as AdminProfil;
@@ -17,6 +20,7 @@ use App\Http\Controllers\Admin\KontakController as AdminKontak;
 use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
 use App\Http\Controllers\Admin\MemberController as AdminMember;
 use App\Http\Controllers\Admin\KontenController as AdminKonten;
+use App\Http\Controllers\Admin\GaleriController as AdminGaleri;
 
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
@@ -27,6 +31,9 @@ Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.sh
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::post('/kontak', [KontakController::class, 'kirim'])->name('kontak.kirim');
 Route::get('/jadwal', [JadwalKelasController::class, 'index'])->name('jadwal');
+Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
+Route::get('/tata-cara/{jenis?}', [TataCaraController::class, 'index'])->name('tata-cara');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // ===== CONTOH SURAT (public) =====
 Route::get('/contoh-surat-domisili', function () {
@@ -39,6 +46,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+    Route::get('/forgot-password', [AuthController::class, 'showForgot'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showReset'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -66,6 +78,11 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
 
     Route::get('/konten', [AdminKonten::class, 'index'])->name('konten.index');
+
+    Route::get('/galeri', [AdminGaleri::class, 'index'])->name('galeri.index');
+    Route::post('/galeri', [AdminGaleri::class, 'store'])->name('galeri.store');
+    Route::put('/galeri/{id}', [AdminGaleri::class, 'update'])->name('galeri.update');
+    Route::delete('/galeri/{id}', [AdminGaleri::class, 'destroy'])->name('galeri.destroy');
 
     Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
     Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');

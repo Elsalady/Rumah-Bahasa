@@ -38,6 +38,9 @@
                 @if(session('success'))
                     <div class="alert-success">{{ session('success') }}</div>
                 @endif
+                @if(session('error'))
+                    <div style="padding:14px 20px;background:linear-gradient(135deg,#fef2f2,#fecaca);border:1px solid #fca5a5;border-radius:12px;color:#991b1b;font-weight:500;font-size:14px;margin-bottom:24px;">{{ session('error') }}</div>
+                @endif
 
                 {{-- Info Kuota --}}
                 @php

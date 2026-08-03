@@ -4,13 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('meta_desc', 'Rumah Bahasa Surabaya — program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
-    <meta name="keywords" content="rumah bahasa surabaya, perpustakaan surabaya, kearsipan surabaya, literasi surabaya">
+    <meta name="keywords" content="rumah bahasa surabaya, perpustakaan surabaya, kearsipan surabaya, literasi surabaya, kelas bahasa surabaya, program rumah bahasa">
+    <meta name="author" content="Dinas Perpustakaan dan Kearsipan Kota Surabaya">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="@yield('title', 'Rumah Bahasa Surabaya')">
     <meta property="og:description" content="@yield('meta_desc', 'Program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="@yield('og_image', asset('images/rumbas.jpg'))">
+    <meta property="og:site_name" content="Rumah Bahasa Surabaya">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Rumah Bahasa Surabaya')">
+    <meta name="twitter:description" content="@yield('meta_desc', 'Program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/rumbas.jpg'))">
+
     <title>@yield('title', 'Rumah Bahasa Surabaya') — Dinas Perpustakaan dan Kearsipan Kota Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {{-- Schema.org untuk SEO --}}
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "name": "Rumah Bahasa Surabaya",
+        "alternateName": "Rumah Bahasa",
+        "url": "{{ url('/') }}",
+        "description": "Program literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.",
+        "publisher": {
+            "@@type": "GovernmentOrganization",
+            "name": "Dinas Perpustakaan dan Kearsipan Kota Surabaya",
+            "url": "https://dispusip.surabaya.go.id"
+        }
+    }
+    </script>
 
     {{-- Perbaikan Struktur CSS Responsif Navbar --}}
     <style>
@@ -102,12 +133,12 @@
             background: linear-gradient(90deg, #023ea7, #0f5fc1, #1a8fca, #59b8f7, #3cb3ef, #2784e0, #0258ad);
             background-size: 200% 100%;
         }
-        @keyframes shimmer {
+        @@keyframes shimmer {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        @media (max-width: 768px) {
+        @@media (max-width: 768px) {
             .navbar-links a::after {
                 bottom: 8px;
                 width: 30%;
@@ -149,7 +180,7 @@
         body { padding-top: 70px; }
 
         /* ===== RESPONSIVE BREAKPOINT UNTUK MOBILE (HP) ===== */
-        @media (max-width: 768px) {
+        @@media (max-width: 768px) {
             .nav-toggle {
                 display: flex; /* Memunculkan tombol burger di HP */
             }
@@ -199,7 +230,9 @@
         <div class="navbar-links">
             <a href="{{ route('home') }}#beranda">Beranda</a>
             <a href="{{ route('home') }}#berita">Berita</a>
+            <a href="{{ route('galeri') }}">Galeri</a>
             <a href="{{ route('home') }}#about">Profil</a>
+            <a href="{{ route('tata-cara', 'ktp-surabaya') }}">Tata Cara</a>
             <a href="{{ route('home') }}#kontak">Kontak</a>
             @auth
                 @if(auth()->user()->role === 'admin')
@@ -277,7 +310,7 @@
     }
 
     /* Optimization untuk Layar Mobile */
-    @media (max-width: 768px) {
+    @@media (max-width: 768px) {
         .navbar {
             padding: 10px 0 !important; /* Memperkecil tinggi navbar */
         }
@@ -375,6 +408,16 @@
                             <p>Senin — Kamis, 08.00 — 16.00 WIB</p>
                             <p>Jumat, 08.00 — 14.00 WIB</p>
                         </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Program & Pendaftaran</h3>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <a href="{{ route('tata-cara', 'ktp-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Surabaya)</a>
+                        <a href="{{ route('tata-cara', 'ktp-non-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Non-Surabaya)</a>
+                        <a href="{{ route('register') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Program</a>
+                        <a href="{{ route('galeri') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Galeri Kegiatan</a>
+                        <a href="{{ route('jadwal') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Jadwal Kelas</a>
                     </div>
                 </div>
                 <div>

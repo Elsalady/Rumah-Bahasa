@@ -17,7 +17,28 @@ class MemberController extends Controller
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->latest()->get();
         $notifikasi = $user->notifikasi()->latest()->limit(5)->get();
         $notifUnread = $user->notifikasi()->where('is_read', false)->count();
-        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread'));
+
+        // Ringkasan status pendaftaran
+        $statPendaftaran = [
+            'pending' => $pendaftaran->where('status', 'pending')->count(),
+            'confirmed' => $pendaftaran->where('status', 'confirmed')->count(),
+            'rejected' => $pendaftaran->where('status', 'rejected')->count(),
+        ];
+
+        // Jadwal terdekat untuk program yang sudah didaftarkan member
+        $programTerdaftar = $pendaftaran->whereIn('status', ['pending', 'confirmed'])->pluck('program')->unique();
+        $jadwalTerdekat = collect();
+        foreach ($programTerdaftar as $namaProgram) {
+            $keyword = str_replace('Kelas ', '', $namaProgram);
+            $jadwal = JadwalKelas::where('is_active', true)
+                ->where('nama_kelas', 'like', "%{$keyword}%")
+                ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
+                ->orderBy('jam_mulai')
+                ->get();
+            $jadwalTerdekat = $jadwalTerdekat->merge($jadwal);
+        }
+
+        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'statPendaftaran', 'jadwalTerdekat'));
     }
 
     public function edit()

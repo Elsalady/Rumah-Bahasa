@@ -325,6 +325,22 @@
                     @if($user->status === 'approved')
                     <div class="dashboard-card" style="padding:24px;">
                         <h3>Histori Pendaftaran</h3>
+
+                        {{-- Ringkasan Status --}}
+                        @if($pendaftaran->count())
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fffbeb;color:#b45309;border-radius:50px;font-size:12px;font-weight:600;">
+                                ⏳ {{ $statPendaftaran['pending'] }} Menunggu
+                            </span>
+                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#ecfdf5;color:#059669;border-radius:50px;font-size:12px;font-weight:600;">
+                                ✓ {{ $statPendaftaran['confirmed'] }} Terkonfirmasi
+                            </span>
+                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fef2f2;color:#dc2626;border-radius:50px;font-size:12px;font-weight:600;">
+                                ✕ {{ $statPendaftaran['rejected'] }} Ditolak
+                            </span>
+                        </div>
+                        @endif
+
                         @if($pendaftaran->count())
                             @foreach($pendaftaran as $p)
                                 <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--gray-100);gap:10px;">
@@ -345,6 +361,27 @@
                         <div class="btn-program-group">
                             <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;">Lihat Program & Jadwal</a>
                         </div>
+
+                        {{-- Jadwal Kelas Terdekat --}}
+                        @if($jadwalTerdekat->count())
+                        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--gray-100);">
+                            <p style="font-size:13px;font-weight:700;color:var(--gray-900);margin:0 0 12px;">🗓️ Jadwal Kelas Terdekat</p>
+                            <div style="display:flex;flex-direction:column;gap:8px;">
+                                @foreach($jadwalTerdekat as $j)
+                                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:var(--gray-50);border-radius:10px;">
+                                        <div style="min-width:0;">
+                                            <p style="font-weight:600;color:var(--gray-900);margin:0;font-size:13px;">{{ $j->nama_kelas }}</p>
+                                            <p style="font-size:12px;color:var(--gray-500);margin:3px 0 0;">
+                                                {{ $j->hari }}, {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }}
+                                                @if($j->pengajar) &middot; {{ $j->pengajar }} @endif
+                                            </p>
+                                        </div>
+                                        <span style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:50px;flex-shrink:0;{{ $j->mode === 'online' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#ecfdf5;color:#166534;' }}">{{ ucfirst($j->mode) }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     @endif
                 </div>

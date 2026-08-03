@@ -6,23 +6,29 @@
 @section('content')
 
 
-{{-- ===== 1. HERO (BERANDA) ===== --}}
+{{-- ===== 1. HERO (BERANDA) - SLIDER ===== --}}
+@php
+    $heroSlides = [
+        asset('images/rumbas.jpg'),
+        asset('storage/galeri/qT1b65498Yi7CrUQQdb4OWAnlvUIZYMtU3bGyCD9.jpg'),
+        asset('storage/berita/berita_1.jpg'),
+        asset('storage/berita/berita_2.jpg'),
+    ];
+@endphp
 <section class="hero" id="beranda" style="
     position: relative !important;
-    background: 
-        linear-gradient(
-            180deg, 
-            rgba(56, 151, 224, 0.1) 0%, 
-            rgba(56, 151, 224, 0.75) 50%, 
-            rgba(56, 151, 224, 1) 85%, 
-            #ffffff 100%
-        ), 
-        url('{{ asset('images/rumbas.jpg') }}') center / cover no-repeat !important;
     padding-bottom: 30px !important;
     margin-bottom: 0 !important;
 ">
+    {{-- Slider background --}}
+    <div class="hero-slider" style="position:absolute;inset:0;z-index:0;overflow:hidden;">
+        @foreach($heroSlides as $i => $img)
+            <div class="hero-slide {{ $i === 0 ? 'active' : '' }}" style="background:linear-gradient(180deg, rgba(56,151,224,0.35) 0%, rgba(56,151,224,0.65) 60%, rgba(56,151,224,0.95) 100%), url('{{ $img }}') center / cover no-repeat;"></div>
+        @endforeach
+    </div>
+
     <div class="hero-pattern" style="display: none !important;"></div>
-    
+
     <div class="container" style="position:relative;z-index:2;width:100%;">
         <div class="hero-content">
             <div class="hero-badge">
@@ -49,6 +55,82 @@
         </div>
     </div>
 </section>
+
+<style>
+    .hero-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+        background-size: cover;
+        background-position: center;
+    }
+    .hero-slide.active {
+        opacity: 1;
+        animation: heroKenburns 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroKenburns {
+        from { transform: scale(1); }
+        to { transform: scale(1.08); }
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var slides = document.querySelectorAll('.hero-slide');
+    if (slides.length < 2) return;
+    var current = 0;
+    setInterval(function() {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+    }, 5000);
+});
+</script>
+
+
+{{-- ===== 2. LINGKUP PELATIHAN ===== --}}
+<section class="pelatihan-section" id="pelatihan" style="padding: 56px 0; background: #f8fafc;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div class="section-title" style="text-align:center; margin-bottom: 40px;">
+            <h2 style="font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 8px;">Lingkup <span style="color:#045981;">Pelatihan</span></h2>
+            <p style="color: var(--gray-500); font-size: 1rem; max-width: 560px; margin: 0 auto;">Pelatihan unggulan yang kami selenggarakan untuk masyarakat Surabaya</p>
+        </div>
+
+        @if($pelatihan->count())
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+                @foreach($pelatihan as $item)
+                    <div class="dashboard-card pelatihan-card fade-up" style="padding: 40px 28px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.05); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s;">
+                        @if($item->ikon)
+                            <div style="font-size:56px; margin-bottom:16px; color:var(--teal-600);">{!! $item->ikon !!}</div>
+                        @elseif($item->gambar)
+                            <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->nama }}" style="width:80px; height:80px; object-fit:cover; border-radius:16px; margin-bottom:16px;">
+                        @endif
+                        <h3 style="font-size:20px; font-weight:700; color:var(--gray-900); margin:0 0 10px;">{{ $item->nama }}</h3>
+                        <p style="font-size:14px; color:var(--gray-500); line-height:1.7; margin:0;">{{ $item->deskripsi }}</p>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</section>
+
+<style>
+    section.pelatihan-section .pelatihan-card {
+        background: #ffffff;
+    }
+    section.pelatihan-section .pelatihan-card:hover {
+        box-shadow: 0 12px 32px rgba(2, 132, 199, 0.12);
+        transform: translateY(-4px);
+    }
+    @media (max-width: 640px) {
+        section.pelatihan-section { padding: 36px 0 !important; }
+        section.pelatihan-section .section-title h2 { font-size: 1.5rem !important; }
+        section.pelatihan-section .section-title p { font-size: 0.85rem !important; }
+        section.pelatihan-section .pelatihan-card { padding: 28px 20px !important; }
+        section.pelatihan-section .pelatihan-card h3 { font-size: 17px !important; }
+        section.pelatihan-section .pelatihan-card p { font-size: 13px !important; }
+    }
+</style>
 
 
 {{-- ===== 3. NEWS (BERITA) ===== --}}
@@ -191,6 +273,19 @@
         }
     }
 </style>
+
+{{-- ===== BANNER MEA & AFTA ===== --}}
+<section class="mea-banner" id="mea" style="background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%); padding: 56px 0; position: relative; overflow: hidden;">
+    <div style="position:absolute; top:-40px; right:-40px; width:220px; height:220px; background:rgba(255,255,255,0.06); border-radius:50%; filter:blur(30px); pointer-events:none;"></div>
+    <div style="position:absolute; bottom:-60px; left:-30px; width:280px; height:280px; background:rgba(255,255,255,0.05); border-radius:50%; filter:blur(40px); pointer-events:none;"></div>
+    <div class="container" style="max-width:1000px; margin:0 auto; padding:0 20px; position:relative; z-index:2; text-align:center;">
+        <span style="display:inline-block; padding:6px 18px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:50px; font-size:12px; font-weight:600; letter-spacing:0.5px; margin-bottom:20px;">Siap Hadapi MEA &amp; AFTA</span>
+        <h2 style="font-size:clamp(20px, 3.5vw, 30px); font-weight:800; color:#fff; margin:0 0 16px; letter-spacing:-0.5px;">Siap Hadapi MEA (Masyarakat Ekonomi ASEAN) &amp; AFTA (ASEAN Free Trade Area)</h2>
+        <p style="font-size:14px; line-height:1.8; color:rgba(255,255,255,0.9); margin:0 auto; max-width:800px;">
+            Berdasarkan tantangan MEA tersebut serta melihat kondisi masyarakat yang ada, Walikota Surabaya membuka program Rumah Bahasa sebagai salah satu wujud perhatian Pemerintah Kota Surabaya dalam menyiapkan warga kota untuk menghadapi MEA 2015 serta AFTA — menjadi ruang publik yang bertujuan meningkatkan kompetisi masyarakat kota Surabaya di berbagai bahasa.
+        </p>
+    </div>
+</section>
 
 {{-- Wave Separator dari News ke About --}}
 <div class="news-to-about-wave">

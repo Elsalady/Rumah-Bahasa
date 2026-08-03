@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class BeritaController extends Controller
@@ -13,7 +14,13 @@ class BeritaController extends Controller
                         ->orderBy('tanggal', 'desc')
                         ->limit(3)
                         ->get();
-        return view('home.index', compact('berita'));
+
+        $pelatihan = Layanan::where('is_active', true)
+                            ->orderBy('urutan')
+                            ->limit(2)
+                            ->get();
+
+        return view('home.index', compact('berita', 'pelatihan'));
     }
 
     public function list(Request $request)

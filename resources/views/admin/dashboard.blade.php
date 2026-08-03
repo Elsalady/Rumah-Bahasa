@@ -17,12 +17,20 @@
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending Program</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-size:36px;font-weight:800;color:#059669;">{{ $stats['confirmed'] }}</div>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pendaftar Terkonfirmasi</p>
+    </div>
+    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:{{ $stats['pending_member'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending_member'] }}</div>
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending Member</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['member'] }}</div>
         <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Member</p>
+    </div>
+    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
+        <div style="font-size:36px;font-weight:800;color:#7c3aed;">{{ $stats['galeri'] }}</div>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Galeri</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:#0891b2;">{{ $stats['jadwal_kelas'] }}</div>
@@ -53,17 +61,22 @@
         @endif
     </div>
     <div class="dashboard-card">
-        <h3>Pesan Baru</h3>
+        <h3>Pesan Terbaru</h3>
         @if($recentPesan->count())
             @foreach($recentPesan as $p)
                 <div style="padding:12px 0;border-bottom:1px solid var(--gray-100);">
-                    <p style="font-weight:600;color:var(--gray-900);">{{ $p->nama }}</p>
-                    <p style="font-size:13px;color:var(--gray-500);">{{ Str::limit($p->pesan, 80) }}</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                        <p style="font-weight:600;color:var(--gray-900);margin:0;">{{ $p->nama }}</p>
+                        @if(!$p->sudah_dibaca)
+                            <span style="font-size:11px;font-weight:700;background:#dc2626;color:#fff;padding:2px 8px;border-radius:50px;">Baru</span>
+                        @endif
+                    </div>
+                    <p style="font-size:13px;color:var(--gray-500);margin:4px 0 0;">{{ Str::limit($p->pesan, 80) }}</p>
                 </div>
             @endforeach
             <a href="{{ route('admin.kontak.index') }}" style="display:block;text-align:center;padding:12px;color:var(--teal-700);font-size:13px;font-weight:600;">Lihat Semua →</a>
         @else
-            <p class="text-muted" style="text-align:center;padding:24px;">Tidak ada pesan baru.</p>
+            <p class="text-muted" style="text-align:center;padding:24px;">Tidak ada pesan.</p>
         @endif
     </div>
 </div>

@@ -6,6 +6,7 @@
 - Use green (hijau) as primary theme color for this project. Confidence: 0.70
 - Use prominent/visible colors, avoid soft/subtle color schemes. Confidence: 0.65
 - Add floating/ornamental animations to make the website look premium. Confidence: 0.50
+- Decorative banner/marketing sections (like the MEA & AFTA banner) should be built as full-width gradient sections with a prominent badge/pill, large bold heading, descriptive text, and soft blur "floating shape" ornaments — mirroring the premium look of the original website. Confidence: 0.70
 
 # branding
 - The project name is "Rumah Bahasa" (not "Rumah Belajar"). Confidence: 0.85
@@ -24,7 +25,7 @@
 # architecture
 See [architecture/taste.md](architecture/taste.md)
 # communication
-- Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.78
+- Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.85
 - Provide concise one-sentence summaries of completed technical changes/features when asked, as the user documents these in a logbook (logbook). Confidence: 0.70
 
 # spacing
@@ -42,6 +43,8 @@ See [architecture/taste.md](architecture/taste.md)
 # content
 - Show only 3 latest berita (news) items on the homepage/dashboard; the rest should be visible on the /berita page after clicking "lihat selengkapnya". Confidence: 0.80
 - Berita (news) items on the homepage should be clickable cards linking to individual detail pages (`/berita/{slug}`), not display-only static previews — each news card should have a clickable area wrapping the entire card. Confidence: 0.85
+- When implementing site features, faithfully mirror the original website (rumahbahasa.surabaya.go.id) — fetch and adapt its actual content (text, categories, structure) from the live site rather than inventing placeholder content. Confidence: 0.85
+- The program/class list in the project must exactly match the original Rumah Bahasa website — same set of programs/classes AND same ordering. When discrepancies are found (extra programs not on the original, e.g., Kelas Bahasa Turki; missing ones, e.g., Kelas Bahasa Jawa, Kelas Komputer (BLC)), fix them so the project matches the original exactly rather than keeping a near-identical list. Confidence: 0.9
 
 # architecture
 - New user registrations should start with a "pending" status and require admin/staff approval before granting full access to the application. Confidence: 0.85
@@ -57,7 +60,9 @@ See [architecture/taste.md](architecture/taste.md)
 - Display timestamps with full date AND time including hours and minutes (format: D MMM YYYY, HH:mm) in admin tables, detail pages, and member-facing views. Confidence: 0.85
 
 # planning
-- When defining requirements for new features, prefers being asked structured clarifying questions with multiple-choice options (rather than open-ended questions) before implementation begins — helps align mental model before coding. Confidence: 0.65
+- When defining requirements for new features, prefers being asked structured clarifying questions with multiple-choice options (rather than open-ended questions) before implementation begins — helps align mental model before coding. Confidence: 0.72
+- When listing possible next features to work on, present them as structured multiple-choice options with clear recommended/labeled choices (rather than free-form suggestions) — the user picks one option and expects work to start on it. Confidence: 0.78
+- After each feature delivery, the user wants to continue immediately to the next gap — repeatedly asks "lanjut apa lagi"/"okey udah, apa lagi"/"okey lanjut"/"nest ke tahap selanjutnya" (what's next) and expects the assistant to propose and proceed with the next improvement rather than ending the session. Confidence: 0.95
 - After registration/submission, redirect users back to the program detail page (not a generic dashboard/success page) so they can see status, quota info, and post-registration content (like WhatsApp group links). Confidence: 0.75
 - For programs that have class schedules and registration, provide a WhatsApp group link after successful registration so members can immediately join the group for further information — display the link prominently on the post-registration page with a clear call-to-action button. Confidence: 0.80
 
@@ -68,6 +73,8 @@ See [architecture/taste.md](architecture/taste.md)
 - Remove dead/unused files (code files, views, duplicate files) AND orphaned directories/folders from the project entirely rather than leaving them in place — prefers a clean codebase without orphaned files or leftover folders. Confidence: 0.85
 - Clean up unused database tables (Laravel default tables like sessions, cache, jobs that aren't used by the application) as part of project maintenance to keep the database schema focused and minimal. Confidence: 0.75
 - Proactively identify gaps and missing features across the entire project (public website, admin panel, member area) and suggest/add improvements, not just follow the literal request — expects thoroughness and completeness checking. Confidence: 0.70
+- Verify new features end-to-end against the real system before declaring them done — exercise the actual HTTP flow (submit forms with CSRF token, confirm records in DB, read the mail log for sent emails, verify resulting state like logging in with the new password), not just syntax checks. Confidence: 0.65
+- After testing that mutates real records (e.g., changing an admin's password via the reset-password flow), restore the original values/data so the system returns to its pre-test state — the user explicitly asks to revert test side-effects on real data rather than leaving them in place. Confidence: 0.65
 
 # ui
 - Homepage berita/news cards should use a square/grid card layout matching the visual style of the /berita listing page ("kotak-kotak kayak yang didalam lihat selengkapnya"), not elongated rectangular cards. Confidence: 0.78

@@ -71,6 +71,9 @@
                                 <option value="visi_misi" {{ $editProfil->kategori == 'visi_misi' ? 'selected' : '' }}>Visi & Misi</option>
                                 <option value="tugas_fungsi" {{ $editProfil->kategori == 'tugas_fungsi' ? 'selected' : '' }}>Tugas & Fungsi</option>
                                 <option value="struktur" {{ $editProfil->kategori == 'struktur' ? 'selected' : '' }}>Struktur</option>
+                                <option value="volunteer" {{ $editProfil->kategori == 'volunteer' ? 'selected' : '' }}>Volunteer</option>
+                                <option value="gambaran_umum" {{ $editProfil->kategori == 'gambaran_umum' ? 'selected' : '' }}>Gambaran Umum</option>
+                                <option value="sasaran" {{ $editProfil->kategori == 'sasaran' ? 'selected' : '' }}>Sasaran Kegiatan Pembelajaran</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -97,6 +100,9 @@
                                 <option value="visi_misi">Visi & Misi</option>
                                 <option value="tugas_fungsi">Tugas & Fungsi</option>
                                 <option value="struktur">Struktur</option>
+                                <option value="volunteer">Volunteer</option>
+                                <option value="gambaran_umum">Gambaran Umum</option>
+                                <option value="sasaran">Sasaran Kegiatan Pembelajaran</option>
                             </select>
                         </div>
                         <div class="form-group">

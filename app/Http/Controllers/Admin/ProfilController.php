@@ -13,7 +13,7 @@ class ProfilController extends Controller
         $request->validate([
             'judul' => 'required|max:255',
             'deskripsi' => 'required',
-            'kategori' => 'required|in:sejarah,visi_misi,tugas_fungsi,struktur,volunteer',
+            'kategori' => 'required|in:sejarah,visi_misi,tugas_fungsi,struktur,volunteer,gambaran_umum,sasaran',
         ]);
 
         Profil::create($request->all());
@@ -26,7 +26,7 @@ class ProfilController extends Controller
         $request->validate([
             'judul' => 'required|max:255',
             'deskripsi' => 'required',
-            'kategori' => 'required|in:sejarah,visi_misi,tugas_fungsi,struktur,volunteer',
+            'kategori' => 'required|in:sejarah,visi_misi,tugas_fungsi,struktur,volunteer,gambaran_umum,sasaran',
         ]);
 
         $profil->update($request->all());

@@ -21,6 +21,8 @@
             'tugas_fungsi' => 'Tugas & Fungsi',
             'struktur' => 'Struktur Organisasi',
             'volunteer' => 'Volunteer',
+            'gambaran_umum' => 'Gambaran Umum',
+            'sasaran' => 'Sasaran Kegiatan Pembelajaran',
         ]; @endphp
 
         <div style="margin-top:48px;">

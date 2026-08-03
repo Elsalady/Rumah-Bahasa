@@ -27,6 +27,16 @@ class PendaftaranController extends Controller
             'program' => 'required|string|max:255',
         ]);
 
+        $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
+            ->where('program', $validated['program'])
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->exists();
+
+        if ($sudahTerdaftar) {
+            return redirect()->route('member.program.detail', $validated['program'])
+                ->with('error', 'Kamu sudah terdaftar di program ini.');
+        }
+
         Pendaftaran::create([
             'user_id' => auth()->id(),
             'program' => $validated['program'],
