@@ -47,7 +47,7 @@
                                 <div style="flex:1;">
                                     <p style="font-weight:600;font-size:14px;color:var(--gray-900);margin:0;">{{ $notif->judul }}</p>
                                     <p style="font-size:13px;color:var(--gray-500);margin:4px 0 0;">{{ $notif->pesan }}</p>
-                                    <p style="font-size:11px;color:var(--gray-400);margin:4px 0 0;">{{ $notif->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</p>
+                                    <p style="font-size:11px;color:var(--gray-400);margin:4px 0 0;">{{ $notif->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</p>
                                 </div>
                             </div>
                         </a>

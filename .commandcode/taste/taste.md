@@ -58,6 +58,7 @@ See [architecture/taste.md](architecture/taste.md)
 
 # formatting
 - Display timestamps with full date AND time including hours and minutes (format: D MMM YYYY, HH:mm) in admin tables, detail pages, and member-facing views. Confidence: 0.85
+- Display all timestamps in Indonesian timezone WIB (Asia/Jakarta) with Indonesian locale — format via `->timezone('Asia/Jakarta')->locale('id')->isoFormat(...)` in views/controllers so times shown to users are real-time WIB, not the app's default UTC. Confidence: 0.9
 
 # planning
 - When defining requirements for new features, prefers being asked structured clarifying questions with multiple-choice options (rather than open-ended questions) before implementation begins — helps align mental model before coding. Confidence: 0.72

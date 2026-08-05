@@ -57,7 +57,7 @@ class PendaftaranController extends Controller
                 echo '<td style="text-align:center;">' . htmlspecialchars($p->user->phone ?? '-') . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($p->program) . '</td>';
                 echo '<td style="text-align:center;color:' . $warna . ';font-weight:600;">' . ucfirst($p->status) . '</td>';
-                echo '<td>' . $p->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') . '</td>';
+                echo '<td>' . $p->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') . '</td>';
                 echo '</tr>';
             }
             echo '</table></body></html>';

@@ -79,10 +79,6 @@
     <h3 style="margin:0;">Program & Jadwal Kelas</h3>
 </div>
 
-@if(session('success'))
-    <div class="alert-success">{{ session('success') }}</div>
-@endif
-
 @if($program->count())
     @foreach($program as $prog)
         @php
