@@ -16,7 +16,7 @@
 - Keep member-facing pages (program listing, jadwal, notifications) self-contained within the member area rather than redirecting members to public website pages — members should not need to leave their dashboard to access features. Confidence: 0.83
 - Reuse existing CSS card components (like .news-card) for new card-based content pages instead of creating custom card styles, for visual consistency. Confidence: 0.60
 - Add an active/highlighted color indicator on navbar links to show which section the user is currently viewing. Every section linked in the navbar (including the hero/landing "Beranda" section) must have a corresponding `id` attribute so scroll-spy works correctly for all navigation items. Confidence: 0.75
-- Use anchor/hash links on navbar items for section-based pages (like Profil → #about, Galeri → #galeri on the homepage) so they scroll to sections on the dashboard instead of navigating to separate routes. Confidence: 0.70
+- Use anchor/hash links (`route('home') . '#section'`) on navbar items AND footer links for section-based content (Profil → #about, Galeri → #galeri, footer program list → #pelatihan, contact → #kontak) so clicks scroll to the relevant homepage section instead of navigating to separate routes/pages. Confidence: 0.80
 
 # architecture
 - WhatsApp groups should be organized as one group per program (not per schedule/jadwal) — a single WhatsApp group for each program where admins post schedule reminders and announcements. Avoid creating separate groups per individual class schedule/jadwal to prevent group proliferation. Confidence: 0.80
@@ -71,12 +71,7 @@ See [architecture/taste.md](architecture/taste.md)
 - Use clear, domain-matching terminology in admin UI labels and route names (e.g., "Program" for academic programs/courses, not "Layanan"/Services) so the interface is immediately understandable and avoids confusion. Confidence: 0.85
 
 # maintenance
-- Remove dead/unused files (code files, views, duplicate files) AND orphaned directories/folders from the project entirely rather than leaving them in place — prefers a clean codebase without orphaned files or leftover folders. Confidence: 0.85
-- Clean up unused database tables (Laravel default tables like sessions, cache, jobs that aren't used by the application) as part of project maintenance to keep the database schema focused and minimal. Confidence: 0.75
-- Proactively identify gaps and missing features across the entire project (public website, admin panel, member area) and suggest/add improvements, not just follow the literal request — expects thoroughness and completeness checking. Confidence: 0.70
-- Verify new features end-to-end against the real system before declaring them done — exercise the actual HTTP flow (submit forms with CSRF token, confirm records in DB, read the mail log for sent emails, verify resulting state like logging in with the new password), not just syntax checks. Confidence: 0.65
-- After testing that mutates real records (e.g., changing an admin's password via the reset-password flow), restore the original values/data so the system returns to its pre-test state — the user explicitly asks to revert test side-effects on real data rather than leaving them in place. Confidence: 0.65
-
+See [maintenance/taste.md](maintenance/taste.md)
 # ui
 - Homepage berita/news cards should use a square/grid card layout matching the visual style of the /berita listing page ("kotak-kotak kayak yang didalam lihat selengkapnya"), not elongated rectangular cards. Confidence: 0.78
 - Visual/CSS styling of the same component used on different pages must be exactly identical — same CSS classes, same padding (e.g., 24px body), same typography (title 18px bold, description 14px gray), same colors. When a component (like news cards) appears on both the homepage and the /berita listing page, their styling must match precisely, not just be "similar". Confidence: 0.82

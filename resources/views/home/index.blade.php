@@ -435,13 +435,13 @@ document.addEventListener('DOMContentLoaded', function() {
         {{-- Glassmorphism Card Form --}}
         <div class="form-container" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
             @if(session('success'))
-                <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #5eadea; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #ffffff; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     {{ session('success') }}
                 </div>
             @endif
             @if($errors->any())
-                <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem;">
+                <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ffffff; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem;">
                     <ul style="margin: 0; padding-left: 20px;">
                         @foreach($errors->all() as $err)
                             <li>{{ $err }}</li>
@@ -458,8 +458,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: rgba(226, 232, 240, 0.9); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 6px;">
-                        <label for="email" style="color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 500;">Alamat Email</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com" required
+                        <label for="email" style="color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 500;">Alamat Email/ No telepon</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com / 0812345678" required
                             style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: rgba(226, 232, 240, 0.9); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                 </div>

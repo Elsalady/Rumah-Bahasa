@@ -230,7 +230,6 @@
         <div class="navbar-links">
             <a href="{{ route('home') }}#beranda">Beranda</a>
             <a href="{{ route('home') }}#berita">Berita</a>
-            <a href="{{ route('galeri') }}">Galeri</a>
             <a href="{{ route('home') }}#about">Profil</a>
             <a href="{{ route('tata-cara', 'ktp-surabaya') }}">Tata Cara</a>
             <a href="{{ route('home') }}#kontak">Kontak</a>
@@ -417,7 +416,7 @@
                         <a href="{{ route('tata-cara', 'ktp-non-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Non-Surabaya)</a>
                         <a href="{{ route('register') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Program</a>
                         <a href="{{ route('galeri') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Galeri Kegiatan</a>
-                        <a href="{{ route('jadwal') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Jadwal Kelas</a>
+                        <a href="{{ route('home') . '#pelatihan' }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Lingkup Pelatihan</a>
                     </div>
                 </div>
                 <div>
