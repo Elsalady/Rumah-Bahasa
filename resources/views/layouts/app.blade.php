@@ -418,6 +418,8 @@
                         <a href="{{ route('register') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Program</a>
                         <a href="{{ route('layanan') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Kelas Bahasa</a>
                         <a href="{{ route('jadwal') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Jadwal Kelas</a>
+                        <a href="{{ route('galeri') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Galeri Kegiatan</a>
+                        <a href="{{ route('home') . '#pelatihan' }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Lingkup Pelatihan</a>
                     </div>
                 </div>
                 <div>

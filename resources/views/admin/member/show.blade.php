@@ -170,10 +170,6 @@
     <a href="{{ route('admin.member.kelola') }}" class="back-link">← Kembali ke Data Member</a>
 </div>
 
-@if(session('success'))
-    <div class="alert-success">{{ session('success') }}</div>
-@endif
-
 <div class="detail-grid">
     {{-- Data Diri Card --}}
     <div class="dashboard-card" style="padding:28px;">
@@ -229,7 +225,7 @@
 
             <div class="info-item">
                 <span class="info-label">Bergabung Pada</span>
-                <span class="info-value">{{ $member->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</span>
+                <span class="info-value">{{ $member->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</span>
             </div>
 
             @if($member->catatan_member)

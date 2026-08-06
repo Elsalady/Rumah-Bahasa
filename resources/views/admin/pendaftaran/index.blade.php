@@ -27,8 +27,8 @@
                                     {{ ucfirst($item->status) }}
                                 </span>
                             </td>
-                            <td style="font-size:13px;" title="{{ $item->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}">
-                                {{ $item->created_at->locale('id')->diffForHumans() }}
+                            <td style="font-size:13px;" title="{{ $item->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}">
+                                {{ $item->created_at->timezone('Asia/Jakarta')->locale('id')->diffForHumans() }}
                             </td>
                             <td class="action-cell">
                                 <form action="{{ route('admin.pendaftaran.update', $item->id) }}" method="POST" style="display:flex;gap:4px;flex-wrap:wrap;">

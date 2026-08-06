@@ -51,7 +51,7 @@
                                 <td><div class="title-cell">{{ $member->name }}</div></td>
                                 <td style="font-size:13px;">{{ $member->email }}</td>
                                 <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>
-                                <td style="font-size:13px;">{{ $member->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
+                                <td style="font-size:13px;">{{ $member->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                                 <td>
                                     <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;
                                         {{ $member->status === 'approved' ? 'background:#ecfdf5;color:#166534;' : '' }}
@@ -93,7 +93,7 @@
                                         {{ ucfirst($item->status) }}
                                     </span>
                                 </td>
-                                <td style="font-size:13px;">{{ $item->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
+                                <td style="font-size:13px;">{{ $item->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                                 <td class="action-cell">
                                     <form action="{{ route('admin.pendaftaran.update', $item->id) }}" method="POST" style="display:flex;gap:4px;flex-wrap:wrap;">
                                         @csrf @method('PUT')

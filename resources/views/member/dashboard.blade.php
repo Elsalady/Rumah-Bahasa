@@ -233,6 +233,10 @@
                             @if($user->catatan_member)
                                 <p style="font-size:13px;color:#b91c1c;margin-top:6px;font-style:italic;">Catatan: {{ $user->catatan_member }}</p>
                             @endif
+                            <a href="{{ route('home') . '#kontak' }}" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 16px;background:#dc2626;color:#fff;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                Kirim Pesan ke Admin
+                            </a>
                         </div>
                     </div>
                 @endif
@@ -286,7 +290,7 @@
                             </div>
                             <div class="info-row-item">
                                 <span class="info-item-label">Bergabung</span>
-                                <span class="info-value info-item-value">{{ $user->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</span>
+                                <span class="info-value info-item-value">{{ $user->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</span>
                             </div>
                             <div class="info-row-item">
                                 <span class="info-item-label">Alamat</span>
@@ -346,7 +350,7 @@
                                 <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--gray-100);gap:10px;">
                                     <div style="min-width:0;">
                                         <p style="font-weight:600;color:var(--gray-900);word-break:break-word;margin:0;">{{ $p->program }}</p>
-                                        <p style="font-size:12px;color:var(--gray-400);margin:4px 0 0 0;">{{ $p->created_at->locale('id')->isoFormat('D MMM YYYY') }}</p>
+                                        <p style="font-size:12px;color:var(--gray-400);margin:4px 0 0 0;">{{ $p->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') }}</p>
                                     </div>
                                     <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;flex-shrink:0;
                                         background: {{ $p->status === 'confirmed' ? '#ecfdf5' : ($p->status === 'rejected' ? '#fef2f2' : '#fffbeb') }}; 

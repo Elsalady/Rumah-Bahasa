@@ -23,6 +23,12 @@ class KontakController extends Controller
 
         Kontak::create($validated);
 
-        return back()->with('success', 'Pesan berhasil dikirim. Kami akan menghubungi Anda segera.');
+        $previous = url()->previous();
+        // Pastikan redirect kembali ke posisi form pesan, bukan ke atas halaman
+        if (str_contains($previous, route('home'))) {
+            $previous = route('home') . '#kontak';
+        }
+
+        return redirect($previous)->with('success', 'Pesan berhasil dikirim. Kami akan menghubungi Anda segera.');
     }
 }

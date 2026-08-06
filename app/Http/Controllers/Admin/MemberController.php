@@ -73,7 +73,7 @@ class MemberController extends Controller
                 echo '<td>' . htmlspecialchars($m->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($m->phone ?? '-') . '</td>';
                 echo '<td style="text-align:center;color:' . $warna . ';font-weight:600;">' . ucfirst($m->status) . '</td>';
-                echo '<td>' . $m->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') . '</td>';
+                echo '<td>' . $m->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') . '</td>';
                 echo '</tr>';
             }
             echo '</table></body></html>';
