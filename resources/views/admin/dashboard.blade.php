@@ -18,7 +18,7 @@
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:#059669;">{{ $stats['confirmed'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pendaftar Terkonfirmasi</p>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pendaftar Disetujui</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:{{ $stats['pending_member'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending_member'] }}</div>
@@ -26,11 +26,7 @@
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['member'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Member</p>
-    </div>
-    <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:#7c3aed;">{{ $stats['galeri'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Galeri</p>
+        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pendaftar</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
         <div style="font-size:36px;font-weight:800;color:#0891b2;">{{ $stats['jadwal_kelas'] }}</div>

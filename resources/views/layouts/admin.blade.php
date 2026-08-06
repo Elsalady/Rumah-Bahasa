@@ -386,7 +386,6 @@
                     <nav class="admin-nav">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
                         <a href="{{ route('admin.konten.index') }}" class="nav-link {{ request()->routeIs('admin.konten.*') || request()->routeIs('admin.berita.*') || request()->routeIs('admin.profil.*') ? 'active' : '' }}">Konten</a>
-                        <a href="{{ route('admin.galeri.index') }}" class="nav-link {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">Galeri</a>
                         <a href="{{ route('admin.program-jadwal.index') }}" class="nav-link {{ request()->routeIs('admin.program-jadwal.*') || request()->routeIs('admin.program.*') || request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">Program & Jadwal</a>
                         <a href="{{ route('admin.member.kelola') }}" class="nav-link {{ request()->routeIs('admin.member.*') || request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Member</a>
                         <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">Pesan</a>

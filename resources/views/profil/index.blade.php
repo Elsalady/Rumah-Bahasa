@@ -15,6 +15,19 @@
             <p>Mengenal lebih dekat program dan tujuan kami</p>
         </div>
 
+        {{-- ===== BANNER MEA & AFTA ===== --}}
+        <section class="mea-banner" style="background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%); padding: 48px 32px; border-radius: 20px; position: relative; overflow: hidden; margin-top: 32px;">
+            <div style="position:absolute; top:-40px; right:-40px; width:220px; height:220px; background:rgba(255,255,255,0.06); border-radius:50%; filter:blur(30px); pointer-events:none;"></div>
+            <div style="position:absolute; bottom:-60px; left:-30px; width:280px; height:280px; background:rgba(255,255,255,0.05); border-radius:50%; filter:blur(40px); pointer-events:none;"></div>
+            <div style="max-width:1000px; margin:0 auto; padding:0 20px; position:relative; z-index:2; text-align:center;">
+                <span style="display:inline-block; padding:6px 18px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:50px; font-size:12px; font-weight:600; letter-spacing:0.5px; margin-bottom:20px;">Siap Hadapi MEA &amp; AFTA</span>
+                <h2 style="font-size:clamp(20px, 3.5vw, 30px); font-weight:800; color:#fff; margin:0 0 16px; letter-spacing:-0.5px;">Siap Hadapi MEA (Masyarakat Ekonomi ASEAN) &amp; AFTA (ASEAN Free Trade Area)</h2>
+                <p style="font-size:14px; line-height:1.8; color:rgba(255,255,255,0.9); margin:0 auto; max-width:800px;">
+                    Berdasarkan tantangan MEA tersebut serta melihat kondisi masyarakat yang ada, Walikota Surabaya membuka program Rumah Bahasa sebagai salah satu wujud perhatian Pemerintah Kota Surabaya dalam menyiapkan warga kota untuk menghadapi MEA 2015 serta AFTA — menjadi ruang publik yang bertujuan meningkatkan kompetisi masyarakat kota Surabaya di berbagai bahasa.
+                </p>
+            </div>
+        </section>
+
         @php $kategoriMap = [
             'sejarah' => 'Sejarah',
             'visi_misi' => 'Visi & Misi',

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Layanan;
 use App\Models\Pendaftaran;
-use App\Models\JadwalKelas;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,20 +24,7 @@ class MemberController extends Controller
             'rejected' => $pendaftaran->where('status', 'rejected')->count(),
         ];
 
-        // Jadwal terdekat untuk program yang sudah didaftarkan member
-        $programTerdaftar = $pendaftaran->whereIn('status', ['pending', 'confirmed'])->pluck('program')->unique();
-        $jadwalTerdekat = collect();
-        foreach ($programTerdaftar as $namaProgram) {
-            $keyword = str_replace('Kelas ', '', $namaProgram);
-            $jadwal = JadwalKelas::where('is_active', true)
-                ->where('nama_kelas', 'like', "%{$keyword}%")
-                ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
-                ->orderBy('jam_mulai')
-                ->get();
-            $jadwalTerdekat = $jadwalTerdekat->merge($jadwal);
-        }
-
-        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'statPendaftaran', 'jadwalTerdekat'));
+        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'statPendaftaran'));
     }
 
     public function edit()
@@ -90,35 +76,16 @@ class MemberController extends Controller
     public function program()
     {
         $programs = Layanan::where('is_active', true)->orderBy('urutan')->get();
-        $jadwal = JadwalKelas::where('is_active', true)
-            ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
-            ->orderBy('jam_mulai')
-            ->get()
-            ->groupBy('hari');
         $programTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->whereIn('status', ['pending', 'confirmed'])
             ->pluck('program')
             ->toArray();
-        return view('member.program', compact('programs', 'jadwal', 'programTerdaftar'));
+        return view('member.program', compact('programs', 'programTerdaftar'));
     }
 
     public function detailProgram($nama)
     {
         $program = Layanan::where('is_active', true)->where('nama', $nama)->firstOrFail();
-
-        // Cari jadwal yang relevan dengan program ini
-        $keyword = str_replace('Kelas ', '', $program->nama);
-        $jadwal = JadwalKelas::where('is_active', true)
-            ->where('nama_kelas', 'like', "%{$keyword}%")
-            ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
-            ->orderBy('jam_mulai')
-            ->get()
-            ->groupBy('hari');
-
-        // Hitung sisa kuota per jadwal
-        $confirmedCount = Pendaftaran::where('program', $program->nama)
-            ->where('status', 'confirmed')
-            ->count();
 
         $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->where('program', $program->nama)
@@ -127,7 +94,7 @@ class MemberController extends Controller
 
         $baruDaftar = session('baru_daftar_program') === $program->nama;
 
-        return view('member.program-detail', compact('program', 'jadwal', 'confirmedCount', 'sudahTerdaftar', 'baruDaftar'));
+        return view('member.program-detail', compact('program', 'sudahTerdaftar', 'baruDaftar'));
     }
 
     public function notifikasiIndex()

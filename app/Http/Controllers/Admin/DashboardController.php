@@ -9,7 +9,6 @@ use App\Models\Kontak;
 use App\Models\User;
 use App\Models\Profil;
 use App\Models\JadwalKelas;
-use App\Models\Galeri;
 
 class DashboardController extends Controller
 {
@@ -19,13 +18,12 @@ class DashboardController extends Controller
             'berita' => Berita::count(),
             'pendaftar' => Pendaftaran::count(),
             'pending' => Pendaftaran::where('status', 'pending')->count(),
-            'confirmed' => Pendaftaran::where('status', 'confirmed')->count(),
+            'confirmed' => User::where('role', 'member')->where('status', 'approved')->count(),
             'pending_member' => User::where('role', 'member')->where('status', 'pending')->count(),
             'pesan_baru' => Kontak::where('sudah_dibaca', false)->count(),
             'member' => User::where('role', 'member')->count(),
             'profil' => Profil::count(),
             'jadwal_kelas' => JadwalKelas::count(),
-            'galeri' => Galeri::count(),
         ];
         $recentPendaftar = Pendaftaran::with('user')->latest()->limit(5)->get();
         $recentPesan = Kontak::latest()->limit(5)->get();

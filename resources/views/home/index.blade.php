@@ -10,9 +10,9 @@
 @php
     $heroSlides = [
         asset('images/rumbas.jpg'),
-        asset('storage/galeri/qT1b65498Yi7CrUQQdb4OWAnlvUIZYMtU3bGyCD9.jpg'),
         asset('storage/berita/berita_1.jpg'),
         asset('storage/berita/berita_2.jpg'),
+        asset('storage/berita/berita_3.jpg'),
     ];
 @endphp
 <section class="hero" id="beranda" style="
@@ -99,16 +99,31 @@ document.addEventListener('DOMContentLoaded', function() {
         @if($pelatihan->count())
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
                 @foreach($pelatihan as $item)
-                    <div class="dashboard-card pelatihan-card fade-up" style="padding: 40px 28px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.05); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s;">
+                    <a href="{{ route('layanan.show', $item->nama) }}" class="dashboard-card pelatihan-card fade-up" style="display:block; padding: 40px 28px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.05); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s; text-decoration:none;">
                         @if($item->ikon)
                             <div style="font-size:56px; margin-bottom:16px; color:var(--teal-600);">{!! $item->ikon !!}</div>
                         @elseif($item->gambar)
                             <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->nama }}" style="width:80px; height:80px; object-fit:cover; border-radius:16px; margin-bottom:16px;">
                         @endif
                         <h3 style="font-size:20px; font-weight:700; color:var(--gray-900); margin:0 0 10px;">{{ $item->nama }}</h3>
-                        <p style="font-size:14px; color:var(--gray-500); line-height:1.7; margin:0;">{{ $item->deskripsi }}</p>
-                    </div>
+                        <p style="font-size:14px; color:var(--gray-500); line-height:1.7; margin:0;">{{ Str::limit($item->deskripsi, 90) }}</p>
+                        <span style="display:inline-flex;align-items:center;gap:6px;color:#0c4e91;font-weight:600;font-size:13px;margin-top:14px;text-decoration:none;">
+                            Lihat Detail
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
+                    </a>
                 @endforeach
+            </div>
+
+            {{-- Info jumlah kelas & tombol lihat selengkapnya --}}
+            <div style="text-align:center; margin-top:36px;">
+                <p style="font-size:14px; color:var(--gray-500); margin:0 0 16px;">
+                    Tersedia <strong style="color:var(--gray-900);">{{ $totalProgram }}</strong> program kelas bahasa &amp; pelatihan lainnya
+                </p>
+                <a href="{{ route('layanan') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
+                    Lihat selengkapnya
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
             </div>
         @endif
     </div>
@@ -136,9 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
 {{-- ===== 3. NEWS (BERITA) ===== --}}
 <section class="news-section" id="berita">
     <div class="container">
-        <div class="section-title">
+        <div class="section-title" style="text-align:center; margin-bottom:44px;">
             <h2>Berita & Info Terkini</h2>
-            <p>Informasi terbaru seputar kegiatan dan program Rumah Bahasa Surabaya</p>
+            <p style="max-width:560px; margin:0 auto;">Informasi terbaru seputar kegiatan dan program Rumah Bahasa Surabaya</p>
         </div>
         <div class="news-grid">
             @forelse($berita as $item)
@@ -150,10 +165,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                         @endif
                     </div>
-                    <div class="news-card-body" style="padding:24px;">
+                    <div class="news-card-body" style="padding:20px 22px;">
                         <div class="news-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
-                        <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:6px;">{{ $item->judul }}</h3>
-                        <p style="color:var(--gray-500);font-size:14px;">{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 120) }}</p>
+                        <h3 style="font-size:17px;font-weight:700;color:var(--gray-900);margin-bottom:8px;line-height:1.4;">{{ $item->judul }}</h3>
+                        <p style="color:var(--gray-500);font-size:13.5px;line-height:1.6;margin:0 0 10px;">{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 80) }}</p>
+                        <span style="display:inline-flex;align-items:center;gap:5px;color:#0c4e91;font-weight:600;font-size:13px;">
+                            Lihat selengkapnya
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
                     </div>
                 </a>
             @empty
@@ -163,8 +182,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             @endforelse
         </div>
-        <div style="text-align:center;margin-top:28px;">
-            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
+        <div style="text-align:center;margin-top:40px;margin-bottom:8px;">
+            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#0c4e91;font-weight:600;font-size:14px;text-decoration:none;background:#ffffff;padding:12px 32px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#ffffff'">
                 Lihat selengkapnya
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -194,25 +213,51 @@ document.addEventListener('DOMContentLoaded', function() {
 {{-- Style Khusus Section News --}}
 <style>
     section.news-section {
-        background-color: #ffffff !important;
-        padding-top: 15px !important;
+        background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%) !important;
+        padding: 60px 0 10px !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
+
+    section.news-section .section-title {
+        margin-bottom: 44px !important;
+    }
+
+    section.news-section .section-title h2 {
+        color: #ffffff !important;
+        font-size: 34px !important;
+        font-weight: 700 !important;
+        margin-bottom: 12px !important;
+    }
+
+    section.news-section .section-title p {
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+    }
+
+    section.news-section .news-card-img {
+        height: 150px !important;
     }
 
     @media (max-width: 640px) {
         section.news-section {
-            padding-top: 10px !important;
-            padding-bottom: 25px !important;
+            padding: 40px 0 10px !important;
+        }
+
+        section.news-section .section-title {
+            margin-bottom: 32px !important;
         }
 
         /* Judul Section di Mobile */
         .section-title h2 {
             font-size: 20px !important;
-            margin-bottom: 6px !important;
+            margin-bottom: 8px !important;
         }
 
         .section-title p {
             font-size: 13px !important;
-            line-height: 1.4 !important;
+            line-height: 1.5 !important;
             margin-bottom: 16px !important;
         }
 
@@ -223,12 +268,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* Gambar Card Dibuat Kompak */
         .news-card-img {
-            height: 160px !important; /* Maksimal tinggi gambar di HP */
+            height: 150px !important; /* Maksimal tinggi gambar di HP */
         }
 
         /* Content Body Card */
         .news-card-body {
-            padding: 14px 16px !important;
+            padding: 16px 16px !important;
         }
 
         .news-card-date {
@@ -238,13 +283,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         .news-card-body h3 {
             font-size: 15px !important;
-            line-height: 1.35 !important;
+            line-height: 1.4 !important;
             margin-bottom: 8px !important;
         }
 
         .news-card-body p {
             font-size: 12.5px !important;
-            line-height: 1.45 !important;
+            line-height: 1.55 !important;
         }
     }
 </style>
@@ -258,34 +303,20 @@ document.addEventListener('DOMContentLoaded', function() {
         margin-bottom: 0 !important;
     }
 
-    /* Section news menyambung dari putih */
+    /* Section news dengan latar biru ala MEA (padding & radius diatur di style section news) */
     section.news-section {
-        background-color: #ffffff !important;
-        padding-top: 15px !important;
+        background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%) !important;
     }
 
     @media (max-width: 640px) {
         section.hero {
             padding-bottom: 20px !important;
         }
-        section.news-section {
-            padding-top: 10px !important;
-        }
     }
 </style>
 
 {{-- ===== BANNER MEA & AFTA ===== --}}
-<section class="mea-banner" id="mea" style="background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%); padding: 56px 0; position: relative; overflow: hidden;">
-    <div style="position:absolute; top:-40px; right:-40px; width:220px; height:220px; background:rgba(255,255,255,0.06); border-radius:50%; filter:blur(30px); pointer-events:none;"></div>
-    <div style="position:absolute; bottom:-60px; left:-30px; width:280px; height:280px; background:rgba(255,255,255,0.05); border-radius:50%; filter:blur(40px); pointer-events:none;"></div>
-    <div class="container" style="max-width:1000px; margin:0 auto; padding:0 20px; position:relative; z-index:2; text-align:center;">
-        <span style="display:inline-block; padding:6px 18px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.2); color:#fff; border-radius:50px; font-size:12px; font-weight:600; letter-spacing:0.5px; margin-bottom:20px;">Siap Hadapi MEA &amp; AFTA</span>
-        <h2 style="font-size:clamp(20px, 3.5vw, 30px); font-weight:800; color:#fff; margin:0 0 16px; letter-spacing:-0.5px;">Siap Hadapi MEA (Masyarakat Ekonomi ASEAN) &amp; AFTA (ASEAN Free Trade Area)</h2>
-        <p style="font-size:14px; line-height:1.8; color:rgba(255,255,255,0.9); margin:0 auto; max-width:800px;">
-            Berdasarkan tantangan MEA tersebut serta melihat kondisi masyarakat yang ada, Walikota Surabaya membuka program Rumah Bahasa sebagai salah satu wujud perhatian Pemerintah Kota Surabaya dalam menyiapkan warga kota untuk menghadapi MEA 2015 serta AFTA — menjadi ruang publik yang bertujuan meningkatkan kompetisi masyarakat kota Surabaya di berbagai bahasa.
-        </p>
-    </div>
-</section>
+{{-- Dipindah ke halaman /profil (dibuka lewat tombol "Lihat selengkapnya" di section Tentang Rumah Bahasa) --}}
 
 {{-- Wave Separator dari News ke About --}}
 <div class="news-to-about-wave">

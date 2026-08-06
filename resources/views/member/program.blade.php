@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program & Jadwal — Rumah Bahasa Surabaya</title>
+    <title>Program — Rumah Bahasa Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         * { box-sizing: border-box; }
@@ -15,9 +15,6 @@
         .program-card { background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s,transform 0.2s; display:flex; flex-direction:column; }
         .program-card:hover { box-shadow:0 8px 24px rgba(0,0,0,0.08); transform:translateY(-2px); }
         .program-card .card-body { flex:1; }
-        .jadwal-card { background:#fff; border:1px solid var(--gray-100); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s; }
-        .jadwal-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); }
-        .section-divider { border:none; border-top:2px solid var(--teal-100); margin:40px 0; }
         .btn-daftar { display:inline-block; width:100%; text-align:center; padding:10px 16px; background:#0882c4; color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:16px; text-decoration:none; }
         .btn-daftar:hover { background:#0167a2; }
         .btn-daftar-terdaftar { background:#e5e7eb; color:#9ca3af; cursor:default; }
@@ -34,10 +31,7 @@
             .program-grid { grid-template-columns: 1fr; gap: 12px; }
             .program-card { padding: 16px; }
             .program-card h3 { font-size: 16px !important; }
-            .jadwal-card { padding: 12px 14px; flex-direction: column; align-items: flex-start; }
-            .jadwal-card p { font-size: 13px !important; }
             .btn-daftar { font-size: 12px; padding: 8px 12px; }
-            .section-divider { margin: 24px 0 !important; }
             h2[style*="font-size:20px"] { font-size: 17px !important; }
             [style*="gap:12px;flex-wrap:wrap"] > div { font-size: 11px !important; padding: 4px 10px !important; }
         }
@@ -47,7 +41,7 @@
     <div class="admin-page">
         <header class="admin-header">
             <div class="container" style="max-width:1200px;margin:0 auto;padding:0 20px;">
-                <h2 style="font-size:18px;">Program & Jadwal</h2>
+                <h2 style="font-size:18px;">Program</h2>
                 <div class="admin-header-right">
                     <a href="{{ route('member.dashboard') }}" style="color:rgba(255,255,255,0.7);font-size:13px;">Dashboard</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf
@@ -61,8 +55,8 @@
 
                 {{-- Header --}}
                 <div style="text-align:center;margin-bottom:32px;">
-                    <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:8px;">Program & Jadwal Kelas</h1>
-                    <p style="color:var(--gray-500);font-size:14px;">Lihat program, jadwal kelas, dan daftar langsung di sini</p>
+                    <h1 style="font-size:28px;font-weight:800;color:var(--gray-900);margin-bottom:8px;">Program Kelas</h1>
+                    <p style="color:var(--gray-500);font-size:14px;">Lihat program dan daftar langsung di sini</p>
                 </div>
 
                 @if(session('success'))
@@ -96,58 +90,6 @@
                 @else
                     <div style="text-align:center;padding:40px 20px;">
                         <p style="color:var(--gray-400);">Belum ada program yang tersedia.</p>
-                    </div>
-                @endif
-
-                <hr class="section-divider">
-
-                {{-- ===== JADWAL KELAS ===== --}}
-                <h2 style="font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Jadwal Kelas</h2>
-                <p style="font-size:13px;color:var(--gray-400);margin-bottom:6px;">Jadwal kelas Rumah Bahasa Surabaya</p>
-
-                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-                    <div style="display:flex;align-items:center;gap:6px;background:#f8fafc;padding:6px 12px;border-radius:8px;font-size:12px;">
-                        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#0369a1;"></span>
-                        <strong>Tematik</strong> — Kelas rutin jadwal tetap
-                    </div>
-                    <div style="display:flex;align-items:center;gap:6px;background:#f8fafc;padding:6px 12px;border-radius:8px;font-size:12px;">
-                        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#b45309;"></span>
-                        <strong>Tentative</strong> — Kelas kondisional
-                    </div>
-                </div>
-
-                @if($jadwal->count())
-                    @php $hariList = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu']; @endphp
-                    @foreach($hariList as $hari)
-                        @if(isset($jadwal[$hari]))
-                            <div style="margin-bottom:20px;">
-                                <h4 style="font-size:16px;font-weight:700;color:var(--teal-700);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--teal-100);">{{ $hari }}</h4>
-                                <div style="display:grid;gap:8px;">
-                                    @foreach($jadwal[$hari] as $item)
-                                        <div class="jadwal-card">
-                                            <div style="flex:1;min-width:140px;">
-                                                <p style="font-weight:700;font-size:14px;color:var(--gray-900);margin:0;">{{ $item->nama_kelas }}</p>
-                                                <p style="font-size:12px;color:var(--gray-500);margin:3px 0 0;">
-                                                    {{ \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') }}
-                                                    @if($item->pengajar) &middot; {{ $item->pengajar }} @endif
-                                                </p>
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
-                                                <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:11px;font-weight:600;{{ $item->jenis === 'tematik' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#fef3c7;color:#b45309;' }}">{{ ucfirst($item->jenis) }}</span>
-                                                <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:11px;font-weight:600;{{ $item->mode === 'online' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#ecfdf5;color:#166534;' }}">{{ ucfirst($item->mode) }}</span>
-                                                @if($item->ruangan_link)
-                                                    <span style="font-size:11px;color:var(--gray-500);background:var(--gray-50);padding:2px 8px;border-radius:50px;">{{ $item->mode === 'online' ? '🔗' : '📍' }} {{ $item->ruangan_link }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                @else
-                    <div style="text-align:center;padding:30px 20px;">
-                        <p style="color:var(--gray-400);">Belum ada jadwal kelas yang tersedia.</p>
                     </div>
                 @endif
 

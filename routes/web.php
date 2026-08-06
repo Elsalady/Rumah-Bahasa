@@ -9,7 +9,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\TataCaraController;
-use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\SitemapController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
@@ -20,7 +20,6 @@ use App\Http\Controllers\Admin\KontakController as AdminKontak;
 use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
 use App\Http\Controllers\Admin\MemberController as AdminMember;
 use App\Http\Controllers\Admin\KontenController as AdminKonten;
-use App\Http\Controllers\Admin\GaleriController as AdminGaleri;
 
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
@@ -31,7 +30,8 @@ Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.sh
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::post('/kontak', [KontakController::class, 'kirim'])->name('kontak.kirim');
 Route::get('/jadwal', [JadwalKelasController::class, 'index'])->name('jadwal');
-Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
+Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
+Route::get('/layanan/{nama}', [LayananController::class, 'show'])->name('layanan.show');
 Route::get('/tata-cara/{jenis?}', [TataCaraController::class, 'index'])->name('tata-cara');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
@@ -78,11 +78,6 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
 
     Route::get('/konten', [AdminKonten::class, 'index'])->name('konten.index');
-
-    Route::get('/galeri', [AdminGaleri::class, 'index'])->name('galeri.index');
-    Route::post('/galeri', [AdminGaleri::class, 'store'])->name('galeri.store');
-    Route::put('/galeri/{id}', [AdminGaleri::class, 'update'])->name('galeri.update');
-    Route::delete('/galeri/{id}', [AdminGaleri::class, 'destroy'])->name('galeri.destroy');
 
     Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
     Route::put('/berita/{id}', [BeritaController::class, 'update'])->name('berita.update');

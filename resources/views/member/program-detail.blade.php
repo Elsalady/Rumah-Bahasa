@@ -11,8 +11,6 @@
         .admin-header-right { display:flex; align-items:center; gap:12px; }
         .btn-logout { font-size:14px; font-weight:700; color:var(--teal-900); background:#fff; border:none; border-radius:8px; padding:10px 20px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1); white-space:nowrap; }
         .btn-logout:hover { background:#f1f5f9; }
-        .jadwal-card { background:#fff; border:1px solid var(--gray-100); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s; }
-        .jadwal-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); }
         .detail-header { background:linear-gradient(135deg,#0167a2,#1680bd); border-radius:16px; padding:32px; color:#fff; margin-bottom:28px; }
         .btn-back { display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:13px;text-decoration:none;margin-bottom:16px;font-weight:600; }
         .btn-back:hover { color:#fff; }
@@ -42,34 +40,21 @@
                     <div style="padding:14px 20px;background:linear-gradient(135deg,#fef2f2,#fecaca);border:1px solid #fca5a5;border-radius:12px;color:#991b1b;font-weight:500;font-size:14px;margin-bottom:24px;">{{ session('error') }}</div>
                 @endif
 
-                {{-- Info Kuota --}}
-                @php
-                    $totalKuota = 0;
-                    foreach ($jadwal as $hariJadwal) {
-                        foreach ($hariJadwal as $j) {
-                            $totalKuota += $j->kuota;
-                        }
-                    }
-                    $sisaKuota = $totalKuota - $confirmedCount;
-                @endphp
-                @if($totalKuota > 0)
-                    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;padding:16px 20px;background:#f8fafc;border-radius:12px;border:1px solid #e5e7eb;">
-                        <div style="display:flex;align-items:center;gap:8px;font-size:14px;">
-                            <span style="font-weight:600;color:var(--gray-900);">👥 Total Kuota:</span>
-                            <span style="font-weight:700;color:#1e40af;">{{ $totalKuota }}</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:8px;font-size:14px;">
-                            <span style="font-weight:600;color:var(--gray-900);">✅ Terdaftar:</span>
-                            <span style="font-weight:700;color:#166534;">{{ $confirmedCount }}</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:8px;font-size:14px;">
-                            <span style="font-weight:600;color:var(--gray-900);">📌 Sisa Kuota:</span>
-                            <span style="font-weight:700;{{ $sisaKuota > 0 ? 'color:#b45309;' : 'color:#dc2626;' }}">{{ max(0, $sisaKuota) }}</span>
+                {{-- Header Program --}}
+                <div class="detail-header">
+                    <a href="{{ route('member.program') }}" class="btn-back">← Kembali ke Program</a>
+                    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                        @if($program->ikon)
+                            <div style="font-size:48px;">{!! $program->ikon !!}</div>
+                        @endif
+                        <div>
+                            <h1 style="font-size:26px;font-weight:800;margin:0 0 6px;">{{ $program->nama }}</h1>
+                            <p style="font-size:14px;color:rgba(255,255,255,0.8);margin:0;line-height:1.6;">{{ $program->deskripsi }}</p>
                         </div>
                     </div>
-                @endif
+                </div>
 
-                {{-- Link Grup WA (setelah daftar) --}}
+                {{-- Tombol Daftar --}}
                 @if($baruDaftar && $program->link_wa)
                     <div style="padding:20px 24px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:12px;margin-bottom:24px;text-align:center;">
                         <p style="font-size:15px;font-weight:700;color:#166534;margin:0 0 8px;">🎉 Kamu berhasil mendaftar {{ $program->nama }}!</p>
@@ -95,50 +80,6 @@
                     </div>
                 </div>
 
-                {{-- Jadwal Terkait --}}
-                <div style="margin-bottom:28px;">
-                    <h2 style="font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Jadwal Kelas</h2>
-                    <p style="font-size:13px;color:var(--gray-400);margin-bottom:12px;">Jadwal yang tersedia untuk program ini</p>
-
-                    @if($jadwal->count())
-                        @php $hariList = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu']; @endphp
-                        @foreach($hariList as $hari)
-                            @if(isset($jadwal[$hari]))
-                                <div style="margin-bottom:16px;">
-                                    <h4 style="font-size:15px;font-weight:700;color:var(--teal-700);margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid var(--teal-100);">{{ $hari }}</h4>
-                                    <div style="display:grid;gap:8px;">
-                                        @foreach($jadwal[$hari] as $item)
-                                            <div class="jadwal-card">
-                                                <div style="flex:1;min-width:140px;">
-                                                    <p style="font-weight:700;font-size:14px;color:var(--gray-900);margin:0;">{{ $item->nama_kelas }}</p>
-                                                    <p style="font-size:12px;color:var(--gray-500);margin:3px 0 0;">
-                                                        {{ \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') }}
-                                                        @if($item->pengajar) &middot; {{ $item->pengajar }} @endif
-                                                    </p>
-                                                </div>
-                                                <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
-                                                    @if($item->kuota > 0)
-                                                        <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:11px;font-weight:600;background:#eff6ff;color:#1e40af;">👥 Kuota: {{ $item->kuota }}</span>
-                                                    @endif
-                                                    <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:11px;font-weight:600;{{ $item->jenis === 'tematik' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#fef3c7;color:#b45309;' }}">{{ ucfirst($item->jenis) }}</span>
-                                                    <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:11px;font-weight:600;{{ $item->mode === 'online' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#ecfdf5;color:#166534;' }}">{{ ucfirst($item->mode) }}</span>
-                                                    @if($item->ruangan_link)
-                                                        <span style="font-size:11px;color:var(--gray-500);background:var(--gray-50);padding:2px 8px;border-radius:50px;">{{ $item->mode === 'online' ? '🔗' : '📍' }} {{ $item->ruangan_link }}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    @else
-                        <div style="text-align:center;padding:30px 20px;background:#f8fafc;border-radius:12px;">
-                            <p style="color:var(--gray-400);margin:0;">Belum ada jadwal untuk program ini.</p>
-                        </div>
-                    @endif
-                </div>
-
                 {{-- Tombol Daftar --}}
                 <div style="max-width:400px;margin:0 auto;">
                     <div class="dashboard-card" style="padding:28px;text-align:center;">
@@ -147,7 +88,7 @@
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                                 kamu sudah terdaftar
                             </div>
-                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">silahkan cek jadwal yang sudah terdaftar di dashboard.</p>
+                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Kamu sudah terdaftar di program ini.</p>
                         @else
                             <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">

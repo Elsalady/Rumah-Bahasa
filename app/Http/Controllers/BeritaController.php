@@ -17,10 +17,12 @@ class BeritaController extends Controller
 
         $pelatihan = Layanan::where('is_active', true)
                             ->orderBy('urutan')
-                            ->limit(2)
+                            ->limit(3)
                             ->get();
 
-        return view('home.index', compact('berita', 'pelatihan'));
+        $totalProgram = Layanan::where('is_active', true)->count();
+
+        return view('home.index', compact('berita', 'pelatihan', 'totalProgram'));
     }
 
     public function list(Request $request)

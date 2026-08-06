@@ -13,7 +13,7 @@ class SitemapController extends Controller
             ['loc' => url('/'), 'freq' => 'daily', 'priority' => '1.0'],
             ['loc' => route('profil'), 'freq' => 'monthly', 'priority' => '0.8'],
             ['loc' => route('berita.list'), 'freq' => 'daily', 'priority' => '0.9'],
-            ['loc' => route('galeri'), 'freq' => 'weekly', 'priority' => '0.6'],
+            ['loc' => route('layanan'), 'freq' => 'weekly', 'priority' => '0.8'],
             ['loc' => route('kontak'), 'freq' => 'yearly', 'priority' => '0.5'],
             ['loc' => route('jadwal'), 'freq' => 'weekly', 'priority' => '0.7'],
             ['loc' => route('tata-cara', 'ktp-surabaya'), 'freq' => 'yearly', 'priority' => '0.6'],

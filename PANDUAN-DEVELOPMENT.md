@@ -143,9 +143,8 @@ Berdasarkan website umum milik pemerintah, halaman yang wajib ada:
 | 3 | **Layanan** | `/layanan` | Daftar program/layanan yang tersedia |
 | 4 | **Berita / Kegiatan** | `/berita` | Artikel kegiatan Rumah Bahasa |
 | 5 | **Detail Berita** | `/berita/{slug}` | Isi lengkap artikel |
-| 6 | **Galeri** | `/galeri` | Foto & video kegiatan |
-| 7 | **Kontak** | `/kontak` | Alamat, maps, form pesan |
-| 8 | **Dashboard Admin** | `/admin` | Kelola konten website |
+| 6 | **Kontak** | `/kontak` | Alamat, maps, form pesan |
+| 7 | **Dashboard Admin** | `/admin` | Kelola konten website |
 
 ---
 
@@ -224,9 +223,6 @@ php artisan make:migration create_layanan_table
 # Tabel berita/kegiatan
 php artisan make:migration create_berita_table
 
-# Tabel galeri
-php artisan make:migration create_galeri_table
-
 # Tabel kontak/pesan masuk
 php artisan make:migration create_kontak_table
 
@@ -284,21 +280,6 @@ Schema::create('layanan', function (Blueprint $table) {
 });
 ```
 
-#### `create_galeri_table.php`
-
-```php
-Schema::create('galeri', function (Blueprint $table) {
-    $table->id();
-    $table->string('judul');
-    $table->string('gambar');
-    $table->text('deskripsi')->nullable();
-    $table->enum('kategori', ['foto', 'video']);
-    $table->date('tanggal')->nullable();
-    $table->boolean('is_active')->default(true);
-    $table->timestamps();
-});
-```
-
 #### `create_kontak_table.php`
 
 ```php
@@ -334,7 +315,6 @@ app/Http/Controllers/
   ├── ProfilController.php     → Halaman profil
   ├── LayananController.php    → Halaman layanan
   ├── BeritaController.php     → Halaman berita & detail
-  ├── GaleriController.php     → Halaman galeri
   └── KontakController.php     → Halaman kontak & kirim pesan
 
 resources/views/
@@ -350,8 +330,6 @@ resources/views/
   ├── berita/
   │   ├── index.blade.php      → Daftar berita
   │   └── show.blade.php       → Detail berita
-  ├── galeri/
-  │   └── index.blade.php      → Halaman galeri
   └── kontak/
       └── index.blade.php      → Halaman kontak
 ```
@@ -365,7 +343,6 @@ php artisan make:controller HomeController
 php artisan make:controller ProfilController
 php artisan make:controller LayananController
 php artisan make:controller BeritaController --resource
-php artisan make:controller GaleriController
 php artisan make:controller KontakController
 ```
 
@@ -379,7 +356,6 @@ mkdir -p resources/views/home
 mkdir -p resources/views/profil
 mkdir -p resources/views/layanan
 mkdir -p resources/views/berita
-mkdir -p resources/views/galeri
 mkdir -p resources/views/kontak
 ```
 
@@ -394,7 +370,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\KontakController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -402,7 +377,6 @@ Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
-Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::post('/kontak', [KontakController::class, 'kirim'])->name('kontak.kirim');
 ```
@@ -496,7 +470,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('berita', AdminBeritaController::class);
     Route::resource('layanan', AdminLayananController::class);
-    Route::resource('galeri', AdminGaleriController::class);
     Route::resource('profil', AdminProfilController::class);
     Route::get('kontak-masuk', [AdminKontakController::class, 'index'])->name('admin.kontak');
 });
@@ -508,7 +481,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 php artisan make:controller AdminController
 php artisan make:controller AdminBeritaController --resource
 php artisan make:controller AdminLayananController --resource
-php artisan make:controller AdminGaleriController --resource
 php artisan make:controller AdminProfilController --resource
 php artisan make:controller AdminKontakController
 ```
@@ -517,7 +489,6 @@ php artisan make:controller AdminKontakController
 
 - **Berita:** Tambah, edit, hapus, upload gambar
 - **Layanan:** Atur urutan tampilan
-- **Galeri:** Upload foto/video
 - **Profil:** Edit teks profil
 - **Kontak Masuk:** Lihat pesan dari pengunjung
 
@@ -630,7 +601,6 @@ Sebelum website dinyatakan selesai, pastikan semua di bawah ini sudah:
 - [ ] Admin bisa login & logout
 - [ ] Admin bisa CRUD berita
 - [ ] Admin bisa CRUD layanan
-- [ ] Admin bisa upload galeri
 - [ ] Upload gambar berfungsi
 - [ ] Database PostgreSQL terkoneksi
 

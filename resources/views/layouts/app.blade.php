@@ -230,7 +230,7 @@
         <div class="navbar-links">
             <a href="{{ route('home') }}#beranda">Beranda</a>
             <a href="{{ route('home') }}#berita">Berita</a>
-            <a href="{{ route('galeri') }}">Galeri</a>
+            <a href="{{ route('layanan') }}">Program</a>
             <a href="{{ route('home') }}#about">Profil</a>
             <a href="{{ route('tata-cara', 'ktp-surabaya') }}">Tata Cara</a>
             <a href="{{ route('home') }}#kontak">Kontak</a>
@@ -416,7 +416,7 @@
                         <a href="{{ route('tata-cara', 'ktp-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Surabaya)</a>
                         <a href="{{ route('tata-cara', 'ktp-non-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Non-Surabaya)</a>
                         <a href="{{ route('register') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Program</a>
-                        <a href="{{ route('galeri') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Galeri Kegiatan</a>
+                        <a href="{{ route('layanan') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Kelas Bahasa</a>
                         <a href="{{ route('jadwal') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Jadwal Kelas</a>
                     </div>
                 </div>
@@ -470,7 +470,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.navbar-links a[href^="#"], .navbar-links a[href*="#"]');
-            
+
+            // Tandai link aktif berdasarkan halaman yang sedang dibuka (untuk halaman terpisah seperti /layanan & /tata-cara)
+            const currentPath = window.location.pathname;
+            const allNavLinks = document.querySelectorAll('.navbar-links a');
+            allNavLinks.forEach(link => {
+                if (link.classList.contains('btn-login')) return; // lewati tombol login
+                const href = link.getAttribute('href') || '';
+                const label = link.textContent.trim().toLowerCase();
+                const isActive =
+                    (label === 'berita' && currentPath.startsWith('/berita')) ||
+                    (label === 'profil' && currentPath.startsWith('/profil')) ||
+                    (label === 'program' && currentPath.startsWith('/layanan')) ||
+                    (label === 'tata cara' && currentPath.startsWith('/tata-cara')) ||
+                    (label === 'galeri' && currentPath.startsWith('/galeri'));
+                if (isActive) link.classList.add('nav-active');
+            });
+
             const sectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {

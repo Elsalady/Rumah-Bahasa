@@ -72,11 +72,5 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        // Galeri
-        \App\Models\Galeri::insert([
-            ['judul' => 'Kegiatan Belajar di Rumah Bahasa', 'gambar' => 'galeri/berita_1.jpg', 'deskripsi' => 'Suasana kelas bahasa di Rumah Bahasa Surabaya.', 'kategori' => 'foto', 'tanggal' => now()->subDays(10)->toDateString(), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
-            ['judul' => 'Kelas Budaya', 'gambar' => 'galeri/berita_2.jpg', 'deskripsi' => 'Dokumentasi kelas kebudayaan.', 'kategori' => 'foto', 'tanggal' => now()->subDays(20)->toDateString(), 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
     }
 }
