@@ -10,13 +10,13 @@ class LayananController extends Controller
     {
         $programs = Layanan::where('is_active', true)->orderBy('urutan')->get();
 
-        return view('layanan.index', compact('programs'));
+        return view('layanan.index', compact('programs'))->with('hideFooter', true);
     }
 
     public function show($nama)
     {
         $program = Layanan::where('is_active', true)->where('nama', $nama)->firstOrFail();
 
-        return view('layanan.show', compact('program'));
+        return view('layanan.show', compact('program'))->with('hideFooter', true);
     }
 }

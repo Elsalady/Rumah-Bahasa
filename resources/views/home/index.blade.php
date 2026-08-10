@@ -48,10 +48,79 @@
 ">
     Pusat literasi dan pembelajaran untuk masyarakat Surabaya. Mari bersama tingkatkan budaya literasi dan cinta bahasa.
 </p>
-            <form class="search-box" action="{{ route('berita.list') }}" method="GET">
-                <input type="text" name="q" placeholder="Cari informasi atau berita..." aria-label="Cari">
-                <button type="submit">Cari</button>
-            </form>
+            <div class="search-box" id="search-menu" onclick="toggleSearchMenu(event)">
+                <div class="search-bar-row">
+                    <input type="text" id="search-input" placeholder="Cari menu website..." aria-label="Cari menu" autocomplete="off">
+                    <button type="button" id="search-toggle" aria-label="Buka menu">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Cari
+                    </button>
+                </div>
+
+                {{-- ===== DROPDOWN MENU WEBSITE ===== --}}
+                <div class="search-dropdown" id="search-dropdown">
+                    <a href="{{ route('home') }}#pelatihan" class="search-menu-item" data-search="lingkup pelatihan">
+                        <span class="search-menu-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        </span>
+                        <span class="search-menu-text">
+                            <strong>Lingkup Pelatihan</strong>
+                            <small>Lihat pelatihan unggulan</small>
+                        </span>
+                        <span class="search-menu-arrow">→</span>
+                    </a>
+                    <a href="{{ route('home') }}#berita" class="search-menu-item" data-search="berita info terkini">
+                        <span class="search-menu-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        </span>
+                        <span class="search-menu-text">
+                            <strong>Berita</strong>
+                            <small>Berita &amp; info terkini</small>
+                        </span>
+                        <span class="search-menu-arrow">→</span>
+                    </a>
+                    <a href="{{ route('layanan') }}" class="search-menu-item" data-search="program kelas bahasa layanan">
+                        <span class="search-menu-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </span>
+                        <span class="search-menu-text">
+                            <strong>Program</strong>
+                            <small>Daftar kelas bahasa &amp; pelatihan</small>
+                        </span>
+                        <span class="search-menu-arrow">→</span>
+                    </a>
+                    <a href="{{ route('register') }}" class="search-menu-item" data-search="daftar sekarang register">
+                        <span class="search-menu-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                        </span>
+                        <span class="search-menu-text">
+                            <strong>Daftar Sekarang</strong>
+                            <small>Buat akun &amp; daftar program</small>
+                        </span>
+                        <span class="search-menu-arrow">→</span>
+                    </a>
+                    <a href="{{ route('home') }}#about" class="search-menu-item" data-search="profil tentang">
+                        <span class="search-menu-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </span>
+                        <span class="search-menu-text">
+                            <strong>Profil</strong>
+                            <small>Tentang Rumah Bahasa</small>
+                        </span>
+                        <span class="search-menu-arrow">→</span>
+                    </a>
+                    <a href="{{ route('home') }}#kontak" class="search-menu-item" data-search="kontak hubungi kami pesan">
+                        <span class="search-menu-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        </span>
+                        <span class="search-menu-text">
+                            <strong>Kontak</strong>
+                            <small>Hubungi kami / kirim pesan</small>
+                        </span>
+                        <span class="search-menu-arrow">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -73,6 +142,126 @@
         from { transform: scale(1); }
         to { transform: scale(1.08); }
     }
+
+    /* ===== SEARCH BAR + DROPDOWN MENU ===== */
+    /* Hero harus visible agar dropdown tidak terpotong (overflow:hidden dari style.css) */
+    section.hero {
+        overflow: visible !important;
+    }
+    .search-box {
+        position: relative !important;
+        display: flex !important;
+        flex-direction: column;
+        max-width: 520px !important;
+        margin: 0 auto !important;
+        background: transparent !important;
+        border-radius: 14px !important;
+        box-shadow: none !important;
+        overflow: visible !important; /* Penting: dropdown tidak boleh terpotong */
+        z-index: 1200;
+    }
+    .search-box .search-bar-row {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+    .search-box input {
+        flex: 1;
+        padding: 16px 20px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        color: var(--gray-900);
+        background: transparent;
+        min-width: 0;
+    }
+    .search-box input::placeholder { color: var(--gray-400); }
+    .search-box button {
+        padding: 16px 22px;
+        background: #0c4e91;
+        color: #fff;
+        border: none;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .search-box button:hover { background: #0167a2; }
+
+    .search-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 20px 50px rgba(2, 6, 23, 0.25);
+        overflow: hidden;
+        display: none; /* Lebih andal daripada visibility: hidden */
+    }
+    .search-box.search-open .search-dropdown {
+        display: block;
+    }
+    .search-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 13px 18px;
+        text-decoration: none;
+        color: var(--gray-900);
+        transition: background 0.2s;
+        border-bottom: 1px solid var(--gray-100);
+    }
+    .search-menu-item:last-child { border-bottom: none; }
+    .search-menu-item:hover { background: #f0f7ff; }
+    .search-menu-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #e8f4fd;
+        color: #0c4e91;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .search-menu-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+    .search-menu-text strong {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--gray-900);
+    }
+    .search-menu-text small {
+        font-size: 12px;
+        color: var(--gray-400);
+    }
+    .search-menu-arrow {
+        color: var(--gray-300);
+        font-size: 16px;
+        transition: transform 0.2s;
+    }
+    .search-menu-item:hover .search-menu-arrow {
+        transform: translateX(4px);
+        color: #0c4e91;
+    }
+    .search-empty {
+        padding: 20px;
+        text-align: center;
+        color: var(--gray-400);
+        font-size: 13px;
+    }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -87,60 +276,153 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+{{-- ===== SCRIPT SEARCH DROPDOWN MENU ===== --}}
+<script>
+// Fungsi global untuk inline onclick (paling andal, tidak tergantung DOMContentLoaded)
+function toggleSearchMenu(event) {
+    if (event) event.stopPropagation();
+    const box = document.getElementById('search-menu');
+    if (!box) return;
+    if (box.classList.contains('search-open')) {
+        box.classList.remove('search-open');
+    } else {
+        box.classList.add('search-open');
+        const input = document.getElementById('search-input');
+        if (input) input.focus();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBox = document.getElementById('search-menu');
+    if (!searchBox) return;
+    const input = document.getElementById('search-input');
+    const dropdown = document.getElementById('search-dropdown');
+    if (!input || !dropdown) return;
+    const items = Array.from(dropdown.querySelectorAll('.search-menu-item'));
+
+    // Filter menu sesuai ketikan
+    input.addEventListener('input', function() {
+        const q = input.value.trim().toLowerCase();
+        let visibleCount = 0;
+        items.forEach(function(item) {
+            const text = (item.dataset.search || '') + ' ' + item.textContent.toLowerCase();
+            const match = !q || text.includes(q);
+            item.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+        // Tampilkan pesan kosong jika tidak ada hasil
+        let empty = dropdown.querySelector('.search-empty');
+        if (visibleCount === 0 && !empty) {
+            empty = document.createElement('div');
+            empty.className = 'search-empty';
+            empty.textContent = 'Menu tidak ditemukan';
+            dropdown.appendChild(empty);
+        } else if (visibleCount > 0 && empty) {
+            empty.remove();
+        }
+    });
+
+    // Tutup saat klik di luar
+    document.addEventListener('click', function(e) {
+        if (!searchBox.contains(e.target)) {
+            searchBox.classList.remove('search-open');
+        }
+    });
+
+    // Tutup dengan tombol Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            searchBox.classList.remove('search-open');
+        }
+    });
+});
+</script>
+
 
 {{-- ===== 2. LINGKUP PELATIHAN ===== --}}
 <section class="pelatihan-section" id="pelatihan" style="padding: 56px 0; background: #f8fafc;">
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-        <div class="section-title" style="text-align:center; margin-bottom: 40px;">
-            <h2 style="font-size: 2rem; font-weight: 700; color: var(--gray-900); margin-bottom: 8px;">Lingkup <span style="color:#045981;">Pelatihan</span></h2>
-            <p style="color: var(--gray-500); font-size: 1rem; max-width: 560px; margin: 0 auto;">Pelatihan unggulan yang kami selenggarakan untuk masyarakat Surabaya</p>
-        </div>
 
-        @if($pelatihan->count())
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
-                @foreach($pelatihan as $item)
-                    <a href="{{ route('layanan.show', $item->nama) }}" class="dashboard-card pelatihan-card fade-up" style="display:block; padding: 40px 28px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.05); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s; text-decoration:none;">
-                        @if($item->ikon)
-                            <div style="font-size:56px; margin-bottom:16px; color:var(--teal-600);">{!! $item->ikon !!}</div>
-                        @elseif($item->gambar)
-                            <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->nama }}" style="width:80px; height:80px; object-fit:cover; border-radius:16px; margin-bottom:16px;">
-                        @endif
-                        <h3 style="font-size:20px; font-weight:700; color:var(--gray-900); margin:0 0 10px;">{{ $item->nama }}</h3>
-                        <p style="font-size:14px; color:var(--gray-500); line-height:1.7; margin:0;">{{ Str::limit($item->deskripsi, 90) }}</p>
-                        <span style="display:inline-flex;align-items:center;gap:6px;color:#0c4e91;font-weight:600;font-size:13px;margin-top:14px;text-decoration:none;">
-                            Lihat Detail
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                        </span>
+        {{-- ===== WADAH BESAR GRADIENT BIRU ===== --}}
+        <div class="pelatihan-container">
+            <div class="section-title" style="text-align:center; margin-bottom: 40px;">
+                <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Lingkup <span style="color:#bfe3ff;">Pelatihan</span></h2>
+                <p style="color: rgba(255,255,255,0.85); font-size: 1rem; max-width: 560px; margin: 0 auto;">Pelatihan unggulan yang kami selenggarakan untuk masyarakat Surabaya</p>
+            </div>
+
+            @if($pelatihan->count())
+                <div class="pelatihan-grid">
+                    @foreach($pelatihan as $item)
+                        <a href="{{ route('layanan.show', $item->nama) }}" class="dashboard-card pelatihan-card fade-up" style="display:block; padding: 36px 26px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.06); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s; text-decoration:none;">
+                            @if($item->ikon)
+                                <div style="font-size:52px; margin-bottom:16px; color:var(--teal-600);">{!! $item->ikon !!}</div>
+                            @elseif($item->gambar)
+                                <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->nama }}" style="width:80px; height:80px; object-fit:cover; border-radius:16px; margin-bottom:16px;">
+                            @endif
+                            <h3 style="font-size:20px; font-weight:700; color:var(--gray-900); margin:0 0 10px;">{{ $item->nama }}</h3>
+                            <p style="font-size:14px; color:var(--gray-500); line-height:1.7; margin:0;">{{ Str::limit($item->deskripsi, 90) }}</p>
+                            <span style="display:inline-flex;align-items:center;gap:6px;color:#0c4e91;font-weight:600;font-size:13px;margin-top:14px;text-decoration:none;">
+                                Lihat Detail
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </span>
+                        </a>
+                    @endforeach
+                </div>
+
+                {{-- Info jumlah kelas & tombol lihat selengkapnya --}}
+                <div style="text-align:center; margin-top:36px;">
+                    <p style="font-size:14px; color:rgba(255,255,255,0.85); margin:0 0 16px;">
+                        Tersedia <strong style="color:#ffffff;">{{ $totalProgram }}</strong> program kelas bahasa &amp; pelatihan lainnya
+                    </p>
+                    <a href="{{ route('layanan') }}" style="display:inline-flex;align-items:center;gap:8px;color:#0c4e91;font-weight:600;font-size:14px;text-decoration:none;background:#ffffff;padding:12px 28px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#ffffff'">
+                        Lihat selengkapnya
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
-                @endforeach
-            </div>
-
-            {{-- Info jumlah kelas & tombol lihat selengkapnya --}}
-            <div style="text-align:center; margin-top:36px;">
-                <p style="font-size:14px; color:var(--gray-500); margin:0 0 16px;">
-                    Tersedia <strong style="color:var(--gray-900);">{{ $totalProgram }}</strong> program kelas bahasa &amp; pelatihan lainnya
-                </p>
-                <a href="{{ route('layanan') }}" style="display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;background:#0c4e91;padding:12px 28px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#4d9ce2'" onmouseout="this.style.background='#0c4e91'">
-                    Lihat selengkapnya
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            </div>
-        @endif
+                </div>
+            @endif
+        </div>
     </div>
 </section>
 
 <style>
+    /* ===== Wadah Besar Lingkup Pelatihan ===== */
+    .pelatihan-container {
+        background: linear-gradient(135deg, #5cb0f2 0%, #3897e0 50%, #1680bd 100%);
+        border-radius: 32px;
+        padding: 56px 48px;
+        box-shadow: 0 16px 48px rgba(22, 128, 189, 0.18);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pelatihan-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
     section.pelatihan-section .pelatihan-card {
         background: #ffffff;
     }
     section.pelatihan-section .pelatihan-card:hover {
-        box-shadow: 0 12px 32px rgba(2, 132, 199, 0.12);
+        box-shadow: 0 12px 32px rgba(2, 132, 199, 0.2);
         transform: translateY(-4px);
+    }
+
+    @media (max-width: 900px) {
+        .pelatihan-container { padding: 44px 32px; }
+        .pelatihan-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
     }
     @media (max-width: 640px) {
         section.pelatihan-section { padding: 36px 0 !important; }
-        section.pelatihan-section .section-title h2 { font-size: 1.5rem !important; }
-        section.pelatihan-section .section-title p { font-size: 0.85rem !important; }
+        .pelatihan-container {
+            padding: 32px 20px;
+            border-radius: 24px;
+        }
+        .pelatihan-container .section-title { margin-bottom: 28px !important; }
+        .pelatihan-container .section-title h2 { font-size: 1.5rem !important; }
+        .pelatihan-container .section-title p { font-size: 0.85rem !important; }
+        .pelatihan-grid { grid-template-columns: 1fr; gap: 16px; }
         section.pelatihan-section .pelatihan-card { padding: 28px 20px !important; }
         section.pelatihan-section .pelatihan-card h3 { font-size: 17px !important; }
         section.pelatihan-section .pelatihan-card p { font-size: 13px !important; }
@@ -155,60 +437,595 @@ document.addEventListener('DOMContentLoaded', function() {
             <h2>Berita & Info Terkini</h2>
             <p style="max-width:560px; margin:0 auto;">Informasi terbaru seputar kegiatan dan program Rumah Bahasa Surabaya</p>
         </div>
-        <div class="news-grid">
-            @forelse($berita as $item)
-                <a href="{{ route('berita.show', $item->slug) }}" class="dashboard-card news-card fade-up" style="display:block;overflow:hidden;padding:0;text-decoration:none;opacity:0;transform:translateY(30px);transition-delay:{{ $loop->index * 0.1 }}s;">
-                    <div class="news-card-img">
-                        @if($item->gambar)
-                            <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;display:block;">
-                        @else
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        @endif
-                    </div>
-                    <div class="news-card-body" style="padding:20px 22px;">
-                        <div class="news-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
-                        <h3 style="font-size:17px;font-weight:700;color:var(--gray-900);margin-bottom:8px;line-height:1.4;">{{ $item->judul }}</h3>
-                        <p style="color:var(--gray-500);font-size:13.5px;line-height:1.6;margin:0 0 10px;">{{ Str::limit($item->ringkasan ?: strip_tags($item->isi), 80) }}</p>
-                        <span style="display:inline-flex;align-items:center;gap:5px;color:#0c4e91;font-weight:600;font-size:13px;">
-                            Lihat selengkapnya
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                        </span>
-                    </div>
-                </a>
-            @empty
-                <div class="news-empty">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <p>Belum ada berita.</p>
+        {{-- ===== COVERFLOW 3D CAROUSEL ===== --}}
+        @php
+            $beritaArr = $berita->values();
+            $beritaJson = $beritaArr->map(function ($item) {
+                return [
+                    'judul' => $item->judul,
+                    'tanggal' => \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY'),
+                    'deskripsi' => Str::limit(strip_tags($item->ringkasan ?: $item->isi), 140),
+                    'isi' => $item->isi,
+                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : '',
+                ];
+            })->values();
+        @endphp
+        @if($beritaArr->count())
+            <div class="cf-carousel" id="news-coverflow" data-count="{{ $beritaArr->count() }}">
+                <div class="cf-stage">
+                    @foreach($beritaArr as $i => $item)
+                        <div class="cf-card" data-index="{{ $i }}">
+                            <div class="cf-card-img">
+                                @if($item->gambar)
+                                    <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}">
+                                @else
+                                    <div class="cf-card-img-placeholder">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="cf-card-body">
+                                <div class="cf-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
+                                <h3>{{ $item->judul }}</h3>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endforelse
-        </div>
-        <div style="text-align:center;margin-top:40px;margin-bottom:8px;">
-            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#0c4e91;font-weight:600;font-size:14px;text-decoration:none;background:#ffffff;padding:12px 32px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#ffffff'">
+
+                {{-- Deskripsi Dinamis --}}
+                <div class="cf-caption">
+                    <div class="cf-caption-date" id="cf-caption-date"></div>
+                    <h3 class="cf-caption-title" id="cf-caption-title"></h3>
+                    <p class="cf-caption-desc" id="cf-caption-desc"></p>
+                </div>
+
+                {{-- Navigasi & Pagination --}}
+                <div class="cf-controls">
+                    <button type="button" class="cf-nav-btn cf-prev" aria-label="Berita sebelumnya">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </button>
+                    <div class="cf-dots"></div>
+                    <button type="button" class="cf-nav-btn cf-next" aria-label="Berita berikutnya">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Data berita untuk modal (JSON aman dari kutip/HTML) --}}
+            <script type="application/json" id="cf-berita-data">
+                @json($beritaJson)
+            </script>
+
+            {{-- ===== MODAL DETAIL BERITA ===== --}}
+            <div class="cf-modal-overlay" id="berita-modal" aria-hidden="true">
+                <div class="cf-modal" role="dialog" aria-modal="true" aria-label="Detail berita">
+                    <button type="button" class="cf-modal-close" id="berita-modal-close" aria-label="Tutup">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                    <div class="cf-modal-content" id="berita-modal-content"></div>
+                </div>
+            </div>
+        @else
+            <div class="news-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <p>Belum ada berita.</p>
+            </div>
+        @endif
+        <div style="text-align:center;margin-top:8px;margin-bottom:8px;">
+            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#ffffff;font-weight:600;font-size:10px;text-decoration:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:12px 32px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
                 Lihat selengkapnya
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
         </div>
     </div>
 </section>
 
-{{-- Fix Grid Berita di Beranda: Dipaksa 3 kolom kotak-kotak kecil --}}
+{{-- ===== STYLE COVERFLOW 3D CAROUSEL ===== --}}
 <style>
-    #berita .news-grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 24px !important;
+    /* ===== Coverflow 3D Carousel ===== */
+    #news-coverflow {
+        position: relative;
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        perspective: 1400px;
     }
-    @media (max-width: 900px) {
-        #berita .news-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-        }
+
+    .cf-stage {
+        position: relative;
+        width: 100%;
+        height: 380px;
+        transform-style: preserve-3d;
     }
+
+    .cf-card {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 320px;
+        height: 340px;
+        margin-left: -160px;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        transform-style: preserve-3d;
+        transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease, filter 0.7s ease;
+        will-change: transform, opacity;
+        cursor: pointer;
+    }
+
+    .cf-card-img {
+        height: 190px;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--teal-100), var(--teal-50));
+    }
+    .cf-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .cf-card-img-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--teal-400);
+    }
+
+    .cf-card-body {
+        padding: 16px 18px;
+    }
+    .cf-card-date {
+        font-size: 11px;
+        color: var(--teal-500);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+    }
+    .cf-card-body h3 {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--gray-900);
+        line-height: 1.4;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* ===== Posisi card: active, kiri, kanan ===== */
+    .cf-card.cf-active {
+        transform: translateX(0) scale(1) rotateY(0deg);
+        opacity: 1;
+        z-index: 30;
+        filter: brightness(1);
+    }
+    .cf-card.cf-left-1 {
+        transform: translateX(-58%) scale(0.75) rotateY(38deg);
+        opacity: 0.55;
+        z-index: 20;
+        filter: brightness(0.8);
+    }
+    .cf-card.cf-right-1 {
+        transform: translateX(58%) scale(0.75) rotateY(-38deg);
+        opacity: 0.55;
+        z-index: 20;
+        filter: brightness(0.8);
+    }
+    .cf-card.cf-left-2 {
+        transform: translateX(-105%) scale(0.55) rotateY(48deg);
+        opacity: 0.3;
+        z-index: 10;
+        filter: brightness(0.6);
+    }
+    .cf-card.cf-right-2 {
+        transform: translateX(105%) scale(0.55) rotateY(-48deg);
+        opacity: 0.3;
+        z-index: 10;
+        filter: brightness(0.6);
+    }
+    .cf-card.cf-hidden {
+        opacity: 0;
+        transform: translateX(0) scale(0.4) rotateY(60deg);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* ===== Caption dinamis di bawah card ===== */
+    .cf-caption {
+        text-align: center;
+        min-height: 110px;
+        max-width: 560px;
+        margin: 20px auto 0;
+        color: #ffffff;
+    }
+    .cf-caption-date {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.75);
+        margin-bottom: 6px;
+    }
+    .cf-caption-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 6px;
+        line-height: 1.35;
+    }
+    .cf-caption-desc {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* ===== Controls: Prev/Next + Dots ===== */
+    .cf-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 8px;
+    }
+    .cf-nav-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+    .cf-nav-btn:hover {
+        background: #ffffff;
+        color: #0c4e91;
+        border-color: #ffffff;
+        transform: scale(1.08);
+    }
+    .cf-nav-btn:active { transform: scale(0.95); }
+    .cf-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .cf-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.35);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .cf-dot.cf-dot-active {
+        width: 26px;
+        border-radius: 50px;
+        background: #ffffff;
+    }
+    .cf-dot:hover { background: rgba(255, 255, 255, 0.7); }
+
+    /* ===== Modal Detail Berita ===== */
+    .cf-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.75);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .cf-modal-overlay.cf-open {
+        opacity: 1;
+        visibility: visible;
+    }
+    .cf-modal {
+        position: relative;
+        width: 100%;
+        max-width: 720px;
+        max-height: 86vh;
+        background: #0f1e2e;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        transform: translateY(24px) scale(0.96);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cf-modal-overlay.cf-open .cf-modal {
+        transform: translateY(0) scale(1);
+    }
+    .cf-modal-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.25s ease;
+    }
+    .cf-modal-close:hover {
+        background: #dc2626;
+        transform: rotate(90deg);
+    }
+    .cf-modal-content {
+        max-height: 86vh;
+        overflow-y: auto;
+        color: #e2e8f0;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.3) transparent;
+    }
+    .cf-modal-content::-webkit-scrollbar { width: 8px; }
+    .cf-modal-content::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.3);
+        border-radius: 8px;
+    }
+    .cf-modal-img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        display: block;
+        background: linear-gradient(135deg, var(--teal-100), var(--teal-50));
+    }
+    .cf-modal-img-placeholder {
+        width: 100%;
+        height: 260px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #1e3a5f, #0f1e2e);
+        color: rgba(255,255,255,0.5);
+    }
+    .cf-modal-body {
+        padding: 28px 32px 36px;
+    }
+    .cf-modal-date {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #5eead4;
+        margin-bottom: 8px;
+    }
+    .cf-modal-body h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.35;
+        margin: 0 0 16px;
+    }
+    .cf-modal-desc {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.75;
+        margin: 0 0 16px;
+    }
+    .cf-modal-isi {
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        padding-top: 16px;
+        font-size: 14.5px;
+        color: #cbd5e1;
+        line-height: 1.8;
+    }
+    .cf-modal-isi p { margin: 0 0 12px; }
+
+    /* ===== Responsive ===== */
     @media (max-width: 640px) {
-        #berita .news-grid {
-            grid-template-columns: 1fr !important;
-        }
+        .cf-modal-body { padding: 20px 18px 28px; }
+        .cf-modal-body h3 { font-size: 19px; }
+        .cf-modal-img, .cf-modal-img-placeholder { height: 180px; }
+        .cf-modal { max-height: 88vh; }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+        .cf-stage { height: 320px; }
+        .cf-card { width: 250px; height: 290px; margin-left: -125px; }
+        .cf-card-img { height: 150px; }
+        .cf-card-body h3 { font-size: 14px; }
+        .cf-card.cf-left-1 { transform: translateX(-70%) scale(0.75) rotateY(38deg); }
+        .cf-card.cf-right-1 { transform: translateX(70%) scale(0.75) rotateY(-38deg); }
+        .cf-card.cf-left-2, .cf-card.cf-right-2 { opacity: 0; pointer-events: none; }
+    }
+    @media (max-width: 480px) {
+        .cf-stage { height: 280px; }
+        .cf-card { width: 220px; height: 260px; margin-left: -110px; }
+        .cf-card-img { height: 130px; }
+        .cf-caption { min-height: 100px; }
+        .cf-caption-title { font-size: 17px; }
+        .cf-caption-desc { font-size: 13px; }
+        .cf-controls { gap: 16px; }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.getElementById('news-coverflow');
+    if (!carousel) return;
+    const cards = Array.from(carousel.querySelectorAll('.cf-card'));
+    if (cards.length === 0) return;
+
+    let current = 0;
+    const total = cards.length;
+    const captionDate = document.getElementById('cf-caption-date');
+    const captionTitle = document.getElementById('cf-caption-title');
+    const captionDesc = document.getElementById('cf-caption-desc');
+    const dotsWrap = carousel.querySelector('.cf-dots');
+
+    // Data berita (dari JSON yang dirender Blade)
+    let beritaData = [];
+    try {
+        const jsonEl = document.getElementById('cf-berita-data');
+        if (jsonEl) beritaData = JSON.parse(jsonEl.textContent);
+    } catch (e) {
+        beritaData = [];
+    }
+
+    // Build dots
+    cards.forEach(function(_, idx) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'cf-dot';
+        dot.setAttribute('aria-label', 'Ke berita ' + (idx + 1));
+        dot.addEventListener('click', function() { goTo(idx); });
+        dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.querySelectorAll('.cf-dot'));
+
+    function render() {
+        cards.forEach(function(card, idx) {
+            card.classList.remove('cf-active', 'cf-left-1', 'cf-right-1', 'cf-left-2', 'cf-right-2', 'cf-hidden');
+            let diff = (idx - current + total) % total;
+            if (diff > total / 2) diff -= total;
+            if (diff === 0) {
+                card.classList.add('cf-active');
+            } else if (diff === -1 || (diff === 1 && total === 2)) {
+                card.classList.add('cf-left-1');
+            } else if (diff === 1) {
+                card.classList.add('cf-right-1');
+            } else if (diff === -2) {
+                card.classList.add('cf-left-2');
+            } else if (diff === 2) {
+                card.classList.add('cf-right-2');
+            } else {
+                card.classList.add('cf-hidden');
+            }
+        });
+
+        // Update dots
+        dots.forEach(function(dot, idx) {
+            dot.classList.toggle('cf-dot-active', idx === current);
+        });
+
+        // Update caption
+        const active = beritaData[current] || {};
+        captionDate.textContent = active.tanggal || '';
+        captionTitle.textContent = active.judul || '';
+        captionDesc.textContent = active.deskripsi || '';
+    }
+
+    function goTo(idx) {
+        current = (idx + total) % total;
+        render();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    carousel.querySelector('.cf-prev').addEventListener('click', prev);
+    carousel.querySelector('.cf-next').addEventListener('click', next);
+
+    // Keyboard & swipe
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+    });
+
+    let touchStartX = 0;
+    const stage = carousel.querySelector('.cf-stage');
+    stage.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    stage.addEventListener('touchend', function(e) {
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(deltaX) > 40) {
+            if (deltaX < 0) next(); else prev();
+        }
+    }, { passive: true });
+
+    // Auto-play
+    let autoplay = setInterval(next, 5000);
+    carousel.addEventListener('mouseenter', function() { clearInterval(autoplay); });
+    carousel.addEventListener('mouseleave', function() { autoplay = setInterval(next, 5000); });
+
+    // ===== MODAL DETAIL BERITA =====
+    const modalOverlay = document.getElementById('berita-modal');
+    const modalClose = document.getElementById('berita-modal-close');
+    const modalContent = document.getElementById('berita-modal-content');
+    let modalOpen = false;
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str == null ? '' : String(str);
+        return div.innerHTML;
+    }
+
+    function openModal(idx) {
+        const data = beritaData[idx] || {};
+        const img = data.gambar || '';
+        const isi = data.isi || '';
+
+        let imgHtml = img
+            ? '<img src="' + img + '" alt="' + escapeHtml(data.judul) + '" class="cf-modal-img">'
+            : '<div class="cf-modal-img-placeholder"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>';
+
+        modalContent.innerHTML =
+            imgHtml +
+            '<div class="cf-modal-body">' +
+                '<div class="cf-modal-date">' + escapeHtml(data.tanggal) + '</div>' +
+                '<h3>' + escapeHtml(data.judul) + '</h3>' +
+                '<p class="cf-modal-desc">' + escapeHtml(data.deskripsi) + '</p>' +
+                (isi ? '<div class="cf-modal-isi"><p>' + escapeHtml(isi).replace(/\n/g, '</p><p>') + '</p></div>' : '') +
+            '</div>';
+
+        modalOpen = true;
+        modalOverlay.classList.add('cf-open');
+        modalOverlay.setAttribute('aria-hidden', 'false');
+        clearInterval(autoplay);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        if (!modalOpen) return;
+        modalOpen = false;
+        modalOverlay.classList.remove('cf-open');
+        modalOverlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    cards.forEach(function(card, idx) {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal(idx);
+        });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalOpen) closeModal();
+    });
+
+    render();
+});
+</script>
 
 {{-- Style Khusus Section News --}}
 <style>
@@ -236,10 +1053,6 @@ document.addEventListener('DOMContentLoaded', function() {
         line-height: 1.6 !important;
     }
 
-    section.news-section .news-card-img {
-        height: 150px !important;
-    }
-
     @media (max-width: 640px) {
         section.news-section {
             padding: 40px 0 10px !important;
@@ -259,37 +1072,6 @@ document.addEventListener('DOMContentLoaded', function() {
             font-size: 13px !important;
             line-height: 1.5 !important;
             margin-bottom: 16px !important;
-        }
-
-        /* Container Grid Card */
-        .news-grid {
-            gap: 16px !important;
-        }
-
-        /* Gambar Card Dibuat Kompak */
-        .news-card-img {
-            height: 150px !important; /* Maksimal tinggi gambar di HP */
-        }
-
-        /* Content Body Card */
-        .news-card-body {
-            padding: 16px 16px !important;
-        }
-
-        .news-card-date {
-            font-size: 11px !important;
-            margin-bottom: 6px !important;
-        }
-
-        .news-card-body h3 {
-            font-size: 15px !important;
-            line-height: 1.4 !important;
-            margin-bottom: 8px !important;
-        }
-
-        .news-card-body p {
-            font-size: 12.5px !important;
-            line-height: 1.55 !important;
         }
     }
 </style>

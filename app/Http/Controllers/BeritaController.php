@@ -41,13 +41,13 @@ class BeritaController extends Controller
                         ->paginate(9)
                         ->withQueryString();
 
-        return view('berita.index', compact('berita', 'keyword'));
+        return view('berita.index', compact('berita', 'keyword'))->with('hideFooter', true);
     }
 
     public function show($slug)
     {
         $item = Berita::where('slug', $slug)->where('is_active', true)->firstOrFail();
-        return view('berita.show', compact('item'));
+        return view('berita.show', compact('item'))->with('hideFooter', true);
     }
 
     // ===== ADMIN CRUD =====

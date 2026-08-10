@@ -26,6 +26,7 @@
 See [architecture/taste.md](architecture/taste.md)
 # communication
 - Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.85
+- Communicates in a casual/informal Indonesian tone (slang like "woii", abbreviations like "gausah"/"ga", exaggerated spelling like "munculll", expressions like "aduhh") and expects the assistant to match that casual register rather than overly formal language. Confidence: 0.7
 - Provide concise one-sentence summaries of completed technical changes/features when asked, as the user documents these in a logbook (logbook). Confidence: 0.70
 
 # spacing
@@ -73,6 +74,6 @@ See [architecture/taste.md](architecture/taste.md)
 # maintenance
 See [maintenance/taste.md](maintenance/taste.md)
 # ui
-- Homepage berita/news cards should use a square/grid card layout matching the visual style of the /berita listing page ("kotak-kotak kayak yang didalam lihat selengkapnya"), not elongated rectangular cards. Confidence: 0.78
+- Homepage berita/news section should use a modern interactive 3D Coverflow/Swiper carousel (see ui/taste.md) instead of the static card grid — this supersedes the earlier preference for a square/grid news-card layout on the homepage ("kotak-kotak kayak yang didalam lihat selengkapnya"), which the user explicitly asked to replace. Confidence: 0.85
 - Visual/CSS styling of the same component used on different pages must be exactly identical — same CSS classes, same padding (e.g., 24px body), same typography (title 18px bold, description 14px gray), same colors. When a component (like news cards) appears on both the homepage and the /berita listing page, their styling must match precisely, not just be "similar". Confidence: 0.82
 See [ui/taste.md](ui/taste.md)
