@@ -55,14 +55,10 @@ class ProgramController extends Controller
     public function kelola()
     {
         $layanan = Layanan::orderBy('urutan')->get();
-        // Ambil jadwal hanya untuk minggu berjalan (Senin - Minggu)
-        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
-        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
-        $allJadwal = JadwalKelas::whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
-            ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
+        $allJadwal = JadwalKelas::orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
             ->orderBy('jam_mulai')
             ->get()
-            ->groupBy('layanan_id');
+            ->groupBy('nama_kelas');
         return view('admin.program-jadwal.index', ['program' => Layanan::orderBy('urutan')->get(), 'allJadwal' => $allJadwal]);
     }
 }

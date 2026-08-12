@@ -57,68 +57,14 @@
                     </button>
                 </div>
 
-                {{-- ===== DROPDOWN MENU WEBSITE ===== --}}
+                {{-- ===== DROPDOWN MENU WEBSITE (Simple Native) ===== --}}
                 <div class="search-dropdown" id="search-dropdown">
-                    <a href="{{ route('home') }}#pelatihan" class="search-menu-item" data-search="lingkup pelatihan">
-                        <span class="search-menu-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        </span>
-                        <span class="search-menu-text">
-                            <strong>Lingkup Pelatihan</strong>
-                            <small>Lihat pelatihan unggulan</small>
-                        </span>
-                        <span class="search-menu-arrow">→</span>
-                    </a>
-                    <a href="{{ route('home') }}#berita" class="search-menu-item" data-search="berita info terkini">
-                        <span class="search-menu-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                        </span>
-                        <span class="search-menu-text">
-                            <strong>Berita</strong>
-                            <small>Berita &amp; info terkini</small>
-                        </span>
-                        <span class="search-menu-arrow">→</span>
-                    </a>
-                    <a href="{{ route('layanan') }}" class="search-menu-item" data-search="program kelas bahasa layanan">
-                        <span class="search-menu-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        </span>
-                        <span class="search-menu-text">
-                            <strong>Program</strong>
-                            <small>Daftar kelas bahasa &amp; pelatihan</small>
-                        </span>
-                        <span class="search-menu-arrow">→</span>
-                    </a>
-                    <a href="{{ route('register') }}" class="search-menu-item" data-search="daftar sekarang register">
-                        <span class="search-menu-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                        </span>
-                        <span class="search-menu-text">
-                            <strong>Daftar Sekarang</strong>
-                            <small>Buat akun &amp; daftar program</small>
-                        </span>
-                        <span class="search-menu-arrow">→</span>
-                    </a>
-                    <a href="{{ route('home') }}#about" class="search-menu-item" data-search="profil tentang">
-                        <span class="search-menu-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        </span>
-                        <span class="search-menu-text">
-                            <strong>Profil</strong>
-                            <small>Tentang Rumah Bahasa</small>
-                        </span>
-                        <span class="search-menu-arrow">→</span>
-                    </a>
-                    <a href="{{ route('home') }}#kontak" class="search-menu-item" data-search="kontak hubungi kami pesan">
-                        <span class="search-menu-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        </span>
-                        <span class="search-menu-text">
-                            <strong>Kontak</strong>
-                            <small>Hubungi kami / kirim pesan</small>
-                        </span>
-                        <span class="search-menu-arrow">→</span>
-                    </a>
+                    <a href="{{ route('home') }}#pelatihan" class="search-menu-item" data-search="lingkup pelatihan">Lingkup Pelatihan</a>
+                    <a href="{{ route('home') }}#berita" class="search-menu-item" data-search="berita info terkini">Berita</a>
+                    <a href="{{ route('layanan') }}" class="search-menu-item" data-search="program kelas bahasa layanan">Program</a>
+                    <a href="{{ route('register') }}" class="search-menu-item" data-search="daftar sekarang register">Daftar Sekarang</a>
+                    <a href="{{ route('home') }}#about" class="search-menu-item" data-search="profil tentang">Profil</a>
+                    <a href="{{ route('home') }}#kontak" class="search-menu-item" data-search="kontak hubungi kami pesan">Kontak</a>
                 </div>
             </div>
         </div>
@@ -197,64 +143,32 @@
 
     .search-dropdown {
         position: absolute;
-        top: calc(100% + 10px);
+        top: calc(100% + 6px);
         left: 0;
         right: 0;
         background: #ffffff;
-        border-radius: 14px;
-        box-shadow: 0 20px 50px rgba(2, 6, 23, 0.25);
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         overflow: hidden;
         display: none; /* Lebih andal daripada visibility: hidden */
+        padding: 4px 0;
     }
     .search-box.search-open .search-dropdown {
         display: block;
     }
     .search-menu-item {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 13px 18px;
+        display: block;
+        padding: 10px 16px;
         text-decoration: none;
-        color: var(--gray-900);
-        transition: background 0.2s;
-        border-bottom: 1px solid var(--gray-100);
-    }
-    .search-menu-item:last-child { border-bottom: none; }
-    .search-menu-item:hover { background: #f0f7ff; }
-    .search-menu-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        background: #e8f4fd;
-        color: #0c4e91;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-    .search-menu-text {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-    }
-    .search-menu-text strong {
+        color: #1f2937;
         font-size: 14px;
-        font-weight: 700;
-        color: var(--gray-900);
+        text-align: left;
+        transition: background 0.15s;
     }
-    .search-menu-text small {
-        font-size: 12px;
-        color: var(--gray-400);
-    }
-    .search-menu-arrow {
-        color: var(--gray-300);
-        font-size: 16px;
-        transition: transform 0.2s;
-    }
-    .search-menu-item:hover .search-menu-arrow {
-        transform: translateX(4px);
-        color: #0c4e91;
+    .search-menu-item:hover {
+        background: #f3f4f6;
+        color: #111827;
     }
     .search-empty {
         padding: 20px;
@@ -579,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .cf-card-body {
-        padding: 16px 18px;
+        padding: 12px 18px 16px;
     }
     .cf-card-date {
         font-size: 11px;
@@ -587,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function() {
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
     }
     .cf-card-body h3 {
         font-size: 15px;
@@ -1244,19 +1158,19 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container" style="position: relative; z-index: 3; max-width: 800px; margin: 0 auto; padding: 0 20px;">
         <div class="section-title" style="text-align: center; margin-bottom: 40px;">
             <h2 style="color: var(--white); font-size: 2.25rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">Hubungi <span style="color: #7dd3fc;">Kami</span></h2>
-            <p style="color: rgba(255,255,255,0.85); font-size: 1rem; max-width: 500px; margin: 0 auto;">Punya pertanyaan atau masukan? Kirimkan pesanmu langsung di bawah ini.</p>
+            <p style="color: rgb(240, 244, 247); font-size: 1rem; max-width: 500px; margin: 0 auto;">Punya pertanyaan atau masukan? Kirimkan pesanmu langsung di bawah ini.</p>
         </div>
 
         {{-- Card Form Premium: gradient + glow shadow + animasi floating halus --}}
         <div class="form-container" style="background: linear-gradient(160deg, #ffffff 0%, #f0f7ff 60%, #e3effb 100%); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 24px 60px rgba(2, 42, 84, 0.35), 0 0 0 1px rgba(22, 128, 189, 0.08), 0 0 40px rgba(78, 165, 237, 0.15); animation: formFloat 6s ease-in-out infinite; position: relative;">
             @if(session('success'))
-                <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #ffffff; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
+                <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #0c4e91; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     {{ session('success') }}
                 </div>
             @endif
             @if($errors->any())
-                <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ffffff; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem;">
+                <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #b91c1c; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem;">
                     <ul style="margin: 0; padding-left: 20px;">
                         @foreach($errors->all() as $err)
                             <li>{{ $err }}</li>
@@ -1274,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 6px;">
                         <label for="email" style="color: #1e293b; font-size: 0.9rem; font-weight: 600;">Alamat Email/ No telepon</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com / 0812345678" required
+                        <input type="text" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com / 0812345678" required
                             style="width: 100%; padding: 14px 18px; background: #f8fafc; border: 1.5px solid #dbe4f0; border-radius: 10px; color: #1e293b; font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                 </div>

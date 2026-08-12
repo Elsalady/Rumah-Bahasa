@@ -48,7 +48,11 @@
                         <p style="font-weight:600;color:#e6edf3;">{{ $p->user->name }}</p>
                         <p style="font-size:13px;color:#8b949e;">{{ $p->program }}</p>
                     </div>
-                    <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:50px;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">{{ ucfirst($p->status) }}</span>
+                    <span style="font-size:12px;font-weight:700;padding:4px 12px;border-radius:50px;color:#ffffff;
+                        {{ $p->status === 'confirmed' ? 'background:#1d4ed8;' : '' }}
+                        {{ $p->status === 'rejected' ? 'background:#dc2626;' : '' }}">
+                        {{ $p->status === 'confirmed' ? 'Terdaftar' : ($p->status === 'rejected' ? 'Kuota Penuh' : ucfirst($p->status)) }}
+                    </span>
                 </div>
             @endforeach
             <a href="{{ route('admin.pendaftaran.index') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>

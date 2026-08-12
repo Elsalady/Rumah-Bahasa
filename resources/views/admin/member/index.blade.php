@@ -34,7 +34,10 @@
                             <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>
                             <td style="font-size:13px;">{{ $member->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                             <td>
-                                <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">
+                                <span style="display:inline-block;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700;color:#ffffff;
+                                    {{ $member->status === 'approved' ? 'background:#1d4ed8;' : '' }}
+                                    {{ $member->status === 'pending' ? 'background:#eab308;' : '' }}
+                                    {{ $member->status === 'rejected' ? 'background:#dc2626;' : '' }}">
                                     {{ ucfirst($member->status) }}
                                 </span>
                             </td>

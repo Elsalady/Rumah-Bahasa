@@ -10,21 +10,31 @@ use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
+    /**
+     * Hapus pendaftaran kelas TEMATIK yang sudah lewat minggunya.
+     * Tematik = daftar per minggu; begitu masuk minggu baru, pendaftaran minggu lalu hangus.
+     * Tentative = anggota tetap 1 semester, tidak dihapus.
+     */
+    private function bersihkanPendaftaranTematik($userId)
+    {
+        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
+
+        Pendaftaran::where('user_id', $userId)
+            ->where('jenis', 'tematik')
+            ->where('status', 'confirmed')
+            ->where('created_at', '<', $awalMinggu)
+            ->delete();
+    }
+
     public function dashboard()
     {
         $user = auth()->user();
+        $this->bersihkanPendaftaranTematik($user->id);
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->latest()->get();
         $notifikasi = $user->notifikasi()->latest()->limit(5)->get();
         $notifUnread = $user->notifikasi()->where('is_read', false)->count();
 
-        // Ringkasan status pendaftaran
-        $statPendaftaran = [
-            'pending' => $pendaftaran->where('status', 'pending')->count(),
-            'confirmed' => $pendaftaran->where('status', 'confirmed')->count(),
-            'rejected' => $pendaftaran->where('status', 'rejected')->count(),
-        ];
-
-        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'statPendaftaran'));
+        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread'));
     }
 
     public function edit()
@@ -75,26 +85,32 @@ class MemberController extends Controller
 
     public function program()
     {
+        $this->bersihkanPendaftaranTematik(auth()->id());
+
         $programs = Layanan::where('is_active', true)->orderBy('urutan')->get();
         $programTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->whereIn('status', ['pending', 'confirmed'])
             ->pluck('program')
             ->toArray();
 
-        // Program yang punya jadwal aktif di minggu berjalan
-        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
-        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
-        $jadwalIds = \App\Models\JadwalKelas::where('is_active', true)
-            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
-            ->pluck('layanan_id')
-            ->unique()
+        // Program yang punya jadwal aktif (cocokkan nama_kelas dengan nama program)
+        $namaKelasAktif = \App\Models\JadwalKelas::where('is_active', true)
+            ->pluck('nama_kelas')
+            ->map(fn($n) => trim(str_replace('Kelas ', '', $n)))
             ->toArray();
+
+        $jadwalIds = $programs->filter(function ($p) use ($namaKelasAktif) {
+            $keyword = trim(str_replace('Kelas ', '', $p->nama));
+            return in_array($keyword, $namaKelasAktif);
+        })->pluck('id')->toArray();
 
         return view('member.program', compact('programs', 'programTerdaftar', 'jadwalIds'));
     }
 
     public function detailProgram($nama)
     {
+        $this->bersihkanPendaftaranTematik(auth()->id());
+
         $program = Layanan::where('is_active', true)->where('nama', $nama)->firstOrFail();
 
         $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
@@ -104,12 +120,9 @@ class MemberController extends Controller
 
         $baruDaftar = session('baru_daftar_program') === $program->nama;
 
-        // Jadwal minggu berjalan (Senin - Minggu) untuk program ini
-        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
-        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
+        // Jadwal untuk program ini
         $jadwalProgram = $program->jadwal()
             ->where('is_active', true)
-            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
             ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
             ->orderBy('jam_mulai')
             ->get();
@@ -119,11 +132,8 @@ class MemberController extends Controller
 
     public function jadwal()
     {
-        // Jadwal minggu berjalan, dikelompokkan per hari
-        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
-        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
+        // Jadwal dikelompokkan per hari
         $jadwal = \App\Models\JadwalKelas::where('is_active', true)
-            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
             ->with('layanan')
             ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
             ->orderBy('jam_mulai')

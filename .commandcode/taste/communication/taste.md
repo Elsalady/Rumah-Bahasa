@@ -1,6 +1,6 @@
 # communication
 - Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.85
-- Communicates in a casual/informal Indonesian tone (slang like "woii", abbreviations like "gausah"/"ga", exaggerated spelling like "munculll", expressions like "aduhh") and expects the assistant to match that casual register rather than overly formal language. Confidence: 0.7
+- Communicates in a casual/informal Indonesian tone — slang ("woii", "aduhh"), heavy abbreviations ("gausah"/"ga", "knp"/"cmn"/"doang"), exaggerated spelling ("munculll") — often as very terse shorthand questions (e.g., "knp yang berubah cmn rejected nya doang"), and expects the assistant to match that casual register rather than overly formal language. Confidence: 0.8
 - Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.9
 - Communicates in casual/informal Indonesian (e.g., "haii", "tolong betulkan yah", "habistu aku mau lanjutin") — match with a friendly, informal tone rather than stiff/formal language. Confidence: 0.6
 - The user is a beginner/non-expert regarding the project's own tech stack (e.g., asked whether "dbnya pakai pg admin" without realizing pgAdmin is just a GUI tool for PostgreSQL, not the database itself) — explain technical concepts in simple, plain language and gently correct misconceptions rather than assuming technical familiarity. Confidence: 0.65

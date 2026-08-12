@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\JadwalKelas;
 use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,50 @@ class PendaftaranController extends Controller
     public function index()
     {
         $daftar = Pendaftaran::with('user')->orderBy('created_at', 'desc')->get();
-        return view('admin.pendaftaran.index', compact('daftar'));
-    }
+        $jadwals = JadwalKelas::where('is_active', true)->orderBy('nama_kelas')->get();
 
-    public function update(Request $request, $id)
-    {
-        $pendaftaran = Pendaftaran::findOrFail($id);
-        $request->validate(['status' => 'required|in:pending,confirmed,rejected']);
-        $pendaftaran->update(['status' => $request->status, 'catatan' => $request->catatan]);
-        return redirect()->route('admin.pendaftaran.index')->with('success', 'Status pendaftaran berhasil diperbarui.');
+        // Kelompokkan pendaftar berdasarkan jenis → mode → kelas
+        $grup = [
+            'tematik' => ['online' => [], 'offline' => []],
+            'tentative' => ['online' => [], 'offline' => []],
+        ];
+
+        $daftarByJadwal = $daftar->whereNotNull('jadwal_id')->groupBy('jadwal_id');
+        $daftarTanpaJadwal = $daftar->whereNull('jadwal_id');
+        $daftarByProgram = $daftarTanpaJadwal->groupBy('program');
+
+        foreach ($jadwals as $j) {
+            // Anggota via jadwal_id (data baru)
+            $anggota = $daftarByJadwal->get($j->id, collect());
+
+            // Fallback: pendaftar lama tanpa jadwal_id, cocokkan via keyword program
+            if ($anggota->isEmpty()) {
+                $keyword = strtolower(trim(str_replace('Kelas ', '', $j->nama_kelas)));
+                foreach ($daftarByProgram as $program => $items) {
+                    $programKecil = strtolower(trim(str_replace('Kelas ', '', $program)));
+                    if (str_contains($programKecil, $keyword) || str_contains($keyword, $programKecil)) {
+                        $anggota = $anggota->merge($items);
+                    }
+                }
+            }
+
+            $anggota = $anggota->sortByDesc('created_at')->values();
+            if ($anggota->count() === 0) {
+                continue;
+            }
+
+            $grup[$j->jenis][$j->mode][] = [
+                'kelas' => $j->nama_kelas,
+                'hari' => $j->hari,
+                'jam_mulai' => $j->jam_mulai,
+                'jam_selesai' => $j->jam_selesai,
+                'pengajar' => $j->pengajar,
+                'kuota' => $j->kuota,
+                'anggota' => $anggota,
+            ];
+        }
+
+        return view('admin.pendaftaran.index', compact('daftar', 'grup'));
     }
 
     public function export()

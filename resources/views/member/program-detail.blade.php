@@ -144,9 +144,49 @@
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">
                                 Kamu terdaftar sebagai: <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->email }})
                             </p>
-                            <form action="{{ route('pendaftaran.store') }}" method="POST">
+                            <form action="{{ route('pendaftaran.store') }}" method="POST" id="form-daftar">
                                 @csrf
                                 <input type="hidden" name="program" value="{{ $program->nama }}">
+
+                                {{-- ===== PILIH JENIS KELAS ===== --}}
+                                <div style="text-align:left;margin-bottom:16px;">
+                                    <label style="display:block;font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:8px;">Pilih Jenis Kelas</label>
+
+                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all 0.2s;background:#fff;" for="jenis_tematik">
+                                        <input type="radio" name="jenis" id="jenis_tematik" value="tematik" required onchange="document.getElementById('form-daftar').dataset.jenis='tematik'" style="margin-top:3px;">
+                                        <div style="text-align:left;">
+                                            <strong style="font-size:13px;color:var(--gray-900);display:block;">Tematik</strong>
+                                            <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
+                                                Daftar per minggu — tiap pertemuan materi & peserta bisa berubah. Wajib daftar ulang setiap minggu jika ingin mengikuti kelas berikutnya.
+                                            </span>
+                                        </div>
+                                    </label>
+
+                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all 0.2s;background:#fff;" for="jenis_tentative">
+                                        <input type="radio" name="jenis" id="jenis_tentative" value="tentative" required onchange="document.getElementById('form-daftar').dataset.jenis='tentative'" style="margin-top:3px;">
+                                        <div style="text-align:left;">
+                                            <strong style="font-size:13px;color:var(--gray-900);display:block;">Tentative</strong>
+                                            <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
+                                                Anggota tetap 1 semester — daftar sekali, otomatis menjadi anggota kelas selama satu semester penuh tanpa perlu mendaftar ulang tiap minggu.
+                                            </span>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                {{-- ===== PILIH JADWAL ===== --}}
+                                <div style="text-align:left;margin-bottom:16px;">
+                                    <label for="jadwal_id" style="display:block;font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:8px;">Pilih Jadwal Kelas</label>
+                                    <select name="jadwal_id" id="jadwal_id" required style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;outline:none;background:var(--gray-50);color:var(--gray-900);box-sizing:border-box;">
+                                        <option value="">— Pilih jadwal —</option>
+                                        @foreach($jadwalProgram as $j)
+                                            <option value="{{ $j->id }}">
+                                                {{ $j->hari }}, {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB · {{ ucfirst($j->jenis) }} · {{ ucfirst($j->mode) }}
+                                                @if($j->pengajar) · {{ $j->pengajar }} @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <button type="submit" class="btn-submit" style="width:100%;padding:14px 24px;font-size:15px;">Daftar Sekarang</button>
                             </form>
                         @endif

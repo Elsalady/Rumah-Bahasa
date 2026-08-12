@@ -19,7 +19,7 @@ class KontakController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|max:255',
             'subjek' => 'nullable|max:255',
             'pesan' => 'required',
         ]);

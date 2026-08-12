@@ -75,9 +75,9 @@
                         </div>
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-600 mb-1.5">Email/ No Telepon</label>
-                            <input type="email" name="email" id="email" required
+                            <input type="text" name="email" id="email" required
                                 class="form-input-green @error('email') border-red-300 @enderror"
-                                value="{{ old('email') }}" placeholder="contoh@email.com">
+                                value="{{ old('email') }}" placeholder="contoh@email.com / 0812345678">
                             @error('email') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>

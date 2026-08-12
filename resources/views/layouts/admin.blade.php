@@ -100,11 +100,6 @@
             font-family: 'Cascadia Mono', Consolas, Menlo, monospace;
             white-space: nowrap;
         }
-        .admin-sidebar h2::before {
-            content: '> ';
-            color: #3fb950;
-            font-weight: 700;
-        }
         .admin-nav {
             display: flex;
             flex-direction: column;
@@ -345,12 +340,6 @@
         /* ===== NEUTRALKAN WARNA INLINE ===== */
         /* Angka statistik dashboard → putih */
         .admin-stat-grid div[style*="font-size:36px"] { color: #e6edf3 !important; }
-        /* Badge status warna-warni → monokrom */
-        span[style*="border-radius:50px"] {
-            background: #21262d !important;
-            color: #c9d1d9 !important;
-            border: 1px solid #30363d;
-        }
         /* Badge "Baru" merah di dashboard */
         span[style*="background:#dc2626"] { background: #da3633 !important; }
         /* Label "Dibaca"/"Baru" di kontak */

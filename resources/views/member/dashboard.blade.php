@@ -21,19 +21,7 @@
             gap: 16px;
         }
 
-        /* Navigasi Kembali ke Beranda (UX Lebih Bagus di Atas) */
-        .btn-back-home {
-            color: var(--white);
-            font-size: 13px;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-back-home:hover {
-            color: var(--teal-100);
-        }
+        /* Navigasi Kembali ke Beranda dihapus */
 
         .btn-logout {
             font-size: 14px;
@@ -159,7 +147,6 @@
             .dashboard-card { padding: 20px 14px !important; border-radius: 12px !important; }
             .admin-header h2 { font-size: 14px; }
             .admin-header-right { gap: 8px; }
-            .btn-back-home { font-size: 11px; }
             .btn-logout { font-size: 12px; padding: 8px 14px; }
             .profile-header-block { flex-direction: column; text-align: center; gap: 8px; padding-bottom: 14px; }
             .profile-avatar-circle { width: 48px; height: 48px; }
@@ -193,7 +180,6 @@
                             <span style="position:absolute;top:-4px;right:-6px;background:#dc2626;color:#fff;font-size:10px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;">{{ $notifUnread }}</span>
                         @endif
                     </a>
-                    <a href="{{ route('home') }}" class="btn-back-home">← Kembali ke Beranda</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn-logout">Logout</button>
@@ -330,33 +316,38 @@
                     <div class="dashboard-card" style="padding:24px;">
                         <h3>Histori Pendaftaran</h3>
 
-                        {{-- Ringkasan Status --}}
-                        @if($pendaftaran->count())
-                        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
-                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fffbeb;color:#b45309;border-radius:50px;font-size:12px;font-weight:600;">
-                                ⏳ {{ $statPendaftaran['pending'] }} Menunggu
-                            </span>
-                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#ecfdf5;color:#059669;border-radius:50px;font-size:12px;font-weight:600;">
-                                ✓ {{ $statPendaftaran['confirmed'] }} Terkonfirmasi
-                            </span>
-                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fef2f2;color:#dc2626;border-radius:50px;font-size:12px;font-weight:600;">
-                                ✕ {{ $statPendaftaran['rejected'] }} Ditolak
-                            </span>
-                        </div>
-                        @endif
-
                         @if($pendaftaran->count())
                             @foreach($pendaftaran as $p)
                                 <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--gray-100);gap:10px;">
                                     <div style="min-width:0;">
                                         <p style="font-weight:600;color:var(--gray-900);word-break:break-word;margin:0;">{{ $p->program }}</p>
+                                        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+                                            @if($p->jenis)
+                                                <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;{{ $p->jenis === 'tematik' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#fef3c7;color:#b45309;' }}">{{ ucfirst($p->jenis) }}</span>
+                                            @endif
+                                            @if($p->mode)
+                                                <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;background:#ecfdf5;color:#166534;">{{ ucfirst($p->mode) }}</span>
+                                            @endif
+                                            @if($p->jadwal)
+                                                <span style="font-size:10px;color:var(--gray-500);">{{ $p->jadwal->hari }}, {{ \Carbon\Carbon::parse($p->jadwal->jam_mulai)->format('H:i') }} WIB</span>
+                                            @endif
+                                        </div>
                                         <p style="font-size:12px;color:var(--gray-400);margin:4px 0 0 0;">{{ $p->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') }}</p>
+                                        @if($p->catatan)
+                                            <p style="font-size:12px;color:var(--gray-500);margin:4px 0 0 0;font-style:italic;">{{ $p->catatan }}</p>
+                                        @endif
                                     </div>
-                                    <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;flex-shrink:0;
-                                        background: {{ $p->status === 'confirmed' ? '#ecfdf5' : ($p->status === 'rejected' ? '#fef2f2' : '#fffbeb') }}; 
-                                        color: {{ $p->status === 'confirmed' ? '#164065' : ($p->status === 'rejected' ? '#dc2626' : '#b45309') }};">
-                                        {{ ucfirst($p->status) }}
-                                    </span>
+                                    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                                        @if($p->status === 'confirmed')
+                                            <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;background:#1d4ed8;color:#fff;">Terdaftar</span>
+                                            <form action="{{ route('member.pendaftaran.batal', $p->id) }}" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pendaftaran {{ $p->program }}?');">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" style="font-size:11px;font-weight:600;padding:5px 12px;border-radius:50px;background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">Batal Daftar</button>
+                                            </form>
+                                        @elseif($p->status === 'rejected')
+                                            <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;background:#dc2626;color:#fff;">Kuota Penuh</span>
+                                        @endif
+                                    </div>
                                 </div>
                             @endforeach
                         @else

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Layanan extends Model
 {
@@ -16,8 +15,11 @@ class Layanan extends Model
         'nama', 'deskripsi', 'ikon', 'gambar', 'link_wa', 'urutan', 'is_active',
     ];
 
-    public function jadwal(): HasMany
+    public function jadwal()
     {
-        return $this->hasMany(JadwalKelas::class, 'layanan_id');
+        // jadwal_kelas tidak punya kolom layanan_id; cocokkan nama_kelas dengan nama program (substring)
+        $keyword = strtolower(trim(str_replace('Kelas ', '', $this->nama)));
+
+        return JadwalKelas::query()->whereRaw('LOWER(nama_kelas) LIKE ?', ["%{$keyword}%"]);
     }
 }

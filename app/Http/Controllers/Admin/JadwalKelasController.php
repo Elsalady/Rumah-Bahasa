@@ -45,7 +45,6 @@ class JadwalKelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'layanan_id' => 'required|exists:layanan,id',
             'nama_kelas' => 'required|max:255',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam_mulai' => 'required',
@@ -57,13 +56,7 @@ class JadwalKelasController extends Controller
             'kuota' => 'integer|min:0',
         ]);
 
-        // Tanggal otomatis = hari pertama di minggu berjalan (Senin minggu ini)
-        $tanggal = \Carbon\Carbon::now()->startOfWeek()->format('Y-m-d');
-
-        $jadwal = JadwalKelas::create(array_merge($request->all(), [
-            'layanan_id' => $request->layanan_id,
-            'tanggal' => $tanggal,
-        ]));
+        $jadwal = JadwalKelas::create($request->all());
 
         $this->buatNotifikasiPendaftarProgram(
             $request->nama_kelas,
@@ -79,7 +72,6 @@ class JadwalKelasController extends Controller
     {
         $jadwal = JadwalKelas::findOrFail($id);
         $request->validate([
-            'layanan_id' => 'required|exists:layanan,id',
             'nama_kelas' => 'required|max:255',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam_mulai' => 'required',

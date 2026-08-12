@@ -65,6 +65,7 @@ Route::middleware(['auth', 'member.auth'])->group(function () {
         Route::get('/notifikasi/{id}', [MemberController::class, 'notifikasiBaca'])->name('notifikasi.baca');
         Route::get('/edit', [MemberController::class, 'edit'])->name('edit');
         Route::put('/update', [MemberController::class, 'update'])->name('update');
+        Route::delete('/pendaftaran/{id}/batal', [PendaftaranController::class, 'batal'])->name('pendaftaran.batal');
     });
 });
 
@@ -98,7 +99,6 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::delete('/jadwal-kelas/{id}', [AdminJadwalKelas::class, 'destroy'])->name('jadwal-kelas.destroy');
 
     Route::get('/pendaftaran', [AdminPendaftaran::class, 'index'])->name('pendaftaran.index');
-    Route::put('/pendaftaran/{id}', [AdminPendaftaran::class, 'update'])->name('pendaftaran.update');
     Route::get('/pendaftaran/export', [AdminPendaftaran::class, 'export'])->name('pendaftaran.export');
 
     Route::prefix('member')->name('member.')->group(function () {

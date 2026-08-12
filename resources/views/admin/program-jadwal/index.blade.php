@@ -79,17 +79,25 @@
 
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
     <h3 style="margin:0;">Program & Jadwal Kelas</h3>
-    <span style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(63,185,80,0.1);color:#3fb950;border:1px solid rgba(63,185,80,0.3);border-radius:8px;font-size:13px;font-weight:600;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Minggu ini: {{ \Carbon\Carbon::now()->startOfWeek()->translatedFormat('d M') }} — {{ \Carbon\Carbon::now()->endOfWeek()->translatedFormat('d M Y') }}
-    </span>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <a href="{{ route('admin.program.index') }}" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#3fb950;color:#0d1117;border:none;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#56d364'" onmouseout="this.style.background='#3fb950'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Program
+        </a>
+        <span style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(63,185,80,0.1);color:#3fb950;border:1px solid rgba(63,185,80,0.3);border-radius:8px;font-size:13px;font-weight:600;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Minggu ini: {{ \Carbon\Carbon::now()->startOfWeek()->translatedFormat('d M') }} — {{ \Carbon\Carbon::now()->endOfWeek()->translatedFormat('d M Y') }}
+        </span>
+    </div>
 </div>
 
 @if($program->count())
     @foreach($program as $prog)
         @php
             $keyword = str_replace('Kelas ', '', $prog->nama);
-            $jadwalProgram = $allJadwal->get($prog->id, collect());
+            $jadwalProgram = $allJadwal->filter(function ($items, $key) use ($keyword) {
+                return stripos($key, $keyword) !== false;
+            })->flatten();
         @endphp
         <div class="program-card">
             <div class="program-card-header" onclick="toggleProgram({{ $prog->id }})">
@@ -119,7 +127,6 @@
                     <h4 style="margin:0 0 12px;font-size:14px;">Tambah Jadwal untuk {{ $prog->nama }}</h4>
                     <form action="{{ route('admin.jadwal-kelas.store') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="layanan_id" value="{{ $prog->id }}">
                         <input type="hidden" name="nama_kelas" value="{{ $keyword }}">
                         <div class="jadwal-form-grid">
                             <div class="form-group">
@@ -223,7 +230,11 @@
     @endforeach
 @else
     <div style="text-align:center;padding:60px;">
-        <p style="color:var(--gray-400);">Belum ada program. <a href="{{ route('admin.program.index') }}" style="color:var(--teal-600);">Buat program dulu</a></p>
+        <p style="color:var(--gray-400);margin-bottom:20px;">Belum ada program kelas.</p>
+        <a href="{{ route('admin.program.index') }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:#3fb950;color:#0d1117;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Tambah Program Kelas
+        </a>
     </div>
 @endif
 
