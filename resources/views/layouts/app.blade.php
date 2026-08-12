@@ -366,7 +366,7 @@
 
     @if(!isset($hideFooter) || !$hideFooter)
     {{-- FOOTER --}}
-    <footer class="footer" id="kontak">
+    <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div>
@@ -413,12 +413,13 @@
                 </div>
                 <div>
                     <h3>Program & Pendaftaran</h3>
-                    <div style="display:flex;flex-direction:column;gap:10px;">
-                        <a href="{{ route('tata-cara', 'ktp-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Surabaya)</a>
-                        <a href="{{ route('tata-cara', 'ktp-non-surabaya') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Tata Cara Pendaftaran (KTP Non-Surabaya)</a>
-                        <a href="{{ route('register') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Program</a>
-                        <a href="{{ route('layanan') }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Daftar Kelas Bahasa</a>
-                        <a href="{{ route('home') . '#pelatihan' }}" style="color:rgba(255,255,255,0.8);text-decoration:none;font-size:14px;transition:color 0.2s;">Lingkup Pelatihan</a>
+                    <div class="footer-links">
+                        <a href="{{ route('tata-cara', 'ktp-surabaya') }}">Tata Cara Pendaftaran (KTP Surabaya)</a>
+                        <a href="{{ route('tata-cara', 'ktp-non-surabaya') }}">Tata Cara Pendaftaran (KTP Non-Surabaya)</a>
+                        <a href="{{ route('register') }}">Daftar Program</a>
+                        <a href="{{ route('layanan') }}">Daftar Kelas Bahasa</a>
+                        <a href="{{ route('jadwal') }}">Jadwal Kelas</a>
+                        <a href="{{ route('home') . '#pelatihan' }}">Lingkup Pelatihan</a>
                     </div>
                 </div>
                 <div>
@@ -447,7 +448,14 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                &copy; {{ date('Y') }} Dinas Perpustakaan dan Kearsipan Kota Surabaya. Seluruh hak cipta dilindungi.
+                <div class="footer-bottom-box">
+                    <div class="footer-bottom-logo">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo Rumah Bahasa" style="height:28px;width:auto;object-fit:contain;">
+                    </div>
+                    <div class="footer-bottom-text">
+                        &copy; {{ date('Y') }} Dinas Perpustakaan dan Kearsipan Kota Surabaya. Seluruh hak cipta dilindungi.
+                    </div>
+                </div>
             </div>
         </div>
     </footer>

@@ -3,9 +3,9 @@
 [cmd]: https://commandcode.ai/
 
 # css
-- Use green (hijau) as primary theme color for this project. Confidence: 0.70
+- Use green (hijau) as primary theme color for this project. Confidence: 0.30 — later contradicted on the homepage: the user emphatically demanded BLUE ("WARNA BIRU IHHH, KO JADI WARNA HIJAUUUUU") when a section rendered greenish, asking for the original blue ("biru kayak yang pertama dulu").
 - Use prominent/visible colors, avoid soft/subtle color schemes. Confidence: 0.65
-- Add floating/ornamental animations to make the website look premium. Confidence: 0.50
+- Add floating/ornamental animations to make the website look premium (user explicitly requested animations on the "Hubungi Kami" form container "biar ngga flat gitu"). Confidence: 0.65
 - Decorative banner/marketing sections (like the MEA & AFTA banner) should be built as full-width gradient sections with a prominent badge/pill, large bold heading, descriptive text, and soft blur "floating shape" ornaments — mirroring the premium look of the original website. Confidence: 0.70
 
 # branding
@@ -25,10 +25,7 @@
 # architecture
 See [architecture/taste.md](architecture/taste.md)
 # communication
-- Use Indonesian language (bahasa Indonesia) when communicating, not English. Confidence: 0.85
-- Communicates in a casual/informal Indonesian tone (slang like "woii", abbreviations like "gausah"/"ga", exaggerated spelling like "munculll", expressions like "aduhh") and expects the assistant to match that casual register rather than overly formal language. Confidence: 0.7
-- Provide concise one-sentence summaries of completed technical changes/features when asked, as the user documents these in a logbook (logbook). Confidence: 0.70
-
+See [communication/taste.md](communication/taste.md)
 # spacing
 - Use generous spacing (e.g., margin-top: 48px) between major content sections on information pages, especially between descriptive/header content and the main content blocks below it. Confidence: 0.80
 
@@ -52,11 +49,7 @@ See [architecture/taste.md](architecture/taste.md)
 - Program/class enrollment (pendaftaran program) should use instant-confirmation flow — set status directly to "confirmed" upon registration without requiring admin approval — unlike user account registration which needs admin approval. Members should be immediately enrolled and appear in the admin panel as registered participants. Confidence: 0.80
 
 # admin-ui
-- Consolidate related admin management sections (e.g., "Data Member" and "Pendaftar Program", or "Program" and "Jadwal Kelas") into a single navbar menu item to keep the sidebar clean and uncluttered — prefer inline/embedded management of child data within the parent page (expandable cards with inline add/edit/delete forms) rather than separate sub-pages or tab-separated views. Confidence: 0.90
-- Use detail/show pages (click → detail view) for reviewing user documents and data rather than displaying everything inline in a table row. Confidence: 0.75
-- Keep admin pages for similar data types (e.g., Data Member and Pendaftar Program) visually and functionally consistent — same layout style, same table features (export CSV), same header structure. Confidence: 0.75
-- Avoid showing the same data redundantly across multiple admin pages (e.g., don't duplicate user documents in Pendaftar Program table since they're already visible in Data Member detail). Confidence: 0.70
-
+See [admin-ui/taste.md](admin-ui/taste.md)
 # formatting
 - Display timestamps with full date AND time including hours and minutes (format: D MMM YYYY, HH:mm) in admin tables, detail pages, and member-facing views. Confidence: 0.85
 - Display all timestamps in Indonesian timezone WIB (Asia/Jakarta) with Indonesian locale — format via `->timezone('Asia/Jakarta')->locale('id')->isoFormat(...)` in views/controllers so times shown to users are real-time WIB, not the app's default UTC. Confidence: 0.9

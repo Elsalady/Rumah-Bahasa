@@ -66,20 +66,6 @@
                     </div>
                 @endif
 
-                {{-- Header Program --}}
-                <div class="detail-header">
-                    <a href="{{ route('member.program') }}" class="btn-back">← Kembali ke Program</a>
-                    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-                        @if($program->ikon)
-                            <div style="font-size:48px;">{!! $program->ikon !!}</div>
-                        @endif
-                        <div>
-                            <h1 style="font-size:26px;font-weight:800;margin:0 0 6px;">{{ $program->nama }}</h1>
-                            <p style="font-size:14px;color:rgba(255,255,255,0.8);margin:0;line-height:1.6;">{{ $program->deskripsi }}</p>
-                        </div>
-                    </div>
-                </div>
-
                 {{-- Tombol Daftar --}}
                 <div style="max-width:400px;margin:0 auto;">
                     <div class="dashboard-card" style="padding:28px;text-align:center;">
