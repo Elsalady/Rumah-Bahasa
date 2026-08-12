@@ -5,36 +5,36 @@
 {{-- Statistik Cards --}}
 <div class="admin-stat-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin-bottom:40px;">
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['berita'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Berita</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['berita'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Berita</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:#7c3aed;">{{ $stats['profil'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Profil</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['profil'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Profil</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:{{ $stats['pending'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending Program</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['pending'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Pending Program</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:#059669;">{{ $stats['confirmed'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pendaftar Disetujui</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['confirmed'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Pendaftar Disetujui</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:{{ $stats['pending_member'] > 0 ? '#b45309' : 'var(--teal-700)' }};">{{ $stats['pending_member'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pending Member</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['pending_member'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Pending Member</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:var(--teal-700);">{{ $stats['member'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pendaftar</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['member'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Pendaftar</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:#0891b2;">{{ $stats['jadwal_kelas'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Jadwal Kelas</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['jadwal_kelas'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Jadwal Kelas</p>
     </div>
     <div class="dashboard-card" style="text-align:center;padding:28px 20px;">
-        <div style="font-size:36px;font-weight:800;color:{{ $stats['pesan_baru'] > 0 ? '#dc2626' : 'var(--teal-700)' }};">{{ $stats['pesan_baru'] }}</div>
-        <p style="color:var(--gray-500);font-size:13px;margin-top:4px;">Pesan Baru</p>
+        <div style="font-size:36px;font-weight:800;color:#e6edf3;">{{ $stats['pesan_baru'] }}</div>
+        <p style="color:#8b949e;font-size:13px;margin-top:4px;">Pesan Baru</p>
     </div>
 </div>
 
@@ -43,15 +43,15 @@
         <h3>Pendaftar Terbaru</h3>
         @if($recentPendaftar->count())
             @foreach($recentPendaftar as $p)
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #21262d;">
                     <div>
-                        <p style="font-weight:600;color:var(--gray-900);">{{ $p->user->name }}</p>
-                        <p style="font-size:13px;color:var(--gray-400);">{{ $p->program }}</p>
+                        <p style="font-weight:600;color:#e6edf3;">{{ $p->user->name }}</p>
+                        <p style="font-size:13px;color:#8b949e;">{{ $p->program }}</p>
                     </div>
-                    <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:50px;{{ $p->status == 'confirmed' ? 'background:#ecfdf5;color:#059669;' : ($p->status == 'rejected' ? 'background:#fef2f2;color:#dc2626;' : 'background:#fffbeb;color:#b45309;') }}">{{ ucfirst($p->status) }}</span>
+                    <span style="font-size:12px;font-weight:600;padding:2px 10px;border-radius:50px;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">{{ ucfirst($p->status) }}</span>
                 </div>
             @endforeach
-            <a href="{{ route('admin.pendaftaran.index') }}" style="display:block;text-align:center;padding:12px;color:var(--teal-700);font-size:13px;font-weight:600;">Lihat Semua →</a>
+            <a href="{{ route('admin.pendaftaran.index') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>
         @else
             <p class="text-muted" style="text-align:center;padding:24px;">Belum ada pendaftar.</p>
         @endif
@@ -60,17 +60,17 @@
         <h3>Pesan Terbaru</h3>
         @if($recentPesan->count())
             @foreach($recentPesan as $p)
-                <div style="padding:12px 0;border-bottom:1px solid var(--gray-100);">
+                <div style="padding:12px 0;border-bottom:1px solid #21262d;">
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-                        <p style="font-weight:600;color:var(--gray-900);margin:0;">{{ $p->nama }}</p>
+                        <p style="font-weight:600;color:#e6edf3;margin:0;">{{ $p->nama }}</p>
                         @if(!$p->sudah_dibaca)
-                            <span style="font-size:11px;font-weight:700;background:#dc2626;color:#fff;padding:2px 8px;border-radius:50px;">Baru</span>
+                            <span style="font-size:11px;font-weight:700;background:#da3633;color:#fff;padding:2px 8px;border-radius:50px;">Baru</span>
                         @endif
                     </div>
-                    <p style="font-size:13px;color:var(--gray-500);margin:4px 0 0;">{{ Str::limit($p->pesan, 80) }}</p>
+                    <p style="font-size:13px;color:#8b949e;margin:4px 0 0;">{{ Str::limit($p->pesan, 80) }}</p>
                 </div>
             @endforeach
-            <a href="{{ route('admin.kontak.index') }}" style="display:block;text-align:center;padding:12px;color:var(--teal-700);font-size:13px;font-weight:600;">Lihat Semua →</a>
+            <a href="{{ route('admin.kontak.index') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>
         @else
             <p class="text-muted" style="text-align:center;padding:24px;">Tidak ada pesan.</p>
         @endif

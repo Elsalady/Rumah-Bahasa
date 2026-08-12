@@ -6,414 +6,569 @@
     <title>@yield('title', 'Admin') — Rumah Bahasa Surabaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
+        /* =====================================================================
+           THEME ADMIN — TERMINAL / MONOKROM GELAP
+           Hitam, abu, putih. Simple & native, tidak warna-warni.
+           ===================================================================== */
+
+        /* Redefinisi palet dalam konteks admin saja (halaman publik tidak terpengaruh) */
+        :root {
+            --gray-50: #0d1117;
+            --gray-100: #161b22;
+            --gray-200: #21262d;
+            --gray-300: #30363d;
+            --gray-400: #8b949e;
+            --gray-500: #8b949e;
+            --gray-600: #a5afba;
+            --gray-700: #c9d1d9;
+            --gray-800: #d7dee6;
+            --gray-900: #e6edf3;
+            --white: #e6edf3;
+            --teal-900: #0d1117;
+            --teal-800: #161b22;
+            --teal-700: #3fb950;
+            --teal-600: #3fb950;
+            --teal-500: #3fb950;
+            --teal-400: #58a6ff;
+            --teal-300: #3fb950;
+            --teal-200: #8b949e;
+            --teal-100: #21262d;
+            --teal-50: #161b22;
+        }
+
         * { box-sizing: border-box; }
 
         body {
-            background: #f0fdfa;
+            background: #0d1117;
+            color: #e6edf3;
             min-height: 100vh;
-            position: relative;
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color-scheme: dark;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse 600px 400px at 10% 20%, rgba(13, 112, 148, 0.06) 0%, transparent 100%),
-                radial-gradient(ellipse 500px 500px at 90% 30%, rgba(45, 140, 212, 0.06) 0%, transparent 100%),
-                radial-gradient(ellipse 400px 300px at 50% 80%, rgba(0, 48, 115, 0.04) 0%, transparent 100%),
-                radial-gradient(ellipse 300px 400px at 20% 70%, rgba(52, 155, 211, 0.04) 0%, transparent 100%),
-                radial-gradient(ellipse 350px 350px at 80% 70%, rgba(13, 107, 148, 0.05) 0%, transparent 100%);
-            pointer-events: none;
-            z-index: 0;
-        }
+        /* Buang dekorasi orbs/dots/dot-pattern dari layout lama */
+        body::before,
+        .admin-page::before,
+        .admin-orb { display: none !important; }
 
         .admin-page {
+            min-height: 100vh;
+            background: #0d1117;
             position: relative;
-            z-index: 1;
         }
 
-        /* Subtle floating orbs */
-        .admin-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-            animation: floatOrb 12s ease-in-out infinite;
+        /* ===== SIDEBAR (kiri, ala Filament) ===== */
+        .admin-page {
+            display: flex;
+            min-height: 100vh;
         }
-
-        .admin-orb-1 {
-            width: 300px;
-            height: 300px;
-            background: rgba(13, 80, 148, 0.08);
-            top: -80px;
-            right: -80px;
-            animation-delay: 0s;
-        }
-
-        .admin-orb-2 {
-            width: 200px;
-            height: 200px;
-            background: rgba(45, 140, 212, 0.07);
-            bottom: 10%;
-            left: -60px;
-            animation-delay: -4s;
-        }
-
-        .admin-orb-3 {
-            width: 250px;
-            height: 250px;
-            background: rgba(0, 95, 115, 0.06);
-            bottom: -60px;
-            right: 30%;
-            animation-delay: -8s;
-        }
-
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -20px) scale(1.05); }
-            66% { transform: translate(-20px, 15px) scale(0.95); }
-        }
-
-        /* Subtle dot pattern overlay */
-        .admin-page::before {
-            content: '';
+        .admin-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            background: #010409;
+            border-right: 1px solid #21262d;
+            display: flex;
+            flex-direction: column;
             position: fixed;
             top: 0;
+            bottom: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: radial-gradient(circle, rgba(13, 148, 136, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .admin-header {
-            background: linear-gradient(135deg, #0167a2 0%, #1680bd 50%, #2073c7 100%);
-            background-size: 200% 200%;
-            animation: gradientMove 8s ease-in-out infinite;
-            padding: 16px 0;
-            box-shadow: 0 4px 20px rgba(13, 80, 148, 0.2);
-            position: sticky;
-            top: 0;
             z-index: 100;
+            padding: 20px 0;
         }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .admin-header .container {
+        .admin-sidebar .sidebar-brand {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            box-sizing: border-box;
-            padding: 0 20px;
+            gap: 10px;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #21262d;
+            margin-bottom: 16px;
         }
-
-        .admin-header-left {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            flex: 1;
-            min-width: 0;
+        .admin-sidebar .sidebar-brand img.brand-logo {
+            height: 28px;
+            width: auto;
+            object-fit: contain;
         }
-
-        .admin-header h2 {
+        .admin-sidebar h2 {
             margin: 0;
-            white-space: nowrap;
-            color: #fff;
-            font-size: 22px;
-            letter-spacing: -0.3px;
-        }
-
-        .admin-nav {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .nav-link {
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.85);
-            text-decoration: none;
-            transition: all 0.2s ease-in-out;
-            white-space: nowrap;
-            position: relative;
+            color: #e6edf3;
+            font-size: 15px;
             font-weight: 600;
+            letter-spacing: 0;
+            font-family: 'Cascadia Mono', Consolas, Menlo, monospace;
+            white-space: nowrap;
         }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%) scaleX(0);
-            width: 60%;
-            height: 3px;
-            background: #fff;
-            border-radius: 3px;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
-
-        .nav-link:hover::before {
-            transform: translateX(-50%) scaleX(0.5);
-        }
-
-        .nav-link.active {
-            background: rgba(255, 255, 255, 0.92);
-            color: #0167a2;
+        .admin-sidebar h2::before {
+            content: '> ';
+            color: #3fb950;
             font-weight: 700;
         }
-
-        .nav-link.active::before {
-            transform: translateX(-50%) scaleX(0);
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 10px;
+            flex: 1;
         }
-
-        .admin-header-right {
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 16px;
-            flex-shrink: 0;
-        }
-
-        .admin-header-right span {
-            color: rgba(255,255,255,0.85);
-            font-size: 14px;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #8b949e;
+            text-decoration: none;
+            transition: all 0.15s;
+            white-space: nowrap;
             font-weight: 500;
+            position: relative;
+        }
+        .nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .nav-link::before { display: none; }
+        .nav-link:hover {
+            color: #e6edf3;
+            background: #161b22;
+        }
+        .nav-link.active {
+            color: #3fb950;
+            background: rgba(63, 185, 80, 0.1);
+            font-weight: 600;
+        }
+        .nav-link.active::before { display: none; }
+        .admin-sidebar .sidebar-footer {
+            border-top: 1px solid #21262d;
+            padding: 16px 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .admin-sidebar .sidebar-footer span {
+            color: #8b949e;
+            font-size: 12px;
+        }
+        .btn-logout {
+            padding: 8px 14px;
+            background: transparent;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-logout:hover {
+            background: #21262d;
+            color: #e6edf3;
+            transform: none;
         }
 
-        .btn-logout {
-            padding: 8px 20px;
-            background: #ffffff;
-            color: #0167a2;
+        /* ===== KONTEN ===== */
+        .admin-content {
+            flex: 1;
+            min-width: 0;
+            margin-left: 240px;
+            display: flex;
+            flex-direction: column;
+        }
+        .admin-main { padding: 32px 0 60px; flex: 1; }
+        .admin-main .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== KARTU ===== */
+        .dashboard-card {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            animation: none;
+        }
+        .dashboard-card::before,
+        .dashboard-card:hover::before { display: none; }
+        .dashboard-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        /* ===== ALERT ===== */
+        .alert-success {
+            padding: 12px 16px;
+            background: rgba(63, 185, 80, 0.08);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-radius: 8px;
+            color: #3fb950;
+            font-weight: 500;
+            font-size: 13px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-error {
+            padding: 12px 16px;
+            background: rgba(248, 81, 73, 0.08);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            border-radius: 8px;
+            color: #f85149;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        /* ===== TABEL ===== */
+        .table-wrap { overflow-x: auto; }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+            background: #0d1117;
+        }
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: #c9d1d9;
+            border-bottom: 1px solid #21262d;
+            vertical-align: top;
+        }
+        .data-table tr:hover td { background: #1c2129; }
+        .data-table .title-cell {
+            font-weight: 600;
+            color: #e6edf3;
+        }
+        .data-table .action-cell { white-space: nowrap; }
+
+        /* ===== FORM ===== */
+        .form-group label { color: #c9d1d9; }
+        .form-group input,
+        .dashboard-form .form-group textarea,
+        .form-group select,
+        .form-control-custom,
+        .admin-page select {
+            background: #0d1117 !important;
+            border: 1px solid #30363d !important;
+            border-radius: 8px;
+            color: #e6edf3 !important;
+        }
+        .form-group input:focus,
+        .dashboard-form .form-group textarea:focus,
+        .form-control-custom:focus {
+            border-color: #3fb950 !important;
+            box-shadow: 0 0 0 3px rgba(63, 185, 80, 0.15) !important;
+            background: #0d1117 !important;
+        }
+
+        /* ===== TOMBOL ===== */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #3fb950;
+            color: #0d1117;
             border: none;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
+            font-family: inherit;
         }
-        .btn-logout:hover { 
-            background: #e2e8f0;
-            transform: translateY(-1px);
+        .btn-submit:hover {
+            background: #56d364;
+            transform: none;
+            box-shadow: none;
         }
-
-        .admin-main {
-            padding: 32px 0 60px;
-        }
-
-        .admin-main .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .dashboard-card {
-            animation: cardFadeIn 0.4s ease-out both;
-        }
-
-        @keyframes cardFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .dashboard-card:nth-child(1) { animation-delay: 0.05s; }
-        .dashboard-card:nth-child(2) { animation-delay: 0.1s; }
-        .dashboard-card:nth-child(3) { animation-delay: 0.15s; }
-        .dashboard-card:nth-child(4) { animation-delay: 0.2s; }
-        .dashboard-card:nth-child(5) { animation-delay: 0.25s; }
-        .dashboard-card:nth-child(6) { animation-delay: 0.3s; }
-        .dashboard-card:nth-child(7) { animation-delay: 0.35s; }
-        .dashboard-card:nth-child(8) { animation-delay: 0.4s; }
-
-        .alert-success {
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #d1fae5, #a7cdf3);
-            border: 1px solid #6ec7e7;
-            border-radius: 12px;
-            color: #044095;
+        .btn-sm {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 500;
-            font-size: 14px;
+            border: 1px solid #30363d;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+        .btn-edit {
+            background: #21262d;
+            color: #e6edf3;
+        }
+        .btn-edit:hover { background: #30363d; }
+        .btn-delete {
+            background: #21262d;
+            color: #f85149;
+        }
+        .btn-delete:hover { background: #30363d; }
+        .btn-cancel {
+            padding: 8px 18px;
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-cancel:hover { background: #30363d; }
+
+        /* Tombol export (pakai class btn-login di view admin) */
+        .btn-login {
+            background: #21262d !important;
+            color: #e6edf3 !important;
+            border: 1px solid #30363d !important;
+            border-radius: 6px;
+            font-weight: 500 !important;
+            font-family: inherit;
+        }
+        .btn-login:hover { background: #30363d !important; }
+
+        /* ===== NEUTRALKAN WARNA INLINE ===== */
+        /* Angka statistik dashboard → putih */
+        .admin-stat-grid div[style*="font-size:36px"] { color: #e6edf3 !important; }
+        /* Badge status warna-warni → monokrom */
+        span[style*="border-radius:50px"] {
+            background: #21262d !important;
+            color: #c9d1d9 !important;
+            border: 1px solid #30363d;
+        }
+        /* Badge "Baru" merah di dashboard */
+        span[style*="background:#dc2626"] { background: #da3633 !important; }
+        /* Label "Dibaca"/"Baru" di kontak */
+        td span[style*="color:var(--teal-700)"] { color: #3fb950 !important; }
+        /* Link "Lihat Semua" */
+        a[style*="color:var(--teal-700)"] { color: #58a6ff !important; }
+        /* Text warna teks gelap inline → terang */
+        .text-muted { color: #8b949e !important; }
+        .admin-page div[style*="color:var(--gray-900)"] { color: #e6edf3 !important; }
+        .admin-page div[style*="color:var(--gray-800)"] { color: #d7dee6 !important; }
+
+        /* ===== TAB NAV (kelola member) ===== */
+        .tab-btn {
+            padding: 10px 24px !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            background: none !important;
+            border: none !important;
+            border-bottom: 2px solid transparent !important;
+            color: #8b949e !important;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .tab-btn.active {
+            color: #3fb950 !important;
+            border-bottom-color: #3fb950 !important;
+            font-weight: 600 !important;
+        }
+        .tab-nav { border-bottom: 1px solid #21262d !important; }
+
+        /* ===== PROGRAM & JADWAL ===== */
+        .program-card {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 12px;
             margin-bottom: 24px;
+            box-shadow: none;
+            overflow: hidden;
+        }
+        .program-card-header {
+            padding: 18px 24px;
+            background: #0d1117;
+            border-bottom: 1px solid #21262d;
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: slideDown 0.3s ease-out;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            cursor: pointer;
         }
-
-        @keyframes slideDown {
-            from { transform: translateY(-10px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .program-card-header:hover { background: #0d1117; }
+        .program-card-header h3 { color: #e6edf3; }
+        .program-card-header p { color: #8b949e !important; }
+        .jadwal-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
         }
+        .jadwal-row:hover { background: #161b22; }
+        .jadwal-form {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .jadwal-form.open { display: block; }
+        .btn-add-jadwal {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #3fb950;
+            color: #0d1117;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-add-jadwal:hover { background: #56d364; }
+        .toggle-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #8b949e;
+            background: #21262d;
+            padding: 4px 10px 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            white-space: nowrap;
+        }
+        .toggle-icon.open { background: rgba(63, 185, 80, 0.1); color: #3fb950; }
+        .jadwal-form input,
+        .jadwal-form select {
+            background: #0d1117 !important;
+            border: 1px solid #30363d !important;
+            color: #e6edf3 !important;
+        }
+        /* Link WA grup */
+        a[style*="#25d366"] { color: #58a6ff !important; }
 
+        /* ===== DETAIL MEMBER ===== */
+        .detail-header h3 { color: #e6edf3; }
+        .back-link { color: #8b949e; }
+        .back-link:hover { color: #3fb950; }
+        .profile-card-header { border-bottom-color: #21262d; }
+        .profile-avatar-placeholder { background: #21262d; }
+        .card-title { color: #c9d1d9; }
+        .info-label { color: #8b949e; }
+        .info-value { color: #d7dee6; }
+        .doc-item { border-bottom-color: #21262d; }
+        .doc-label { color: #c9d1d9; }
+
+        /* ===== KONTEN / GRID ===== */
+        .konten-grid { gap: 24px; }
+        .dashboard-card select { background: #0d1117 !important; color: #e6edf3 !important; border-color: #30363d !important; }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
-            .admin-header .container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-                padding: 0 16px;
-            }
-            .admin-header-left {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+            .admin-sidebar {
                 width: 100%;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid #21262d;
+                padding: 12px 0;
             }
+            .admin-page { flex-direction: column; }
+            .admin-content { margin-left: 0; }
+            .admin-sidebar .sidebar-brand { padding-bottom: 12px; margin-bottom: 10px; }
             .admin-nav {
-                width: 100%;
+                flex-direction: row;
                 overflow-x: auto;
-                padding-bottom: 6px;
+                padding: 0 12px;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
-                gap: 4px;
             }
             .admin-nav::-webkit-scrollbar { display: none; }
-            .nav-link {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
-            .admin-header-right {
-                width: 100%;
+            .nav-link { white-space: nowrap; }
+            .admin-sidebar .sidebar-footer {
+                flex-direction: row;
                 justify-content: space-between;
-                border-top: 1px solid rgba(255,255,255,0.1);
-                padding-top: 12px;
+                align-items: center;
+                padding: 10px 16px 0;
+                border-top: none;
             }
-            .admin-header-right span { font-size: 13px; }
             .admin-main { padding: 24px 0; }
-            .admin-main .container { padding: 0 16px; }
-            .dashboard-card { padding: 20px 16px; }
-
-            .admin-grid-2 {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
-
-            .admin-stat-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px !important;
-            }
-            .admin-stat-grid .dashboard-card {
-                padding: 20px 12px !important;
-            }
-            .admin-stat-grid .dashboard-card div:first-child {
-                font-size: 28px !important;
-            }
-
-            .admin-dashboard-grid {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
-
-            /* Make tables scrollable horizontally on mobile */
-            .table-wrap {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                margin: 0 -16px;
-                padding: 0 16px;
-            }
-            .table-wrap table {
-                min-width: 500px;
-            }
-            .data-table th,
-            .data-table td {
-                padding: 10px 12px !important;
-                font-size: 13px !important;
-            }
         }
-
         @media (max-width: 480px) {
-            .admin-header { padding: 10px 0; }
-            .admin-header h2 { font-size: 16px; }
-            .admin-header .container { padding: 0 12px; gap: 8px; }
-            .nav-link { font-size: 11px; padding: 5px 8px; }
-            .admin-header-right span { font-size: 12px; }
-            .btn-logout { font-size: 12px; padding: 6px 14px; }
-            .admin-main { padding: 16px 0; }
+            .admin-sidebar h2 { font-size: 14px; }
+            .nav-link { font-size: 12px; padding: 7px 10px; }
             .admin-main .container { padding: 0 12px; }
-            .dashboard-card { padding: 16px 12px !important; border-radius: 12px !important; }
-            .dashboard-card h3 { font-size: 15px; margin-bottom: 16px; padding-bottom: 12px; }
-            .card-header-row { flex-direction: column; align-items: flex-start !important; gap: 8px !important; }
-
-            /* Table adjustments */
-            .table-wrap { margin: 0 -12px; padding: 0 12px; }
-            .data-table th,
-            .data-table td {
-                padding: 8px 10px !important;
-                font-size: 12px !important;
-            }
-            .data-table .title-cell { font-size: 13px; }
-            .btn-sm { font-size: 11px; padding: 5px 10px; }
         }
     </style>
 </head>
 <body>
     <div class="admin-page">
-        <div class="admin-orb admin-orb-1"></div>
-        <div class="admin-orb admin-orb-2"></div>
-        <div class="admin-orb admin-orb-3"></div>
-        <header class="admin-header">
-            <div class="container">
-
-                <div class="admin-header-left">
-                    <h2>Panel Admin</h2>
-                    <nav class="admin-nav">
-                        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-                        <a href="{{ route('admin.konten.index') }}" class="nav-link {{ request()->routeIs('admin.konten.*') || request()->routeIs('admin.berita.*') || request()->routeIs('admin.profil.*') ? 'active' : '' }}">Konten</a>
-                        <a href="{{ route('admin.program-jadwal.index') }}" class="nav-link {{ request()->routeIs('admin.program-jadwal.*') || request()->routeIs('admin.program.*') || request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">Program & Jadwal</a>
-                        <a href="{{ route('admin.member.kelola') }}" class="nav-link {{ request()->routeIs('admin.member.*') || request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">Member</a>
-                        <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">Pesan</a>
-                    </nav>
-                </div>
-                
-                <div class="admin-header-right">
-                    <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="display:inline-flex;align-items:center;gap:6px;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                        Website
-                    </a>
-                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="btn-logout">Logout</button>
-                    </form>
-                </div>
-
+        {{-- SIDEBAR KIRI (ala Filament) --}}
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo Rumah Bahasa" class="brand-logo">
+                <h2>Panel Admin</h2>
             </div>
-        </header>
-
-        <main class="admin-main">
-            <div class="container">
-                @if(session('success'))
-                    <div class="alert-success">{{ session('success') }}</div>
-                @endif
-                @yield('content')
+            <nav class="admin-nav">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    Dashboard
+                </a>
+                <a href="{{ route('admin.konten.index') }}" class="nav-link {{ request()->routeIs('admin.konten.*') || request()->routeIs('admin.berita.*') || request()->routeIs('admin.profil.*') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Konten
+                </a>
+                <a href="{{ route('admin.program-jadwal.index') }}" class="nav-link {{ request()->routeIs('admin.program-jadwal.*') || request()->routeIs('admin.program.*') || request()->routeIs('admin.jadwal-kelas.*') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Program &amp; Jadwal
+                </a>
+                <a href="{{ route('admin.member.kelola') }}" class="nav-link {{ request()->routeIs('admin.member.*') || request()->routeIs('admin.pendaftaran.*') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Member
+                </a>
+                <a href="{{ route('admin.kontak.index') }}" class="nav-link {{ request()->routeIs('admin.kontak.*') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    Pesan
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="{{ route('home') }}" target="_blank" class="btn-logout" style="justify-content:flex-start;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Website
+                </a>
+                <form action="{{ route('logout') }}" method="POST" style="display:block;">
+                    @csrf
+                    <button type="submit" class="btn-logout" style="width:100%;">Logout</button>
+                </form>
             </div>
-        </main>
+        </aside>
+
+        <div class="admin-content">
+            <main class="admin-main">
+                <div class="container">
+                    @if(session('success'))
+                        <div class="alert-success">{{ session('success') }}</div>
+                    @endif
+                    @yield('content')
+                </div>
+            </main>
+        </div>
     </div>
 </body>
 </html>

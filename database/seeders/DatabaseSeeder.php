@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,23 +16,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin default
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@rumahbahasa.com',
-            'password' => bcrypt('admin123'),
-            'role' => 'admin',
-        ]);
+        // Admin default — password ambil dari env ADMIN_PASSWORD (fallback: acak & tampil di log)
+        $adminPassword = env('ADMIN_PASSWORD', Str::password(16));
+        User::firstOrCreate(
+            ['email' => 'admin@rumahbahasa.com'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt($adminPassword),
+                'role' => 'admin',
+                'status' => 'approved',
+            ]
+        );
 
         // Member contoh
-        User::create([
-            'name' => 'Member User',
-            'email' => 'member@example.com',
-            'password' => bcrypt('member123'),
-            'role' => 'member',
-            'phone' => '08123456789',
-            'address' => 'Jl. Contoh No.1, Surabaya',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'member@example.com'],
+            [
+                'name' => 'Member User',
+                'password' => bcrypt('member123'),
+                'role' => 'member',
+                'phone' => '08123456789',
+                'address' => 'Jl. Contoh No.1, Surabaya',
+            ]
+        );
 
         // Profil
         \App\Models\Profil::insert([

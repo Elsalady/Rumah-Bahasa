@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Mail\ResetPasswordMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -82,58 +79,6 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('member.dashboard');
-    }
-
-    // ===== FORGOT / RESET PASSWORD =====
-    public function showForgot()
-    {
-        return view('auth.forgot-password');
-    }
-
-    public function sendResetLink(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
-        $status = Password::sendResetLink(
-            $request->only('email'),
-            function ($user, $token) {
-                $url = url('/reset-password/' . $token . '?email=' . urlencode($user->email));
-                Mail::to($user->email)->send(new ResetPasswordMail($url));
-            }
-        );
-
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('success', 'Tautan reset password telah dikirim ke email Anda.')
-            : back()->withErrors(['email' => 'Email tidak ditemukan.']);
-    }
-
-    public function showReset(Request $request, $token)
-    {
-        return view('auth.reset-password', ['token' => $token, 'email' => $request->email]);
-    }
-
-    public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password),
-                ])->save();
-            }
-        );
-
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('success', 'Password berhasil direset. Silakan login.')
-            : back()->withErrors(['email' => 'Tautan reset tidak valid atau sudah kedaluwarsa.']);
     }
 
     // ===== LOGOUT =====

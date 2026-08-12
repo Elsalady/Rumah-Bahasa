@@ -18,12 +18,14 @@
         </div>
     </div>
 
-    <!-- Tab Navigation -->
-    <div class="tab-nav" style="display:flex;gap:0;border-bottom:2px solid #e5e7eb;margin-bottom:24px;">
-        <button type="button" class="tab-btn active" data-tab="tab-member" style="padding:10px 24px;font-size:14px;font-weight:600;background:none;border:none;border-bottom:2px solid #0167a2;color:#0167a2;cursor:pointer;margin-bottom:-2px;transition:all 0.2s;white-space:nowrap;">
-            pendaftar Member ({{ $members->count() }})
+    <!-- Tab Navigation (mencolok: tombol solid + ikon) -->
+    <div class="member-tabs" style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+        <button type="button" class="member-tab active" data-tab="tab-member" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1px solid #30363d;font-family:inherit;transition:all 0.15s;background:#3fb950;color:#0d1117;border-color:#3fb950;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            Pendaftar Member ({{ $members->count() }})
         </button>
-        <button type="button" class="tab-btn" data-tab="tab-pendaftar" style="padding:10px 24px;font-size:14px;font-weight:500;background:none;border:none;border-bottom:2px solid transparent;color:#6b7280;cursor:pointer;transition:all 0.2s;white-space:nowrap;">
+        <button type="button" class="member-tab" data-tab="tab-pendaftar" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1px solid #30363d;font-family:inherit;transition:all 0.15s;background:#21262d;color:#c9d1d9;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             Pendaftar Program ({{ $daftar->count() }})
         </button>
     </div>
@@ -53,10 +55,7 @@
                                 <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>
                                 <td style="font-size:13px;">{{ $member->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                                 <td>
-                                    <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;
-                                        {{ $member->status === 'approved' ? 'background:#ecfdf5;color:#166534;' : '' }}
-                                        {{ $member->status === 'rejected' ? 'background:#fef2f2;color:#dc2626;' : '' }}
-                                        {{ $member->status === 'pending' ? 'background:#fffbeb;color:#b45309;' : '' }}">
+                                    <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">
                                         {{ ucfirst($member->status) }}
                                     </span>
                                 </td>
@@ -86,10 +85,7 @@
                                 <td><div class="title-cell">{{ $item->user->name }}</div><div style="font-size:12px;color:var(--gray-400);">{{ $item->user->email }}</div></td>
                                 <td>{{ $item->program }}</td>
                                 <td>
-                                    <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;
-                                        {{ $item->status === 'confirmed' ? 'background:#ecfdf5;color:#166534;' : '' }}
-                                        {{ $item->status === 'rejected' ? 'background:#fef2f2;color:#dc2626;' : '' }}
-                                        {{ $item->status === 'pending' ? 'background:#fffbeb;color:#b45309;' : '' }}">
+                                    <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">
                                         {{ ucfirst($item->status) }}
                                     </span>
                                 </td>
@@ -119,14 +115,14 @@
 <style>
     @media (max-width: 480px) {
         .card-header-row { flex-direction: column; align-items: flex-start !important; gap: 8px !important; }
-        .tab-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 0; }
-        .tab-nav::-webkit-scrollbar { display: none; }
-        .tab-btn { font-size: 12px !important; padding: 8px 14px !important; }
+        .member-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex-wrap: nowrap; }
+        .member-tabs::-webkit-scrollbar { display: none; }
+        .member-tab { font-size: 12px !important; padding: 10px 16px !important; }
     }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.tab-btn');
+    const tabs = document.querySelectorAll('.member-tab');
     const contents = {
         'tab-member': document.getElementById('tab-member'),
         'tab-pendaftar': document.getElementById('tab-pendaftar'),
@@ -134,19 +130,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     tabs.forEach(tab => {
         tab.addEventListener('click', function() {
-            // Deactivate all tabs
+            // Deactivate all tabs (gaya tombol tidak aktif)
             tabs.forEach(t => {
-                t.style.borderBottomColor = 'transparent';
-                t.style.color = '#6b7280';
-                t.style.fontWeight = '500';
+                t.style.background = '#21262d';
+                t.style.color = '#c9d1d9';
+                t.style.borderColor = '#30363d';
+                t.style.fontWeight = '600';
             });
             // Hide all contents
             Object.values(contents).forEach(c => { if (c) c.style.display = 'none'; });
 
-            // Activate clicked tab
-            this.style.borderBottomColor = '#0167a2';
-            this.style.color = '#0167a2';
-            this.style.fontWeight = '600';
+            // Activate clicked tab (hijau solid)
+            this.style.background = '#3fb950';
+            this.style.color = '#0d1117';
+            this.style.borderColor = '#3fb950';
 
             const target = contents[this.dataset.tab];
             if (target) target.style.display = '';

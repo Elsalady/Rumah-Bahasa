@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\KontakMasukMail;
 use App\Models\Kontak;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class KontakController extends Controller
 {
@@ -21,7 +24,13 @@ class KontakController extends Controller
             'pesan' => 'required',
         ]);
 
-        Kontak::create($validated);
+        $kontak = Kontak::create($validated);
+
+        // Notifikasi email ke semua admin
+        $adminEmails = User::where('role', 'admin')->pluck('email')->filter()->unique();
+        foreach ($adminEmails as $email) {
+            Mail::to($email)->send(new KontakMasukMail($kontak));
+        }
 
         $previous = url()->previous();
         // Pastikan redirect kembali ke posisi form pesan, bukan ke atas halaman

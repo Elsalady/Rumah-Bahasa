@@ -20,10 +20,7 @@
                             <td><div class="title-cell">{{ $item->user->name }}</div><div style="font-size:12px;color:var(--gray-400);">{{ $item->user->email }}</div></td>
                             <td>{{ $item->program }}</td>
                             <td>
-                                <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;
-                                    {{ $item->status === 'confirmed' ? 'background:#ecfdf5;color:#166534;' : '' }}
-                                    {{ $item->status === 'rejected' ? 'background:#fef2f2;color:#dc2626;' : '' }}
-                                    {{ $item->status === 'pending' ? 'background:#fffbeb;color:#b45309;' : '' }}">
+                                <span style="display:inline-block;padding:2px 10px;border-radius:50px;font-size:12px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">
                                     {{ ucfirst($item->status) }}
                                 </span>
                             </td>

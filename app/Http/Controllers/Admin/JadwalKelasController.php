@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JadwalKelas;
+use App\Models\Layanan;
 use App\Models\Notifikasi;
+use App\Models\Pendaftaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,7 @@ class JadwalKelasController extends Controller
     private function buatNotifikasiPendaftarProgram($namaKelas, $judul, $pesan, $link = null)
     {
         // Cari program (Layanan) yang relevan dengan kelas ini
-        $program = \App\Models\Layanan::where('is_active', true)->get()->first(function ($p) use ($namaKelas) {
+        $program = Layanan::where('is_active', true)->get()->first(function ($p) use ($namaKelas) {
             $keyword = str_replace('Kelas ', '', $p->nama);
             return stripos($namaKelas, $keyword) !== false;
         });
@@ -23,7 +25,7 @@ class JadwalKelasController extends Controller
             $members = User::where('role', 'member')->where('status', 'approved')->get();
         } else {
             // Kirim hanya ke member yang terdaftar di program ini
-            $memberIds = \App\Models\Pendaftaran::where('program', $program->nama)
+            $memberIds = Pendaftaran::where('program', $program->nama)
                 ->whereIn('status', ['pending', 'confirmed'])
                 ->pluck('user_id');
 
@@ -43,6 +45,7 @@ class JadwalKelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'layanan_id' => 'required|exists:layanan,id',
             'nama_kelas' => 'required|max:255',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam_mulai' => 'required',
@@ -54,7 +57,13 @@ class JadwalKelasController extends Controller
             'kuota' => 'integer|min:0',
         ]);
 
-        JadwalKelas::create($request->all());
+        // Tanggal otomatis = hari pertama di minggu berjalan (Senin minggu ini)
+        $tanggal = \Carbon\Carbon::now()->startOfWeek()->format('Y-m-d');
+
+        $jadwal = JadwalKelas::create(array_merge($request->all(), [
+            'layanan_id' => $request->layanan_id,
+            'tanggal' => $tanggal,
+        ]));
 
         $this->buatNotifikasiPendaftarProgram(
             $request->nama_kelas,
@@ -70,6 +79,7 @@ class JadwalKelasController extends Controller
     {
         $jadwal = JadwalKelas::findOrFail($id);
         $request->validate([
+            'layanan_id' => 'required|exists:layanan,id',
             'nama_kelas' => 'required|max:255',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam_mulai' => 'required',

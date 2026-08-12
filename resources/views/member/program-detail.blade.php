@@ -54,6 +54,62 @@
                     </div>
                 </div>
 
+                {{-- Jadwal Program Minggu Ini --}}
+                <div style="background:#fff;border:1px solid var(--gray-100);border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.05);padding:24px;margin-bottom:24px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                        <div>
+                            <h2 style="font-size:16px;font-weight:700;color:var(--gray-900);margin:0;">Jadwal Kelas Minggu Ini</h2>
+                            <p style="font-size:12px;color:var(--gray-400);margin:4px 0 0;">
+                                {{ \Carbon\Carbon::now()->startOfWeek()->translatedFormat('l, d M') }} — {{ \Carbon\Carbon::now()->endOfWeek()->translatedFormat('l, d M Y') }}
+                            </p>
+                        </div>
+                        @if($jadwalProgram->count())
+                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#ecfdf5;color:#166534;border-radius:50px;font-size:12px;font-weight:600;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                {{ $jadwalProgram->count() }} sesi tersedia
+                            </span>
+                        @else
+                            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#fef3c7;color:#b45309;border-radius:50px;font-size:12px;font-weight:600;">
+                                Belum ada jadwal minggu ini
+                            </span>
+                        @endif
+                    </div>
+
+                    @if($jadwalProgram->count())
+                        <div style="display:grid;gap:10px;">
+                            @foreach($jadwalProgram as $item)
+                                <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:#f8fafc;border:1px solid var(--gray-100);border-radius:12px;flex-wrap:wrap;">
+                                    <div style="min-width:110px;text-align:center;padding:8px 12px;background:#0167a2;color:#fff;border-radius:10px;">
+                                        <p style="font-size:12px;font-weight:700;margin:0;">{{ $item->hari }}</p>
+                                    </div>
+                                    <div style="flex:1;min-width:160px;">
+                                        <p style="font-weight:700;font-size:14px;color:var(--gray-900);margin:0;">
+                                            {{ \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') }} WIB
+                                        </p>
+                                        @if($item->pengajar)
+                                            <p style="font-size:12px;color:var(--gray-500);margin:2px 0 0;">Pengajar: {{ $item->pengajar }}</p>
+                                        @endif
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                                        <span style="display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600;background:#e0f2fe;color:#0369a1;">{{ ucfirst($item->jenis) }}</span>
+                                        <span style="display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600;background:#ecfdf5;color:#166534;">{{ ucfirst($item->mode) }}</span>
+                                        @if($item->ruangan_link)
+                                            <span style="font-size:12px;color:var(--gray-500);background:var(--gray-50);padding:3px 10px;border-radius:50px;">
+                                                {{ $item->mode === 'online' ? '🔗' : '📍' }} {{ $item->ruangan_link }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div style="text-align:center;padding:24px;">
+                            <p style="font-size:14px;color:var(--gray-500);margin:0;">Admin belum mengatur jadwal untuk program ini minggu ini.</p>
+                            <p style="font-size:12px;color:var(--gray-400);margin:6px 0 0;">Kamu belum bisa mendaftar sampai jadwal kelas tersedia. Cek kembali nanti.</p>
+                        </div>
+                    @endif
+                </div>
+
                 {{-- Tombol Daftar --}}
                 @if($baruDaftar && $program->link_wa)
                     <div style="padding:20px 24px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:12px;margin-bottom:24px;text-align:center;">
@@ -75,6 +131,14 @@
                                 kamu sudah terdaftar
                             </div>
                             <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Kamu sudah terdaftar di program ini.</p>
+                        @elseif(!$jadwalProgram->count())
+                            <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
+                            <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">
+                                Jadwal kelas minggu ini belum tersedia. Silakan tunggu admin mengatur jadwalnya.
+                            </p>
+                            <button type="button" class="btn-submit" style="width:100%;padding:14px 24px;font-size:15px;background:#e5e7eb;color:#9ca3af;cursor:not-allowed;border:none;" disabled>
+                                Daftar Tidak Tersedia
+                            </button>
                         @else
                             <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
 use App\Models\Layanan;
+use App\Models\JadwalKelas;
 use Illuminate\Http\Request;
 
 class PendaftaranController extends Controller
@@ -26,6 +27,25 @@ class PendaftaranController extends Controller
         $validated = $request->validate([
             'program' => 'required|string|max:255',
         ]);
+
+        $program = Layanan::where('is_active', true)->where('nama', $validated['program'])->first();
+
+        if (!$program) {
+            return redirect()->route('member.program')->with('error', 'Program tidak ditemukan.');
+        }
+
+        // Cek apakah program punya jadwal aktif di minggu berjalan
+        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
+        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
+        $adaJadwal = JadwalKelas::where('layanan_id', $program->id)
+            ->where('is_active', true)
+            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
+            ->exists();
+
+        if (!$adaJadwal) {
+            return redirect()->route('member.program.detail', $validated['program'])
+                ->with('error', 'Jadwal kelas program ini belum tersedia untuk minggu ini. Silakan tunggu admin mengatur jadwalnya.');
+        }
 
         $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->where('program', $validated['program'])

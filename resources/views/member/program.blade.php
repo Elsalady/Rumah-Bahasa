@@ -76,10 +76,23 @@
                                         <div style="font-size:40px;margin-bottom:12px;">{!! $item->ikon !!}</div>
                                     @endif
                                     <h3 style="font-size:18px;font-weight:700;color:var(--gray-900);margin:0;">{{ $item->nama }}</h3>
+                                    @if(in_array($item->nama, $programTerdaftar))
+                                        <span style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 12px;border-radius:50px;font-size:11px;font-weight:600;background:#ecfdf5;color:#166534;">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                            Terdaftar
+                                        </span>
+                                    @elseif(!in_array($item->id, $jadwalIds))
+                                        <span style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 12px;border-radius:50px;font-size:11px;font-weight:600;background:#fef3c7;color:#b45309;">
+                                            Jadwal belum tersedia
+                                        </span>
+                                    @endif
                                 </div>
-                                <a href="{{ route('member.program.detail', $item->nama) }}" class="btn-daftar" style="text-decoration:none;">
+                                <a href="{{ route('member.program.detail', $item->nama) }}" class="btn-daftar" style="text-decoration:none;
+                                    {{ in_array($item->nama, $programTerdaftar) ? 'background:#e5e7eb;color:#9ca3af;cursor:default;' : (!in_array($item->id, $jadwalIds) ? 'background:#e5e7eb;color:#9ca3af;cursor:not-allowed;' : '') }}">
                                     @if(in_array($item->nama, $programTerdaftar))
                                         ✓ Terdaftar
+                                    @elseif(!in_array($item->id, $jadwalIds))
+                                        Daftar Tidak Tersedia
                                     @else
                                         Daftar
                                     @endif

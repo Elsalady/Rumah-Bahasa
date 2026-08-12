@@ -2,34 +2,35 @@
 
 namespace App\Mail;
 
+use App\Models\Kontak;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordMail extends Mailable
+class KontakMasukMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public string $url;
+    public Kontak $kontak;
 
-    public function __construct(string $url)
+    public function __construct(Kontak $kontak)
     {
-        $this->url = $url;
+        $this->kontak = $kontak;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reset Password - Rumah Bahasa Surabaya',
+            subject: '📩 Pesan Baru dari ' . ($this->kontak->nama ?? 'Pengunjung'),
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'emails.reset-password',
+            view: 'emails.kontak-masuk',
         );
     }
 }

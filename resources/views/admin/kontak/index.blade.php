@@ -9,10 +9,10 @@
                 <thead><tr><th>Nama</th><th>Pesan</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr></thead>
                 <tbody>
                     @foreach($pesan as $item)
-                        <tr style="{{ !$item->sudah_dibaca ? 'background:var(--teal-50);' : '' }}">
+                        <tr style="{{ !$item->sudah_dibaca ? 'background:rgba(63,185,80,0.05);' : '' }}">
                             <td><div class="title-cell">{{ $item->nama }}</div><div style="font-size:12px;color:var(--gray-400);">{{ $item->email }}</div></td>
                             <td><div style="font-size:13px;">{{ $item->subjek ?: '(tanpa subjek)' }}</div><div style="font-size:12px;color:var(--gray-400);">{{ Str::limit($item->pesan, 60) }}</div></td>
-                            <td>@if($item->sudah_dibaca)<span style="color:var(--gray-400);font-size:12px;">Dibaca</span>@else<span style="color:var(--teal-700);font-weight:600;font-size:12px;">Baru</span>@endif</td>
+                            <td>@if($item->sudah_dibaca)<span style="color:var(--gray-400);font-size:12px;">Dibaca</span>@else<span style="color:#3fb950;font-weight:600;font-size:12px;">Baru</span>@endif</td>
                             
                             <!-- Kolom Tanggal Konversi Otomatis ke WIB -->
                             <td style="white-space:nowrap;font-size:13px;">

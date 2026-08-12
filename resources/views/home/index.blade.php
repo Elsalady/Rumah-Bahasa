@@ -340,14 +340,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 {{-- ===== 2. LINGKUP PELATIHAN ===== --}}
-<section class="pelatihan-section" id="pelatihan" style="padding: 56px 0; background: #f8fafc;">
+<section class="pelatihan-section" id="pelatihan" style="padding: 56px 0; background: linear-gradient(180deg, #3897e0 0%, #5cb0f2 30%, #7cc0f6 55%, #bfe0fb 82%, #ffffff 100%);">
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
 
-        {{-- ===== WADAH BESAR GRADIENT BIRU ===== --}}
+        {{-- ===== WADAH BESAR PUTIH ===== --}}
         <div class="pelatihan-container">
             <div class="section-title" style="text-align:center; margin-bottom: 40px;">
-                <h2 style="font-size: 2rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Lingkup <span style="color:#bfe3ff;">Pelatihan</span></h2>
-                <p style="color: rgba(255,255,255,0.85); font-size: 1rem; max-width: 560px; margin: 0 auto;">Pelatihan unggulan yang kami selenggarakan untuk masyarakat Surabaya</p>
+                <h2 style="font-size: 2rem; font-weight: 700; color: #0c4e91; margin-bottom: 8px;">Lingkup <span style="color:#0167a2;">Pelatihan</span></h2>
+                <p style="color: var(--gray-500); font-size: 1rem; max-width: 560px; margin: 0 auto;">Pelatihan unggulan yang kami selenggarakan untuk masyarakat Surabaya</p>
             </div>
 
             @if($pelatihan->count())
@@ -355,13 +355,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     @foreach($pelatihan as $item)
                         <a href="{{ route('layanan.show', $item->nama) }}" class="dashboard-card pelatihan-card fade-up" style="display:block; padding: 36px 26px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.06); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s; text-decoration:none;">
                             @if($item->ikon)
-                                <div style="font-size:52px; margin-bottom:16px; color:var(--teal-600);">{!! $item->ikon !!}</div>
+                                <div style="font-size:52px; margin-bottom:16px; color:#bfe3ff;">{!! $item->ikon !!}</div>
                             @elseif($item->gambar)
                                 <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->nama }}" style="width:80px; height:80px; object-fit:cover; border-radius:16px; margin-bottom:16px;">
                             @endif
-                            <h3 style="font-size:20px; font-weight:700; color:var(--gray-900); margin:0 0 10px;">{{ $item->nama }}</h3>
-                            <p style="font-size:14px; color:var(--gray-500); line-height:1.7; margin:0;">{{ Str::limit($item->deskripsi, 90) }}</p>
-                            <span style="display:inline-flex;align-items:center;gap:6px;color:#0c4e91;font-weight:600;font-size:13px;margin-top:14px;text-decoration:none;">
+                            <h3 style="font-size:20px; font-weight:700; color:#ffffff; margin:0 0 10px;">{{ $item->nama }}</h3>
+                            <p style="font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7; margin:0;">{{ Str::limit($item->deskripsi, 90) }}</p>
+                            <span style="display:inline-flex;align-items:center;gap:6px;color:#7dd3fc;font-weight:600;font-size:13px;margin-top:14px;text-decoration:none;">
                                 Lihat Detail
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                             </span>
@@ -371,10 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 {{-- Info jumlah kelas & tombol lihat selengkapnya --}}
                 <div style="text-align:center; margin-top:36px;">
-                    <p style="font-size:14px; color:rgba(255,255,255,0.85); margin:0 0 16px;">
-                        Tersedia <strong style="color:#ffffff;">{{ $totalProgram }}</strong> program kelas bahasa &amp; pelatihan lainnya
+                    <p style="font-size:14px; color:var(--gray-500); margin:0 0 16px;">
+                        Tersedia <strong style="color:#0c4e91;">{{ $totalProgram }}</strong> program kelas bahasa &amp; pelatihan lainnya
                     </p>
-                    <a href="{{ route('layanan') }}" style="display:inline-flex;align-items:center;gap:8px;color:#0c4e91;font-weight:600;font-size:14px;text-decoration:none;background:#ffffff;padding:12px 28px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#ffffff'">
+                    <a href="{{ route('layanan') }}" style="display:inline-flex;align-items:center;gap:8px;color:#ffffff;font-weight:600;font-size:14px;text-decoration:none;background:linear-gradient(135deg,#0c4e91 0%,#0167a2 55%,#1680bd 100%);padding:12px 28px;border-radius:50px;transition:all 0.2s;" onmouseover="this.style.background='#0a3f7a'" onmouseout="this.style.background='linear-gradient(135deg,#0c4e91 0%,#0167a2 55%,#1680bd 100%)'">
                         Lihat selengkapnya
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
@@ -387,10 +387,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <style>
     /* ===== Wadah Besar Lingkup Pelatihan ===== */
     .pelatihan-container {
-        background: linear-gradient(135deg, #5cb0f2 0%, #3897e0 50%, #1680bd 100%);
+        background: #ffffff;
         border-radius: 32px;
         padding: 56px 48px;
-        box-shadow: 0 16px 48px rgba(22, 128, 189, 0.18);
+        box-shadow: 0 16px 48px rgba(2, 42, 84, 0.25);
         position: relative;
         overflow: hidden;
     }
@@ -402,10 +402,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     section.pelatihan-section .pelatihan-card {
-        background: #ffffff;
+        background: linear-gradient(160deg, #0f5a9e 0%, #0c4e91 55%, #0a3f7a 100%);
+        border: 1px solid rgba(255,255,255,0.12) !important;
+        box-shadow: 0 8px 24px rgba(2, 42, 84, 0.18) !important;
     }
     section.pelatihan-section .pelatihan-card:hover {
-        box-shadow: 0 12px 32px rgba(2, 132, 199, 0.2);
+        box-shadow: 0 16px 40px rgba(2, 42, 84, 0.3) !important;
         transform: translateY(-4px);
     }
 
@@ -1226,27 +1228,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 </style>
 
-{{-- TARUH DI SINI: Wave Separator Cantik Menuju Form Message (Bukan Garis Sekat Biasa!) --}}
+{{-- Wave separator: gelombang tetap terlihat, warnanya sama dengan section Hubungi Kami --}}
 <div class="wave-separator" style="background:var(--white); margin-bottom:-2px;">
     <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,40 C320,100 480,0 720,40 C960,80 1120,0 1440,40 L1440,80 L0,80 Z" fill="var(--teal-900)"/>
+        <path d="M0,40 C320,100 480,0 720,40 C960,80 1120,0 1440,40 L1440,80 L0,80 Z" fill="#0c4e91"/>
     </svg>
 </div>
 
 {{-- ===== 5. KOTAK PESAN (MESSAGE FORM) - PALING BAWAH ===== --}}
-<section class="message-section" id="kontak" style="background: var(--teal-900); padding: 60px 0 100px 0; position: relative; overflow: hidden;">
+<section class="message-section" id="kontak" style="background: #0c4e91; padding: 60px 0 100px 0; position: relative; overflow: hidden;">
     {{-- Ornamen Dekoratif Minimalis / Floating Shapes --}}
     <div class="ornament-blur" style="position: absolute; top: -10%; left: -5%; width: 300px; height: 300px; background: rgba(255,255,255,0.03); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
     <div class="ornament-blur" style="position: absolute; bottom: -10%; right: -5%; width: 400px; height: 400px; background: rgba(0,0,0,0.15); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
 
     <div class="container" style="position: relative; z-index: 3; max-width: 800px; margin: 0 auto; padding: 0 20px;">
         <div class="section-title" style="text-align: center; margin-bottom: 40px;">
-            <h2 style="color: var(--white); font-size: 2.25rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">Hubungi <span style="color: #045981;">Kami</span></h2>
+            <h2 style="color: var(--white); font-size: 2.25rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">Hubungi <span style="color: #7dd3fc;">Kami</span></h2>
             <p style="color: rgba(255,255,255,0.85); font-size: 1rem; max-width: 500px; margin: 0 auto;">Punya pertanyaan atau masukan? Kirimkan pesanmu langsung di bawah ini.</p>
         </div>
 
-        {{-- Glassmorphism Card Form --}}
-        <div class="form-container" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+        {{-- Card Form Premium: gradient + glow shadow + animasi floating halus --}}
+        <div class="form-container" style="background: linear-gradient(160deg, #ffffff 0%, #f0f7ff 60%, #e3effb 100%); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 24px 60px rgba(2, 42, 84, 0.35), 0 0 0 1px rgba(22, 128, 189, 0.08), 0 0 40px rgba(78, 165, 237, 0.15); animation: formFloat 6s ease-in-out infinite; position: relative;">
             @if(session('success'))
                 <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #ffffff; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -1266,31 +1268,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 @csrf
                 <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 6px;">
-                        <label for="nama" style="color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 500;">Nama Lengkap</label>
+                        <label for="nama" style="color: #1e293b; font-size: 0.9rem; font-weight: 600;">Nama Lengkap</label>
                         <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Masukkan nama kamu" required
-                            style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: rgba(226, 232, 240, 0.9); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
+                            style="width: 100%; padding: 14px 18px; background: #f8fafc; border: 1.5px solid #dbe4f0; border-radius: 10px; color: #1e293b; font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                     <div class="input-group" style="display: flex; flex-direction: column; gap: 6px;">
-                        <label for="email" style="color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 500;">Alamat Email/ No telepon</label>
+                        <label for="email" style="color: #1e293b; font-size: 0.9rem; font-weight: 600;">Alamat Email/ No telepon</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com / 0812345678" required
-                            style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: rgba(226, 232, 240, 0.9); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
+                            style="width: 100%; padding: 14px 18px; background: #f8fafc; border: 1.5px solid #dbe4f0; border-radius: 10px; color: #1e293b; font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                     </div>
                 </div>
 
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 6px;">
-                    <label for="subjek" style="color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 500;">Subjek</label>
+                    <label for="subjek" style="color: #1e293b; font-size: 0.9rem; font-weight: 600;">Subjek</label>
                     <input type="text" id="subjek" name="subjek" value="{{ old('subjek') }}" placeholder="Topik pesan"
-                        style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: rgba(226, 232, 240, 0.9); font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
+                        style="width: 100%; padding: 14px 18px; background: #f8fafc; border: 1.5px solid #dbe4f0; border-radius: 10px; color: #1e293b; font-size: 0.95rem; transition: all 0.3s ease; outline: none;">
                 </div>
 
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 6px;">
-                    <label for="pesan" style="color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 500;">Pesan Anda</label>
+                    <label for="pesan" style="color: #1e293b; font-size: 0.9rem; font-weight: 600;">Pesan Anda</label>
                     <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan pertanyaan atau aspirasimu di sini..." required
-                        style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: rgba(226, 232, 240, 0.9); font-size: 0.95rem; font-family: inherit; transition: all 0.3s ease; outline: none; resize: vertical;"></textarea>
+                        style="width: 100%; padding: 14px 18px; background: #f8fafc; border: 1.5px solid #dbe4f0; border-radius: 10px; color: #1e293b; font-size: 0.95rem; font-family: inherit; transition: all 0.3s ease; outline: none; resize: vertical;"></textarea>
                 </div>
 
                 <div style="text-align: right; margin-top: 4px;">
-                    <button type="submit" style="background: #015b88; color: #3ac7ff; font-weight: 600; padding: 12px 28px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);">
+                    <button type="submit" style="background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%); color: #ffffff; font-weight: 600; padding: 12px 28px; border: none; border-radius: 10px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(2, 42, 84, 0.4);">
                         Kirim Pesan
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
@@ -1302,30 +1304,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
 {{-- CSS Tambahan Khusus Responsive & Compact Mobile Form --}}
 <style>
-    /* Placeholder dengan warna Abu-abu Muda Semi-Transparan */
+    /* Placeholder dengan warna Abu-abu Muda */
     .input-group input::placeholder,
     .input-group textarea::placeholder {
-        color: rgba(226, 232, 240, 0.65) !important;
+        color: #94a3b8 !important;
         opacity: 1;
     }
     .input-group input::-webkit-input-placeholder,
     .input-group textarea::-webkit-input-placeholder {
-        color: rgba(226, 232, 240, 0.65) !important;
+        color: #94a3b8 !important;
     }
 
     /* Focus State */
     .input-group input:focus, .input-group textarea:focus {
-        border-color: #7dd3fc !important;
-        background: rgba(255, 255, 255, 0.32) !important;
-        box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.25);
-        color: #ffffff !important;
+        border-color: #1680bd !important;
+        background: #ffffff !important;
+        box-shadow: 0 0 0 3px rgba(22, 128, 189, 0.15);
+        color: #1e293b !important;
     }
 
     /* Hover Button */
     .form-container button:hover {
-        background: #0369a1 !important;
+        background: linear-gradient(135deg, #0a3f7a 0%, #0167a2 55%, #1273ab 100%) !important;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5) !important;
+        box-shadow: 0 6px 20px rgba(2, 42, 84, 0.45) !important;
+    }
+
+    /* Animasi floating halus untuk card form biar nggak flat */
+    @keyframes formFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* Glow halus saat hover card form */
+    .form-container:hover {
+        box-shadow: 0 28px 70px rgba(2, 42, 84, 0.4), 0 0 0 1px rgba(22, 128, 189, 0.12), 0 0 60px rgba(78, 165, 237, 0.25) !important;
     }
 
     /* Penyesuaian Khusus Tampilan Mobile (Compact & Aspect-Ratio Friendly) */

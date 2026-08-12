@@ -525,7 +525,11 @@ npm install && npm run build
 # 3. Setup environment
 cp .env.example .env
 php artisan key:generate
-# Edit .env — isi database production
+# Edit .env — WAJIB disesuaikan, jangan dibiarkan bawaan:
+#   APP_ENV=production
+#   APP_DEBUG=false          ← kalau true, error bakal bocorin stack trace & info sensitif
+#   APP_URL=https://domain-asli-kamu
+#   DB_*  → isi kredensial database production
 
 # 4. Migrate database
 php artisan migrate --force
@@ -539,9 +543,41 @@ php artisan view:cache
 chmod -R 775 storage bootstrap/cache
 ```
 
-### 10.3. Setup Cron (Task Scheduler)
+### 10.3. Ganti Password Admin Default
 
-Command `jadwal:reset-mingguan` akan otomatis menghapus semua jadwal kelas setiap hari Minggu jam 00:00.
+Akun admin default dibuat oleh seeder (`admin@rumahbahasa.com`). **Wajib ganti passwordnya sebelum production.**
+
+Ada 2 cara:
+
+**Cara 1 — Set di `.env` sebelum seeder** (disarankan):
+
+```env
+# .env production — isi password kuat sebelum menjalankan db:seed
+ADMIN_PASSWORD=password-kuat-unik
+```
+
+Lalu jalankan:
+```bash
+php artisan db:seed
+```
+
+> Kalau `ADMIN_PASSWORD` dikosongkan, seeder otomatis bikin password acak 16 karakter.
+
+**Cara 2 — Reset kapan saja dengan command:**
+
+```bash
+# Ganti dengan password tertentu
+php artisan admin:reset-password admin@rumahbahasa.com password-baru
+
+# Atau biarkan acak (password baru ditampilkan sekali di terminal)
+php artisan admin:reset-password
+```
+
+Command ini juga otomatis menyetel status admin menjadi `approved`.
+
+### 10.4. Setup Cron (Task Scheduler)
+
+Command `jadwal:reset-mingguan` akan otomatis **menghapus jadwal kelas yang sudah lewat** setiap hari Minggu jam 00:00 (minggu berganti, jadwal lama dibersihkan).
 
 Pastikan cron job berikut terdaftar di server production:
 
@@ -551,9 +587,26 @@ Pastikan cron job berikut terdaftar di server production:
 
 Ini wajib biar Laravel Scheduler bisa jalan otomatis tiap menit. Command `jadwal:reset-mingguan` akan dipicu setiap Minggu jam 00:00 oleh Laravel.
 
+**Cara verifikasi di server:**
+
+```bash
+# 1. Pastikan jadwal terdaftar
+php artisan schedule:list
+# Harus muncul: 0 0 * * 0 php artisan jadwal:reset-mingguan
+
+# 2. Tes command jalan tanpa error
+php artisan jadwal:reset-mingguan
+# Output: ✅ Berhasil menghapus X jadwal kelas yang sudah lewat.
+
+# 3. Pastikan cron scheduler aktif (jalankan sebagai user dengan akses ke project)
+crontab -e
+# Tambahkan baris:
+* * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
+```
+
 > **Local development:** Untuk testing, jalankan `php artisan jadwal:reset-mingguan` manual. Scheduler di local tidak perlu cron — cukup pakai `php artisan schedule:work` kalau mau auto-run.
 
-### 10.4. Setup Nginx
+### 10.5. Setup Nginx
 
 ```
 server {

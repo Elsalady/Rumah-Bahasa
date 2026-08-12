@@ -28,7 +28,7 @@ Route::get('/profil/{id}', [ProfilController::class, 'show'])->name('profil.show
 Route::get('/berita', [BeritaController::class, 'list'])->name('berita.list');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
-Route::post('/kontak', [KontakController::class, 'kirim'])->name('kontak.kirim');
+Route::post('/kontak', [KontakController::class, 'kirim'])->name('kontak.kirim')->middleware('throttle:public-forms');
 Route::get('/jadwal', [JadwalKelasController::class, 'index'])->name('jadwal');
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
 Route::get('/layanan/{nama}', [LayananController::class, 'show'])->name('layanan.show');
@@ -43,14 +43,9 @@ Route::get('/contoh-surat-domisili', function () {
 // ===== AUTH (guest) =====
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post')->middleware('throttle:public-forms');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
-    Route::get('/forgot-password', [AuthController::class, 'showForgot'])->name('password.request');
-    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
-    Route::get('/reset-password/{token}', [AuthController::class, 'showReset'])->name('password.reset');
-    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post')->middleware('throttle:public-forms');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -64,7 +59,7 @@ Route::middleware(['auth', 'member.auth'])->group(function () {
         Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
         Route::get('/program', [MemberController::class, 'program'])->name('program');
         Route::get('/program/{nama}', [MemberController::class, 'detailProgram'])->name('program.detail');
-        Route::get('/jadwal', function () { return redirect()->route('member.program'); })->name('jadwal');
+        Route::get('/jadwal', [MemberController::class, 'jadwal'])->name('jadwal');
         Route::get('/notifikasi', [MemberController::class, 'notifikasiIndex'])->name('notifikasi');
         Route::get('/notifikasi/baca-semua', [MemberController::class, 'notifikasiBacaSemua'])->name('notifikasi.baca.semua');
         Route::get('/notifikasi/{id}', [MemberController::class, 'notifikasiBaca'])->name('notifikasi.baca');

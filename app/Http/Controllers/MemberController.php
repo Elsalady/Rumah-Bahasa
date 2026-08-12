@@ -80,7 +80,17 @@ class MemberController extends Controller
             ->whereIn('status', ['pending', 'confirmed'])
             ->pluck('program')
             ->toArray();
-        return view('member.program', compact('programs', 'programTerdaftar'));
+
+        // Program yang punya jadwal aktif di minggu berjalan
+        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
+        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
+        $jadwalIds = \App\Models\JadwalKelas::where('is_active', true)
+            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
+            ->pluck('layanan_id')
+            ->unique()
+            ->toArray();
+
+        return view('member.program', compact('programs', 'programTerdaftar', 'jadwalIds'));
     }
 
     public function detailProgram($nama)
@@ -94,7 +104,35 @@ class MemberController extends Controller
 
         $baruDaftar = session('baru_daftar_program') === $program->nama;
 
-        return view('member.program-detail', compact('program', 'sudahTerdaftar', 'baruDaftar'));
+        // Jadwal minggu berjalan (Senin - Minggu) untuk program ini
+        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
+        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
+        $jadwalProgram = $program->jadwal()
+            ->where('is_active', true)
+            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
+            ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
+            ->orderBy('jam_mulai')
+            ->get();
+
+        return view('member.program-detail', compact('program', 'sudahTerdaftar', 'baruDaftar', 'jadwalProgram'));
+    }
+
+    public function jadwal()
+    {
+        // Jadwal minggu berjalan, dikelompokkan per hari
+        $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
+        $akhirMinggu = \Carbon\Carbon::now()->endOfWeek();
+        $jadwal = \App\Models\JadwalKelas::where('is_active', true)
+            ->whereBetween('tanggal', [$awalMinggu->format('Y-m-d'), $akhirMinggu->format('Y-m-d')])
+            ->with('layanan')
+            ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
+            ->orderBy('jam_mulai')
+            ->get()
+            ->groupBy('hari');
+
+        $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+
+        return view('member.jadwal', compact('jadwal', 'hariList'));
     }
 
     public function notifikasiIndex()

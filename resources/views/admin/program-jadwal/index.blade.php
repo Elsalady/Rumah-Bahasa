@@ -5,17 +5,17 @@
 @section('content')
 <style>
     .program-card {
-        background: #fff;
-        border: 1px solid var(--gray-100);
-        border-radius: 16px;
+        background: #161b22;
+        border: 1px solid #21262d;
+        border-radius: 12px;
         margin-bottom: 24px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        box-shadow: none;
         overflow: hidden;
     }
     .program-card-header {
-        padding: 20px 24px;
-        background: linear-gradient(135deg, #f8fafc, #f0fdfa);
-        border-bottom: 1px solid var(--gray-100);
+        padding: 18px 24px;
+        background: #0d1117;
+        border-bottom: 1px solid #21262d;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -24,44 +24,46 @@
         cursor: pointer;
         transition: background 0.2s;
     }
-    .program-card-header:hover { background: linear-gradient(135deg, #f1f5f9, #e8f5e9); }
+    .program-card-header:hover { background: #0d1117; }
     .program-card-header .left { display:flex;align-items:center;gap:12px;flex:1;min-width:0; }
-    .program-card-header h3 { margin:0;font-size:18px;font-weight:700;color:var(--gray-900); }
+    .program-card-header h3 { margin:0;font-size:16px;font-weight:600;color:#e6edf3; }
     .program-card-body { padding: 24px; }
-    .toggle-icon { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; color:var(--gray-500); background:var(--gray-100); padding:4px 10px 4px 8px; border-radius:6px; transition:all 0.2s; white-space:nowrap; }
-    .toggle-icon:hover { background:var(--gray-200); color:var(--gray-700); }
-    .toggle-icon.open { background:var(--teal-50); color:var(--teal-700); }
+    .toggle-icon { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:500; color:#8b949e; background:#21262d; padding:4px 10px 4px 8px; border-radius:6px; border:1px solid #30363d; transition:all 0.2s; white-space:nowrap; }
+    .toggle-icon:hover { background:#30363d; color:#e6edf3; }
+    .toggle-icon.open { background:rgba(63,185,80,0.1); color:#3fb950; }
     .toggle-icon svg { width:16px; height:16px; }
     .jadwal-row {
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 12px 16px;
-        background: #f8fafc;
-        border-radius: 10px;
+        background: #0d1117;
+        border: 1px solid #21262d;
+        border-radius: 8px;
         margin-bottom: 8px;
         flex-wrap: wrap;
     }
-    .jadwal-row:hover { background: #f1f5f9; }
+    .jadwal-row:hover { background: #161b22; }
     .btn-add-jadwal {
         display: inline-flex;
         align-items: center;
         gap: 6px;
         padding: 8px 16px;
-        background: #0882c4;
-        color: #fff;
+        background: #3fb950;
+        color: #0d1117;
         border: none;
-        border-radius: 8px;
+        border-radius: 6px;
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
         transition: background 0.2s;
+        font-family: inherit;
     }
-    .btn-add-jadwal:hover { background: #0167a2; }
+    .btn-add-jadwal:hover { background: #56d364; }
     .jadwal-form {
-        background: #f8fafc;
-        border: 1px solid var(--gray-200);
-        border-radius: 12px;
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 10px;
         padding: 20px;
         margin-bottom: 16px;
         display: none;
@@ -75,17 +77,19 @@
     @media (max-width:768px) { .jadwal-form-grid { grid-template-columns: 1fr; } }
 </style>
 
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
     <h3 style="margin:0;">Program & Jadwal Kelas</h3>
+    <span style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(63,185,80,0.1);color:#3fb950;border:1px solid rgba(63,185,80,0.3);border-radius:8px;font-size:13px;font-weight:600;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Minggu ini: {{ \Carbon\Carbon::now()->startOfWeek()->translatedFormat('d M') }} — {{ \Carbon\Carbon::now()->endOfWeek()->translatedFormat('d M Y') }}
+    </span>
 </div>
 
 @if($program->count())
     @foreach($program as $prog)
         @php
             $keyword = str_replace('Kelas ', '', $prog->nama);
-            $jadwalProgram = $allJadwal->filter(function($items, $key) use ($keyword) {
-                return stripos($key, $keyword) !== false;
-            })->flatten();
+            $jadwalProgram = $allJadwal->get($prog->id, collect());
         @endphp
         <div class="program-card">
             <div class="program-card-header" onclick="toggleProgram({{ $prog->id }})">
@@ -115,6 +119,7 @@
                     <h4 style="margin:0 0 12px;font-size:14px;">Tambah Jadwal untuk {{ $prog->nama }}</h4>
                     <form action="{{ route('admin.jadwal-kelas.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="layanan_id" value="{{ $prog->id }}">
                         <input type="hidden" name="nama_kelas" value="{{ $keyword }}">
                         <div class="jadwal-form-grid">
                             <div class="form-group">
@@ -188,13 +193,13 @@
                                             @endif
                                         </div>
                                         <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
-                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;{{ $item->jenis === 'tematik' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#fef3c7;color:#b45309;' }}">{{ ucfirst($item->jenis) }}</span>
-                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;{{ $item->mode === 'online' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#ecfdf5;color:#166534;' }}">{{ ucfirst($item->mode) }}</span>
+                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">{{ ucfirst($item->jenis) }}</span>
+                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">{{ ucfirst($item->mode) }}</span>
                                             @if($item->ruangan_link)
                                                 <span style="font-size:10px;color:var(--gray-500);">{{ $item->ruangan_link }}</span>
                                             @endif
                                             @if($item->kuota > 0)
-                                                <span style="font-size:10px;font-weight:600;color:#1e40af;">Kuota:{{ $item->kuota }}</span>
+                                                <span style="font-size:10px;font-weight:600;color:#c9d1d9;">Kuota:{{ $item->kuota }}</span>
                                             @endif
                                         </div>
                                         <div style="display:flex;gap:4px;">

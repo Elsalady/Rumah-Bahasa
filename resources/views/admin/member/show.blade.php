@@ -214,10 +214,7 @@
             <div class="info-item">
                 <span class="info-label">Status</span>
                 <div>
-                    <span style="display:inline-block;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600;
-                        {{ $member->status === 'approved' ? 'background:#ecfdf5;color:#166534;' : '' }}
-                        {{ $member->status === 'rejected' ? 'background:#fef2f2;color:#dc2626;' : '' }}
-                        {{ $member->status === 'pending' ? 'background:#fffbeb;color:#b45309;' : '' }}">
+                    <span style="display:inline-block;padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">
                         {{ ucfirst($member->status) }}
                     </span>
                 </div>

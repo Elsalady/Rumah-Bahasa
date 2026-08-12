@@ -162,10 +162,6 @@
                 <button type="submit" class="btn-submit">Masuk</button>
             </form>
 
-            <div style="text-align:center;margin-top:14px;">
-                <a href="{{ route('password.request') }}" style="color:var(--teal-700);font-size:13px;font-weight:500;text-decoration:none;transition:color 0.2s;">Lupa password?</a>
-            </div>
-
             <div class="auth-footer">
                 Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
             </div>

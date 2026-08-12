@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\JadwalKelas;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class ResetJadwalMingguan extends Command
 {
@@ -12,9 +13,9 @@ class ResetJadwalMingguan extends Command
 
     public function handle()
     {
-        $total = JadwalKelas::count();
-        JadwalKelas::truncate();
+        $total = JadwalKelas::whereDate('tanggal', '<', Carbon::now()->startOfWeek()->format('Y-m-d'))->count();
+        JadwalKelas::whereDate('tanggal', '<', Carbon::now()->startOfWeek()->format('Y-m-d'))->delete();
 
-        $this->info("✅ Berhasil menghapus {$total} jadwal kelas.");
+        $this->info("✅ Berhasil menghapus {$total} jadwal kelas yang sudah lewat.");
     }
 }
