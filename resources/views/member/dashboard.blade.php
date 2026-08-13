@@ -351,7 +351,10 @@
                                 </div>
                             @endforeach
                         @else
-                            <p class="text-muted" style="text-align:center;padding:24px;margin:0;">Belum ada pendaftaran.</p>
+                            <div style="text-align:center;padding:24px;">
+                                <p class="text-muted" style="margin:0 0 16px;">Belum ada pendaftaran. Yuk daftar program kelas!</p>
+                                <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;display:inline-flex;">Lihat Program</a>
+                            </div>
                         @endif
                         <div class="btn-program-group">
                             <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;">Lihat Program</a>

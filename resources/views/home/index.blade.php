@@ -1066,11 +1066,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
             <div class="about-visual fade-up" style="opacity:0;transform:translateY(30px);transition-delay:0.15s;">
-                <div class="house-shape">
-                    {{-- Animasi Rumah Bergaris Putus-Putus (Ikon Dalam Dihapus) --}}
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M50 15 L85 45 V85 H15 V45 Z" stroke="var(--teal-600, #0284c7)" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <div class="orbit-container" id="orbit-container">
+                    {{-- Ring orbit konsentris --}}
+                    <div class="orbit-ring orbit-ring-1"></div>
+                    <div class="orbit-ring orbit-ring-2"></div>
+
+                    {{-- Pusat: glow biru + ripple --}}
+                    <div class="orbit-center">
+                        <div class="orbit-center-glow"></div>
+                        <div class="orbit-center-icon" id="orbit-center-icon">
+                            <img src="{{ asset('images/logo-rumbas.jpg') }}" alt="Logo Rumah Bahasa">
+                        </div>
+                    </div>
+
+                    {{-- Hanya 2 slot tampil (kiri & kanan). 5 gambar diputar otomatis via JS --}}
+                    <div class="orbit-item orbit-left" id="orbit-left">
+                        <img src="{{ asset('images/flag-id.png') }}" alt="Bendera Indonesia">
+                    </div>
+                    <div class="orbit-item orbit-right" id="orbit-right">
+                        <img src="{{ asset('images/flag-jp.png') }}" alt="Bendera Jepang">
+                    </div>
                 </div>
             </div>
         </div>
@@ -1091,25 +1106,110 @@ document.addEventListener('DOMContentLoaded', function() {
         align-items: center;
     }
 
-    .house-shape {
-        width: 140px;
-        height: 140px;
+    /* ===== ORBIT INTERAKTIF (Radar/Orbit Pulse) ===== */
+    .orbit-container {
+        position: relative;
+        width: 420px;
+        height: 420px;
         margin: 0 auto;
+    }
+
+    .orbit-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1.5px dashed rgba(8, 130, 196, 0.25);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+    .orbit-ring-1 { width: 300px; height: 300px; animation: orbitSpin 40s linear infinite; }
+    .orbit-ring-2 { width: 210px; height: 210px; border-style: solid; border-color: rgba(8, 130, 196, 0.12); animation: orbitSpin 60s linear infinite reverse; }
+    @keyframes orbitSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* Pusat: glow biru + ripple, bulat */
+    .orbit-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        z-index: 5;
+    }
+    .orbit-center-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(34, 211, 238, 0.9) 0%, rgba(8, 130, 196, 0.75) 55%, rgba(2, 84, 140, 0.5) 100%);
+        box-shadow: 0 0 40px rgba(34, 211, 238, 0.55), 0 0 80px rgba(8, 130, 196, 0.35);
+        animation: centerPulse 2.4s ease-out infinite;
+    }
+    @keyframes centerPulse {
+        0% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.45), 0 0 50px rgba(8, 130, 196, 0.3); transform: scale(1); }
+        50% { box-shadow: 0 0 45px rgba(34, 211, 238, 0.7), 0 0 90px rgba(8, 130, 196, 0.5); transform: scale(1.05); }
+        100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.45), 0 0 50px rgba(8, 130, 196, 0.3); transform: scale(1); }
+    }
+    .orbit-center-icon {
+        position: absolute;
+        inset: 12px;
+        border-radius: 50%;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: opacity 0.45s ease;
     }
-
-    .house-shape svg {
+    .orbit-center-icon img {
         width: 100%;
         height: 100%;
-        animation: spinSlow 20s linear infinite; /* Animasi berputar lembut */
+        object-fit: cover;
+        display: block;
     }
 
-    @keyframes spinSlow {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+    /* Item orbit: KECIL, tanpa frame — bentuk asli gambar */
+    .orbit-item {
+        position: absolute;
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+        cursor: pointer;
+        transition: transform 1.1s cubic-bezier(0.34, 1.2, 0.4, 1), opacity 0.9s ease;
     }
+    .orbit-item:hover { transform: scale(1.15); }
+    .orbit-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+
+    /* Posisi: atas-kanan & bawah-kiri (diagonal), dekat ke ring orbit */
+    .orbit-left { top: 88px; right: 88px; left: auto; transform: none; }
+    .orbit-right { bottom: 88px; left: 88px; top: auto; transform: none; }
+    .orbit-left:hover, .orbit-right:hover { transform: scale(1.15); }
+
+    /* Saat jadi pusat (ditambah JS): membesar + bulat, lalu disembunyikan */
+    .orbit-item.orbit-active {
+        top: 50%;
+        left: 50%;
+        right: auto;
+        bottom: auto;
+        width: 100px;
+        height: 100px;
+        transform: translate(-50%, -50%);
+        z-index: 6;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .orbit-item.orbit-active img {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .orbit-item.orbit-fade { opacity: 0; }
 
     @media (max-width: 640px) {
         section.about {
@@ -1134,13 +1234,105 @@ document.addEventListener('DOMContentLoaded', function() {
             margin-bottom: 8px !important;
         }
 
-        .house-shape {
-            width: 90px !important; /* Ukuran rumah diperkecil di mobile */
-            height: 90px !important;
-            margin-top: 10px !important;
+        .orbit-container {
+            width: 300px;
+            height: 300px;
+            margin-top: 10px;
         }
+        .orbit-ring-1 { width: 215px; height: 215px; }
+        .orbit-ring-2 { width: 150px; height: 150px; }
+        .orbit-center { width: 76px; height: 76px; }
+        .orbit-item { width: 44px; height: 44px; }
+        .orbit-item.orbit-active { width: 76px; height: 76px; }
+        .orbit-left { top: 62px; right: 62px; }
+        .orbit-right { bottom: 62px; left: 62px; }
     }
 </style>
+
+{{-- ===== SCRIPT ORBIT INTERAKTIF: 5 gambar diputar di 3 slot ===== --}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('orbit-container');
+    if (!container) return;
+
+    const centerIcon = document.getElementById('orbit-center-icon');
+    const leftSlot = document.getElementById('orbit-left');   // posisi ATAS-KANAN
+    const rightSlot = document.getElementById('orbit-right'); // posisi BAWAH-KIRI
+    if (!centerIcon || !leftSlot || !rightSlot) return;
+
+    // 5 file gambar yang akan diputar bergantian
+    const GAMBAR = [
+        '{{ asset('images/logo-rumbas.jpg') }}',
+        '{{ asset('images/flag-id.png') }}',
+        '{{ asset('images/flag-jp.png') }}',
+        '{{ asset('images/flag-uk.png') }}',
+        '{{ asset('images/logo.png') }}',
+    ];
+
+    // Index gambar yang sedang tampil di tiap slot — selalu berbeda satu sama lain
+    const tampil = { tengah: 0, atas: 4, bawah: 1 };
+    let counter = 0;
+
+    function setImg(slot, idx) {
+        slot.innerHTML = '<img src="' + GAMBAR[idx] + '" alt="">';
+    }
+
+    // Pilih gambar baru yang TIDAK sedang tampil di slot mana pun
+    function gambarBaru() {
+        const terpakai = [tampil.tengah, tampil.atas, tampil.bawah];
+        for (let i = 0; i < GAMBAR.length; i++) {
+            const idx = (counter + i) % GAMBAR.length;
+            if (!terpakai.includes(idx)) return idx;
+        }
+        return counter % GAMBAR.length;
+    }
+
+    function switchPosisi() {
+        const bawahLama = tampil.bawah;
+        const tengahLama = tampil.tengah;
+        const baru = gambarBaru(); // pasti berbeda dari semua slot
+
+        // 1. Slot bawah-kiri fade out (seolah pindah ke tengah), lalu isi gambar baru
+        rightSlot.classList.add('orbit-fade');
+        rightSlot.classList.add('orbit-active');
+        setTimeout(function() {
+            rightSlot.classList.remove('orbit-fade');
+            rightSlot.classList.remove('orbit-active');
+            rightSlot.innerHTML = '<img src="' + GAMBAR[baru] + '" alt="">';
+        }, 600);
+
+        // 2. Pusat fade out → ganti dengan gambar bawah-kiri lama
+        centerIcon.style.transition = 'opacity 0.45s ease';
+        centerIcon.style.opacity = '0';
+        setTimeout(function() {
+            centerIcon.innerHTML = '<img src="' + GAMBAR[bawahLama] + '" alt="">';
+            centerIcon.style.opacity = '1';
+        }, 450);
+
+        // 3. Gambar tengah lama pindah ke atas-kanan
+        setTimeout(function() {
+            leftSlot.classList.add('orbit-fade');
+            setTimeout(function() {
+                leftSlot.innerHTML = '<img src="' + GAMBAR[tengahLama] + '" alt="">';
+                leftSlot.classList.remove('orbit-fade');
+            }, 500);
+        }, 250);
+
+        // Update posisi: tengah = bawah lama, atas = tengah lama, bawah = gambar baru
+        tampil.tengah = bawahLama;
+        tampil.atas = tengahLama;
+        tampil.bawah = baru;
+        counter++;
+    }
+
+    // Inisialisasi tampilan awal (3 gambar berbeda)
+    setImg(centerIcon, tampil.tengah); // tengah: logo-rumbas
+    setImg(leftSlot, tampil.atas);     // atas-kanan: logo.png
+    setImg(rightSlot, tampil.bawah);   // bawah-kiri: flag-id
+
+    setInterval(switchPosisi, 3500);
+});
+</script>
 
 {{-- Wave separator: gelombang tetap terlihat, warnanya sama dengan section Hubungi Kami --}}
 <div class="wave-separator" style="background:var(--white); margin-bottom:-2px;">

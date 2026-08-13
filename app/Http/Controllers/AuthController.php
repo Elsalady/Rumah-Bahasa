@@ -54,6 +54,17 @@ class AuthController extends Controller
             'foto_profile' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'jenis_dokumen' => 'required|in:ktp,surat_domisili,ktm,kk',
             'dokumen' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'email.unique' => 'Email ini sudah terdaftar. Silakan gunakan email lain atau login dengan akun yang sudah ada.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'foto_profile.required' => 'Foto profil wajib diunggah.',
+            'jenis_dokumen.required' => 'Pilih jenis dokumen pendukung terlebih dahulu.',
+            'dokumen.required' => 'Dokumen pendukung wajib diunggah.',
         ]);
 
         $data = [

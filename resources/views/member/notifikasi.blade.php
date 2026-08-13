@@ -54,7 +54,11 @@
                     @endforeach
                 @else
                     <div style="text-align:center;padding:60px 20px;">
-                        <p style="color:var(--gray-400);">Belum ada notifikasi.</p>
+                        <div style="width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:var(--gray-100);display:flex;align-items:center;justify-content:center;color:var(--gray-400);">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        </div>
+                        <p style="color:var(--gray-500);font-size:15px;font-weight:600;margin:0 0 6px;">Belum ada notifikasi</p>
+                        <p style="color:var(--gray-400);font-size:13px;margin:0;">Notifikasi jadwal kelas &amp; pengumuman akan muncul di sini.</p>
                     </div>
                 @endif
 
