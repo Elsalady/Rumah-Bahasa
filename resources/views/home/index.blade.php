@@ -1055,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container">
         <div class="about-grid">
             <div class="about-content fade-up" style="opacity:0;transform:translateY(30px);">
-                <h2>Tentang <span style="color: #045981;">Rumah Bahasa</span> Surabaya</h2>
+                <h2>Tentang <span style="color: #035277;">Rumah Bahasa</span> Surabaya</h2>
                 <p>Rumah Bahasa Surabaya adalah program unggulan Dinas Perpustakaan dan Kearsipan Kota Surabaya yang bertujuan meningkatkan literasi dan pembelajaran masyarakat.</p>
                 <p>Kami menyediakan berbagai program mulai dari pojok baca, kelas bahasa, pelatihan keterampilan, hingga kegiatan pelestarian bahasa daerah Surabaya.</p>
                 <div style="margin-top:16px;">
