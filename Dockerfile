@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libzip-dev \
         unzip \
         nginx \
+        gettext-base \
         git \
         curl \
     && docker-php-ext-install pdo_pgsql pgsql zip \
@@ -53,5 +54,5 @@ RUN mkdir -p /app/storage/framework/{cache,sessions,views} \
 
 EXPOSE 80
 
-# Jalankan PHP-FPM + Nginx
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+# Jalankan migrasi (sekali di awal), envsubst port, lalu PHP-FPM + Nginx
+CMD ["sh", "-c", "php artisan migrate --force --no-interaction; export PORT=\${PORT:-80}; envsubst '\$PORT' < /etc/nginx/conf.d/default.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/conf.d/default.conf && php-fpm -D && nginx -g 'daemon off;'"]
