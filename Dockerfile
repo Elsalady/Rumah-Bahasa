@@ -22,13 +22,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         curl \
     && docker-php-ext-install pdo_pgsql pgsql zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    && rm -f /etc/nginx/sites-enabled/default
 
 # Salin composer dari stage 1
 COPY --from=composer-stage /app/vendor /app/vendor
 
 # Salin kode aplikasi
 COPY . /app
+
+# Generate autoloader (karena tadi --no-autoloader)
+RUN composer dump-autoload --optimize --no-dev
 
 # Konfigurasi Nginx (Laravel entry: public/index.php)
 COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
