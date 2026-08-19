@@ -2,11 +2,9 @@
 services:
   - type: web
     name: rumah-bahasa
-    runtime: php
+    runtime: docker
     plan: free
-    buildCommand: "composer install --no-dev --optimize-autoloader"
-    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
-    preDeployCommand: "php artisan storage:link"
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_NAME
         value: "Rumah Bahasa"
