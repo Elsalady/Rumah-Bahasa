@@ -9,7 +9,15 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --prefer-dist
 
-# ---------- STAGE 2: Build app ----------
+# ---------- STAGE 2: Build frontend assets (Vite + Tailwind) ----------
+FROM node:20-alpine AS node-stage
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# ---------- STAGE 3: Build app ----------
 FROM php:8.3-fpm AS app-stage
 WORKDIR /app
 
@@ -30,6 +38,9 @@ COPY --from=composer-stage /app/vendor /app/vendor
 
 # Salin kode aplikasi
 COPY . /app
+
+# Salin hasil build asset (CSS/JS) dari stage node
+COPY --from=node-stage /app/public/build /app/public/build
 
 # Konfigurasi Nginx (Laravel entry: public/index.php)
 COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
