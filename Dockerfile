@@ -34,8 +34,9 @@ COPY . /app
 # Konfigurasi Nginx (Laravel entry: public/index.php)
 COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Storage link & cache
+# Storage link & cache — set ownership ke www-data biar PHP-FPM bisa nulis
 RUN mkdir -p /app/storage/framework/{cache,sessions,views} \
+    && chown -R www-data:www-data /app/storage /app/bootstrap/cache \
     && chmod -R 775 /app/storage /app/bootstrap/cache \
     && php artisan storage:link || true
 
