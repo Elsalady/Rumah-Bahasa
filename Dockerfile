@@ -46,6 +46,11 @@ COPY --from=node-stage /app/public/build /app/public/build
 # Konfigurasi Nginx (Laravel entry: public/index.php)
 COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
 
+# Entrypoint: migrasi + envsubst port + start PHP-FPM & Nginx
+# Pakai ENTRYPOINT (bukan CMD) biar Start Command Railway tidak bisa meng-override
+COPY .docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Storage link & cache — set ownership ke www-data biar PHP-FPM bisa nulis
 RUN mkdir -p /app/storage/framework/{cache,sessions,views} \
     && chown -R www-data:www-data /app/storage /app/bootstrap/cache \
@@ -54,6 +59,4 @@ RUN mkdir -p /app/storage/framework/{cache,sessions,views} \
 
 EXPOSE 80
 
-# Jalankan migrasi (sekali di awal), envsubst port, lalu PHP-FPM + Nginx
-# Pakai shell form (bukan exec form array) biar kompatibel dengan Railway
-CMD php artisan migrate --force --no-interaction; export PORT=${PORT:-80}; envsubst '$PORT' < /etc/nginx/conf.d/default.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/conf.d/default.conf && php-fpm -D && nginx -g 'daemon off;'
+ENTRYPOINT ["/entrypoint.sh"]
