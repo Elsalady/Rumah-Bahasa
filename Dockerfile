@@ -55,4 +55,5 @@ RUN mkdir -p /app/storage/framework/{cache,sessions,views} \
 EXPOSE 80
 
 # Jalankan migrasi (sekali di awal), envsubst port, lalu PHP-FPM + Nginx
-CMD ["sh", "-c", "php artisan migrate --force --no-interaction; export PORT=\${PORT:-80}; envsubst '\$PORT' < /etc/nginx/conf.d/default.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/conf.d/default.conf && php-fpm -D && nginx -g 'daemon off;'"]
+# Pakai shell form (bukan exec form array) biar kompatibel dengan Railway
+CMD php artisan migrate --force --no-interaction; export PORT=${PORT:-80}; envsubst '$PORT' < /etc/nginx/conf.d/default.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/conf.d/default.conf && php-fpm -D && nginx -g 'daemon off;'
