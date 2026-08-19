@@ -16,4 +16,3 @@
 .github
 *.md
 docker-compose.yml
-.docker/nginx.conf
