@@ -1,8 +1,14 @@
 #!/bin/sh
 set -e
 
+echo ">>> Clearing caches..."
+php artisan optimize:clear || true
+
 echo ">>> Running database migrations..."
 php artisan migrate --force --no-interaction
+
+echo ">>> Seeding initial data (idempotent)..."
+php artisan db:seed --force --no-interaction || true
 
 echo ">>> Starting PHP-FPM..."
 php-fpm -D
