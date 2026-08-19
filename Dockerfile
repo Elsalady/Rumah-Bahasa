@@ -7,7 +7,7 @@
 FROM composer:2 AS composer-stage
 WORKDIR /app
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+RUN composer install --no-dev --no-scripts --prefer-dist
 
 # ---------- STAGE 2: Build app ----------
 FROM php:8.3-fpm AS app-stage
@@ -30,9 +30,6 @@ COPY --from=composer-stage /app/vendor /app/vendor
 
 # Salin kode aplikasi
 COPY . /app
-
-# Generate autoloader (karena tadi --no-autoloader)
-RUN composer dump-autoload --optimize --no-dev
 
 # Konfigurasi Nginx (Laravel entry: public/index.php)
 COPY .docker/nginx.conf /etc/nginx/conf.d/default.conf
