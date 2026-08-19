@@ -1,7 +1,4 @@
-# ============================================
-# Render Blueprint — Rumah Bahasa Surabaya
-# Deploy otomatis: web service + PostgreSQL
-# ============================================
+
 services:
   - type: web
     name: rumah-bahasa
