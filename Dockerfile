@@ -53,6 +53,9 @@ RUN chmod +x /entrypoint.sh
 
 # Storage link & cache — set ownership ke www-data biar PHP-FPM bisa nulis
 RUN mkdir -p /app/storage/framework/{cache,sessions,views} \
+    && rm -rf /app/storage/framework/views/* \
+    && php artisan view:clear || true \
+    && php artisan config:clear || true \
     && chown -R www-data:www-data /app/storage /app/bootstrap/cache \
     && chmod -R 775 /app/storage /app/bootstrap/cache \
     && php artisan storage:link || true
