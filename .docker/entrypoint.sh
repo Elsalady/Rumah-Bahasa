@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-echo ">>> Clearing caches..."
+echo ">>> Clearing Laravel caches..."
+rm -rf storage/framework/views/*.php 2>/dev/null || true
 php artisan optimize:clear || true
 
 echo ">>> Running database migrations..."

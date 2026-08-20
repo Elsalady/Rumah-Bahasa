@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+{{-- VERSION: 20260819-v2 --}}
+
 @section('title', 'Beranda')
 @section('meta_desc', 'Rumah Bahasa Surabaya — pusat literasi dan pembelajaran oleh Dinas Perpustakaan dan Kearsipan Kota Surabaya.')
 
