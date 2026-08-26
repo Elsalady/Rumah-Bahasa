@@ -31,5 +31,10 @@ if (\App\Models\Layanan::count() === 0) {
 echo ">>> Starting PHP-FPM..."
 php-fpm -D
 
-echo ">>> Starting nginx..."
+echo ">>> Konfigurasi port nginx (PORT=${PORT:-8080})..."
+export NGINX_PORT="${PORT:-8080}"
+envsubst '${NGINX_PORT}' < /etc/nginx/conf.d/default.conf > /tmp/nginx-default.conf
+cp /tmp/nginx-default.conf /etc/nginx/conf.d/default.conf
+
+echo ">>> Starting nginx on port ${NGINX_PORT}..."
 nginx -g 'daemon off;'
