@@ -40,6 +40,9 @@
                                     <div style="flex:1;min-width:180px;">
                                         <p style="font-weight:700;font-size:15px;color:var(--gray-900);margin:0;">{{ $item->nama_kelas }}</p>
                                         <p style="font-size:13px;color:var(--gray-500);margin:4px 0 0;">
+                                            @if($item->tanggal)
+                                                {{ $item->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') }} &middot;
+                                            @endif
                                             {{ \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') }}
                                             @if($item->pengajar)
                                                 &middot; {{ $item->pengajar }}

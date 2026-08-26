@@ -208,6 +208,16 @@
                             <p style="font-size:13px;color:#b45309;margin:0;">Akun kamu masih dalam proses verifikasi oleh staff. Kamu akan mendapatkan akses penuh setelah akun disetujui. Mohon tunggu konfirmasi dari kami.</p>
                         </div>
                     </div>
+                @elseif($user->status === 'approved')
+                    @if($user->catatan_member)
+                        <div style="padding:16px 24px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:12px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <div>
+                                <p style="font-size:14px;font-weight:700;color:#065f46;margin:0 0 4px;">Pesan dari Admin</p>
+                                <p style="font-size:13px;color:#047857;margin:0;">{{ $user->catatan_member }}</p>
+                            </div>
+                        </div>
+                    @endif
                 @elseif($user->status === 'rejected')
                     <div style="padding:20px 24px;background:linear-gradient(135deg,#fef2f2,#fecaca);border:1px solid #fca5a5;border-radius:12px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" style="flex-shrink:0;margin-top:2px;">

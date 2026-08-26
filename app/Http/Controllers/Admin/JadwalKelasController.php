@@ -47,6 +47,7 @@ class JadwalKelasController extends Controller
         $request->validate([
             'nama_kelas' => 'required|max:255',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'tanggal' => 'required|date',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'pengajar' => 'nullable|max:255',
@@ -61,7 +62,7 @@ class JadwalKelasController extends Controller
         $this->buatNotifikasiPendaftarProgram(
             $request->nama_kelas,
             '📢 Jadwal Kelas Baru',
-            "Kelas {$request->nama_kelas} ({$request->jenis}, {$request->mode}) telah ditambahkan — {$request->hari}, {$request->jam_mulai} - {$request->jam_selesai}.",
+            "Kelas {$request->nama_kelas} ({$request->jenis}, {$request->mode}) telah ditambahkan — {$request->tanggal} ({$request->hari}), {$request->jam_mulai} - {$request->jam_selesai}.",
             route('member.jadwal')
         );
 
@@ -74,6 +75,7 @@ class JadwalKelasController extends Controller
         $request->validate([
             'nama_kelas' => 'required|max:255',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'tanggal' => 'required|date',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'pengajar' => 'nullable|max:255',
@@ -88,7 +90,7 @@ class JadwalKelasController extends Controller
         $this->buatNotifikasiPendaftarProgram(
             $jadwal->nama_kelas,
             '✏️ Jadwal Kelas Diperbarui',
-            "Kelas {$jadwal->nama_kelas} telah diperbarui — {$jadwal->hari}, {$jadwal->jam_mulai} - {$jadwal->jam_selesai} ({$jadwal->jenis}, {$jadwal->mode}). Silakan cek jadwal terbaru.",
+            "Kelas {$jadwal->nama_kelas} telah diperbarui — {$jadwal->tanggal->format('Y-m-d')} ({$jadwal->hari}), {$jadwal->jam_mulai} - {$jadwal->jam_selesai} ({$jadwal->jenis}, {$jadwal->mode}). Silakan cek jadwal terbaru.",
             route('member.jadwal')
         );
 

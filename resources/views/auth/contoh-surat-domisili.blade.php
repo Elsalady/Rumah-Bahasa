@@ -162,7 +162,7 @@
 
         <div style="margin-bottom:24px;border:2px dashed var(--teal-300);border-radius:12px;padding:16px;text-align:center;background:#f0fdfa;">
             <p style="font-size:14px;font-weight:600;color:var(--teal-700);margin-bottom:8px;">📷 Contoh Surat</p>
-            <img src="{{ asset('img/contoh-surat-domisili.jpg') }}" alt="Contoh Surat Keterangan Domisili" style="max-width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
+            <img src="{{ asset('images/contohfile.jpeg') }}" alt="Contoh Surat Keterangan Domisili" style="max-width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
             <p style="font-size:12px;color:var(--gray-400);margin-top:8px;">Jika gambar tidak muncul, kamu bisa melihat format teks di bawah.</p>
         </div>
 

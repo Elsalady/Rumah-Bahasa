@@ -281,11 +281,35 @@
         </div>
 
         <div class="form-group-custom">
-            <label for="catatan_member">Catatan (opsional)</label>
+            <label for="catatan_member">
+                Catatan <span id="catatan-label-wajib" style="color:#dc2626;display:none;">(wajib jika ditolak)</span><span id="catatan-label-opsional">(opsional)</span>
+            </label>
             <textarea id="catatan_member" name="catatan_member" rows="3" class="form-control-custom" placeholder="Alasan penolakan atau catatan lainnya..." style="resize:vertical;">{{ $member->catatan_member }}</textarea>
+            @error('catatan_member')
+                <p style="color:#dc2626;font-size:12px;margin-top:6px;">{{ $message }}</p>
+            @enderror
         </div>
 
         <button type="submit" class="btn-submit" style="width:100%;max-width:200px;margin-top:8px;">Simpan Perubahan</button>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const status = document.getElementById('status');
+    const wajib = document.getElementById('catatan-label-wajib');
+    const opsional = document.getElementById('catatan-label-opsional');
+    const catatan = document.getElementById('catatan_member');
+
+    function updateLabel() {
+        const isRejected = status.value === 'rejected';
+        wajib.style.display = isRejected ? 'inline' : 'none';
+        opsional.style.display = isRejected ? 'none' : 'inline';
+        catatan.required = isRejected;
+    }
+
+    status.addEventListener('change', updateLabel);
+    updateLabel();
+});
+</script>
 @endsection

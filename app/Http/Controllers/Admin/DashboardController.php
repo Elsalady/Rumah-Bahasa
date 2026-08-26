@@ -25,7 +25,7 @@ class DashboardController extends Controller
             'profil' => Profil::count(),
             'jadwal_kelas' => JadwalKelas::count(),
         ];
-        $recentPendaftar = Pendaftaran::with('user')->latest()->limit(5)->get();
+        $recentPendaftar = User::where('role', 'member')->latest()->limit(5)->get();
         $recentPesan = Kontak::latest()->limit(5)->get();
 
         return view('admin.dashboard', compact('stats', 'recentPendaftar', 'recentPesan'));

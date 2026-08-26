@@ -40,24 +40,26 @@
 
 <div class="admin-dashboard-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
     <div class="dashboard-card">
-        <h3>Pendaftar Terbaru</h3>
+        <h3>Member Terbaru</h3>
         @if($recentPendaftar->count())
             @foreach($recentPendaftar as $p)
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #21262d;">
-                    <div>
-                        <p style="font-weight:600;color:#e6edf3;">{{ $p->user->name }}</p>
-                        <p style="font-size:13px;color:#8b949e;">{{ $p->program }}</p>
+                    <div style="min-width:0;">
+                        <p style="font-weight:600;color:#e6edf3;margin:0;">{{ $p->name }}</p>
+                        <p style="font-size:13px;color:#8b949e;margin:2px 0 0;">{{ $p->email }}</p>
+                        <p style="font-size:11px;color:#6e7681;margin:2px 0 0;">{{ $p->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }} WIB</p>
                     </div>
                     <span style="font-size:12px;font-weight:700;padding:4px 12px;border-radius:50px;color:#ffffff;
-                        {{ $p->status === 'confirmed' ? 'background:#1d4ed8;' : '' }}
+                        {{ $p->status === 'approved' ? 'background:#1d4ed8;' : '' }}
+                        {{ $p->status === 'pending' ? 'background:#eab308;' : '' }}
                         {{ $p->status === 'rejected' ? 'background:#dc2626;' : '' }}">
-                        {{ $p->status === 'confirmed' ? 'Terdaftar' : ($p->status === 'rejected' ? 'Kuota Penuh' : ucfirst($p->status)) }}
+                        {{ ucfirst($p->status) }}
                     </span>
                 </div>
             @endforeach
-            <a href="{{ route('admin.pendaftaran.index') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>
+            <a href="{{ route('admin.member.kelola') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>
         @else
-            <p class="text-muted" style="text-align:center;padding:24px;">Belum ada pendaftar.</p>
+            <p class="text-muted" style="text-align:center;padding:24px;">Belum ada member terdaftar.</p>
         @endif
     </div>
     <div class="dashboard-card">

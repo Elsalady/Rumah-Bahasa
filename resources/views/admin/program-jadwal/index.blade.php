@@ -138,6 +138,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Tanggal</label>
+                                <input type="date" name="tanggal" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                            </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                                 <div class="form-group">
                                     <label>Jam Mulai</label>
@@ -194,7 +198,10 @@
                                 @foreach($hariJadwal as $item)
                                     <div class="jadwal-row">
                                         <div style="flex:1;min-width:120px;">
-                                            <p style="font-weight:600;font-size:13px;color:var(--gray-900);margin:0;">{{ $item->jam_mulai ? \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') : '-' }} - {{ $item->jam_selesai ? \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') : '-' }}</p>
+                                            <p style="font-weight:600;font-size:13px;color:var(--gray-900);margin:0;">
+                                                {{ $item->tanggal ? $item->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') . ' (' . $item->hari . ')' : $item->hari }}
+                                                &middot; {{ $item->jam_mulai ? \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') : '-' }} - {{ $item->jam_selesai ? \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') : '-' }}
+                                            </p>
                                             @if($item->pengajar)
                                                 <p style="font-size:11px;color:var(--gray-400);margin:2px 0 0;">{{ $item->pengajar }}</p>
                                             @endif

@@ -94,13 +94,27 @@ class MemberController extends Controller
 
         $request->validate([
             'status' => 'required|in:pending,approved,rejected',
-            'catatan_member' => 'nullable|max:1000',
+            'catatan_member' => $request->status === 'rejected' ? 'required|max:1000' : 'nullable|max:1000',
+        ], [
+            'catatan_member.required' => 'Catatan wajib diisi saat status ditolak (rejected).',
         ]);
 
         $member->update([
             'status' => $request->status,
             'catatan_member' => $request->catatan_member,
         ]);
+
+        // Kirim notifikasi ke member saat status berubah (approved/rejected)
+        if (in_array($request->status, ['approved', 'rejected'])) {
+            \App\Models\Notifikasi::create([
+                'user_id' => $member->id,
+                'judul' => $request->status === 'approved' ? '✅ Akun Kamu Disetujui' : '❌ Akun Kamu Ditolak',
+                'pesan' => $request->status === 'approved'
+                    ? 'Selamat! Akun kamu telah disetujui. Kamu sekarang bisa mendaftar program kelas.' . ($request->catatan_member ? ' Catatan admin: ' . $request->catatan_member : '')
+                    : 'Akun kamu ditolak. ' . ($request->catatan_member ? 'Catatan admin: ' . $request->catatan_member : 'Silakan hubungi admin untuk info lebih lanjut.'),
+                'link' => route('member.dashboard'),
+            ]);
+        }
 
         return redirect()->route('admin.member.show', $id)->with('success', 'Status member berhasil diperbarui.');
     }

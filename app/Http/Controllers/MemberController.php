@@ -113,21 +113,35 @@ class MemberController extends Controller
 
         $program = Layanan::where('is_active', true)->where('nama', $nama)->firstOrFail();
 
-        $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
+        // Jenis kelas yang sudah didaftar member di program ini (confirmed)
+        $jenisTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->where('program', $program->nama)
-            ->whereIn('status', ['pending', 'confirmed'])
-            ->exists();
+            ->where('status', 'confirmed')
+            ->pluck('jenis')
+            ->unique()
+            ->values()
+            ->toArray();
 
         $baruDaftar = session('baru_daftar_program') === $program->nama;
 
-        // Jadwal untuk program ini
+        // Jadwal untuk program ini (hanya yang belum lewat tanggalnya)
         $jadwalProgram = $program->jadwal()
             ->where('is_active', true)
             ->orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
             ->orderBy('jam_mulai')
-            ->get();
+            ->get()
+            ->filter(function ($j) {
+                return !$j->tanggal || $j->tanggal->gte(\Carbon\Carbon::today());
+            })
+            ->values();
 
-        return view('member.program-detail', compact('program', 'sudahTerdaftar', 'baruDaftar', 'jadwalProgram'));
+        // Jenis kelas yang tersedia di jadwal program ini (tematik / tentative)
+        $jenisTersedia = $jadwalProgram->pluck('jenis')->unique()->values()->toArray();
+
+        // Sudah terdaftar di SEMUA jenis yang tersedia?
+        $semuaTerdaftar = !empty($jenisTersedia) && empty(array_diff($jenisTersedia, $jenisTerdaftar));
+
+        return view('member.program-detail', compact('program', 'jenisTerdaftar', 'baruDaftar', 'jadwalProgram', 'jenisTersedia', 'semuaTerdaftar'));
     }
 
     public function jadwal()

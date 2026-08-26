@@ -45,6 +45,12 @@ class PendaftaranController extends Controller
                 ->with('error', 'Jadwal kelas tidak ditemukan. Silakan pilih jadwal yang tersedia.');
         }
 
+        // Tolak jika tanggal jadwal sudah lewat
+        if ($jadwal->tanggal && $jadwal->tanggal->lt(\Carbon\Carbon::today())) {
+            return redirect()->route('member.program.detail', $validated['program'])
+                ->with('error', 'Jadwal kelas ini sudah lewat. Silakan pilih jadwal yang masih tersedia.');
+        }
+
         $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->where('program', $validated['program'])
             ->whereIn('status', ['pending', 'confirmed'])
@@ -56,11 +62,27 @@ class PendaftaranController extends Controller
         }
 
         // ===== CEK KUOTA JADWAL YANG DIPILIH =====
+        // Kuota 0 = kelas tidak menerima pendaftaran (admin belum membuka kuota)
+        if ($jadwal->kuota <= 0) {
+            Pendaftaran::create([
+                'user_id' => auth()->id(),
+                'program' => $validated['program'],
+                'jenis' => $validated['jenis'],
+                'mode' => $jadwal->mode,
+                'jadwal_id' => $jadwal->id,
+                'status' => 'rejected',
+                'catatan' => 'Kuota kelas belum dibuka (0).',
+            ]);
+
+            return redirect()->route('member.program.detail', $validated['program'])
+                ->with('error', 'Maaf, kuota kelas ini belum dibuka. Silakan pilih jadwal lain atau hubungi admin.');
+        }
+
         $terdaftar = Pendaftaran::where('jadwal_id', $jadwal->id)
             ->where('status', 'confirmed')
             ->count();
 
-        if ($jadwal->kuota > 0 && $terdaftar >= $jadwal->kuota) {
+        if ($terdaftar >= $jadwal->kuota) {
             Pendaftaran::create([
                 'user_id' => auth()->id(),
                 'program' => $validated['program'],

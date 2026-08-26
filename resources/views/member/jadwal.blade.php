@@ -59,6 +59,9 @@
                                         <div style="flex:1;min-width:160px;">
                                             <p class="jadwal-nama">{{ $item->nama_kelas }}</p>
                                             <p class="jadwal-meta">
+                                                @if($item->tanggal)
+                                                    {{ $item->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') }} &middot;
+                                                @endif
                                                 {{ \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') }} WIB
                                                 @if($item->pengajar)
                                                     &middot; {{ $item->pengajar }}

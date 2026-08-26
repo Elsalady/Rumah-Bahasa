@@ -12,8 +12,12 @@ class JadwalKelas extends Model
     protected $table = 'jadwal_kelas';
 
     protected $fillable = [
-        'nama_kelas', 'hari', 'jam_mulai', 'jam_selesai',
+        'nama_kelas', 'hari', 'tanggal', 'jam_mulai', 'jam_selesai',
         'pengajar', 'jenis', 'mode', 'ruangan_link', 'kuota', 'is_active',
+    ];
+
+    protected $casts = [
+        'tanggal' => 'date',
     ];
 
     public function layanan()

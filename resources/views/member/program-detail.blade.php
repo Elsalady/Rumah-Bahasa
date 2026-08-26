@@ -81,6 +81,9 @@
                                 <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:#f8fafc;border:1px solid var(--gray-100);border-radius:12px;flex-wrap:wrap;">
                                     <div style="min-width:110px;text-align:center;padding:8px 12px;background:#0167a2;color:#fff;border-radius:10px;">
                                         <p style="font-size:12px;font-weight:700;margin:0;">{{ $item->hari }}</p>
+                                        @if($item->tanggal)
+                                            <p style="font-size:10px;opacity:0.9;margin:2px 0 0;">{{ $item->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM') }}</p>
+                                        @endif
                                     </div>
                                     <div style="flex:1;min-width:160px;">
                                         <p style="font-weight:700;font-size:14px;color:var(--gray-900);margin:0;">
@@ -125,12 +128,12 @@
                 {{-- Tombol Daftar --}}
                 <div style="max-width:400px;margin:0 auto;">
                     <div class="dashboard-card" style="padding:28px;text-align:center;">
-                        @if($sudahTerdaftar)
+                        @if($semuaTerdaftar)
                             <div style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#ecfdf5;color:#166534;border-radius:8px;font-size:15px;font-weight:600;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                kamu sudah terdaftar
+                                kamu sudah terdaftar di semua kelas
                             </div>
-                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Kamu sudah terdaftar di program ini.</p>
+                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Kamu sudah terdaftar di semua jenis kelas program ini.</p>
                         @elseif(!$jadwalProgram->count())
                             <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">
@@ -152,23 +155,42 @@
                                 <div style="text-align:left;margin-bottom:16px;">
                                     <label style="display:block;font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:8px;">Pilih Jenis Kelas</label>
 
-                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all 0.2s;background:#fff;" for="jenis_tematik">
-                                        <input type="radio" name="jenis" id="jenis_tematik" value="tematik" required onchange="document.getElementById('form-daftar').dataset.jenis='tematik'" style="margin-top:3px;">
+                                    @php
+                                        $tematikAda = in_array('tematik', $jenisTersedia);
+                                        $tentativeAda = in_array('tentative', $jenisTersedia);
+                                        $tematikTerdaftar = in_array('tematik', $jenisTerdaftar);
+                                        $tentativeTerdaftar = in_array('tentative', $jenisTerdaftar);
+                                        $tematikAktif = $tematikAda && !$tematikTerdaftar;
+                                        $tentativeAktif = $tentativeAda && !$tentativeTerdaftar;
+                                    @endphp
+
+                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:{{ $tematikAktif ? 'pointer' : 'not-allowed' }};margin-bottom:8px;transition:all 0.2s;background:{{ $tematikAktif ? '#fff' : '#f3f4f6' }};opacity:{{ $tematikAktif ? '1' : '0.55' }};" for="jenis_tematik">
+                                        <input type="radio" name="jenis" id="jenis_tematik" value="tematik" required {{ $tematikAktif ? '' : 'disabled' }} onchange="pilihJenis()" style="margin-top:3px;">
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tematik</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
                                                 Daftar per minggu — tiap pertemuan materi & peserta bisa berubah. Wajib daftar ulang setiap minggu jika ingin mengikuti kelas berikutnya.
                                             </span>
+                                            @if($tematikTerdaftar)
+                                                <span style="font-size:11px;font-weight:600;color:#166534;display:block;margin-top:4px;">✓ Sudah terdaftar</span>
+                                            @elseif(!$tematikAda)
+                                                <span style="font-size:11px;color:#9ca3af;display:block;margin-top:4px;">Tidak tersedia untuk program ini</span>
+                                            @endif
                                         </div>
                                     </label>
 
-                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all 0.2s;background:#fff;" for="jenis_tentative">
-                                        <input type="radio" name="jenis" id="jenis_tentative" value="tentative" required onchange="document.getElementById('form-daftar').dataset.jenis='tentative'" style="margin-top:3px;">
+                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:{{ $tentativeAktif ? 'pointer' : 'not-allowed' }};margin-bottom:8px;transition:all 0.2s;background:{{ $tentativeAktif ? '#fff' : '#f3f4f6' }};opacity:{{ $tentativeAktif ? '1' : '0.55' }};" for="jenis_tentative">
+                                        <input type="radio" name="jenis" id="jenis_tentative" value="tentative" required {{ $tentativeAktif ? '' : 'disabled' }} onchange="pilihJenis()" style="margin-top:3px;">
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tentative</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
                                                 Anggota tetap 1 semester — daftar sekali, otomatis menjadi anggota kelas selama satu semester penuh tanpa perlu mendaftar ulang tiap minggu.
                                             </span>
+                                            @if($tentativeTerdaftar)
+                                                <span style="font-size:11px;font-weight:600;color:#166534;display:block;margin-top:4px;">✓ Sudah terdaftar</span>
+                                            @elseif(!$tentativeAda)
+                                                <span style="font-size:11px;color:#9ca3af;display:block;margin-top:4px;">Tidak tersedia untuk program ini</span>
+                                            @endif
                                         </div>
                                     </label>
                                 </div>
@@ -179,8 +201,8 @@
                                     <select name="jadwal_id" id="jadwal_id" required style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;outline:none;background:var(--gray-50);color:var(--gray-900);box-sizing:border-box;">
                                         <option value="">— Pilih jadwal —</option>
                                         @foreach($jadwalProgram as $j)
-                                            <option value="{{ $j->id }}">
-                                                {{ $j->hari }}, {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB · {{ ucfirst($j->jenis) }} · {{ ucfirst($j->mode) }}
+                                            <option value="{{ $j->id }}" data-jenis="{{ $j->jenis }}">
+                                                {{ $j->tanggal ? $j->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') . ' (' . $j->hari . ')' : $j->hari }}, {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB · {{ ucfirst($j->jenis) }} · {{ ucfirst($j->mode) }}
                                                 @if($j->pengajar) · {{ $j->pengajar }} @endif
                                             </option>
                                         @endforeach
@@ -199,5 +221,26 @@
             </div>
         </main>
     </div>
+
+    <script>
+    function pilihJenis() {
+        const jenis = document.querySelector('input[name="jenis"]:checked');
+        const select = document.getElementById('jadwal_id');
+        if (!jenis || !select) return;
+
+        const target = jenis.value;
+        let ada = false;
+        Array.from(select.options).forEach(opt => {
+            if (opt.value === '') return;
+            const cocok = opt.dataset.jenis === target;
+            opt.style.display = cocok ? '' : 'none';
+            if (cocok) ada = true;
+        });
+        select.value = '';
+        select.disabled = !ada;
+        select.style.opacity = ada ? '1' : '0.5';
+        select.style.cursor = ada ? 'pointer' : 'not-allowed';
+    }
+    </script>
 </body>
 </html>
