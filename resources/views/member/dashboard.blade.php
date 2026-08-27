@@ -323,6 +323,48 @@
 
                     {{-- Pendaftaran — hanya tampil kalau status approved --}}
                     @if($user->status === 'approved')
+
+                    {{-- ===== JADWAL MINGGUAN MEMBER ===== --}}
+                    <div class="dashboard-card" style="padding:24px;grid-column:1/-1;">
+                        <h3 style="margin-top:0;">📅 Jadwal Kelas Mingguan</h3>
+                        <p style="font-size:13px;color:var(--gray-400);margin:0 0 16px;">Kelas yang sudah kamu daftar (pengingat jadwal).</p>
+
+                        @if($jadwalMingguan->count())
+                            <div style="display:grid;gap:10px;">
+                                @foreach($hariList as $hari)
+                                    @if(isset($jadwalMingguan[$hari]) && $jadwalMingguan[$hari]->count())
+                                        <div style="margin-bottom:8px;">
+                                            <p style="font-size:13px;font-weight:700;color:var(--teal-700);margin:0 0 6px;padding-bottom:4px;border-bottom:2px solid var(--teal-100);">{{ $hari }}</p>
+                                            @foreach($jadwalMingguan[$hari] as $j)
+                                                <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border:1px solid var(--gray-100);border-radius:10px;margin-bottom:6px;flex-wrap:wrap;">
+                                                    <div style="min-width:100px;text-align:center;padding:6px 10px;background:#0167a2;color:#fff;border-radius:8px;">
+                                                        <p style="font-size:11px;font-weight:700;margin:0;">{{ $j->tanggal ? $j->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM') : $hari }}</p>
+                                                    </div>
+                                                    <div style="flex:1;min-width:140px;">
+                                                        <p style="font-weight:600;font-size:13px;color:var(--gray-900);margin:0;">{{ $j->nama_kelas }}</p>
+                                                        <p style="font-size:12px;color:var(--gray-500);margin:2px 0 0;">
+                                                            {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB
+                                                            @if($j->pengajar) &middot; {{ $j->pengajar }} @endif
+                                                        </p>
+                                                    </div>
+                                                    <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                                                        <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:10px;font-weight:600;{{ $j->jenis === 'tematik' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#fef3c7;color:#b45309;' }}">{{ ucfirst($j->jenis) }}</span>
+                                                        <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:10px;font-weight:600;{{ $j->mode === 'online' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#ecfdf5;color:#166534;' }}">{{ ucfirst($j->mode) }}</span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @else
+                            <div style="text-align:center;padding:24px;">
+                                <p class="text-muted" style="margin:0 0 16px;">Belum ada kelas yang terdaftar. Yuk daftar program kelas!</p>
+                                <a href="{{ route('member.program') }}" class="btn-login" style="font-size:13px;display:inline-flex;">Lihat Program</a>
+                            </div>
+                        @endif
+                    </div>
+
                     <div class="dashboard-card" style="padding:24px;">
                         <h3>Histori Pendaftaran</h3>
 

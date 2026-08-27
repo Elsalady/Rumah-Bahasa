@@ -28,6 +28,12 @@ if (\App\Models\Layanan::count() === 0) {
 }
 " || true
 
+echo ">>> Menghapus ikon program kelas (tampilan bersih tanpa ikon)..."
+php artisan tinker --execute="
+\$n = \App\Models\Layanan::whereNotNull('ikon')->update(['ikon' => null]);
+echo 'Ikon dihapus: ' . \$n . ' program.' . PHP_EOL;
+" || true
+
 echo ">>> Starting PHP-FPM..."
 php-fpm -D
 

@@ -160,34 +160,38 @@
                                         $tentativeAda = in_array('tentative', $jenisTersedia);
                                         $tematikTerdaftar = in_array('tematik', $jenisTerdaftar);
                                         $tentativeTerdaftar = in_array('tentative', $jenisTerdaftar);
-                                        $tematikAktif = $tematikAda && !$tematikTerdaftar;
-                                        $tentativeAktif = $tentativeAda && !$tentativeTerdaftar;
+                                        // Bisa dipilih jika tersedia & belum terdaftar
+                                        $tematikPilih = $tematikAda && !$tematikTerdaftar;
+                                        $tentativePilih = $tentativeAda && !$tentativeTerdaftar;
+                                        // Abu-abu hanya jika tidak tersedia (bukan karena sudah terdaftar)
+                                        $tematikGelap = !$tematikAda;
+                                        $tentativeGelap = !$tentativeAda;
                                     @endphp
 
-                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:{{ $tematikAktif ? 'pointer' : 'not-allowed' }};margin-bottom:8px;transition:all 0.2s;background:{{ $tematikAktif ? '#fff' : '#f3f4f6' }};opacity:{{ $tematikAktif ? '1' : '0.55' }};" for="jenis_tematik">
-                                        <input type="radio" name="jenis" id="jenis_tematik" value="tematik" required {{ $tematikAktif ? '' : 'disabled' }} onchange="pilihJenis()" style="margin-top:3px;">
+                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:{{ $tematikPilih ? 'pointer' : ($tematikTerdaftar ? 'default' : 'not-allowed') }};margin-bottom:8px;transition:all 0.2s;background:{{ $tematikGelap ? '#f3f4f6' : '#fff' }};opacity:{{ $tematikGelap ? '0.55' : '1' }};" for="jenis_tematik">
+                                        <input type="radio" name="jenis" id="jenis_tematik" value="tematik" required {{ $tematikPilih ? '' : 'disabled' }} onchange="pilihJenis()" style="margin-top:3px;">
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tematik</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
                                                 Daftar per minggu — tiap pertemuan materi & peserta bisa berubah. Wajib daftar ulang setiap minggu jika ingin mengikuti kelas berikutnya.
                                             </span>
                                             @if($tematikTerdaftar)
-                                                <span style="font-size:11px;font-weight:600;color:#166534;display:block;margin-top:4px;">✓ Sudah terdaftar</span>
+                                                <span style="font-size:11px;font-weight:700;color:#166534;background:#ecfdf5;display:inline-block;padding:2px 10px;border-radius:50px;margin-top:4px;">✓ Sudah terdaftar</span>
                                             @elseif(!$tematikAda)
                                                 <span style="font-size:11px;color:#9ca3af;display:block;margin-top:4px;">Tidak tersedia untuk program ini</span>
                                             @endif
                                         </div>
                                     </label>
 
-                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:{{ $tentativeAktif ? 'pointer' : 'not-allowed' }};margin-bottom:8px;transition:all 0.2s;background:{{ $tentativeAktif ? '#fff' : '#f3f4f6' }};opacity:{{ $tentativeAktif ? '1' : '0.55' }};" for="jenis_tentative">
-                                        <input type="radio" name="jenis" id="jenis_tentative" value="tentative" required {{ $tentativeAktif ? '' : 'disabled' }} onchange="pilihJenis()" style="margin-top:3px;">
+                                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;cursor:{{ $tentativePilih ? 'pointer' : ($tentativeTerdaftar ? 'default' : 'not-allowed') }};margin-bottom:8px;transition:all 0.2s;background:{{ $tentativeGelap ? '#f3f4f6' : '#fff' }};opacity:{{ $tentativeGelap ? '0.55' : '1' }};" for="jenis_tentative">
+                                        <input type="radio" name="jenis" id="jenis_tentative" value="tentative" required {{ $tentativePilih ? '' : 'disabled' }} onchange="pilihJenis()" style="margin-top:3px;">
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tentative</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
                                                 Anggota tetap 1 semester — daftar sekali, otomatis menjadi anggota kelas selama satu semester penuh tanpa perlu mendaftar ulang tiap minggu.
                                             </span>
                                             @if($tentativeTerdaftar)
-                                                <span style="font-size:11px;font-weight:600;color:#166534;display:block;margin-top:4px;">✓ Sudah terdaftar</span>
+                                                <span style="font-size:11px;font-weight:700;color:#166534;background:#ecfdf5;display:inline-block;padding:2px 10px;border-radius:50px;margin-top:4px;">✓ Sudah terdaftar</span>
                                             @elseif(!$tentativeAda)
                                                 <span style="font-size:11px;color:#9ca3af;display:block;margin-top:4px;">Tidak tersedia untuk program ini</span>
                                             @endif

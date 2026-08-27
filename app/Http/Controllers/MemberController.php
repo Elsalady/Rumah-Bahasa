@@ -34,7 +34,26 @@ class MemberController extends Controller
         $notifikasi = $user->notifikasi()->latest()->limit(5)->get();
         $notifUnread = $user->notifikasi()->where('is_read', false)->count();
 
-        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread'));
+        // Jadwal mingguan: kelas confirmed yang jadwalnya masih tersedia (belum lewat), urut per hari & jam
+        $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        $jadwalMingguan = Pendaftaran::where('user_id', $user->id)
+            ->where('status', 'confirmed')
+            ->whereNotNull('jadwal_id')
+            ->with('jadwal')
+            ->get()
+            ->map(function ($p) {
+                return $p->jadwal;
+            })
+            ->filter(function ($j) {
+                return $j && (!$j->tanggal || $j->tanggal->gte(\Carbon\Carbon::today()));
+            })
+            ->sortBy(function ($j) {
+                return array_search($j->hari, ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
+            })
+            ->values()
+            ->groupBy('hari');
+
+        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'jadwalMingguan', 'hariList'));
     }
 
     public function edit()

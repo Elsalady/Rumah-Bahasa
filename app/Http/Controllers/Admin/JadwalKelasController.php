@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JadwalKelas;
-use App\Models\Layanan;
 use App\Models\Notifikasi;
-use App\Models\Pendaftaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,23 +12,8 @@ class JadwalKelasController extends Controller
 {
     private function buatNotifikasiPendaftarProgram($namaKelas, $judul, $pesan, $link = null)
     {
-        // Cari program (Layanan) yang relevan dengan kelas ini
-        $program = Layanan::where('is_active', true)->get()->first(function ($p) use ($namaKelas) {
-            $keyword = str_replace('Kelas ', '', $p->nama);
-            return stripos($namaKelas, $keyword) !== false;
-        });
-
-        if (!$program) {
-            // Fallback: kirim ke semua member approved jika program tidak ditemukan
-            $members = User::where('role', 'member')->where('status', 'approved')->get();
-        } else {
-            // Kirim hanya ke member yang terdaftar di program ini
-            $memberIds = Pendaftaran::where('program', $program->nama)
-                ->whereIn('status', ['pending', 'confirmed'])
-                ->pluck('user_id');
-
-            $members = User::whereIn('id', $memberIds)->where('status', 'approved')->get();
-        }
+        // Kirim notifikasi ke semua member yang statusnya approved
+        $members = User::where('role', 'member')->where('status', 'approved')->get();
 
         foreach ($members as $member) {
             Notifikasi::create([

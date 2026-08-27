@@ -51,11 +51,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Layanan — mengikuti daftar bahasa di website asli Rumah Bahasa
-        $ikonJepang = '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#0E9F6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>';
-        $ikonKomputer = '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#0E9F6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
+        // Ikon sengaja tidak dipakai (null) supaya tampilan kartu bersih tanpa ikon.
 
         $layanan = [
-            ['nama' => 'Kelas Bahasa Jepang', 'deskripsi' => 'Pelajari bahasa Jepang bersama native speaker yang berpengalaman.', 'ikon' => $ikonJepang, 'urutan' => 1],
+            ['nama' => 'Kelas Bahasa Jepang', 'deskripsi' => 'Pelajari bahasa Jepang bersama native speaker yang berpengalaman.', 'ikon' => null, 'urutan' => 1],
             ['nama' => 'Kelas Bahasa Korea', 'deskripsi' => 'Kelas bahasa Korea untuk komunikasi sehari-hari dan budaya pop.', 'ikon' => null, 'urutan' => 2],
             ['nama' => 'Kelas Bahasa Arab', 'deskripsi' => 'Kelas bahasa Arab untuk pemula hingga mahir.', 'ikon' => null, 'urutan' => 3],
             ['nama' => 'Kelas Bahasa Mandarin', 'deskripsi' => 'Kelas bahasa Mandarin untuk komunikasi bisnis dan sehari-hari.', 'ikon' => null, 'urutan' => 4],
@@ -69,7 +68,7 @@ class DatabaseSeeder extends Seeder
             ['nama' => 'Kelas Bahasa Rusia', 'deskripsi' => 'Kelas bahasa Rusia bersama pengajar berpengalaman.', 'ikon' => null, 'urutan' => 12],
             ['nama' => 'Kelas Bahasa Indonesia', 'deskripsi' => 'Kelas bahasa Indonesia untuk warga negara asing.', 'ikon' => null, 'urutan' => 13],
             ['nama' => 'Kelas Bahasa Jawa', 'deskripsi' => 'Kelas bahasa Jawa untuk warga negara asing yang ingin mengenal budaya dan bahasa daerah Surabaya.', 'ikon' => null, 'urutan' => 14],
-            ['nama' => 'Kelas Komputer (BLC)', 'deskripsi' => 'Pelatihan komputer Broadband Learning Center (BLC): program Ms. Word, Excel, PowerPoint, desain grafis (Corel Draw, Photoshop), dan internet.', 'ikon' => $ikonKomputer, 'urutan' => 15],
+            ['nama' => 'Kelas Komputer (BLC)', 'deskripsi' => 'Pelatihan komputer Broadband Learning Center (BLC): program Ms. Word, Excel, PowerPoint, desain grafis (Corel Draw, Photoshop), dan internet.', 'ikon' => null, 'urutan' => 15],
         ];
 
         foreach ($layanan as $l) {
