@@ -17,8 +17,8 @@
         .program-card .card-body { flex:1; }
         .btn-daftar { display:inline-block; width:100%; text-align:center; padding:10px 16px; background:#0882c4; color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:16px; text-decoration:none; }
         .btn-daftar:hover { background:#0167a2; }
-        .btn-daftar-terdaftar { background:#e5e7eb; color:#9ca3af; cursor:default; }
-        .btn-daftar-terdaftar:hover { background:#e5e7eb; }
+        .btn-daftar-terdaftar { background:#16a34a; color:#fff; cursor:pointer; }
+        .btn-daftar-terdaftar:hover { background:#15803d; }
 
         @media (max-width: 768px) {
             .program-grid { grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px; }
@@ -88,7 +88,7 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('member.program.detail', $item->nama) }}" class="btn-daftar" style="text-decoration:none;
-                                    {{ in_array($item->nama, $programTerdaftar) ? 'background:#e5e7eb;color:#9ca3af;cursor:default;' : (!in_array($item->id, $jadwalIds) ? 'background:#e5e7eb;color:#9ca3af;cursor:not-allowed;' : '') }}">
+                                    {{ in_array($item->nama, $programTerdaftar) ? 'background:#16a34a;color:#fff;cursor:pointer;' : (!in_array($item->id, $jadwalIds) ? 'background:#e5e7eb;color:#9ca3af;cursor:not-allowed;' : '') }}">
                                     @if(in_array($item->nama, $programTerdaftar))
                                         ✓ Terdaftar
                                     @elseif(!in_array($item->id, $jadwalIds))
