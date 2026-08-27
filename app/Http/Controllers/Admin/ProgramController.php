@@ -54,6 +54,12 @@ class ProgramController extends Controller
 
     public function kelola()
     {
+        // Hapus otomatis jadwal yang tanggalnya sudah lewat
+        // (jadwal bersifat per minggu — admin harus atur ulang tiap minggu)
+        JadwalKelas::whereNotNull('tanggal')
+            ->whereDate('tanggal', '<', \Carbon\Carbon::today())
+            ->delete();
+
         $layanan = Layanan::orderBy('urutan')->get();
         $allJadwal = JadwalKelas::orderByRaw("CASE hari WHEN 'Senin' THEN 1 WHEN 'Selasa' THEN 2 WHEN 'Rabu' THEN 3 WHEN 'Kamis' THEN 4 WHEN 'Jumat' THEN 5 WHEN 'Sabtu' THEN 6 WHEN 'Minggu' THEN 7 END")
             ->orderBy('jam_mulai')

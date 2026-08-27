@@ -12,9 +12,9 @@
 @php
     $heroSlides = [
         asset('images/rumbas.jpg'),
-        asset('storage/berita/berita_1.jpg'),
-        asset('storage/berita/berita_2.jpg'),
-        asset('storage/berita/berita_3.jpg'),
+        asset('images/rumbas2.jpeg'),
+        asset('images/rumbas3.jpeg'),
+        asset('images/rumbas4.jpeg'),
     ];
 @endphp
 <section class="hero" id="beranda" style="
@@ -357,56 +357,67 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         {{-- ===== COVERFLOW 3D CAROUSEL ===== --}}
         @php
+            // Gambar sementara untuk berita tanpa foto (pakai foto rumbas)
+            $gambarBeritaCadangan = [
+                asset('images/rumbas.jpg'),
+                asset('images/rumbas2.jpeg'),
+                asset('images/rumbas3.jpeg'),
+                asset('images/rumbas4.jpeg'),
+            ];
             $beritaArr = $berita->values();
-            $beritaJson = $beritaArr->map(function ($item) {
+            $beritaJson = $beritaArr->map(function ($item, $idx) use ($gambarBeritaCadangan) {
                 return [
                     'judul' => $item->judul,
                     'tanggal' => \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY'),
                     'deskripsi' => Str::limit(strip_tags($item->ringkasan ?: $item->isi), 140),
                     'isi' => $item->isi,
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : '',
+                    'gambar' => $item->gambar
+                        ? asset('storage/' . $item->gambar)
+                        : $gambarBeritaCadangan[$idx % 4],
                 ];
             })->values();
         @endphp
         @if($beritaArr->count())
             <div class="cf-carousel" id="news-coverflow" data-count="{{ $beritaArr->count() }}">
-                <div class="cf-stage">
-                    @foreach($beritaArr as $i => $item)
-                        <div class="cf-card" data-index="{{ $i }}">
-                            <div class="cf-card-img">
-                                @if($item->gambar)
-                                    <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}">
-                                @else
-                                    <div class="cf-card-img-placeholder">
-                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="cf-card-body">
-                                <div class="cf-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
-                                <h3>{{ $item->judul }}</h3>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                {{-- Deskripsi Dinamis --}}
-                <div class="cf-caption">
-                    <div class="cf-caption-date" id="cf-caption-date"></div>
-                    <h3 class="cf-caption-title" id="cf-caption-title"></h3>
-                    <p class="cf-caption-desc" id="cf-caption-desc"></p>
-                </div>
-
-                {{-- Navigasi & Pagination --}}
-                <div class="cf-controls">
+                <div class="cf-carousel-inner">
                     <button type="button" class="cf-nav-btn cf-prev" aria-label="Berita sebelumnya">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                     </button>
-                    <div class="cf-dots"></div>
+
+                    <div class="cf-main">
+                        <div class="cf-stage">
+                            @foreach($beritaArr as $i => $item)
+                                <div class="cf-card" data-index="{{ $i }}">
+                                    <div class="cf-card-img">
+                                        @if($item->gambar)
+                                            <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}">
+                                        @else
+                                            <img src="{{ $gambarBeritaCadangan[$i % 4] }}" alt="{{ $item->judul }}">
+                                        @endif
+                                    </div>
+                                    <div class="cf-card-body">
+                                        <div class="cf-card-date">{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY') }}</div>
+                                        <h3>{{ $item->judul }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Deskripsi Dinamis --}}
+                        <div class="cf-caption">
+                            <div class="cf-caption-date" id="cf-caption-date"></div>
+                            <h3 class="cf-caption-title" id="cf-caption-title"></h3>
+                            <p class="cf-caption-desc" id="cf-caption-desc"></p>
+                        </div>
+                    </div>
+
                     <button type="button" class="cf-nav-btn cf-next" aria-label="Berita berikutnya">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </button>
                 </div>
+
+                {{-- Pagination dots --}}
+                <div class="cf-dots"></div>
             </div>
 
             {{-- Data berita untuk modal (JSON aman dari kutip/HTML) --}}
@@ -429,10 +440,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>Belum ada berita.</p>
             </div>
         @endif
-        <div style="text-align:center;margin-top:8px;margin-bottom:8px;">
-            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#ffffff;font-weight:600;font-size:10px;text-decoration:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:12px 32px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+        <div style="text-align:center;margin-top:32px;margin-bottom:24px;">
+            <a href="{{ route('berita.list') }}" style="display:inline-flex;align-items:center;gap:8px;color:#ffffff;font-weight:600;font-size:14px;text-decoration:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:12px 32px;border-radius:50px;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
                 Lihat selengkapnya
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
         </div>
     </div>
@@ -449,10 +460,24 @@ document.addEventListener('DOMContentLoaded', function() {
         perspective: 1400px;
     }
 
+    .cf-carousel-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .cf-main {
+        flex: 1;
+        min-width: 0;
+        max-width: 720px;
+    }
+
     .cf-stage {
         position: relative;
         width: 100%;
-        height: 380px;
+        height: 320px;
         transform-style: preserve-3d;
     }
 
@@ -460,9 +485,9 @@ document.addEventListener('DOMContentLoaded', function() {
         position: absolute;
         top: 0;
         left: 50%;
-        width: 320px;
-        height: 340px;
-        margin-left: -160px;
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
         background: #ffffff;
         border-radius: 16px;
         overflow: hidden;
@@ -475,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .cf-card-img {
-        height: 190px;
+        height: 170px;
         overflow: hidden;
         background: linear-gradient(135deg, var(--teal-100), var(--teal-50));
     }
@@ -495,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .cf-card-body {
-        padding: 12px 18px 16px;
+        padding: 14px 18px;
     }
     .cf-card-date {
         font-size: 11px;
@@ -503,7 +528,7 @@ document.addEventListener('DOMContentLoaded', function() {
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 4px;
+        margin-bottom: 5px;
     }
     .cf-card-body h3 {
         font-size: 15px;
@@ -525,26 +550,26 @@ document.addEventListener('DOMContentLoaded', function() {
         filter: brightness(1);
     }
     .cf-card.cf-left-1 {
-        transform: translateX(-58%) scale(0.75) rotateY(38deg);
-        opacity: 0.55;
+        transform: translateX(-62%) scale(0.78) rotateY(35deg);
+        opacity: 0.6;
         z-index: 20;
-        filter: brightness(0.8);
+        filter: brightness(0.85);
     }
     .cf-card.cf-right-1 {
-        transform: translateX(58%) scale(0.75) rotateY(-38deg);
-        opacity: 0.55;
+        transform: translateX(62%) scale(0.78) rotateY(-35deg);
+        opacity: 0.6;
         z-index: 20;
-        filter: brightness(0.8);
+        filter: brightness(0.85);
     }
     .cf-card.cf-left-2 {
-        transform: translateX(-105%) scale(0.55) rotateY(48deg);
-        opacity: 0.3;
+        transform: translateX(-110%) scale(0.6) rotateY(45deg);
+        opacity: 0.25;
         z-index: 10;
         filter: brightness(0.6);
     }
     .cf-card.cf-right-2 {
-        transform: translateX(105%) scale(0.55) rotateY(-48deg);
-        opacity: 0.3;
+        transform: translateX(110%) scale(0.6) rotateY(-45deg);
+        opacity: 0.25;
         z-index: 10;
         filter: brightness(0.6);
     }
@@ -559,8 +584,9 @@ document.addEventListener('DOMContentLoaded', function() {
     .cf-caption {
         text-align: center;
         min-height: 110px;
-        max-width: 560px;
-        margin: 20px auto 0;
+        max-width: 620px;
+        margin: 16px auto 0;
+        padding: 0 16px;
         color: #ffffff;
     }
     .cf-caption-date {
@@ -582,29 +608,26 @@ document.addEventListener('DOMContentLoaded', function() {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.85);
         line-height: 1.6;
-        margin: 0;
+        margin: 0 auto;
+        max-width: 560px;
+        text-align: center;
     }
 
-    /* ===== Controls: Prev/Next + Dots ===== */
-    .cf-controls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 24px;
-        margin-top: 8px;
-    }
+    /* ===== Controls: Prev/Next di samping + Dots di bawah ===== */
     .cf-nav-btn {
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
         border-radius: 50%;
         border: 1.5px solid rgba(255, 255, 255, 0.4);
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.12);
         color: #ffffff;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: all 0.25s ease;
+        flex-shrink: 0;
+        z-index: 40;
     }
     .cf-nav-btn:hover {
         background: #ffffff;
@@ -616,7 +639,9 @@ document.addEventListener('DOMContentLoaded', function() {
     .cf-dots {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
+        margin-top: 20px;
     }
     .cf-dot {
         width: 9px;
@@ -762,22 +787,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* ===== Responsive ===== */
     @media (max-width: 768px) {
-        .cf-stage { height: 320px; }
-        .cf-card { width: 250px; height: 290px; margin-left: -125px; }
-        .cf-card-img { height: 150px; }
+        .cf-carousel-inner { gap: 6px; }
+        .cf-stage { height: 280px; }
+        .cf-card { width: 230px; height: 260px; margin-left: -115px; }
+        .cf-card-img { height: 140px; }
         .cf-card-body h3 { font-size: 14px; }
-        .cf-card.cf-left-1 { transform: translateX(-70%) scale(0.75) rotateY(38deg); }
-        .cf-card.cf-right-1 { transform: translateX(70%) scale(0.75) rotateY(-38deg); }
+        .cf-nav-btn { width: 40px; height: 40px; }
+        .cf-card.cf-left-1 { transform: translateX(-70%) scale(0.78) rotateY(35deg); }
+        .cf-card.cf-right-1 { transform: translateX(70%) scale(0.78) rotateY(-35deg); }
         .cf-card.cf-left-2, .cf-card.cf-right-2 { opacity: 0; pointer-events: none; }
     }
     @media (max-width: 480px) {
-        .cf-stage { height: 280px; }
-        .cf-card { width: 220px; height: 260px; margin-left: -110px; }
-        .cf-card-img { height: 130px; }
+        .cf-stage { height: 240px; }
+        .cf-card { width: 200px; height: 230px; margin-left: -100px; }
+        .cf-card-img { height: 120px; }
         .cf-caption { min-height: 100px; }
-        .cf-caption-title { font-size: 17px; }
+        .cf-caption-title { font-size: 16px; }
         .cf-caption-desc { font-size: 13px; }
-        .cf-controls { gap: 16px; }
+        .cf-nav-btn { width: 36px; height: 36px; }
+        .cf-nav-btn svg { width: 16px; height: 16px; }
     }
 </style>
 

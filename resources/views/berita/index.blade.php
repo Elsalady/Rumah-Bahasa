@@ -22,7 +22,8 @@
                         @if($item->gambar)
                             <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">
                         @else
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal-400)" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            @php $rumbas = ['rumbas.jpg','rumbas2.jpeg','rumbas3.jpeg','rumbas4.jpeg']; @endphp
+                            <img src="{{ asset('images/' . $rumbas[$loop->index % 4]) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">
                         @endif
                     </div>
                     <div class="news-card-body" style="padding:24px;">
