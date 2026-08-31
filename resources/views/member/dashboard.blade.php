@@ -281,6 +281,10 @@
 
                         <div style="margin-top:20px;">
                             <div class="info-row-item">
+                                <span class="info-item-label">Nomor Member</span>
+                                <span class="info-item-value" style="font-weight:700;color:var(--teal-700);">{{ $user->no_member ?: '-' }}</span>
+                            </div>
+                            <div class="info-row-item">
                                 <span class="info-item-label">Telepon</span>
                                 <span class="info-item-value">{{ $user->phone ?: '-' }}</span>
                             </div>

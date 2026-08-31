@@ -147,23 +147,18 @@
 
         /* Mode embed: halaman ini dibuka di dalam modal halaman registrasi */
         body.embedded {
-            background: #f1f5f9;
-            padding: 16px;
+            background: #fff;
+            padding: 24px;
         }
-        body.embedded .contoh-card { padding: 24px; }
-        body.embedded .btn-kembali { color: var(--teal-700); }
-        body.embedded .btn-kembali:hover { color: var(--teal-800); }
+        body.embedded .contoh-card {
+            padding: 32px;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        body.embedded .btn-kembali { display: none; }
     </style>
 </head>
 <body>
-
-    <a href="{{ route('register') }}" class="btn-kembali">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        <span id="btnKembaliLabel">Kembali ke Pendaftaran</span>
-    </a>
 
     <div class="contoh-card">
         <h1>Contoh Surat Keterangan Domisili</h1>
@@ -264,20 +259,12 @@
 
     <script>
         // Jika halaman ini dibuka di dalam modal (iframe) halaman registrasi,
-        // tombol kembali berubah jadi "Tutup" dan menutup modal tanpa kehilangan data form.
+        // tombol "Kembali ke Pendaftaran" disembunyikan — penutupan hanya lewat tombol X di modal,
+        // supaya data form (termasuk file upload) tidak pernah hilang.
         (function () {
             var embedded = (window.self !== window.top);
             if (!embedded) return;
             document.body.classList.add('embedded');
-            var label = document.getElementById('btnKembaliLabel');
-            var btn = document.getElementById('btnKembali');
-            if (label) label.textContent = 'Tutup';
-            if (btn) {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    window.parent.postMessage('close-contoh-surat', '*');
-                });
-            }
         })();
     </script>
 </body>

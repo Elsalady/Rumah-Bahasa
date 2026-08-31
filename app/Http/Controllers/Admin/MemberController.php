@@ -50,6 +50,7 @@ class MemberController extends Controller
                     'id' => $p->id,
                     'user' => $p->user ? [
                         'name' => $p->user->name,
+                        'no_member' => $p->user->no_member,
                         'email' => $p->user->email,
                         'phone' => $p->user->phone,
                     ] : null,
@@ -99,10 +100,26 @@ class MemberController extends Controller
             'catatan_member.required' => 'Catatan wajib diisi saat status ditolak (rejected).',
         ]);
 
-        $member->update([
+        $updateData = [
             'status' => $request->status,
             'catatan_member' => $request->catatan_member,
-        ]);
+        ];
+
+        // Saat akun disetujui (approved), berikan nomor member otomatis jika belum punya:
+        // RB-YYMMDD-NNNN = tanggal persetujuan WIB + urutan harian. Ini mencegah bentrok nomor
+        // karena hanya di-generate satu per satu oleh admin, bukan saat ramai pendaftar.
+        if ($request->status === 'approved' && empty($member->no_member)) {
+            $tgl = \Carbon\Carbon::now()->timezone('Asia/Jakarta')->format('ymd');
+            $lastNo = User::where('role', 'member')
+                ->whereNotNull('no_member')
+                ->where('no_member', 'like', 'RB-' . $tgl . '-%')
+                ->orderBy('id', 'desc')
+                ->value('no_member');
+            $lastSeq = $lastNo ? (int) substr($lastNo, -4) : 0;
+            $updateData['no_member'] = 'RB-' . $tgl . '-' . str_pad((string) ($lastSeq + 1), 4, '0', STR_PAD_LEFT);
+        }
+
+        $member->update($updateData);
 
         // Kirim notifikasi ke member saat status berubah (approved/rejected)
         if (in_array($request->status, ['approved', 'rejected'])) {
@@ -139,7 +156,7 @@ class MemberController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
-            echo '<tr><th>No</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
             foreach ($members as $i => $m) {
                 $warna = match($m->status) {
                     'pending' => '#b45309',
@@ -149,6 +166,7 @@ class MemberController extends Controller
                 };
                 echo '<tr>';
                 echo '<td>' . ($i + 1) . '</td>';
+                echo '<td>' . htmlspecialchars($m->no_member ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($m->name) . '</td>';
                 echo '<td>' . htmlspecialchars($m->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($m->phone ?? '-') . '</td>';

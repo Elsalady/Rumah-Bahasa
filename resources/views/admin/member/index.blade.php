@@ -17,6 +17,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Nomor Member</th>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Telepon</th>
@@ -29,6 +30,7 @@
                     @foreach($members as $i => $member)
                         <tr>
                             <td>{{ $i + 1 }}</td>
+                            <td style="font-size:13px;font-weight:600;color:var(--teal-700);">{{ $member->no_member ?: '-' }}</td>
                             <td><div class="title-cell">{{ $member->name }}</div></td>
                             <td style="font-size:13px;">{{ $member->email }}</td>
                             <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>

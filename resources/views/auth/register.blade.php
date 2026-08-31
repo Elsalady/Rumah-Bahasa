@@ -94,25 +94,22 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: #fff;
             display: none;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: stretch;
             z-index: 10000;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
         .modal-overlay.open { display: flex; }
         .modal-box {
             background: #fff;
-            border-radius: 16px;
             width: 100%;
-            max-width: 780px;
-            max-height: 90vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
         }
         .modal-header {
             display: flex;
@@ -140,9 +137,12 @@
         .modal-close:hover { background: var(--gray-200); }
         .modal-box iframe {
             width: 100%;
+            height: 100%;
             flex: 1;
             min-height: 0;
             border: none;
+            display: block;
+            background: #fff;
         }
 
         /* ===== PASSWORD TOGGLE ===== */
@@ -503,6 +503,8 @@
                 modal.classList.add('open');
                 modal.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
+                // Balikin scroll ke atas tiap modal dibuka biar contoh pertama langsung kelihatan
+                try { frame.contentWindow.scrollTo(0, 0); } catch (e) {}
             };
 
             window.closeContohSurat = function () {
@@ -521,11 +523,6 @@
             // Tekan ESC = tutup
             window.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') window.closeContohSurat();
-            });
-
-            // Jika di dalam iframe contoh surat ditekan "Tutup"
-            window.addEventListener('message', function (e) {
-                if (e.data === 'close-contoh-surat') window.closeContohSurat();
             });
         })();
     </script>

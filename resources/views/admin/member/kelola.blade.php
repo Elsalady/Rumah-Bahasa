@@ -250,6 +250,7 @@ function pdPilihMode(jenis, mode) {
                     : '<span style="display:inline-block;padding:5px 12px;border-radius:50px;font-size:12px;font-weight:700;color:#fff;background:#eab308;">' + (p.status || '-') + '</span>');
             rows += '<tr>' +
                 '<td>' + (i + 1) + '</td>' +
+                '<td style="white-space:nowrap;font-weight:600;color:#0882c4;">' + (p.user && p.user.no_member ? p.user.no_member : '-') + '</td>' +
                 '<td><div class="title-cell">' + (p.user ? p.user.name : '-') + '</div></td>' +
                 '<td style="word-break:break-word;">' + (p.user ? p.user.email : '-') + '</td>' +
                 '<td style="white-space:nowrap;">' + (p.user && p.user.phone ? p.user.phone : '-') + '</td>' +
@@ -269,7 +270,7 @@ function pdPilihMode(jenis, mode) {
             '</div>' +
             '<div class="table-wrap">' +
                 '<table class="data-table">' +
-                    '<thead><tr><th>No</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal</th></tr></thead>' +
+                    '<thead><tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal</th></tr></thead>' +
                     '<tbody>' + rows + '</tbody>' +
                 '</table>' +
             '</div>';

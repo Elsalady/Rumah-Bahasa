@@ -186,7 +186,7 @@
             @endif
             <div>
                 <h4 class="card-title">Data Diri</h4>
-                <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">ID Member #{{ $member->id }}</div>
+                <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">Nomor Member: <strong style="color:var(--teal-700);">{{ $member->no_member ?: 'Belum tersedia (diberikan saat disetujui)' }}</strong></div>
             </div>
         </div>
 
