@@ -447,13 +447,17 @@
                 form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], textarea, select').forEach(function (field) {
                     if (field.name) data[field.name] = field.value;
                 });
-                try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { /* storage penuh / tidak tersedia */ }
+                const json = JSON.stringify(data);
+                // localStorage dipakai supaya datanya bisa dibaca dari tab mana pun
+                // (misal contoh surat dibuka di tab baru, lalu balik ke pendaftaran)
+                try { localStorage.setItem(STORAGE_KEY, json); } catch (e) { /* storage penuh / tidak tersedia */ }
+                try { sessionStorage.setItem(STORAGE_KEY, json); } catch (e) { /* storage penuh / tidak tersedia */ }
             }
 
             function restoreFormState() {
                 if (!form) return;
                 let raw = null;
-                try { raw = sessionStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+                try { raw = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY); } catch (e) { return; }
                 if (!raw) return;
                 try {
                     const data = JSON.parse(raw);
@@ -479,6 +483,7 @@
             // Hapus state begitu form dikirim (kalau validasi gagal, Laravel tetap balikin lewat old())
             if (form) {
                 form.addEventListener('submit', function () {
+                    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
                     try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
                 });
             }
