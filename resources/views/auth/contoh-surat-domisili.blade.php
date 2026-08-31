@@ -144,6 +144,15 @@
             .contoh-card { padding: 24px 16px; }
             .surat-container { padding: 20px 16px; }
         }
+
+        /* Mode embed: halaman ini dibuka di dalam modal halaman registrasi */
+        body.embedded {
+            background: #f1f5f9;
+            padding: 16px;
+        }
+        body.embedded .contoh-card { padding: 24px; }
+        body.embedded .btn-kembali { color: var(--teal-700); }
+        body.embedded .btn-kembali:hover { color: var(--teal-800); }
     </style>
 </head>
 <body>
@@ -153,7 +162,7 @@
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        Kembali ke Pendaftaran
+        <span id="btnKembaliLabel">Kembali ke Pendaftaran</span>
     </a>
 
     <div class="contoh-card">
@@ -253,5 +262,23 @@
         </div>
     </div>
 
+    <script>
+        // Jika halaman ini dibuka di dalam modal (iframe) halaman registrasi,
+        // tombol kembali berubah jadi "Tutup" dan menutup modal tanpa kehilangan data form.
+        (function () {
+            var embedded = (window.self !== window.top);
+            if (!embedded) return;
+            document.body.classList.add('embedded');
+            var label = document.getElementById('btnKembaliLabel');
+            var btn = document.getElementById('btnKembali');
+            if (label) label.textContent = 'Tutup';
+            if (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.parent.postMessage('close-contoh-surat', '*');
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
