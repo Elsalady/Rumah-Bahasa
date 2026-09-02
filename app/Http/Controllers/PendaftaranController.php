@@ -53,12 +53,13 @@ class PendaftaranController extends Controller
 
         $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
             ->where('program', $validated['program'])
+            ->where('jenis', $validated['jenis'])
             ->whereIn('status', ['pending', 'confirmed'])
             ->exists();
 
         if ($sudahTerdaftar) {
             return redirect()->route('member.program.detail', $validated['program'])
-                ->with('error', 'Kamu sudah terdaftar di program ini.');
+                ->with('error', 'Kamu sudah terdaftar di kelas ' . ucfirst($validated['jenis']) . ' pada program ini.');
         }
 
         // ===== CEK KUOTA JADWAL YANG DIPILIH =====

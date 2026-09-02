@@ -51,6 +51,7 @@ class MemberController extends Controller
                     'id' => $p->id,
                     'user' => $p->user ? [
                         'name' => $p->user->name,
+                        'no_member' => $p->user->no_member,
                         'email' => $p->user->email,
                         'phone' => $p->user->phone,
                         'member_code' => $p->user->member_code,
@@ -101,7 +102,7 @@ class MemberController extends Controller
             'catatan_member.required' => 'Catatan wajib diisi saat status ditolak (rejected).',
         ]);
 
-        $member->update([
+        $updateData = [
             'status' => $request->status,
             'catatan_member' => $request->catatan_member,
             // Kode member baru diberikan saat akun disetujui (approved) pertama kali
@@ -145,7 +146,15 @@ class MemberController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
+<<<<<<< HEAD
             echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+=======
+<<<<<<< HEAD
+            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+=======
+            echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+>>>>>>> a40ff6f (update 37)
+>>>>>>> temp-fix
             foreach ($members as $i => $m) {
                 $warna = match($m->status) {
                     'pending' => '#b45309',
@@ -155,9 +164,7 @@ class MemberController extends Controller
                 };
                 echo '<tr>';
                 echo '<td>' . ($i + 1) . '</td>';
-                echo '<td>' . htmlspecialchars($m->member_code ?? '-') . '</td>';
-                echo '<td>' . htmlspecialchars($m->name) . '</td>';
-                echo '<td>' . htmlspecialchars($m->email) . '</td>';
+                echo '<td>' . htmlspecialchars($m->member_code) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($m->phone ?? '-') . '</td>';
                 echo '<td style="text-align:center;color:' . $warna . ';font-weight:600;">' . ucfirst($m->status) . '</td>';
                 echo '<td>' . $m->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') . '</td>';

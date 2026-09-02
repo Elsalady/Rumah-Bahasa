@@ -77,6 +77,9 @@ class AuthController extends Controller
             'status' => 'pending',
         ];
 
+        // Nomor member diberikan setelah akun disetujui admin (lihat Admin\MemberController::update),
+        // jadi tidak digenerate di sini untuk menghindari bentrok nomor saat banyak pendaftar.
+
         // Upload foto profil
         $data['foto_profile'] = $request->file('foto_profile')->store('member-dokumen', 'public');
 

@@ -144,17 +144,21 @@
             .contoh-card { padding: 24px 16px; }
             .surat-container { padding: 20px 16px; }
         }
+
+        /* Mode embed: halaman ini dibuka di dalam modal halaman registrasi */
+        body.embedded {
+            background: #fff;
+            padding: 24px;
+        }
+        body.embedded .contoh-card {
+            padding: 32px;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        body.embedded .btn-kembali { display: none; }
     </style>
 </head>
 <body>
-
-    <a href="{{ route('register') }}" class="btn-kembali">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Kembali ke Pendaftaran
-    </a>
 
     <div class="contoh-card">
         <h1>Contoh Surat Keterangan Domisili</h1>
@@ -253,5 +257,15 @@
         </div>
     </div>
 
+    <script>
+        // Jika halaman ini dibuka di dalam modal (iframe) halaman registrasi,
+        // tombol "Kembali ke Pendaftaran" disembunyikan — penutupan hanya lewat tombol X di modal,
+        // supaya data form (termasuk file upload) tidak pernah hilang.
+        (function () {
+            var embedded = (window.self !== window.top);
+            if (!embedded) return;
+            document.body.classList.add('embedded');
+        })();
+    </script>
 </body>
 </html>

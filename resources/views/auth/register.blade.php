@@ -90,6 +90,61 @@
         .auth-footer a:hover { color: var(--teal-700); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
+        /* ===== MODAL CONTOH SURAT ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            display: none;
+            align-items: stretch;
+            justify-content: stretch;
+            z-index: 10000;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+        .modal-header strong { font-size: 15px; color: var(--gray-900); }
+        .modal-close {
+            background: var(--gray-100);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 15px;
+            color: var(--gray-700);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .modal-close:hover { background: var(--gray-200); }
+        .modal-box iframe {
+            width: 100%;
+            height: 100%;
+            flex: 1;
+            min-height: 0;
+            border: none;
+            display: block;
+            background: #fff;
+        }
+
         /* ===== PASSWORD TOGGLE ===== */
         .password-wrapper { position: relative; }
         .password-wrapper input { padding-right: 44px !important; }
@@ -321,7 +376,7 @@
                     </label>
                     <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">
                         Pilih salah satu jenis dokumen yang kamu miliki, lalu upload filenya.
-                        <a href="{{ route('contoh.surat.domisili') }}" target="_blank" style="color:var(--teal-600);font-weight:500;">Lihat contoh surat →</a>
+                        <button type="button" id="lihatContohSurat" style="background:none;border:none;padding:0;color:var(--teal-600);font-weight:500;cursor:pointer;font-size:inherit;text-decoration:underline;">Lihat contoh surat →</button>
                     </p>
                     <select id="jenis_dokumen" name="jenis_dokumen" required
                         style="width:100%;padding:12px 16px;border:1.5px solid {{ $errors->has('jenis_dokumen') ? '#dc2626' : 'var(--gray-200)' }};border-radius:10px;font-size:15px;outline:none;color:var(--gray-900);background:var(--gray-50);margin-bottom:12px;box-sizing:border-box;transition:border-color 0.2s;">
@@ -352,6 +407,17 @@
 
     </div>
 
+    {{-- MODAL CONTOH SURAT (dibuka di atas halaman ini, jadi data form tidak pernah hilang) --}}
+    <div class="modal-overlay" id="contohSuratModal" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-modal="true" aria-label="Contoh Surat Keterangan Domisili">
+            <div class="modal-header">
+                <strong>Contoh Surat Keterangan Domisili</strong>
+                <button type="button" class="modal-close" onclick="closeContohSurat()" aria-label="Tutup">✕</button>
+            </div>
+            <iframe id="contohSuratFrame" title="Contoh Surat Keterangan Domisili"></iframe>
+        </div>
+    </div>
+
     <script>
         function togglePassword(id, btn) {
             var input = document.getElementById(id);
@@ -367,6 +433,98 @@
                 closed.style.display = 'none';
             }
         }
+    </script>
+
+    <script>
+        // ===== SIMPAN & PULIHKAN DATA FORM (biar tidak hilang saat buka contoh surat / refresh) =====
+        (function () {
+            const STORAGE_KEY = 'register_form_state';
+            const form = document.querySelector('form');
+
+            function saveFormState() {
+                if (!form) return;
+                const data = {};
+                form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], textarea, select').forEach(function (field) {
+                    if (field.name) data[field.name] = field.value;
+                });
+                const json = JSON.stringify(data);
+                // localStorage dipakai supaya datanya bisa dibaca dari tab mana pun
+                // (misal contoh surat dibuka di tab baru, lalu balik ke pendaftaran)
+                try { localStorage.setItem(STORAGE_KEY, json); } catch (e) { /* storage penuh / tidak tersedia */ }
+                try { sessionStorage.setItem(STORAGE_KEY, json); } catch (e) { /* storage penuh / tidak tersedia */ }
+            }
+
+            function restoreFormState() {
+                if (!form) return;
+                let raw = null;
+                try { raw = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY); } catch (e) { return; }
+                if (!raw) return;
+                try {
+                    const data = JSON.parse(raw);
+                    Object.keys(data).forEach(function (name) {
+                        const field = form.querySelector('[name="' + name + '"]');
+                        if (field && 'value' in field) field.value = data[name];
+                    });
+                } catch (e) { /* abaikan data yang rusak */ }
+            }
+
+            // Simpan otomatis setiap kali user mengetik/mengubah isi form
+            if (form) {
+                form.addEventListener('input', saveFormState);
+                form.addEventListener('change', saveFormState);
+            }
+
+            // Jaring pengaman: simpan sebelum halaman ditutup/direfresh karena alasan apapun
+            window.addEventListener('beforeunload', saveFormState);
+
+            // Pulihkan data saat halaman dimuat (refresh / balik dari halaman lain)
+            restoreFormState();
+
+            // Hapus state begitu form dikirim (kalau validasi gagal, Laravel tetap balikin lewat old())
+            if (form) {
+                form.addEventListener('submit', function () {
+                    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+                    try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+                });
+            }
+        })();
+
+        // ===== MODAL CONTOH SURAT (buka tanpa pindah halaman, data form tetap aman) =====
+        (function () {
+            var modal = document.getElementById('contohSuratModal');
+            var frame = document.getElementById('contohSuratFrame');
+            var link = document.getElementById('lihatContohSurat');
+            if (!modal || !frame || !link) return;
+
+            window.openContohSurat = function () {
+                if (!frame.getAttribute('src')) {
+                    frame.setAttribute('src', '{{ route('contoh.surat.domisili') }}');
+                }
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                // Balikin scroll ke atas tiap modal dibuka biar contoh pertama langsung kelihatan
+                try { frame.contentWindow.scrollTo(0, 0); } catch (e) {}
+            };
+
+            window.closeContohSurat = function () {
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            };
+
+            link.addEventListener('click', window.openContohSurat);
+
+            // Klik area gelap di luar modal = tutup
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) window.closeContohSurat();
+            });
+
+            // Tekan ESC = tutup
+            window.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') window.closeContohSurat();
+            });
+        })();
     </script>
 </body>
 </html>
