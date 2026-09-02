@@ -355,20 +355,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // ===== DROPDOWN RESET DATA =====
-    function toggleResetDropdown(e) {
-        e.stopPropagation();
-        const menu = document.getElementById('resetDropdownMenu');
-        if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+});
+</script>
+<script>
+// ===== DROPDOWN RESET DATA (global, biar bisa dipanggil onclick) =====
+function toggleResetDropdown(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const menu = document.getElementById('resetDropdownMenu');
+    if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('resetDropdownWrap');
+    const menu = document.getElementById('resetDropdownMenu');
+    if (wrap && menu && !wrap.contains(e.target)) {
+        menu.style.display = 'none';
     }
-    document.addEventListener('click', function(e) {
-        const wrap = document.getElementById('resetDropdownWrap');
-        const menu = document.getElementById('resetDropdownMenu');
-        if (wrap && menu && !wrap.contains(e.target)) {
-            menu.style.display = 'none';
-        }
-    });
 });
 </script>
 @endsection
