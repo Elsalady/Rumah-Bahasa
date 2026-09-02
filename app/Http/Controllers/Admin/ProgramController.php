@@ -55,7 +55,7 @@ class ProgramController extends Controller
     public function kelola()
     {
         // Hapus otomatis jadwal yang tanggalnya sudah lewat
-        // (jadwal bersifat per minggu — admin harus atur ulang tiap minggu)
+        // (jadwal tentative & tematik bersifat terjadwal — admin atur per minggu/periode)
         JadwalKelas::whereNotNull('tanggal')
             ->whereDate('tanggal', '<', \Carbon\Carbon::today())
             ->delete();

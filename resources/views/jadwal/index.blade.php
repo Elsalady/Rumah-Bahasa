@@ -17,12 +17,12 @@
             <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;padding:10px 16px;border-radius:10px;font-size:13px;">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0369a1;"></span>
                 <strong>Tematik</strong>
-                <span style="color:var(--gray-500);">— Kelas rutin dengan jadwal tetap dan tema spesifik.</span>
+                <span style="color:var(--gray-500);">— 1 tema/buku dibahas dalam beberapa pertemuan berturut-turut sampai selesai.</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;padding:10px 16px;border-radius:10px;font-size:13px;">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#b45309;"></span>
                 <strong>Tentative</strong>
-                <span style="color:var(--gray-500);">— Kelas bersifat sementara/kondisional, jadwal dapat berubah.</span>
+                <span style="color:var(--gray-500);">— 1 pertemuan membahas 1 materi/topik tertentu (per pertemuan).</span>
             </div>
         </div>
 

@@ -177,7 +177,7 @@
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tematik</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
-                                                Daftar per minggu — tiap pertemuan materi & peserta bisa berubah. Wajib daftar ulang setiap minggu jika ingin mengikuti kelas berikutnya.
+                                                1 tema/buku dibahas dalam beberapa pertemuan berturut-turut. Cukup daftar sekali, kamu otomatis mengikuti kelas sampai tema/buku tersebut selesai.
                                             </span>
                                             @if($tematikTerdaftar)
                                                 <span style="font-size:11px;font-weight:700;color:#166534;background:#ecfdf5;display:inline-block;padding:2px 10px;border-radius:50px;margin-top:4px;">✓ Sudah terdaftar</span>
@@ -192,7 +192,7 @@
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tentative</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
-                                                Anggota tetap 1 semester — daftar sekali, otomatis menjadi anggota kelas selama satu semester penuh tanpa perlu mendaftar ulang tiap minggu.
+                                                1 pertemuan membahas 1 materi/topik (misal 1 lembar materi). Jika ingin mengikuti pertemuan berikutnya dengan materi baru, daftar lagi pada jadwal yang tersedia.
                                             </span>
                                             @if($tentativeTerdaftar)
                                                 <span style="font-size:11px;font-weight:700;color:#166534;background:#ecfdf5;display:inline-block;padding:2px 10px;border-radius:50px;margin-top:4px;">✓ Sudah terdaftar</span>

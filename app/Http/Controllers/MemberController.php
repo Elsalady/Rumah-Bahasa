@@ -11,16 +11,19 @@ use Illuminate\Support\Facades\Storage;
 class MemberController extends Controller
 {
     /**
-     * Hapus pendaftaran kelas TEMATIK yang sudah lewat minggunya.
-     * Tematik = daftar per minggu; begitu masuk minggu baru, pendaftaran minggu lalu hangus.
-     * Tentative = anggota tetap 1 semester, tidak dihapus.
+     * Hapus pendaftaran kelas TENTATIVE yang sudah lewat pertemuannya.
+     * Tentative = 1 pertemuan membahas 1 materi (misal 1 lembar/topik);
+     * begitu masuk minggu baru / pertemuan berikutnya, pendaftaran lama hangus
+     * dan member harus daftar lagi untuk pertemuan/materi berikutnya.
+     * Tematik = 1 tema/buku dibahas dalam beberapa pertemuan, anggota tetap
+     * terdaftar sampai tema selesai — tidak dihapus.
      */
-    private function bersihkanPendaftaranTematik($userId)
+    private function bersihkanPendaftaranTentative($userId)
     {
         $awalMinggu = \Carbon\Carbon::now()->startOfWeek();
 
         Pendaftaran::where('user_id', $userId)
-            ->where('jenis', 'tematik')
+            ->where('jenis', 'tentative')
             ->where('status', 'confirmed')
             ->where('created_at', '<', $awalMinggu)
             ->delete();
@@ -29,7 +32,7 @@ class MemberController extends Controller
     public function dashboard()
     {
         $user = auth()->user();
-        $this->bersihkanPendaftaranTematik($user->id);
+        $this->bersihkanPendaftaranTentative($user->id);
         $pendaftaran = Pendaftaran::where('user_id', $user->id)->latest()->get();
         $notifikasi = $user->notifikasi()->latest()->limit(5)->get();
         $notifUnread = $user->notifikasi()->where('is_read', false)->count();
@@ -104,7 +107,7 @@ class MemberController extends Controller
 
     public function program()
     {
-        $this->bersihkanPendaftaranTematik(auth()->id());
+        $this->bersihkanPendaftaranTentative(auth()->id());
 
         $programs = Layanan::where('is_active', true)->orderBy('urutan')->get();
         $programTerdaftar = Pendaftaran::where('user_id', auth()->id())
@@ -128,7 +131,7 @@ class MemberController extends Controller
 
     public function detailProgram($nama)
     {
-        $this->bersihkanPendaftaranTematik(auth()->id());
+        $this->bersihkanPendaftaranTentative(auth()->id());
 
         $program = Layanan::where('is_active', true)->where('nama', $nama)->firstOrFail();
 

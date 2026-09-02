@@ -147,7 +147,7 @@ Jadi member `pending`/`rejected` tidak bisa mengakses `/pendaftaran` maupun hala
 2. Klik **Program** untuk melihat semua kelas.
 3. Klik satu program → detail + jadwal tersedia → daftar (lihat alur #5).
 4. Klik **Jadwal** untuk melihat jadwal minggu ini per hari.
-5. Pendaftaran kelas **tematik** otomatis dihapus saat masuk minggu baru (lihat alur #9).
+5. Pendaftaran kelas **tentative** (1 pertemuan = 1 materi) otomatis dihapus saat masuk minggu/pertemuan baru (lihat alur #9).
 
 ---
 
@@ -334,9 +334,9 @@ Ilustrasi perjalanan satu pengguna dari pertama datang sampai menjadi member akt
 - **Reset jadwal kelas mingguan** → `php artisan jadwal:reset-mingguan`
   - Dijadwalkan tiap **Minggu 00:00** oleh Laravel Scheduler (lihat `bootstrap/app.php` → schedule via console).
   - Di entrypoint deployment (`entrypoint.sh`) ditambah tinker untuk membersihkan duplikat profil & seed awal jika tabel layanan kosong.
-- **Bersihkan pendaftaran tematik** (di `MemberController@bersihkanPendaftaranTematik`):
-  - Saat dashboard/program dibuka, pendaftaran kelas **tematik** yang `confirmed` dan `created_at` sebelum awal minggu berjalan otomatis dihapus.
-  - Kelas **tentative** tidak dihapus (anggota tetap 1 semester).
+- **Bersihkan pendaftaran tentative** (di `MemberController@bersihkanPendaftaranTentative`):
+  - Saat dashboard/program dibuka, pendaftaran kelas **tentative** (1 pertemuan = 1 materi) yang `confirmed` dan `created_at` sebelum awal minggu berjalan otomatis dihapus — member harus daftar lagi untuk pertemuan/materi berikutnya.
+  - Kelas **tematik** (1 tema/buku dibahas beberapa pertemuan) tidak dihapus — member tetap terdaftar sampai tema selesai.
 - **Throttle form publik** → `throttle:public-forms` pada login, register, dan form kontak untuk cegah spam.
 
 > Untuk production, pastikan cron scheduler jalan:

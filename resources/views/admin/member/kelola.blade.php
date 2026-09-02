@@ -115,7 +115,7 @@
                         <span style="font-size:26px;">{{ $jenis === 'tematik' ? '📘' : '📗' }}</span>
                         <strong style="font-size:16px;color:#e6edf3;">Kelas {{ ucfirst($jenis) }}</strong>
                         <span style="font-size:12px;color:#8b949e;line-height:1.6;">
-                            {{ $jenis === 'tematik' ? 'Daftar per minggu, materi & peserta berubah tiap pertemuan.' : 'Anggota tetap 1 semester penuh.' }}
+                            {{ $jenis === 'tematik' ? '1 tema/buku dibahas dalam beberapa pertemuan berturut-turut sampai selesai — member daftar sekali.' : '1 pertemuan membahas 1 materi/topik (per pertemuan) — member mendaftar untuk tiap pertemuan.' }}
                         </span>
                         <span style="display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:5px 12px;border-radius:50px;font-size:12px;font-weight:700;color:#fff;{{ $jenis === 'tematik' ? 'background:#0369a1;' : 'background:#b45309;' }}">{{ $jml }} Pendaftar</span>
                     </button>
