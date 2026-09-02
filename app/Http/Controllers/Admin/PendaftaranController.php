@@ -78,7 +78,7 @@ class PendaftaranController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
-            echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th style="text-align:center;">Program</th><th style="text-align:center;">Status</th><th>Tanggal Daftar</th></tr>';
+            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th style="text-align:center;">Program</th><th style="text-align:center;">Status</th><th>Tanggal Daftar</th></tr>';
             foreach ($daftar as $i => $p) {
                 $warna = match($p->status) {
                     'pending' => '#b45309',
@@ -88,7 +88,7 @@ class PendaftaranController extends Controller
                 };
                 echo '<tr>';
                 echo '<td>' . ($i + 1) . '</td>';
-                echo '<td>' . htmlspecialchars($p->user->member_code ?? '-') . '</td>';
+                echo '<td>' . htmlspecialchars($p->user->no_member ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($p->user->name) . '</td>';
                 echo '<td>' . htmlspecialchars($p->user->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($p->user->phone ?? '-') . '</td>';

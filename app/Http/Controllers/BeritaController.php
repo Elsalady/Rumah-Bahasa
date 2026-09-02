@@ -72,7 +72,7 @@ class BeritaController extends Controller
         ];
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('berita', 'public');
+            $data['gambar'] = $this->simpanGambar($request->file('gambar'));
         }
 
         Berita::create($data);
@@ -101,7 +101,7 @@ class BeritaController extends Controller
         ];
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('berita', 'public');
+            $data['gambar'] = $this->simpanGambar($request->file('gambar'));
         }
 
         $berita->update($data);
@@ -113,5 +113,16 @@ class BeritaController extends Controller
         $berita = Berita::findOrFail($id);
         $berita->delete();
         return redirect()->route('admin.konten.index', ['tab' => 'berita'])->with('success', 'Berita berhasil dihapus.');
+    }
+
+    /**
+     * Simpan gambar berita ke public/images/berita agar ikut ter-deploy
+     * (storage Laravel tidak persist di Railway/Render).
+     */
+    private function simpanGambar($file): string
+    {
+        $nama = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/berita'), $nama);
+        return $nama;
     }
 }

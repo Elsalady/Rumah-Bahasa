@@ -187,7 +187,7 @@
             <div>
                 <h4 class="card-title">Data Diri</h4>
                 <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">
-                    <span style="font-family:monospace;font-weight:700;color:var(--teal-700);letter-spacing:0.5px;">{{ $member->member_code ?: 'ID Member #' . $member->id }}</span>
+                    <span style="font-family:monospace;font-weight:700;color:var(--teal-700);letter-spacing:0.5px;">{{ $member->no_member ?: 'Belum tersedia (diberikan saat disetujui)' }}</span>
                 </div>
             </div>
         </div>

@@ -21,11 +21,7 @@
             @endif
 
             @if($item->gambar)
-                <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:240px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;">
-            @else
-                <div style="height:240px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:40px;">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--teal-400)" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                </div>
+                <img src="{{ asset('images/berita/' . $item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:240px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;" onerror="this.style.display='none'">
             @endif
 
             <div style="color:var(--gray-700);line-height:1.9;font-size:16px;">

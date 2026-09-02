@@ -99,9 +99,9 @@
 
                 <div class="dashboard-card">
                     <h3>Update Data Diri</h3>
-                    @if($user->member_code)
+                    @if($user->no_member)
                         <p style="font-size:13px;color:var(--gray-500);margin:-8px 0 16px;">
-                            Kode Member: <strong style="font-family:monospace;letter-spacing:0.5px;color:var(--teal-700);">{{ $user->member_code }}</strong>
+                            Nomor Member: <strong style="font-family:monospace;letter-spacing:0.5px;color:var(--teal-700);">{{ $user->no_member }}</strong>
                         </p>
                     @endif
                     <form action="{{ route('member.update') }}" method="POST" class="dashboard-form" enctype="multipart/form-data">

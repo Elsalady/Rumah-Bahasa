@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'deskripsi' => Str::limit(strip_tags($item->ringkasan ?: $item->isi), 140),
                     'isi' => $item->isi,
                     'gambar' => $item->gambar
-                        ? asset('storage/' . $item->gambar)
+                        ? asset('images/berita/' . $item->gambar)
                         : $gambarBeritaCadangan[$idx % 4],
                 ];
             })->values();
@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="cf-card" data-index="{{ $i }}">
                                     <div class="cf-card-img">
                                         @if($item->gambar)
-                                            <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->judul }}">
+                                            <img src="{{ asset('images/berita/'.$item->gambar) }}" alt="{{ $item->judul }}">
                                         @else
                                             <img src="{{ $gambarBeritaCadangan[$i % 4] }}" alt="{{ $item->judul }}">
                                         @endif
@@ -1202,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="orbit-ring orbit-ring-1"></div>
                     <div class="orbit-ring orbit-ring-2"></div>
 
-                    {{-- Pusat: glow biru + ripple --}}
+                    {{-- Pusat: logo Rumah Bahasa (1 logo saja) + glow biru --}}
                     <div class="orbit-center">
                         <div class="orbit-center-glow"></div>
                         <div class="orbit-center-icon" id="orbit-center-icon">
@@ -1210,12 +1210,30 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
 
-                    {{-- Hanya 2 slot tampil (kiri & kanan). 5 gambar diputar otomatis via JS --}}
-                    <div class="orbit-item orbit-left" id="orbit-left">
-                        <img src="{{ asset('images/flag-id.png') }}" alt="Bendera Indonesia">
-                    </div>
-                    <div class="orbit-item orbit-right" id="orbit-right">
-                        <img src="{{ asset('images/flag-jp.png') }}" alt="Bendera Jepang">
+                    {{-- Cincin bendera: semua bendera bahasa yang tersedia, muter pelan mengelilingi logo --}}
+                    <div class="orbit-flags" id="orbit-flags">
+                        @php
+                            $bendera = [
+                                'flag-id.png' => 'Bendera Indonesia',
+                                'flag-jp.png' => 'Bendera Jepang',
+                                'flag-kr.png' => 'Bendera Korea',
+                                'flag-sa.png' => 'Bendera Arab Saudi',
+                                'flag-cn.png' => 'Bendera Tiongkok',
+                                'flag-th.png' => 'Bendera Thailand',
+                                'flag-ph.png' => 'Bendera Filipina',
+                                'flag-uk.png' => 'Bendera Inggris',
+                                'flag-fr.png' => 'Bendera Prancis',
+                                'flag-de.png' => 'Bendera Jerman',
+                                'flag-nl.png' => 'Bendera Belanda',
+                                'flag-es.png' => 'Bendera Spanyol',
+                                'flag-ru.png' => 'Bendera Rusia',
+                            ];
+                        @endphp
+                        @foreach($bendera as $file => $alt)
+                            <div class="orbit-flag" style="--i: {{ $loop->index }}; --n: {{ count($bendera) }};">
+                                <img src="{{ asset('images/' . $file) }}" alt="{{ $alt }}">
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -1254,9 +1272,11 @@ document.addEventListener('DOMContentLoaded', function() {
         transform: translate(-50%, -50%);
         pointer-events: none;
     }
-    .orbit-ring-1 { width: 300px; height: 300px; animation: orbitSpin 40s linear infinite; }
+    .orbit-ring-1 { width: 300px; height: 300px; border: 1.5px dashed rgba(8, 130, 196, 0.35); animation: ringRotateSync 60s linear infinite; }
     .orbit-ring-2 { width: 210px; height: 210px; border-style: solid; border-color: rgba(8, 130, 196, 0.12); animation: orbitSpin 60s linear infinite reverse; }
     @keyframes orbitSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+    /* Ring putus-putus muter SAMA dengan cincin bendera → titik-titik selalu di bawah bendera */
+    @keyframes ringRotateSync { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
     /* Pusat: glow biru + ripple, bulat */
     .orbit-center {
@@ -1298,49 +1318,49 @@ document.addEventListener('DOMContentLoaded', function() {
         display: block;
     }
 
-    /* Item orbit: KECIL, tanpa frame — bentuk asli gambar */
-    .orbit-item {
+    /* ===== CINCIN BENDERA: bendera duduk tepat di ring putus-putus & tetap tegak saat muter ===== */
+    .orbit-flags {
         position: absolute;
-        width: 58px;
-        height: 58px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 4;
-        cursor: pointer;
-        transition: transform 1.1s cubic-bezier(0.34, 1.2, 0.4, 1), opacity 0.9s ease;
+        inset: 0;
+        animation: flagsRotate 60s linear infinite;
     }
-    .orbit-item:hover { transform: scale(1.15); }
-    .orbit-item img {
+    .orbit-flags:hover { animation-play-state: paused; }
+    @keyframes flagsRotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .orbit-flag {
+        --size: 42px;   /* ukuran bendera */
+        --r: 150px;     /* radius ring putus-putus (ring-1) */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: var(--size);
+        height: var(--size);
+        /* Geser setengah ukuran ke kiri-atas: titik tengah bendera tepat di pusat container */
+        margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+        /* Posisi melingkar dengan radius --r; rotate balik bikin posisi awal tegak */
+        transform: rotate(calc(var(--i) * 360deg / var(--n))) translateY(calc(-1 * var(--r))) rotate(calc(var(--i) * -360deg / var(--n)));
+    }
+    .orbit-flag:hover { z-index: 8; }
+
+    .orbit-flag img {
         width: 100%;
         height: 100%;
         object-fit: contain;
         display: block;
+        border-radius: 6px;
+        box-shadow: 0 3px 10px rgba(2, 84, 140, 0.15);
+        background: #fff;
+        /* Putar balik secepat ring berputar → bendera selalu tegak (tidak ikut miring) */
+        animation: flagsRotateReverse 60s linear infinite;
     }
-
-    /* Posisi: atas-kanan & bawah-kiri (diagonal), dekat ke ring orbit */
-    .orbit-left { top: 88px; right: 88px; left: auto; transform: none; }
-    .orbit-right { bottom: 88px; left: 88px; top: auto; transform: none; }
-    .orbit-left:hover, .orbit-right:hover { transform: scale(1.15); }
-
-    /* Saat jadi pusat (ditambah JS): membesar + bulat, lalu disembunyikan */
-    .orbit-item.orbit-active {
-        top: 50%;
-        left: 50%;
-        right: auto;
-        bottom: auto;
-        width: 100px;
-        height: 100px;
-        transform: translate(-50%, -50%);
-        z-index: 6;
-        opacity: 0;
-        pointer-events: none;
+    .orbit-flags:hover .orbit-flag img { animation-play-state: paused; }
+    @keyframes flagsRotateReverse {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
     }
-    .orbit-item.orbit-active img {
-        border-radius: 50%;
-        object-fit: cover;
-    }
-    .orbit-item.orbit-fade { opacity: 0; }
 
     @media (max-width: 640px) {
         section.about {
@@ -1373,97 +1393,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .orbit-ring-1 { width: 215px; height: 215px; }
         .orbit-ring-2 { width: 150px; height: 150px; }
         .orbit-center { width: 76px; height: 76px; }
-        .orbit-item { width: 44px; height: 44px; }
-        .orbit-item.orbit-active { width: 76px; height: 76px; }
-        .orbit-left { top: 62px; right: 62px; }
-        .orbit-right { bottom: 62px; left: 62px; }
+        .orbit-flag { --size: 30px; --r: 107px; }
     }
 </style>
-
-{{-- ===== SCRIPT ORBIT INTERAKTIF: 5 gambar diputar di 3 slot ===== --}}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const container = document.getElementById('orbit-container');
-    if (!container) return;
-
-    const centerIcon = document.getElementById('orbit-center-icon');
-    const leftSlot = document.getElementById('orbit-left');   // posisi ATAS-KANAN
-    const rightSlot = document.getElementById('orbit-right'); // posisi BAWAH-KIRI
-    if (!centerIcon || !leftSlot || !rightSlot) return;
-
-    // 5 file gambar yang akan diputar bergantian
-    const GAMBAR = [
-        '{{ asset('images/logo-rumbas.jpg') }}',
-        '{{ asset('images/flag-id.png') }}',
-        '{{ asset('images/flag-jp.png') }}',
-        '{{ asset('images/flag-uk.png') }}',
-        '{{ asset('images/logo.png') }}',
-    ];
-
-    // Index gambar yang sedang tampil di tiap slot — selalu berbeda satu sama lain
-    const tampil = { tengah: 0, atas: 4, bawah: 1 };
-    let counter = 0;
-
-    function setImg(slot, idx) {
-        slot.innerHTML = '<img src="' + GAMBAR[idx] + '" alt="">';
-    }
-
-    // Pilih gambar baru yang TIDAK sedang tampil di slot mana pun
-    function gambarBaru() {
-        const terpakai = [tampil.tengah, tampil.atas, tampil.bawah];
-        for (let i = 0; i < GAMBAR.length; i++) {
-            const idx = (counter + i) % GAMBAR.length;
-            if (!terpakai.includes(idx)) return idx;
-        }
-        return counter % GAMBAR.length;
-    }
-
-    function switchPosisi() {
-        const bawahLama = tampil.bawah;
-        const tengahLama = tampil.tengah;
-        const baru = gambarBaru(); // pasti berbeda dari semua slot
-
-        // 1. Slot bawah-kiri fade out (seolah pindah ke tengah), lalu isi gambar baru
-        rightSlot.classList.add('orbit-fade');
-        rightSlot.classList.add('orbit-active');
-        setTimeout(function() {
-            rightSlot.classList.remove('orbit-fade');
-            rightSlot.classList.remove('orbit-active');
-            rightSlot.innerHTML = '<img src="' + GAMBAR[baru] + '" alt="">';
-        }, 600);
-
-        // 2. Pusat fade out → ganti dengan gambar bawah-kiri lama
-        centerIcon.style.transition = 'opacity 0.45s ease';
-        centerIcon.style.opacity = '0';
-        setTimeout(function() {
-            centerIcon.innerHTML = '<img src="' + GAMBAR[bawahLama] + '" alt="">';
-            centerIcon.style.opacity = '1';
-        }, 450);
-
-        // 3. Gambar tengah lama pindah ke atas-kanan
-        setTimeout(function() {
-            leftSlot.classList.add('orbit-fade');
-            setTimeout(function() {
-                leftSlot.innerHTML = '<img src="' + GAMBAR[tengahLama] + '" alt="">';
-                leftSlot.classList.remove('orbit-fade');
-            }, 500);
-        }, 250);
-
-        // Update posisi: tengah = bawah lama, atas = tengah lama, bawah = gambar baru
-        tampil.tengah = bawahLama;
-        tampil.atas = tengahLama;
-        tampil.bawah = baru;
-        counter++;
-    }
-
-    // Inisialisasi tampilan awal (3 gambar berbeda)
-    setImg(centerIcon, tampil.tengah); // tengah: logo-rumbas
-    setImg(leftSlot, tampil.atas);     // atas-kanan: logo.png
-    setImg(rightSlot, tampil.bawah);   // bawah-kiri: flag-id
-
-    setInterval(switchPosisi, 3500);
-});
-</script>
 
 {{-- Wave separator: gelombang tetap terlihat, warnanya sama dengan section Hubungi Kami --}}
 <div class="wave-separator" style="background:var(--white); margin-bottom:-2px;">

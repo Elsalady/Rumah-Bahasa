@@ -202,7 +202,7 @@
                         <input type="file" id="gambar_berita" name="gambar" accept="image/*">
                         @if($editBerita->gambar)
                             <div style="margin-top:8px;font-size:12px;color:#8b949e;">
-                                Gambar saat ini: <a href="{{ asset('storage/' . $editBerita->gambar) }}" target="_blank" style="color:#58a6ff;">lihat</a>
+                                Gambar saat ini: <a href="{{ asset('images/berita/' . $editBerita->gambar) }}" target="_blank" style="color:#58a6ff;">lihat</a>
                             </div>
                         @endif
                     </div>

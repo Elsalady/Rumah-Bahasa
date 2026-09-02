@@ -16,7 +16,7 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Kode Member</th>
+                        <th>Nomor Member</th>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Telepon</th>
@@ -28,7 +28,7 @@
                 <tbody>
                     @foreach($members as $member)
                         <tr>
-                            <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ $member->member_code ?: '-' }}</span></td>
+                            <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ $member->no_member ?: '-' }}</span></td>
                             <td><div class="title-cell">{{ $member->name }}</div></td>
                             <td style="font-size:13px;">{{ $member->email }}</td>
                             <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>

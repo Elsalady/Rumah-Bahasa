@@ -289,7 +289,6 @@
                                 <h3 style="font-size:22px;font-weight:700;color:var(--gray-900);margin:0;">{{ $user->name }}</h3>
                                 <p style="color:var(--gray-500);margin:4px 0 8px 0;">{{ $user->email }}</p>
                                 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                                    <span style="display:inline-block;padding:4px 12px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:12px;font-weight:600;font-family:monospace;letter-spacing:0.5px;">{{ $user->member_code ?: '-' }}</span>
                                     <span style="display:inline-block;padding:4px 16px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:13px;font-weight:500;">Member</span>
                                 </div>
                             </div>
