@@ -440,9 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'tanggal' => \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMM YYYY'),
                     'deskripsi' => Str::limit(strip_tags($item->ringkasan ?: $item->isi), 140),
                     'isi' => $item->isi,
-                    'gambar' => $item->gambar
-                        ? asset('images/berita/' . $item->gambar)
-                        : $gambarBeritaCadangan[$idx % 4],
+                    'gambar' => $item->gambar_url ?: $gambarBeritaCadangan[$idx % 4],
                 ];
             })->values();
         @endphp
@@ -458,8 +456,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             @foreach($beritaArr as $i => $item)
                                 <div class="cf-card" data-index="{{ $i }}">
                                     <div class="cf-card-img">
-                                        @if($item->gambar)
-                                            <img src="{{ asset('images/berita/'.$item->gambar) }}" alt="{{ $item->judul }}">
+                                        @if($item->gambar_url)
+                                            <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}">
                                         @else
                                             <img src="{{ $gambarBeritaCadangan[$i % 4] }}" alt="{{ $item->judul }}">
                                         @endif

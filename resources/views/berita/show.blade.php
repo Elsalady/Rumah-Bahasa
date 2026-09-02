@@ -20,8 +20,8 @@
                 <p style="color:var(--gray-400);font-size:14px;margin-bottom:32px;">Oleh: {{ $item->penulis }}</p>
             @endif
 
-            @if($item->gambar)
-                <img src="{{ asset('images/berita/' . $item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:240px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;" onerror="this.style.display='none'">
+            @if($item->gambar_url)
+                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" style="width:100%;height:240px;object-fit:cover;border-radius:16px;margin-bottom:40px;display:block;" onerror="this.style.display='none'">
             @endif
 
             <div style="color:var(--gray-700);line-height:1.9;font-size:16px;">

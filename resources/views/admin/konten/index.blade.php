@@ -200,9 +200,9 @@
                     <div class="form-group">
                         <label for="gambar_berita">Gambar (opsional)</label>
                         <input type="file" id="gambar_berita" name="gambar" accept="image/*">
-                        @if($editBerita->gambar)
+                        @if($editBerita->gambar_url)
                             <div style="margin-top:8px;font-size:12px;color:#8b949e;">
-                                Gambar saat ini: <a href="{{ asset('images/berita/' . $editBerita->gambar) }}" target="_blank" style="color:#58a6ff;">lihat</a>
+                                Gambar saat ini: <a href="{{ $editBerita->gambar_url }}" target="_blank" style="color:#58a6ff;">lihat</a>
                             </div>
                         @endif
                     </div>

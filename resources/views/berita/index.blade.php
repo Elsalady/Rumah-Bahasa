@@ -19,8 +19,8 @@
             @forelse($berita as $item)
                 <a href="{{ route('berita.show', $item->slug) }}" class="dashboard-card news-card" style="display:block;overflow:hidden;padding:0;text-decoration:none;">
                     <div class="news-card-img">
-                        @if($item->gambar)
-                            <img src="{{ asset('images/berita/' . $item->gambar) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">
+                        @if($item->gambar_url)
+                            <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">
                         @else
                             @php $rumbas = ['rumbas.jpg','rumbas2.jpeg','rumbas3.jpeg','rumbas4.jpeg']; @endphp
                             <img src="{{ asset('images/' . $rumbas[$loop->index % 4]) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">

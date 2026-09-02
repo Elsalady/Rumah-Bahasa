@@ -72,7 +72,7 @@ class BeritaController extends Controller
         ];
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $this->simpanGambar($request->file('gambar'));
+            $data['gambar_data'] = $this->encodeGambar($request->file('gambar'));
         }
 
         Berita::create($data);
@@ -101,7 +101,7 @@ class BeritaController extends Controller
         ];
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $this->simpanGambar($request->file('gambar'));
+            $data['gambar_data'] = $this->encodeGambar($request->file('gambar'));
         }
 
         $berita->update($data);
@@ -116,13 +116,14 @@ class BeritaController extends Controller
     }
 
     /**
-     * Simpan gambar berita ke public/images/berita agar ikut ter-deploy
-     * (storage Laravel tidak persist di Railway/Render).
+     * Ubah file gambar menjadi data URI base64 supaya tersimpan di database
+     * (kolom gambar_data) dan persist di Railway — file di container hilang
+     * saat redeploy, jadi tidak bisa andalkan public/storage.
      */
-    private function simpanGambar($file): string
+    private function encodeGambar($file): string
     {
-        $nama = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images/berita'), $nama);
-        return $nama;
+        $mime = $file->getMimeType() ?: 'image/jpeg';
+        $data = base64_encode(file_get_contents($file->getRealPath()));
+        return 'data:' . $mime . ';base64,' . $data;
     }
 }
