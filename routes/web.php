@@ -104,6 +104,7 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::prefix('member')->name('member.')->group(function () {
         Route::get('/kelola', [AdminMember::class, 'kelola'])->name('kelola');
         Route::get('/export', [AdminMember::class, 'export'])->name('export');
+        Route::post('/reset', [AdminMember::class, 'resetMember'])->name('reset');
         Route::get('/{id}', [AdminMember::class, 'show'])->name('show');
         Route::put('/{id}', [AdminMember::class, 'update'])->name('update');
     });

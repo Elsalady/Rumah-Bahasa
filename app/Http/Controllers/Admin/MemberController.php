@@ -105,16 +105,18 @@ class MemberController extends Controller
             'catatan_member' => $request->catatan_member,
         ];
 
-        // Nomor member diberikan saat akun disetujui (approved) pertama kali:
-        // RB-YYMMDD-NNNN = tanggal persetujuan WIB + urutan harian.
+        // Nomor member diberikan saat akun disetujui (approved) pertama kali.
+        // Format: RB-YYMMDD-NNNN (tanggal persetujuan WIB + urutan GLOBAL yang terus berlanjut,
+        // TIDAK reset per hari — misal hari ini sampai 0003, besok lanjut 0004).
         if ($request->status === 'approved' && empty($member->no_member)) {
             $tgl = \Carbon\Carbon::now()->timezone('Asia/Jakarta')->format('ymd');
-            $lastNo = User::where('role', 'member')
+            // Urutan global tertinggi yang pernah dipakai (semua tanggal), dihitung di PHP
+            // biar kompatibel dengan semua database (SQLite lokal & PostgreSQL di Railway).
+            $lastSeq = User::where('role', 'member')
                 ->whereNotNull('no_member')
-                ->where('no_member', 'like', 'RB-' . $tgl . '-%')
-                ->orderBy('id', 'desc')
-                ->value('no_member');
-            $lastSeq = $lastNo ? (int) substr($lastNo, -4) : 0;
+                ->get()
+                ->map(fn($u) => (int) substr($u->no_member, -4))
+                ->max() ?? 0;
             $updateData['no_member'] = 'RB-' . $tgl . '-' . str_pad((string) ($lastSeq + 1), 4, '0', STR_PAD_LEFT);
         }
 
@@ -177,5 +179,28 @@ class MemberController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Reset semua data member (untuk persiapan user review / demo).
+     * Hapus member, pendaftaran program, notifikasi member, dan file dokumen upload.
+     * Admin dan konten lain (berita, program, jadwal) TIDAK terhapus.
+     */
+    public function resetMember()
+    {
+        $memberIds = User::where('role', 'member')->pluck('id');
+
+        Pendaftaran::whereIn('user_id', $memberIds)->delete();
+        \App\Models\Notifikasi::whereIn('user_id', $memberIds)->delete();
+
+        // Hapus file dokumen member di storage/public
+        $files = \Illuminate\Support\Facades\Storage::disk('public')->files('member-dokumen');
+        foreach ($files as $file) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($file);
+        }
+
+        User::where('role', 'member')->delete();
+
+        return redirect()->route('admin.member.kelola')->with('success', 'Semua data member berhasil direset. Sistem siap untuk pendaftaran baru.');
     }
 }

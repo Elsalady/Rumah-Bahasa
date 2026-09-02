@@ -7,6 +7,13 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
         <h3 style="margin:0;border:none;padding:0;">Kelola Member</h3>
         <div style="display:flex;gap:8px;">
+            <form action="{{ route('admin.member.reset') }}" method="POST" onsubmit="return confirm('⚠️ Yakin ingin RESET SEMUA data member?\n\nMember, pendaftaran program, notifikasi, dan file dokumen member akan dihapus permanen.\n\nAdmin dan konten lain (berita, program, jadwal) TIDAK terhapus. Lanjutkan?');" style="display:inline;">
+                @csrf
+                <button type="submit" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px;font-weight:600;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                    Reset Member
+                </button>
+            </form>
             <a href="{{ route('admin.member.export') }}" class="btn-login" style="padding:8px 16px;font-size:12px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Export Member CSV
