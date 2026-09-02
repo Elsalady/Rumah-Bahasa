@@ -74,7 +74,8 @@
         .info-row-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 16px;
             padding: 12px 0;
             border-bottom: 1px solid var(--gray-50);
         }
@@ -87,12 +88,24 @@
             color: var(--gray-400);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex-shrink: 0;
+            padding-top: 2px;
         }
 
         .info-item-value {
             color: var(--gray-700);
             font-weight: 500;
             font-size: 14px;
+            text-align: right;
+            word-break: break-word;
+            min-width: 0;
+            flex: 1;
+        }
+
+        /* Nilai panjang (mis. alamat) — rata kiri supaya enak dibaca & tidak nabrak label */
+        .info-item-value--long {
+            text-align: left;
+            line-height: 1.5;
         }
 
         /* Tombol Edit Profil Solid Minimalis (Warna Teal Awal) */
@@ -297,7 +310,7 @@
                             </div>
                             <div class="info-row-item">
                                 <span class="info-item-label">Alamat</span>
-                                <span class="info-item-value">{{ $user->address ?: '-' }}</span>
+                                <span class="info-item-value info-item-value--long">{{ $user->address ?: '-' }}</span>
                             </div>
                         </div>
 

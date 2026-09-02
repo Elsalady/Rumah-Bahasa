@@ -45,7 +45,6 @@
     max-width: 98% !important;
     width: 100% !important;
     margin: 8px auto 16px auto !important;
-    opacity: 0.95;
     text-align: center;
 ">
     Pusat literasi dan pembelajaran untuk masyarakat Surabaya. Mari bersama tingkatkan budaya literasi dan cinta bahasa.
@@ -89,6 +88,59 @@
     @keyframes heroKenburns {
         from { transform: scale(1); }
         to { transform: scale(1.08); }
+    }
+
+    /* ===== HERO ZOOM OUT — senada dengan Ken Burns background =====
+       Muncul berurutan, lalu berulang setiap 5 detik (bergerak terus).
+       Search bar TIDAK ikut animasi supaya kolom pencarian selalu tampil. */
+    .hero-content .hero-badge,
+    .hero-content h1,
+    .hero-content p {
+        opacity: 0;
+        animation: heroZoomOut 5s ease-in-out infinite;
+        will-change: opacity, transform;
+    }
+    .hero-content .hero-badge { animation-delay: 0s; }
+    .hero-content h1 { animation-delay: 0.5s; }
+    .hero-content p { animation-delay: 1s; }
+
+    /* Search bar selalu terlihat (tidak ikut animasi muncul-hilang) */
+    .hero-content .search-box {
+        opacity: 1 !important;
+        animation: none !important;
+    }
+
+    /* Satu siklus 5 detik: zoom-out masuk (2s), diam (2.5s), fade keluar (0.5s) */
+    @keyframes heroZoomOut {
+        0% {
+            opacity: 0;
+            transform: scale(1.14) translateY(16px);
+        }
+        12% {
+            opacity: 0;
+            transform: scale(1.1) translateY(10px);
+        }
+        30% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        82% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.98) translateY(-8px);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-content .hero-badge,
+        .hero-content h1,
+        .hero-content p {
+            animation: none;
+            opacity: 1;
+        }
     }
 
     /* ===== SEARCH BAR + DROPDOWN MENU ===== */
@@ -269,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
             @if($pelatihan->count())
                 <div class="pelatihan-grid">
                     @foreach($pelatihan as $item)
-                        <a href="{{ route('layanan.show', $item->nama) }}" class="dashboard-card pelatihan-card fade-up" style="display:block; padding: 36px 26px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.06); opacity:0; transform:translateY(30px); transition:all 0.5s ease; transition-delay:{{ $loop->index * 0.15 }}s; text-decoration:none;">
+                        <a href="{{ route('layanan.show', $item->nama) }}" class="dashboard-card pelatihan-card fade-up" style="display:block; padding: 36px 26px; text-align:center; border-radius:16px; border:1px solid var(--gray-100); box-shadow:0 2px 12px rgba(0,0,0,0.06); opacity:0; transition-delay:{{ $loop->index * 0.25 }}s; animation-delay:{{ $loop->index * 0.25 + 1.2 }}s; text-decoration:none;">
                             @if($item->ikon)
                                 <div style="font-size:52px; margin-bottom:16px; color:#bfe3ff;">{!! $item->ikon !!}</div>
                             @elseif($item->gambar)
@@ -324,7 +376,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     section.pelatihan-section .pelatihan-card:hover {
         box-shadow: 0 16px 40px rgba(2, 42, 84, 0.3) !important;
-        transform: translateY(-4px);
+        transform: translateY(-4px) scale(1) !important;
+    }
+
+    /* ===== POP-OUT LAMBAT (slow-in) + GERAK NAIK-TURUN TERUS ===== */
+    .pelatihan-grid .pelatihan-card {
+        transform: translateY(36px) scale(0.88);
+        transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .pelatihan-grid .pelatihan-card.show {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1);
+        animation: pelatihanFloat 3.6s ease-in-out 0.9s infinite;
+    }
+    /* Pakai properti `translate` terpisah supaya tidak dikalahkan
+       `transform !important` dari .fade-up.show */
+    @keyframes pelatihanFloat {
+        0%, 100% { translate: 0 0; }
+        50% { translate: 0 -14px; }
     }
 
     @media (max-width: 900px) {
@@ -991,6 +1060,38 @@ document.addEventListener('DOMContentLoaded', function() {
         font-size: 34px !important;
         font-weight: 700 !important;
         margin-bottom: 12px !important;
+        display: inline-block;
+        background: linear-gradient(90deg, #ffffff 0%, #7dd3fc 20%, #ffffff 40%, #bfe3ff 60%, #ffffff 80%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: newsTitleFlow 4s linear infinite, newsTitleZoom 6s ease-in-out infinite;
+    }
+
+    @keyframes newsTitleFlow {
+        from { background-position: 0% center; }
+        to { background-position: -200% center; }
+    }
+
+    /* Zoom out lambat & smooth pada judul (bukan bounce) */
+    @keyframes newsTitleZoom {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(0.92);
+            opacity: 0.85;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        section.news-section .section-title h2 {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: #ffffff;
+        }
     }
 
     section.news-section .section-title p {
@@ -1384,7 +1485,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         {{-- Card Form Premium: gradient + glow shadow + animasi floating halus --}}
-        <div class="form-container" style="background: linear-gradient(160deg, #ffffff 0%, #f0f7ff 60%, #e3effb 100%); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 24px 60px rgba(2, 42, 84, 0.35), 0 0 0 1px rgba(22, 128, 189, 0.08), 0 0 40px rgba(78, 165, 237, 0.15); animation: formFloat 6s ease-in-out infinite; position: relative;">
+        <div class="form-container" style="background: linear-gradient(160deg, #ffffff 0%, #f0f7ff 60%, #e3effb 100%); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 24px 60px rgba(2, 42, 84, 0.35), 0 0 0 1px rgba(22, 128, 189, 0.08), 0 0 40px rgba(78, 165, 237, 0.15); animation: formFloat 3.5s ease-in-out infinite; position: relative;">
             @if(session('success'))
                 <div style="background: rgba(94, 197, 234, 0.15); border: 1px solid rgba(94, 187, 234, 0.3); color: #0c4e91; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -1466,10 +1567,12 @@ document.addEventListener('DOMContentLoaded', function() {
         box-shadow: 0 6px 20px rgba(2, 42, 84, 0.45) !important;
     }
 
-    /* Animasi floating halus untuk card form biar nggak flat */
+    /* Animasi floating card form — gerakan jelas kelihatan (naik-turun 18px) */
     @keyframes formFloat {
         0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
+        25% { transform: translateY(-16px); }
+        50% { transform: translateY(0); }
+        75% { transform: translateY(-8px); }
     }
 
     /* Glow halus saat hover card form */

@@ -43,7 +43,7 @@
         <h3>Member Terbaru</h3>
         @if($recentPendaftar->count())
             @foreach($recentPendaftar as $p)
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #21262d;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #3d444d;">
                     <div style="min-width:0;">
                         <p style="font-weight:600;color:#e6edf3;margin:0;">{{ $p->name }}</p>
                         <p style="font-size:13px;color:#8b949e;margin:2px 0 0;">{{ $p->email }}</p>
@@ -66,7 +66,7 @@
         <h3>Pesan Terbaru</h3>
         @if($recentPesan->count())
             @foreach($recentPesan as $p)
-                <div style="padding:12px 0;border-bottom:1px solid #21262d;">
+                <div style="padding:12px 0;border-bottom:1px solid #3d444d;">
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
                         <p style="font-weight:600;color:#e6edf3;margin:0;">{{ $p->nama }}</p>
                         @if(!$p->sudah_dibaca)

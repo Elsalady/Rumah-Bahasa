@@ -312,14 +312,14 @@ ul { list-style: none; }
     color: var(--gray-400);
 }
 
-/* ===== SCROLL REVEAL ANIMATION (fade-up) ===== */
+/* ===== SCROLL REVEAL ANIMATION (fade-up / pop-out) ===== */
 .fade-up {
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 .fade-up.show {
     opacity: 1 !important;
-    transform: translateY(0) !important;
+    transform: translateY(0) scale(1) !important;
 }
 
 /* ===== FOOTER ===== */

@@ -109,7 +109,9 @@ class MemberController extends Controller
             'member_code' => ($request->status === 'approved' && !$member->member_code)
                 ? MemberCode::generate()
                 : $member->member_code,
-        ]);
+        ];
+
+        $member->update($updateData);
 
         // Kirim notifikasi ke member saat status berubah (approved/rejected)
         if (in_array($request->status, ['approved', 'rejected'])) {
@@ -146,15 +148,7 @@ class MemberController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
-<<<<<<< HEAD
             echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
-=======
-<<<<<<< HEAD
-            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
-=======
-            echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
->>>>>>> a40ff6f (update 37)
->>>>>>> temp-fix
             foreach ($members as $i => $m) {
                 $warna = match($m->status) {
                     'pending' => '#b45309',

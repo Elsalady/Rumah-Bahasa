@@ -24,7 +24,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
             Pendaftar Member ({{ $members->count() }})
         </button>
-        <button type="button" class="member-tab" data-tab="tab-pendaftar" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1px solid #30363d;font-family:inherit;transition:all 0.15s;background:#21262d;color:#c9d1d9;">
+        <button type="button" class="member-tab" data-tab="tab-pendaftar" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1px solid #30363d;font-family:inherit;transition:all 0.15s;background:#2d333b;color:#c9d1d9;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             Pendaftar Program ({{ $daftar->count() }})
         </button>
@@ -103,8 +103,8 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
                 @foreach(['tematik', 'tentative'] as $jenis)
                     @php $jml = $jumlahJenis[$jenis] ?? 0; @endphp
-                    <button type="button" onclick="pdPilihJenis('{{ $jenis }}')" style="text-align:left;padding:24px;border-radius:14px;cursor:pointer;border:2px solid #30363d;background:#0d1117;font-family:inherit;transition:all 0.2s;display:flex;flex-direction:column;gap:8px;"
-                        onmouseover="this.style.borderColor='#3fb950';this.style.background='#161b22'" onmouseout="this.style.borderColor='#30363d';this.style.background='#0d1117'">
+                    <button type="button" onclick="pdPilihJenis('{{ $jenis }}')" style="text-align:left;padding:24px;border-radius:14px;cursor:pointer;border:2px solid #30363d;background:#1c2129;font-family:inherit;transition:all 0.2s;display:flex;flex-direction:column;gap:8px;"
+                        onmouseover="this.style.borderColor='#3fb950';this.style.background='#262c36'" onmouseout="this.style.borderColor='#30363d';this.style.background='#1c2129'">
                         <span style="font-size:26px;">{{ $jenis === 'tematik' ? '📘' : '📗' }}</span>
                         <strong style="font-size:16px;color:#e6edf3;">Kelas {{ ucfirst($jenis) }}</strong>
                         <span style="font-size:12px;color:#8b949e;line-height:1.6;">
@@ -144,16 +144,16 @@
 
 <style>
     .pd-kelas-card {
-        border: 1px solid #21262d;
+        border: 1px solid #3d444d;
         border-radius: 12px;
         overflow: hidden;
-        background: #0d1117;
+        background: #262c36;
         margin-bottom: 16px;
     }
     .pd-kelas-card .pd-kelas-head {
         padding: 12px 18px;
-        background: #161b22;
-        border-bottom: 1px solid #21262d;
+        background: #1c2129;
+        border-bottom: 1px solid #3d444d;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -168,11 +168,11 @@
         border-radius: 14px;
         cursor: pointer;
         border: 2px solid #30363d;
-        background: #0d1117;
+        background: #1c2129;
         font-family: inherit;
         transition: all 0.2s;
     }
-    .pd-mode-btn:hover { border-color: #3fb950; background: #161b22; }
+    .pd-mode-btn:hover { border-color: #3fb950; background: #262c36; }
     .pd-mode-btn strong { font-size: 15px; color: #e6edf3; display: block; }
     .pd-mode-btn span { font-size: 12px; color: #8b949e; }
 </style>
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tab.addEventListener('click', function() {
             // Deactivate all tabs (gaya tombol tidak aktif)
             tabs.forEach(t => {
-                t.style.background = '#21262d';
+                t.style.background = '#2d333b';
                 t.style.color = '#c9d1d9';
                 t.style.borderColor = '#30363d';
                 t.style.fontWeight = '600';

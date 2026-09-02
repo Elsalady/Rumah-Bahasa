@@ -99,7 +99,7 @@ class MemberController extends Controller
         }
 
         $user->update($data);
-        return redirect()->route('member.edit')->with('success', '✅ Profil berhasil diperbarui.');
+        return redirect()->route('member.dashboard')->with('success', '✅ Profil berhasil diperbarui.');
     }
 
     public function program()

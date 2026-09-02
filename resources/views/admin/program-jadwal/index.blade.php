@@ -5,8 +5,8 @@
 @section('content')
 <style>
     .program-card {
-        background: #161b22;
-        border: 1px solid #21262d;
+        background: #262c36;
+        border: 1px solid #3d444d;
         border-radius: 12px;
         margin-bottom: 24px;
         box-shadow: none;
@@ -14,8 +14,8 @@
     }
     .program-card-header {
         padding: 18px 24px;
-        background: #0d1117;
-        border-bottom: 1px solid #21262d;
+        background: #1c2129;
+        border-bottom: 1px solid #3d444d;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -24,12 +24,12 @@
         cursor: pointer;
         transition: background 0.2s;
     }
-    .program-card-header:hover { background: #0d1117; }
+    .program-card-header:hover { background: #1c2129; }
     .program-card-header .left { display:flex;align-items:center;gap:12px;flex:1;min-width:0; }
     .program-card-header h3 { margin:0;font-size:16px;font-weight:600;color:#e6edf3; }
     .program-card-body { padding: 24px; }
-    .toggle-icon { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:500; color:#8b949e; background:#21262d; padding:4px 10px 4px 8px; border-radius:6px; border:1px solid #30363d; transition:all 0.2s; white-space:nowrap; }
-    .toggle-icon:hover { background:#30363d; color:#e6edf3; }
+    .toggle-icon { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:500; color:#8b949e; background:#2d333b; padding:4px 10px 4px 8px; border-radius:6px; border:1px solid #3d444d; transition:all 0.2s; white-space:nowrap; }
+    .toggle-icon:hover { background:#3d444d; color:#e6edf3; }
     .toggle-icon.open { background:rgba(63,185,80,0.1); color:#3fb950; }
     .toggle-icon svg { width:16px; height:16px; }
     .jadwal-row {
@@ -37,13 +37,13 @@
         align-items: center;
         gap: 12px;
         padding: 12px 16px;
-        background: #0d1117;
-        border: 1px solid #21262d;
+        background: #1c2129;
+        border: 1px solid #30363d;
         border-radius: 8px;
         margin-bottom: 8px;
         flex-wrap: wrap;
     }
-    .jadwal-row:hover { background: #161b22; }
+    .jadwal-row:hover { background: #262c36; }
     .btn-add-jadwal {
         display: inline-flex;
         align-items: center;
@@ -61,8 +61,8 @@
     }
     .btn-add-jadwal:hover { background: #56d364; }
     .jadwal-form {
-        background: #0d1117;
-        border: 1px solid #30363d;
+        background: #1c2129;
+        border: 1px solid #3d444d;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 16px;
@@ -207,8 +207,8 @@
                                             @endif
                                         </div>
                                         <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
-                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">{{ ucfirst($item->jenis) }}</span>
-                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#21262d;color:#c9d1d9;border:1px solid #30363d;">{{ ucfirst($item->mode) }}</span>
+                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#2d333b;color:#c9d1d9;border:1px solid #3d444d;">{{ ucfirst($item->jenis) }}</span>
+                                            <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#2d333b;color:#c9d1d9;border:1px solid #3d444d;">{{ ucfirst($item->mode) }}</span>
                                             @if($item->ruangan_link)
                                                 <span style="font-size:10px;color:var(--gray-500);">{{ $item->ruangan_link }}</span>
                                             @endif

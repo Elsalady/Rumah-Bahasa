@@ -33,8 +33,8 @@
         text-decoration: none;
         font-weight: 600;
         font-size: 14px;
-        border: 1px solid #30363d;
-        background: #0d1117;
+        border: 1px solid #3d444d;
+        background: #1c2129;
         color: #8b949e;
         transition: all 0.15s;
     }
@@ -44,7 +44,7 @@
     .konten-switch a:hover {
         border-color: #3fb950;
         color: #e6edf3;
-        background: #161b22;
+        background: #262c36;
     }
     .konten-switch a.active {
         background: #3fb950;

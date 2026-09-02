@@ -13,10 +13,10 @@
 
         /* Redefinisi palet dalam konteks admin saja (halaman publik tidak terpengaruh) */
         :root {
-            --gray-50: #0d1117;
-            --gray-100: #161b22;
-            --gray-200: #21262d;
-            --gray-300: #30363d;
+            --gray-50: #161b22;
+            --gray-100: #21262d;
+            --gray-200: #2d333b;
+            --gray-300: #3d444d;
             --gray-400: #8b949e;
             --gray-500: #8b949e;
             --gray-600: #a5afba;
@@ -24,22 +24,22 @@
             --gray-800: #d7dee6;
             --gray-900: #e6edf3;
             --white: #e6edf3;
-            --teal-900: #0d1117;
-            --teal-800: #161b22;
+            --teal-900: #1c2129;
+            --teal-800: #21262d;
             --teal-700: #3fb950;
             --teal-600: #3fb950;
             --teal-500: #3fb950;
             --teal-400: #58a6ff;
             --teal-300: #3fb950;
             --teal-200: #8b949e;
-            --teal-100: #21262d;
-            --teal-50: #161b22;
+            --teal-100: #3d444d;
+            --teal-50: #2d333b;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            background: #0d1117;
+            background: #1c2129;
             color: #e6edf3;
             min-height: 100vh;
             font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -55,7 +55,7 @@
 
         .admin-page {
             min-height: 100vh;
-            background: #0d1117;
+            background: #1c2129;
             position: relative;
         }
 
@@ -67,8 +67,8 @@
         .admin-sidebar {
             width: 240px;
             flex-shrink: 0;
-            background: #010409;
-            border-right: 1px solid #21262d;
+            background: #14181f;
+            border-right: 1px solid #2d333b;
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -83,7 +83,7 @@
             align-items: center;
             gap: 10px;
             padding: 0 20px 20px;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid #2d333b;
             margin-bottom: 16px;
         }
         .admin-sidebar .sidebar-brand img.brand-logo {
@@ -180,8 +180,8 @@
 
         /* ===== KARTU ===== */
         .dashboard-card {
-            background: #161b22;
-            border: 1px solid #21262d;
+            background: #262c36;
+            border: 1px solid #3d444d;
             border-radius: 14px;
             padding: 28px;
             position: relative;
@@ -197,7 +197,7 @@
             color: #e6edf3;
             margin-bottom: 20px;
             padding-bottom: 14px;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid #3d444d;
         }
 
         /* ===== ALERT ===== */
@@ -235,17 +235,17 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #8b949e;
-            border-bottom: 1px solid #30363d;
-            background: #0d1117;
+            border-bottom: 1px solid #3d444d;
+            background: #21262d;
         }
         .data-table td {
             padding: 14px 16px;
             font-size: 13px;
             color: #c9d1d9;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid #30363d;
             vertical-align: top;
         }
-        .data-table tr:hover td { background: #1c2129; }
+        .data-table tr:hover td { background: #2d333b; }
         .data-table .title-cell {
             font-weight: 600;
             color: #e6edf3;
@@ -259,8 +259,8 @@
         .form-group select,
         .form-control-custom,
         .admin-page select {
-            background: #0d1117 !important;
-            border: 1px solid #30363d !important;
+            background: #1c2129 !important;
+            border: 1px solid #3d444d !important;
             border-radius: 8px;
             color: #e6edf3 !important;
         }
@@ -269,7 +269,7 @@
         .form-control-custom:focus {
             border-color: #3fb950 !important;
             box-shadow: 0 0 0 3px rgba(63, 185, 80, 0.15) !important;
-            background: #0d1117 !important;
+            background: #1c2129 !important;
         }
 
         /* ===== TOMBOL ===== */
@@ -328,14 +328,14 @@
 
         /* Tombol export (pakai class btn-login di view admin) */
         .btn-login {
-            background: #21262d !important;
+            background: #2d333b !important;
             color: #e6edf3 !important;
-            border: 1px solid #30363d !important;
+            border: 1px solid #3d444d !important;
             border-radius: 6px;
             font-weight: 500 !important;
             font-family: inherit;
         }
-        .btn-login:hover { background: #30363d !important; }
+        .btn-login:hover { background: #3d444d !important; }
 
         /* ===== NEUTRALKAN WARNA INLINE ===== */
         /* Angka statistik dashboard → putih */
@@ -373,8 +373,8 @@
 
         /* ===== PROGRAM & JADWAL ===== */
         .program-card {
-            background: #161b22;
-            border: 1px solid #21262d;
+            background: #262c36;
+            border: 1px solid #3d444d;
             border-radius: 12px;
             margin-bottom: 24px;
             box-shadow: none;
@@ -382,8 +382,8 @@
         }
         .program-card-header {
             padding: 18px 24px;
-            background: #0d1117;
-            border-bottom: 1px solid #21262d;
+            background: #1c2129;
+            border-bottom: 1px solid #3d444d;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -391,7 +391,7 @@
             flex-wrap: wrap;
             cursor: pointer;
         }
-        .program-card-header:hover { background: #0d1117; }
+        .program-card-header:hover { background: #1c2129; }
         .program-card-header h3 { color: #e6edf3; }
         .program-card-header p { color: #8b949e !important; }
         .jadwal-row {
@@ -399,16 +399,16 @@
             align-items: center;
             gap: 12px;
             padding: 12px 16px;
-            background: #0d1117;
-            border: 1px solid #21262d;
+            background: #1c2129;
+            border: 1px solid #30363d;
             border-radius: 8px;
             margin-bottom: 8px;
             flex-wrap: wrap;
         }
-        .jadwal-row:hover { background: #161b22; }
+        .jadwal-row:hover { background: #262c36; }
         .jadwal-form {
-            background: #0d1117;
-            border: 1px solid #30363d;
+            background: #1c2129;
+            border: 1px solid #3d444d;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 16px;
@@ -446,8 +446,8 @@
         .toggle-icon.open { background: rgba(63, 185, 80, 0.1); color: #3fb950; }
         .jadwal-form input,
         .jadwal-form select {
-            background: #0d1117 !important;
-            border: 1px solid #30363d !important;
+            background: #1c2129 !important;
+            border: 1px solid #3d444d !important;
             color: #e6edf3 !important;
         }
         /* Link WA grup */
@@ -457,17 +457,17 @@
         .detail-header h3 { color: #e6edf3; }
         .back-link { color: #8b949e; }
         .back-link:hover { color: #3fb950; }
-        .profile-card-header { border-bottom-color: #21262d; }
-        .profile-avatar-placeholder { background: #21262d; }
+        .profile-card-header { border-bottom-color: #3d444d; }
+        .profile-avatar-placeholder { background: #2d333b; }
         .card-title { color: #c9d1d9; }
         .info-label { color: #8b949e; }
         .info-value { color: #d7dee6; }
-        .doc-item { border-bottom-color: #21262d; }
+        .doc-item { border-bottom-color: #30363d; }
         .doc-label { color: #c9d1d9; }
 
         /* ===== KONTEN / GRID ===== */
         .konten-grid { gap: 24px; }
-        .dashboard-card select { background: #0d1117 !important; color: #e6edf3 !important; border-color: #30363d !important; }
+        .dashboard-card select { background: #1c2129 !important; color: #e6edf3 !important; border-color: #3d444d !important; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
@@ -475,7 +475,7 @@
                 width: 100%;
                 position: static;
                 border-right: none;
-                border-bottom: 1px solid #21262d;
+                border-bottom: 1px solid #2d333b;
                 padding: 12px 0;
             }
             .admin-page { flex-direction: column; }
