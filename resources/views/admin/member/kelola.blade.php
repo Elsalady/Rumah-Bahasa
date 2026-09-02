@@ -6,14 +6,38 @@
 <div class="dashboard-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
         <h3 style="margin:0;border:none;padding:0;">Kelola Member</h3>
-        <div style="display:flex;gap:8px;">
-            <form action="{{ route('admin.member.reset') }}" method="POST" onsubmit="return confirm('⚠️ Yakin ingin RESET SEMUA data member?\n\nMember, pendaftaran program, notifikasi, dan file dokumen member akan dihapus permanen.\n\nAdmin dan konten lain (berita, program, jadwal) TIDAK terhapus. Lanjutkan?');" style="display:inline;">
-                @csrf
-                <button type="submit" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px;font-weight:600;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            {{-- ===== RESET DROPDOWN (2 pilihan terpisah) ===== --}}
+            <div style="position:relative;display:inline-block;" id="resetDropdownWrap">
+                <button type="button" onclick="toggleResetDropdown(event)" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px;font-weight:600;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                    Reset Member
+                    Reset Data
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
-            </form>
+                <div id="resetDropdownMenu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.15);min-width:260px;z-index:100;overflow:hidden;">
+                    <form action="{{ route('admin.pendaftaran.reset') }}" method="POST" onsubmit="return confirm('⚠️ Yakin ingin menghapus SEMUA PENDAFTAR PROGRAM?\n\nHanya data pendaftaran program kelas yang dihapus.\nAkun member TETAP tersimpan. Lanjutkan?');" style="border-bottom:1px solid #f3f4f6;">
+                        @csrf
+                        <button type="submit" style="width:100%;text-align:left;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;gap:10px;align-items:flex-start;">
+                            <span style="font-size:18px;line-height:1;">🗂️</span>
+                            <span>
+                                <strong style="display:block;font-size:13px;color:#b45309;">Reset Pendaftar Program</strong>
+                                <span style="font-size:11px;color:var(--gray-500);line-height:1.4;display:block;">Hapus pendaftaran kelas program saja. Akun member tetap ada.</span>
+                            </span>
+                        </button>
+                    </form>
+                    <form action="{{ route('admin.member.reset') }}" method="POST" onsubmit="return confirm('⚠️ Yakin ingin menghapus SEMUA PENDAFTAR MEMBER?\n\nAkun member, pendaftaran program-nya, notifikasi, dan file dokumen member akan dihapus permanen.\n\nAdmin dan konten lain (berita, program, jadwal) TIDAK terhapus. Lanjutkan?');">
+                        @csrf
+                        <button type="submit" style="width:100%;text-align:left;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;gap:10px;align-items:flex-start;">
+                            <span style="font-size:18px;line-height:1;">👥</span>
+                            <span>
+                                <strong style="display:block;font-size:13px;color:#dc2626;">Reset Pendaftar Member</strong>
+                                <span style="font-size:11px;color:var(--gray-500);line-height:1.4;display:block;">Hapus semua akun member + data terkaitnya. Mulai daftar dari nol.</span>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             <a href="{{ route('admin.member.export') }}" class="btn-login" style="padding:8px 16px;font-size:12px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Export Member CSV
@@ -298,6 +322,13 @@ document.addEventListener('DOMContentLoaded', function() {
         'tab-pendaftar': document.getElementById('tab-pendaftar'),
     };
 
+    // Jika URL membawa ?tab=pendaftar (mis. selesai reset pendaftar), buka tab itu
+    const urlTab = new URLSearchParams(window.location.search).get('tab');
+    if (urlTab === 'pendaftar') {
+        const btn = document.querySelector('.member-tab[data-tab="tab-pendaftar"]');
+        if (btn) btn.click();
+    }
+
     tabs.forEach(tab => {
         tab.addEventListener('click', function() {
             // Deactivate all tabs (gaya tombol tidak aktif)
@@ -323,6 +354,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 pdShow('jenis');
             }
         });
+    });
+
+    // ===== DROPDOWN RESET DATA =====
+    function toggleResetDropdown(e) {
+        e.stopPropagation();
+        const menu = document.getElementById('resetDropdownMenu');
+        if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+        const wrap = document.getElementById('resetDropdownWrap');
+        const menu = document.getElementById('resetDropdownMenu');
+        if (wrap && menu && !wrap.contains(e.target)) {
+            menu.style.display = 'none';
+        }
     });
 });
 </script>

@@ -102,4 +102,16 @@ class PendaftaranController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    /**
+     * Reset semua data pendaftar program (tabel pendaftaran).
+     * Hanya menghapus pendaftaran program — akun member TIDAK dihapus.
+     */
+    public function resetPendaftar()
+    {
+        Pendaftaran::query()->delete();
+
+        return redirect()->route('admin.member.kelola', ['tab' => 'pendaftar'])
+            ->with('success', 'Semua pendaftar program berhasil dihapus. Member tetap tersimpan.');
+    }
 }

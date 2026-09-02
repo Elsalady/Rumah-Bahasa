@@ -100,6 +100,7 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/pendaftaran', [AdminPendaftaran::class, 'index'])->name('pendaftaran.index');
     Route::get('/pendaftaran/export', [AdminPendaftaran::class, 'export'])->name('pendaftaran.export');
+    Route::post('/pendaftaran/reset', [AdminPendaftaran::class, 'resetPendaftar'])->name('pendaftaran.reset');
 
     Route::prefix('member')->name('member.')->group(function () {
         Route::get('/kelola', [AdminMember::class, 'kelola'])->name('kelola');
