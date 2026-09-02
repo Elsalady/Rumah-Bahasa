@@ -167,7 +167,7 @@
 
 <div class="detail-header">
     <h3>Detail Member</h3>
-    <a href="{{ route('admin.member.kelola') }}" class="back-link">← Kembali ke Data Member</a>
+    <a href="{{ route('admin.member.kelola') }}" class="back-link" style="display:inline-flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Kembali ke Data Member</a>
 </div>
 
 <div class="detail-grid">
@@ -186,7 +186,9 @@
             @endif
             <div>
                 <h4 class="card-title">Data Diri</h4>
-                <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">ID Member #{{ $member->id }}</div>
+                <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">
+                    <span style="font-family:monospace;font-weight:700;color:var(--teal-700);letter-spacing:0.5px;">{{ $member->member_code ?: 'ID Member #' . $member->id }}</span>
+                </div>
             </div>
         </div>
 

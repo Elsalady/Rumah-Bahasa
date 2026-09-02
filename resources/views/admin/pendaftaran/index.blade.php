@@ -56,11 +56,11 @@
                                     @if($kelas['anggota']->count())
                                         <div class="table-wrap">
                                             <table class="data-table">
-                                                <thead><tr><th>No</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr></thead>
+                                                <thead><tr><th>Kode Member</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr></thead>
                                                 <tbody>
-                                                    @foreach($kelas['anggota'] as $i => $p)
+                                                    @foreach($kelas['anggota'] as $p)
                                                         <tr>
-                                                            <td>{{ $i + 1 }}</td>
+                                                            <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ optional($p->user)->member_code ?: '-' }}</span></td>
                                                             <td><div class="title-cell">{{ $p->user->name }}</div></td>
                                                             <td style="font-size:13px;">{{ $p->user->email }}</td>
                                                             <td style="font-size:13px;">{{ $p->user->phone ?: '-' }}</td>

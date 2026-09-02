@@ -11,6 +11,9 @@
         .admin-header-right { display:flex; align-items:center; gap:12px; }
         .btn-logout { font-size:14px; font-weight:700; color:var(--teal-900); background:#fff; border:none; border-radius:8px; padding:10px 20px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1); white-space:nowrap; }
         .btn-logout:hover { background:#f1f5f9; }
+        .header-title-wrapper { display:flex; align-items:center; gap:12px; }
+        .btn-back-header { display:inline-flex; align-items:center; color:var(--white); text-decoration:none; }
+        .btn-back-header:hover { transform: translateX(-3px); }
         .jadwal-day { margin-bottom:28px; }
         .jadwal-day-title { font-size:16px; font-weight:700; color:var(--teal-700); margin:0 0 12px; padding-bottom:8px; border-bottom:2px solid var(--teal-100); }
         .jadwal-item { display:flex; align-items:center; gap:14px; padding:14px 16px; background:#fff; border:1px solid var(--gray-100); border-radius:12px; margin-bottom:10px; flex-wrap:wrap; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
@@ -30,9 +33,13 @@
     <div class="admin-page">
         <header class="admin-header">
             <div class="container" style="max-width:900px;margin:0 auto;padding:0 20px;">
-                <h2 style="font-size:18px;">Jadwal Kelas</h2>
+                <div class="header-title-wrapper">
+                    <a href="{{ route('member.dashboard') }}" class="btn-back-header" title="Kembali ke Dashboard">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </a>
+                    <h2 style="font-size:18px;">Jadwal Kelas</h2>
+                </div>
                 <div class="admin-header-right">
-                    <a href="{{ route('member.dashboard') }}" style="color:rgba(255,255,255,0.7);font-size:13px;">Dashboard</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf
                         <button type="submit" class="btn-logout">Logout</button>
                     </form>
@@ -91,10 +98,6 @@
                         <p style="color:var(--gray-400);font-size:13px;margin:0;">Cek kembali nanti setelah admin mengatur jadwal.</p>
                     </div>
                 @endif
-
-                <p style="text-align:center;margin-top:24px;">
-                    <a href="{{ route('member.dashboard') }}" style="color:var(--gray-400);font-size:13px;">← Kembali ke Dashboard</a>
-                </p>
             </div>
         </main>
     </div>

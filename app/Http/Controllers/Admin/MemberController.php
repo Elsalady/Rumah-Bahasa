@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Pendaftaran;
 use App\Models\JadwalKelas;
+use App\Support\MemberCode;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -52,6 +53,7 @@ class MemberController extends Controller
                         'name' => $p->user->name,
                         'email' => $p->user->email,
                         'phone' => $p->user->phone,
+                        'member_code' => $p->user->member_code,
                     ] : null,
                     'status' => $p->status,
                     'created_at' => $p->created_at
@@ -102,6 +104,10 @@ class MemberController extends Controller
         $member->update([
             'status' => $request->status,
             'catatan_member' => $request->catatan_member,
+            // Kode member baru diberikan saat akun disetujui (approved) pertama kali
+            'member_code' => ($request->status === 'approved' && !$member->member_code)
+                ? MemberCode::generate()
+                : $member->member_code,
         ]);
 
         // Kirim notifikasi ke member saat status berubah (approved/rejected)
@@ -139,7 +145,7 @@ class MemberController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
-            echo '<tr><th>No</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+            echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
             foreach ($members as $i => $m) {
                 $warna = match($m->status) {
                     'pending' => '#b45309',
@@ -149,6 +155,7 @@ class MemberController extends Controller
                 };
                 echo '<tr>';
                 echo '<td>' . ($i + 1) . '</td>';
+                echo '<td>' . htmlspecialchars($m->member_code ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($m->name) . '</td>';
                 echo '<td>' . htmlspecialchars($m->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($m->phone ?? '-') . '</td>';

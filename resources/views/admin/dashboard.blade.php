@@ -57,7 +57,7 @@
                     </span>
                 </div>
             @endforeach
-            <a href="{{ route('admin.member.kelola') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>
+            <a href="{{ route('admin.member.kelola') }}" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         @else
             <p class="text-muted" style="text-align:center;padding:24px;">Belum ada member terdaftar.</p>
         @endif
@@ -76,7 +76,7 @@
                     <p style="font-size:13px;color:#8b949e;margin:4px 0 0;">{{ Str::limit($p->pesan, 80) }}</p>
                 </div>
             @endforeach
-            <a href="{{ route('admin.kontak.index') }}" style="display:block;text-align:center;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua →</a>
+            <a href="{{ route('admin.kontak.index') }}" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;color:#58a6ff;font-size:13px;font-weight:600;">Lihat Semua <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         @else
             <p class="text-muted" style="text-align:center;padding:24px;">Tidak ada pesan.</p>
         @endif

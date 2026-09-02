@@ -2,7 +2,7 @@
 
 @section('title', 'Program')
 @section('content')
-<a href="{{ route('admin.program-jadwal.index') }}" style="display:inline-flex;align-items:center;gap:6px;color:var(--gray-400);font-size:13px;text-decoration:none;margin-bottom:16px;font-weight:600;">← Kembali ke Program & Jadwal</a>
+<a href="{{ route('admin.program-jadwal.index') }}" style="display:inline-flex;align-items:center;gap:6px;color:var(--gray-400);font-size:13px;text-decoration:none;margin-bottom:16px;font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Kembali ke Program &amp; Jadwal</a>
 <div class="admin-grid-2" style="display:grid;grid-template-columns:1fr 2fr;gap:32px;align-items:start;">
     <div class="dashboard-card">
         @if(isset($editItem))

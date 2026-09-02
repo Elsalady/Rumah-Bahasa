@@ -37,7 +37,7 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Kode Member</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Telepon</th>
@@ -47,9 +47,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($members as $i => $member)
+                        @foreach($members as $member)
                             <tr>
-                                <td>{{ $i + 1 }}</td>
+                                <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ $member->member_code ?: '-' }}</span></td>
                                 <td><div class="title-cell">{{ $member->name }}</div></td>
                                 <td style="font-size:13px;">{{ $member->email }}</td>
                                 <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>
@@ -249,7 +249,7 @@ function pdPilihMode(jenis, mode) {
                     ? '<span style="display:inline-block;padding:5px 12px;border-radius:50px;font-size:12px;font-weight:700;color:#fff;background:#dc2626;">Kuota Penuh</span>'
                     : '<span style="display:inline-block;padding:5px 12px;border-radius:50px;font-size:12px;font-weight:700;color:#fff;background:#eab308;">' + (p.status || '-') + '</span>');
             rows += '<tr>' +
-                '<td>' + (i + 1) + '</td>' +
+                '<td><span style="font-family:monospace;font-size:12px;font-weight:600;color:#3fb950;">' + (p.user && p.user.member_code ? p.user.member_code : '-') + '</span></td>' +
                 '<td><div class="title-cell">' + (p.user ? p.user.name : '-') + '</div></td>' +
                 '<td style="word-break:break-word;">' + (p.user ? p.user.email : '-') + '</td>' +
                 '<td style="white-space:nowrap;">' + (p.user && p.user.phone ? p.user.phone : '-') + '</td>' +
@@ -269,7 +269,7 @@ function pdPilihMode(jenis, mode) {
             '</div>' +
             '<div class="table-wrap">' +
                 '<table class="data-table">' +
-                    '<thead><tr><th>No</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal</th></tr></thead>' +
+                    '<thead><tr><th>Kode Member</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal</th></tr></thead>' +
                     '<tbody>' + rows + '</tbody>' +
                 '</table>' +
             '</div>';
