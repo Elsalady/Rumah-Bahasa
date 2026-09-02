@@ -11,14 +11,15 @@
         .admin-header-right { display:flex; align-items:center; gap:12px; }
         .btn-logout { font-size:14px; font-weight:700; color:var(--teal-900); background:#fff; border:none; border-radius:8px; padding:10px 20px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1); white-space:nowrap; }
         .btn-logout:hover { background:#f1f5f9; }
+        .header-title-wrapper { display:flex; align-items:center; gap:12px; }
+        .btn-back-header { display:inline-flex; align-items:center; color:var(--white); text-decoration:none; }
+        .btn-back-header:hover { transform: translateX(-3px); }
         .program-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:24px; margin-top:24px; }
         .program-card { background:#fff; border:1px solid var(--gray-100); border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:box-shadow 0.2s,transform 0.2s; display:flex; flex-direction:column; }
         .program-card:hover { box-shadow:0 8px 24px rgba(0,0,0,0.08); transform:translateY(-2px); }
         .program-card .card-body { flex:1; }
         .btn-daftar { display:inline-block; width:100%; text-align:center; padding:10px 16px; background:#0882c4; color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.2s; margin-top:16px; text-decoration:none; }
         .btn-daftar:hover { background:#0167a2; }
-        .btn-daftar-terdaftar { background:#16a34a; color:#fff; cursor:pointer; }
-        .btn-daftar-terdaftar:hover { background:#15803d; }
 
         @media (max-width: 768px) {
             .program-grid { grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px; }
@@ -41,9 +42,13 @@
     <div class="admin-page">
         <header class="admin-header">
             <div class="container" style="max-width:1200px;margin:0 auto;padding:0 20px;">
-                <h2 style="font-size:18px;">Program</h2>
+                <div class="header-title-wrapper">
+                    <a href="{{ route('member.dashboard') }}" class="btn-back-header" title="Kembali ke Dashboard">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </a>
+                    <h2 style="font-size:18px;">Program</h2>
+                </div>
                 <div class="admin-header-right">
-                    <a href="{{ route('member.dashboard') }}" style="color:rgba(255,255,255,0.7);font-size:13px;">Dashboard</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf
                         <button type="submit" class="btn-logout">Logout</button>
                     </form>
@@ -88,9 +93,9 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('member.program.detail', $item->nama) }}" class="btn-daftar" style="text-decoration:none;
-                                    {{ in_array($item->nama, $programTerdaftar) ? 'background:#16a34a;color:#fff;cursor:pointer;' : (!in_array($item->id, $jadwalIds) ? 'background:#e5e7eb;color:#9ca3af;cursor:not-allowed;' : '') }}">
+                                    {{ in_array($item->nama, $programTerdaftar) ? 'background:#059669;color:#fff;' : (!in_array($item->id, $jadwalIds) ? 'background:#e5e7eb;color:#9ca3af;cursor:not-allowed;' : '') }}">
                                     @if(in_array($item->nama, $programTerdaftar))
-                                        ✓ Terdaftar
+                                        Lihat Kelas
                                     @elseif(!in_array($item->id, $jadwalIds))
                                         Daftar Tidak Tersedia
                                     @else
@@ -109,10 +114,6 @@
                         <p style="color:var(--gray-400);font-size:13px;margin:0;">Admin belum menambahkan program kelas. Silakan cek kembali nanti.</p>
                     </div>
                 @endif
-
-                <p style="text-align:center;margin-top:24px;">
-                    <a href="{{ route('member.dashboard') }}" style="color:var(--gray-400);font-size:13px;">← Kembali ke Dashboard</a>
-                </p>
             </div>
         </main>
     </div>

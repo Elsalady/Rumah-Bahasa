@@ -11,9 +11,10 @@
         .admin-header-right { display:flex; align-items:center; gap:12px; }
         .btn-logout { font-size:14px; font-weight:700; color:var(--teal-900); background:#fff; border:none; border-radius:8px; padding:10px 20px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1); white-space:nowrap; }
         .btn-logout:hover { background:#f1f5f9; }
+        .header-title-wrapper { display:flex; align-items:center; gap:12px; }
+        .btn-back-header { display:inline-flex; align-items:center; color:var(--white); text-decoration:none; }
+        .btn-back-header:hover { transform: translateX(-3px); }
         .detail-header { background:linear-gradient(135deg,#0167a2,#1680bd); border-radius:16px; padding:32px; color:#fff; margin-bottom:28px; }
-        .btn-back { display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:13px;text-decoration:none;margin-bottom:16px;font-weight:600; }
-        .btn-back:hover { color:#fff; }
         @media (max-width:768px) { .admin-header { padding:12px 0; } .admin-header h2 { font-size:16px; } .admin-main { padding:16px; } .detail-header { padding:24px 20px; } }
     </style>
 </head>
@@ -21,9 +22,13 @@
     <div class="admin-page">
         <header class="admin-header">
             <div class="container" style="max-width:1200px;margin:0 auto;padding:0 20px;">
-                <h2 style="font-size:18px;">Detail Program</h2>
+                <div class="header-title-wrapper">
+                    <a href="{{ route('member.program') }}" class="btn-back-header" title="Kembali ke Daftar Program">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </a>
+                    <h2 style="font-size:18px;">Detail Program</h2>
+                </div>
                 <div class="admin-header-right">
-                    <a href="{{ route('member.dashboard') }}" style="color:rgba(255,255,255,0.7);font-size:13px;">Dashboard</a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">@csrf
                         <button type="submit" class="btn-logout">Logout</button>
                     </form>
@@ -42,7 +47,6 @@
 
                 {{-- Header Program --}}
                 <div class="detail-header">
-                    <a href="{{ route('member.program') }}" class="btn-back">← Kembali ke Program</a>
                     <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
                         @if($program->ikon)
                             <div style="font-size:48px;">{!! $program->ikon !!}</div>
@@ -218,10 +222,6 @@
                         @endif
                     </div>
                 </div>
-
-                <p style="text-align:center;margin-top:24px;">
-                    <a href="{{ route('member.program') }}" style="color:var(--gray-400);font-size:13px;">← Kembali ke daftar program</a>
-                </p>
             </div>
         </main>
     </div>

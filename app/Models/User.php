@@ -22,6 +22,7 @@ class User extends Authenticatable
         'no_member',
         'name',
         'email',
+        'member_code',
         'password',
         'role',
         'phone',

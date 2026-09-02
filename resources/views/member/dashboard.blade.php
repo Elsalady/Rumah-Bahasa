@@ -246,7 +246,7 @@
                             <p style="font-size:13px;font-weight:600;color:var(--teal-700);margin:0;">
                                 🔔 {{ $notifUnread }} notifikasi baru
                             </p>
-                            <a href="{{ route('member.notifikasi') }}" style="font-size:12px;color:var(--teal-600);">Lihat Semua →</a>
+                            <a href="{{ route('member.notifikasi') }}" style="font-size:12px;color:var(--teal-600);display:inline-flex;align-items:center;gap:4px;">Lihat Semua <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
                         </div>
                         @foreach($notifikasi as $notif)
                             @if(!$notif->is_read)
@@ -275,7 +275,10 @@
                             <div class="profile-title-meta">
                                 <h3 style="font-size:22px;font-weight:700;color:var(--gray-900);margin:0;">{{ $user->name }}</h3>
                                 <p style="color:var(--gray-500);margin:4px 0 8px 0;">{{ $user->email }}</p>
-                                <span style="display:inline-block;padding:4px 16px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:13px;font-weight:500;">Member</span>
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                    <span style="display:inline-block;padding:4px 12px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:12px;font-weight:600;font-family:monospace;letter-spacing:0.5px;">{{ $user->member_code ?: '-' }}</span>
+                                    <span style="display:inline-block;padding:4px 16px;background:var(--teal-50);color:var(--teal-700);border-radius:50px;font-size:13px;font-weight:500;">Member</span>
+                                </div>
                             </div>
                         </div>
 
@@ -322,7 +325,7 @@
                             @endforeach
                         </div>
 
-                        <a href="{{ route('member.edit') }}" class="btn-edit-profile-solid">Edit Profil →</a>
+                        <a href="{{ route('member.edit') }}" class="btn-edit-profile-solid" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;">Edit Profil <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
                     </div>
 
                     {{-- Pendaftaran — hanya tampil kalau status approved --}}

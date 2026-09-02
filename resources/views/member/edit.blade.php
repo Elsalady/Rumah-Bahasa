@@ -99,6 +99,11 @@
 
                 <div class="dashboard-card">
                     <h3>Update Data Diri</h3>
+                    @if($user->member_code)
+                        <p style="font-size:13px;color:var(--gray-500);margin:-8px 0 16px;">
+                            Kode Member: <strong style="font-family:monospace;letter-spacing:0.5px;color:var(--teal-700);">{{ $user->member_code }}</strong>
+                        </p>
+                    @endif
                     <form action="{{ route('member.update') }}" method="POST" class="dashboard-form" enctype="multipart/form-data">
                         @csrf @method('PUT')
                         <div class="form-group">
@@ -188,9 +193,6 @@
 
                         <button type="submit" class="btn-submit">Simpan Perubahan</button>
                     </form>
-                    <p style="text-align:center;margin-top:16px;">
-                        <a href="{{ route('member.dashboard') }}" style="color:var(--gray-400);font-size:13px;">← Kembali ke Dashboard</a>
-                    </p>
                 </div>
             </div>
         </main>

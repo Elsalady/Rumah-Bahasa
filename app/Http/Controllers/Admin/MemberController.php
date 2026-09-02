@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Pendaftaran;
 use App\Models\JadwalKelas;
+use App\Support\MemberCode;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -53,6 +54,7 @@ class MemberController extends Controller
                         'no_member' => $p->user->no_member,
                         'email' => $p->user->email,
                         'phone' => $p->user->phone,
+                        'member_code' => $p->user->member_code,
                     ] : null,
                     'status' => $p->status,
                     'created_at' => $p->created_at
@@ -103,23 +105,11 @@ class MemberController extends Controller
         $updateData = [
             'status' => $request->status,
             'catatan_member' => $request->catatan_member,
-        ];
-
-        // Saat akun disetujui (approved), berikan nomor member otomatis jika belum punya:
-        // RB-YYMMDD-NNNN = tanggal persetujuan WIB + urutan harian. Ini mencegah bentrok nomor
-        // karena hanya di-generate satu per satu oleh admin, bukan saat ramai pendaftar.
-        if ($request->status === 'approved' && empty($member->no_member)) {
-            $tgl = \Carbon\Carbon::now()->timezone('Asia/Jakarta')->format('ymd');
-            $lastNo = User::where('role', 'member')
-                ->whereNotNull('no_member')
-                ->where('no_member', 'like', 'RB-' . $tgl . '-%')
-                ->orderBy('id', 'desc')
-                ->value('no_member');
-            $lastSeq = $lastNo ? (int) substr($lastNo, -4) : 0;
-            $updateData['no_member'] = 'RB-' . $tgl . '-' . str_pad((string) ($lastSeq + 1), 4, '0', STR_PAD_LEFT);
-        }
-
-        $member->update($updateData);
+            // Kode member baru diberikan saat akun disetujui (approved) pertama kali
+            'member_code' => ($request->status === 'approved' && !$member->member_code)
+                ? MemberCode::generate()
+                : $member->member_code,
+        ]);
 
         // Kirim notifikasi ke member saat status berubah (approved/rejected)
         if (in_array($request->status, ['approved', 'rejected'])) {
@@ -156,7 +146,11 @@ class MemberController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
+<<<<<<< HEAD
             echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+=======
+            echo '<tr><th>No</th><th>Kode Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+>>>>>>> a40ff6f (update 37)
             foreach ($members as $i => $m) {
                 $warna = match($m->status) {
                     'pending' => '#b45309',
@@ -166,7 +160,11 @@ class MemberController extends Controller
                 };
                 echo '<tr>';
                 echo '<td>' . ($i + 1) . '</td>';
+<<<<<<< HEAD
                 echo '<td>' . htmlspecialchars($m->no_member ?? '-') . '</td>';
+=======
+                echo '<td>' . htmlspecialchars($m->member_code ?? '-') . '</td>';
+>>>>>>> a40ff6f (update 37)
                 echo '<td>' . htmlspecialchars($m->name) . '</td>';
                 echo '<td>' . htmlspecialchars($m->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($m->phone ?? '-') . '</td>';
