@@ -25,7 +25,7 @@
     {{-- Slider background --}}
     <div class="hero-slider" style="position:absolute;inset:0;z-index:0;overflow:hidden;">
         @foreach($heroSlides as $i => $img)
-            <div class="hero-slide {{ $i === 0 ? 'active' : '' }}" style="background-image:url('{{ $img }}');"></div>
+            <div class="hero-slide {{ $i === 0 ? 'active' : '' }}" style="background:linear-gradient(180deg, rgba(56,151,224,0.35) 0%, rgba(56,151,224,0.65) 60%, rgba(56,151,224,0.95) 100%), url('{{ $img }}') center / cover no-repeat;"></div>
         @endforeach
     </div>
 
@@ -80,7 +80,6 @@
         transition: opacity 1.5s ease-in-out;
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
     }
     .hero-slide.active {
         opacity: 1;
@@ -89,33 +88,6 @@
     @keyframes heroKenburns {
         from { transform: scale(1); }
         to { transform: scale(1.08); }
-    }
-    /* Overlay gradasi biru dipisah dari slide supaya di HP (foto = banner utuh)
-       overlay bisa dimatikan dan foto tampil natural */
-    .hero-slider::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        background: linear-gradient(180deg, rgba(56,151,224,0.35) 0%, rgba(56,151,224,0.65) 60%, rgba(56,151,224,0.95) 100%);
-        pointer-events: none;
-    }
-
-    /* ===== RESPONSIF HERO SLIDER =====
-       Di layar kecil, tinggi hero tidak full-screen (lihat style.css) sehingga
-       area foto lebih pendek; crop dari background-size:cover jadi wajar.
-       Efek zoom Ken Burns juga dikecilkan supaya tidak menambah potongan foto. */
-    @media (max-width: 768px) {
-        .hero-slider::before {
-            display: none; /* banner foto tampil tanpa overlay di HP */
-        }
-        .hero-slide.active {
-            animation: heroKenburnsMobile 8s ease-in-out infinite alternate;
-        }
-        @keyframes heroKenburnsMobile {
-            from { transform: scale(1); }
-            to { transform: scale(1.03); }
-        }
     }
 
     /* ===== HERO ZOOM OUT — senada dengan Ken Burns background =====
@@ -1163,17 +1135,9 @@ document.addEventListener('DOMContentLoaded', function() {
         background: linear-gradient(135deg, #0c4e91 0%, #0167a2 55%, #1680bd 100%) !important;
     }
 
-    /* Di HP konten hero berada DI BAWAH foto banner (lihat style.css), jadi area
-       teks memakai gradasi biru pekat supaya teks putih tetap kontras */
-    @media (max-width: 768px) {
-        section.hero {
-            background: linear-gradient(180deg, #3897e0 0%, #2b7cc4 40%, #14518f 100%) !important;
-            padding-bottom: 0 !important;
-        }
-    }
     @media (max-width: 640px) {
         section.hero {
-            padding-bottom: 0 !important;
+            padding-bottom: 20px !important;
         }
     }
 </style>
