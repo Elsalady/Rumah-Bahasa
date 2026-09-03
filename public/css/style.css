@@ -139,6 +139,32 @@ ul { list-style: none; }
     overflow: hidden;
     padding-top: 72px;
 }
+/* Di layar sempit (HP), foto slider tidak bisa tampil utuh jika dipaksa jadi
+   background full-bleed di belakang teks (foto landscape pasti terpotong sisi
+   kiri-kanannya). Karena itu di mobile: foto dijadikan banner utuh di atas
+   (rasio 16:9), lalu konten/teks tampil di bawahnya di atas gradasi biru. */
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding-top: 0;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .hero-slider {
+        position: relative !important; /* kalahkan inline position:absolute */
+        inset: auto !important;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        z-index: 0;
+    }
+    .hero-pattern {
+        display: none;
+    }
+    .hero-content {
+        padding: 32px 20px 40px;
+    }
+}
 .hero-pattern {
     position: absolute;
     inset: 0;
