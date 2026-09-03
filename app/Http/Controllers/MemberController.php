@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Layanan;
 use App\Models\Pendaftaran;
 use App\Models\Notifikasi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -84,12 +85,14 @@ class MemberController extends Controller
             $data['password'] = $request->password;
         }
 
-        // Upload foto profil
+        // Upload foto profil — simpan path (storage) + data base64 (DB permanen)
         if ($request->hasFile('foto_profile')) {
             if ($user->foto_profile) {
                 Storage::disk('public')->delete($user->foto_profile);
             }
-            $data['foto_profile'] = $request->file('foto_profile')->store('member-dokumen', 'public');
+            $foto = $request->file('foto_profile');
+            $data['foto_profile'] = $foto->store('member-dokumen', 'public');
+            $data['foto_profile_data'] = User::fileToDataUri($foto);
         }
 
         // Upload dokumen pendukung — simpan ke kolom sesuai jenis yang dipilih
@@ -98,7 +101,9 @@ class MemberController extends Controller
             if ($user->$fieldTarget) {
                 Storage::disk('public')->delete($user->$fieldTarget);
             }
-            $data[$fieldTarget] = $request->file('dokumen')->store('member-dokumen', 'public');
+            $dok = $request->file('dokumen');
+            $data[$fieldTarget] = $dok->store('member-dokumen', 'public');
+            $data[User::DOKUMEN_MAP[$fieldTarget]] = User::fileToDataUri($dok);
         }
 
         $user->update($data);

@@ -141,9 +141,9 @@
                         {{-- Foto Profil --}}
                         <div class="form-group">
                             <label for="foto_profile">Foto Profil</label>
-                            @if($user->foto_profile)
+                            @if($user->fileSource('foto_profile'))
                                 <div style="margin-bottom:6px;">
-                                    <a href="{{ asset('storage/' . $user->foto_profile) }}" target="_blank" style="font-size:13px;color:var(--teal-600);">
+                                    <a href="{{ $user->fileSource('foto_profile') }}" target="_blank" style="font-size:13px;color:var(--teal-600);">
                                         📄 Lihat foto profil saat ini
                                     </a>
                                 </div>
@@ -158,7 +158,7 @@
                             $dokumenFields = ['ktp' => 'KTP', 'surat_domisili' => 'Surat Domisili / Bekerja di Surabaya', 'ktm' => 'KTM / Kartu Pelajar', 'kk' => 'Kartu Keluarga (KK)'];
                             $dokumenTerisi = [];
                             foreach (array_keys($dokumenFields) as $f) {
-                                if ($user->$f) $dokumenTerisi[$f] = $dokumenFields[$f];
+                                if ($user->fileSource($f)) $dokumenTerisi[$f] = $dokumenFields[$f];
                             }
                         @endphp
 
@@ -170,10 +170,12 @@
                                 <div style="margin-bottom:10px;font-size:13px;color:var(--gray-600);">
                                     <strong>Dokumen saat ini:</strong>
                                     @foreach($dokumenTerisi as $field => $label)
-                                        <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
-                                            <span>{{ $label }}</span>
-                                            <a href="{{ asset('storage/' . $user->$field) }}" target="_blank" style="font-size:12px;color:var(--teal-600);">Lihat</a>
-                                        </div>
+                                        @if($user->fileSource($field))
+                                            <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
+                                                <span>{{ $label }}</span>
+                                                <a href="{{ $user->fileSource($field) }}" target="_blank" style="font-size:12px;color:var(--teal-600);">Lihat</a>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             @else

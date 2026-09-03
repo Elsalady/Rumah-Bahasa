@@ -274,8 +274,9 @@
                     {{-- Profil Card - Rapi & Minimalis --}}
                     <div class="dashboard-card" style="padding:24px;">{{-- Profil card, padding disamakan dgn jadwal & histori --}}
                         <div class="profile-header-block">
-                            @if($user->foto_profile)
-                                <img src="{{ asset('storage/' . $user->foto_profile) }}" alt="Foto Profil" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+                            @php $fotoSrc = $user->fileSource('foto_profile'); @endphp
+                            @if($fotoSrc)
+                                <img src="{{ $fotoSrc }}" alt="Foto Profil" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
                             @else
                             <div class="profile-avatar-circle">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--teal-700)" stroke-width="1.5">
@@ -327,8 +328,8 @@
                             @foreach($dokList as $field => $label)
                                 <div class="info-row-item" style="padding:8px 0;">
                                     <span class="info-item-label">{{ $label }}</span>
-                                    @if($user->$field)
-                                        <a href="{{ asset('storage/' . $user->$field) }}" target="_blank" style="font-size:12px;color:var(--teal-600);font-weight:500;">Lihat</a>
+                                    @if($user->fileSource($field))
+                                        <a href="{{ $user->fileSource($field) }}" target="_blank" style="font-size:12px;color:var(--teal-600);font-weight:500;">Lihat</a>
                                     @else
                                         <span style="font-size:11px;color:var(--gray-400);">-</span>
                                     @endif

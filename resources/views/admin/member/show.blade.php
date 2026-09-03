@@ -174,8 +174,9 @@
     {{-- Data Diri Card --}}
     <div class="dashboard-card" style="padding:28px;">
         <div class="profile-card-header">
-            @if($member->foto_profile)
-                <img src="{{ asset('storage/' . $member->foto_profile) }}" alt="Foto Profil" class="profile-avatar">
+            @php $fotoSrc = $member->fileSource('foto_profile'); @endphp
+            @if($fotoSrc)
+                <img src="{{ $fotoSrc }}" alt="Foto Profil" class="profile-avatar">
             @else
                 <div class="profile-avatar-placeholder">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5">
@@ -256,8 +257,8 @@
             @foreach($dokList as $field => $label)
                 <div class="doc-item">
                     <span class="doc-label">{{ $label }}</span>
-                    @if($member->$field)
-                        <a href="{{ asset('storage/' . $member->$field) }}" target="_blank" class="btn-sm btn-edit" style="text-decoration:none;font-size:12px;white-space:nowrap;">Lihat</a>
+                    @if($member->fileSource($field))
+                        <a href="{{ $member->fileSource($field) }}" target="_blank" class="btn-sm btn-edit" style="text-decoration:none;font-size:12px;white-space:nowrap;">Lihat</a>
                     @else
                         <span style="font-size:12px;color:var(--gray-400);white-space:nowrap;">Belum ada</span>
                     @endif

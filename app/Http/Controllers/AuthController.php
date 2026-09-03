@@ -80,12 +80,16 @@ class AuthController extends Controller
         // Nomor member diberikan setelah akun disetujui admin (lihat Admin\MemberController::update),
         // jadi tidak digenerate di sini untuk menghindari bentrok nomor saat banyak pendaftar.
 
-        // Upload foto profil
-        $data['foto_profile'] = $request->file('foto_profile')->store('member-dokumen', 'public');
+        // Upload foto profil — simpan path (storage) + data base64 (DB permanen)
+        $foto = $request->file('foto_profile');
+        $data['foto_profile'] = $foto->store('member-dokumen', 'public');
+        $data['foto_profile_data'] = User::fileToDataUri($foto);
 
         // Upload dokumen pendukung — simpan ke kolom sesuai jenis yang dipilih
         $fieldTarget = $validated['jenis_dokumen'];
-        $data[$fieldTarget] = $request->file('dokumen')->store('member-dokumen', 'public');
+        $dok = $request->file('dokumen');
+        $data[$fieldTarget] = $dok->store('member-dokumen', 'public');
+        $data[User::DOKUMEN_MAP[$fieldTarget]] = User::fileToDataUri($dok);
 
         $user = User::create($data);
 
