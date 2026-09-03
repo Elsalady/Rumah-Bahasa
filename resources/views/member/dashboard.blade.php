@@ -39,7 +39,7 @@
 
         .responsive-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 32px;
             align-items: start;
             margin-top: 24px;
@@ -102,9 +102,8 @@
             flex: 1;
         }
 
-        /* Nilai panjang (mis. alamat) — rata kiri supaya enak dibaca & tidak nabrak label */
+        /* Nilai panjang (mis. alamat) — tetap rata kanan supaya konsisten dengan field lain */
         .info-item-value--long {
-            text-align: left;
             line-height: 1.5;
         }
 
@@ -273,7 +272,7 @@
                     @endif
 
                     {{-- Profil Card - Rapi & Minimalis --}}
-                    <div class="dashboard-card" style="padding:40px;">
+                    <div class="dashboard-card" style="padding:24px;">{{-- Profil card, padding disamakan dgn jadwal & histori --}}
                         <div class="profile-header-block">
                             @if($user->foto_profile)
                                 <img src="{{ asset('storage/' . $user->foto_profile) }}" alt="Foto Profil" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
@@ -344,8 +343,8 @@
                     @if($user->status === 'approved')
 
                     {{-- ===== JADWAL MINGGUAN MEMBER ===== --}}
-                    <div class="dashboard-card" style="padding:24px;grid-column:1/-1;">
-                        <h3 style="margin-top:0;">📅 Jadwal Kelas Mingguan</h3>
+                    <div class="dashboard-card" style="padding:24px;">{{-- Jadwal Mingguan --}}
+                        <h3 style="margin-top:0;padding-top:0;">📅 Jadwal Kelas Mingguan</h3>
                         <p style="font-size:13px;color:var(--gray-400);margin:0 0 16px;">Kelas yang sudah kamu daftar (pengingat jadwal).</p>
 
                         @if($jadwalMingguan->count())
@@ -385,7 +384,7 @@
                     </div>
 
                     <div class="dashboard-card" style="padding:24px;">
-                        <h3>Histori Pendaftaran</h3>
+                        <h3 style="margin-top:0;">Histori Pendaftaran</h3>
 
                         @if($pendaftaran->count())
                             @foreach($pendaftaran as $p)
