@@ -371,7 +371,7 @@
             <div class="footer-grid">
                 <div>
                     <h3>Kontak & Alamat</h3>
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=-7.2636128%2C112.7455063&travelmode=driving" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                    <a href="https://www.google.com/maps/search/?api=1&query=-7.2636128,112.7455063" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;" title="Buka lokasi Rumah Bahasa Surabaya di Google Maps">
                         <div class="footer-item">
                             <div class="footer-item-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -410,6 +410,51 @@
                             <p>Jumat, 08.00 — 14.00 WIB</p>
                         </div>
                     </div>
+                    <div style="font-size:14px;font-weight:600;color:#ffffff;margin:22px 0 12px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);">Sosial Media</div>
+                    <a href="https://www.instagram.com/rumahbahasa.dispusipsby/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                        <div class="footer-item">
+                            <div class="footer-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            </div>
+                            <div>
+                                <h4>Instagram</h4>
+                                <p>@rumahbahasa.dispusipsby</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.tiktok.com/@rumahbahasa.dispusipsby" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                        <div class="footer-item">
+                            <div class="footer-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                            </div>
+                            <div>
+                                <h4>TikTok</h4>
+                                <p>@rumahbahasa.dispusipsby</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.threads.net/@rumahbahasa.dispusipsby" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                        <div class="footer-item">
+                            <div class="footer-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+                            </div>
+                            <div>
+                                <h4>Threads</h4>
+                                <p>@rumahbahasa.dispusipsby</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.facebook.com/RumahBahasaSurabayaFanpage/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;">
+                        <div class="footer-item">
+                            <div class="footer-item-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            </div>
+                            <div>
+                                <h4>Facebook</h4>
+                                <p>Rumah Bahasa Surabaya Fanpage</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div>
                     <h3>Program & Pendaftaran</h3>
@@ -434,11 +479,11 @@
                             referrerpolicy="no-referrer-when-downgrade"
                             title="Peta Rumah Bahasa Surabaya"
                         ></iframe>
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=-7.2636128%2C112.7455063&travelmode=driving"
+                        <a href="https://www.google.com/maps/search/?api=1&query=-7.2636128,112.7455063"
                            target="_blank" rel="noopener noreferrer"
                            style="position:absolute;bottom:12px;right:12px;z-index:10;padding:8px 16px;background:rgba(0, 44, 115, 0.9);backdrop-filter:blur(4px);color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:all 0.2s;"
                            onmouseover="this.style.background='#07459c'" onmouseout="this.style.background='rgba(0, 38, 115, 0.9)'"
-                           title="Buka rute ke Rumah Bahasa Surabaya di Google Maps">
+                           title="Buka lokasi Rumah Bahasa Surabaya di Google Maps">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                             Buka Google Maps
                         </a>

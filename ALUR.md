@@ -82,11 +82,16 @@ Beranda  (/)                       → hero slider, lingkup pelatihan, 3 berita 
   │
   ├─ Isi form:
   │    nama, email (unik), password + konfirmasi, telepon, alamat,
-  │    foto profil (wajib), jenis dokumen (KTP/Domisili/KTM/KK), dokumen (wajib)
+  │    NIK (unik, wajib), tempat & tanggal lahir (wajib), jenis pekerjaan (wajib),
+  │    foto profil (wajib),
+  │    scan/foto KTP (WAJIB — kolom tersendiri),
+  │    dokumen pendukung LAINNYA opsional (surat domisili / KTM / KK)
   │
   ├─ Validasi (AuthController@register):
   │    email.unique → "Email ini sudah terdaftar"
-  │    foto & dokumen wajib, mimes:jpeg,png,jpg, max 2MB
+  │    nik.unique   → "NIK ini sudah terdaftar" (1 NIK = 1 akun, termasuk pending/rejected)
+  │    tanggal_lahir otomatis hitung umur & rentang usia (di server)
+  │    foto profil & KTP wajib, mimes:jpeg,png,jpg, max 2MB
   │
   ├─ Data disimpan ke users:
   │    role   = 'member'

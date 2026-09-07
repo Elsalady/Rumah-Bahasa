@@ -123,6 +123,23 @@
                             <label for="address">Alamat</label>
                             <textarea id="address" name="address" rows="2">{{ old('address', $user->address) }}</textarea>
                         </div>
+
+                        {{-- Data Kependudukan --}}
+                        <hr style="border:none;border-top:2px solid var(--teal-100);margin:20px 0;">
+                        <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Data Kependudukan</h3>
+                        <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">NIK & tanggal lahir tidak dapat diubah. Hubungi admin jika ada kesalahan data.</p>
+                        <div class="form-group">
+                            <label>NIK</label>
+                            <input type="text" value="{{ $user->nik ?: '-' }}" disabled style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;background:var(--gray-100);color:var(--gray-400);box-sizing:border-box;font-family:monospace;">
+                        </div>
+                        <div class="form-group">
+                            <label>Tempat, Tanggal Lahir</label>
+                            <input type="text" value="{{ $user->tempat_lahir ?: '-' }}{{ $user->tanggal_lahir ? ', ' . $user->tanggal_lahir->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') : '' }}" disabled style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;background:var(--gray-100);color:var(--gray-400);box-sizing:border-box;">
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis_pekerjaan">Jenis Pekerjaan</label>
+                            <input type="text" id="jenis_pekerjaan" name="jenis_pekerjaan" value="{{ old('jenis_pekerjaan', $user->jenis_pekerjaan) }}" maxlength="255" placeholder="Contoh: Pelajar, Karyawan Swasta, Wirausaha">
+                        </div>
                         <hr style="border:none;border-top:1px solid var(--gray-100);margin:20px 0;">
                         <div class="form-group">
                             <label for="password">Password Baru (kosongkan jika tidak ingin ganti)</label>
@@ -153,9 +170,24 @@
                             <input type="file" id="foto_profile" name="foto_profile" accept="image/jpeg,image/png,image/jpg">
                         </div>
 
-                        {{-- Dokumen Pendukung --}}
+                        {{-- Foto KTP (wajib, kolom tersendiri) --}}
+                        <div class="form-group">
+                            <label for="ktp">Scan/Foto KTP</label>
+                            @if($user->fileSource('ktp'))
+                                <div style="margin-bottom:6px;">
+                                    <a href="{{ $user->fileSource('ktp') }}" target="_blank" style="font-size:13px;color:var(--teal-600);">
+                                        📄 Lihat KTP saat ini
+                                    </a>
+                                </div>
+                            @else
+                                <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Belum diupload</p>
+                            @endif
+                            <input type="file" id="ktp" name="ktp" accept="image/jpeg,image/png,image/jpg">
+                        </div>
+
+                        {{-- Dokumen Pendukung Lainnya (Opsional) --}}
                         @php
-                            $dokumenFields = ['ktp' => 'KTP', 'surat_domisili' => 'Surat Domisili / Bekerja di Surabaya', 'ktm' => 'KTM / Kartu Pelajar', 'kk' => 'Kartu Keluarga (KK)'];
+                            $dokumenFields = ['surat_domisili' => 'Surat Domisili / Bekerja di Surabaya', 'ktm' => 'KTM / Kartu Pelajar', 'kk' => 'Kartu Keluarga (KK)'];
                             $dokumenTerisi = [];
                             foreach (array_keys($dokumenFields) as $f) {
                                 if ($user->fileSource($f)) $dokumenTerisi[$f] = $dokumenFields[$f];
@@ -163,12 +195,12 @@
                         @endphp
 
                         <div class="form-group">
-                            <label for="jenis_dokumen">Ganti Dokumen Pendukung</label>
-                            <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Pilih jenis dokumen yang ingin diganti, lalu upload file baru. Kosongkan jika tidak ingin mengubah.</p>
+                            <label for="jenis_dokumen">Ganti Dokumen Pendukung Lainnya (Opsional)</label>
+                            <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Opsional — KTP diisi terpisah di atas. Pilih jenis dokumen yang ingin diganti, lalu upload file baru. Kosongkan jika tidak ingin mengubah.</p>
 
                             @if(!empty($dokumenTerisi))
                                 <div style="margin-bottom:10px;font-size:13px;color:var(--gray-600);">
-                                    <strong>Dokumen saat ini:</strong>
+                                    <strong>Tersimpan:</strong>
                                     @foreach($dokumenTerisi as $field => $label)
                                         @if($user->fileSource($field))
                                             <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
@@ -179,13 +211,12 @@
                                     @endforeach
                                 </div>
                             @else
-                                <p style="font-size:12px;color:var(--gray-400);margin-bottom:10px;">Belum ada dokumen pendukung.</p>
+                                <p style="font-size:12px;color:var(--gray-400);margin-bottom:10px;">Belum ada dokumen pendukung tambahan.</p>
                             @endif
 
                             <select id="jenis_dokumen" name="jenis_dokumen"
                                 style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:15px;outline:none;color:var(--gray-900);background:var(--gray-50);margin-bottom:12px;box-sizing:border-box;">
                                 <option value="">— Pilih jenis dokumen (jika ingin mengganti) —</option>
-                                <option value="ktp">KTP</option>
                                 <option value="surat_domisili">Surat Domisili / Surat Keterangan Bekerja di Surabaya</option>
                                 <option value="ktm">KTM / Kartu Pelajar / Identitas Lembaga Pendidikan</option>
                                 <option value="kk">Kartu Keluarga (KK)</option>

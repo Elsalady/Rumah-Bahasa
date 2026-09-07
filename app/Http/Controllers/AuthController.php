@@ -51,9 +51,14 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
             'phone' => 'nullable|max:20',
             'address' => 'nullable|max:500',
+            'nik' => 'required|digits_between:16,16|unique:users,nik',
+            'tempat_lahir' => 'required|max:255',
+            'tanggal_lahir' => 'required|date|before:today',
+            'jenis_pekerjaan' => 'required|max:255',
             'foto_profile' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'jenis_dokumen' => 'required|in:ktp,surat_domisili,ktm,kk',
-            'dokumen' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'jenis_dokumen' => 'nullable|in:surat_domisili,ktm,kk',
+            'dokumen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'email.unique' => 'Email ini sudah terdaftar. Silakan gunakan email lain atau login dengan akun yang sudah ada.',
             'email.required' => 'Email wajib diisi.',
@@ -62,9 +67,15 @@ class AuthController extends Controller
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'nik.required' => 'Nomor NIK wajib diisi.',
+            'nik.digits_between' => 'NIK harus terdiri dari 16 digit angka.',
+            'nik.unique' => 'NIK ini sudah terdaftar. Silakan gunakan akun yang sudah ada.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini.',
+            'jenis_pekerjaan.required' => 'Jenis pekerjaan wajib diisi.',
             'foto_profile.required' => 'Foto profil wajib diunggah.',
-            'jenis_dokumen.required' => 'Pilih jenis dokumen pendukung terlebih dahulu.',
-            'dokumen.required' => 'Dokumen pendukung wajib diunggah.',
+            'ktp.required' => 'Scan/foto KTP wajib diunggah.',
         ]);
 
         $data = [
@@ -73,6 +84,12 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
             'phone' => $validated['phone'] ?? null,
             'address' => $validated['address'] ?? null,
+            'nik' => $validated['nik'],
+            'tempat_lahir' => $validated['tempat_lahir'],
+            'tanggal_lahir' => $validated['tanggal_lahir'],
+            'umur' => \Carbon\Carbon::parse($validated['tanggal_lahir'])->age,
+            'rentang_usia' => User::kategoriUsia($validated['tanggal_lahir']),
+            'jenis_pekerjaan' => $validated['jenis_pekerjaan'],
             'role' => 'member',
             'status' => 'pending',
         ];
@@ -85,11 +102,18 @@ class AuthController extends Controller
         $data['foto_profile'] = $foto->store('member-dokumen', 'public');
         $data['foto_profile_data'] = User::fileToDataUri($foto);
 
-        // Upload dokumen pendukung — simpan ke kolom sesuai jenis yang dipilih
-        $fieldTarget = $validated['jenis_dokumen'];
-        $dok = $request->file('dokumen');
-        $data[$fieldTarget] = $dok->store('member-dokumen', 'public');
-        $data[User::DOKUMEN_MAP[$fieldTarget]] = User::fileToDataUri($dok);
+        // Upload KTP — WAJIB untuk semua pendaftar, kolom tersendiri
+        $ktp = $request->file('ktp');
+        $data['ktp'] = $ktp->store('member-dokumen', 'public');
+        $data['ktp_data'] = User::fileToDataUri($ktp);
+
+        // Upload dokumen pendukung LAINNYA (opsional) — hanya jika jenis dipilih
+        if ($request->filled('jenis_dokumen')) {
+            $fieldTarget = $request->jenis_dokumen;
+            $dok = $request->file('dokumen');
+            $data[$fieldTarget] = $dok->store('member-dokumen', 'public');
+            $data[User::DOKUMEN_MAP[$fieldTarget]] = User::fileToDataUri($dok);
+        }
 
         $user = User::create($data);
 

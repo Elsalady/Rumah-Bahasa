@@ -64,14 +64,27 @@
     <!-- Tab: Data Member -->
     <div id="tab-member" class="tab-content">
         @if($members->count())
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+                <div style="position:relative;flex:1;min-width:240px;max-width:420px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="search" id="searchMember" placeholder="Cari member: nama, NIK, email, telepon, no. member…"
+                        style="width:100%;padding:10px 14px 10px 36px;background:#1c2129;border:1px solid #30363d;border-radius:8px;color:#e6edf3;font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s;"
+                        onfocus="this.style.borderColor='#3fb950'" onblur="this.style.borderColor='#30363d'">
+                </div>
+                <span id="searchMemberCount" style="font-size:12px;color:#8b949e;"></span>
+            </div>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Nomor Member</th>
                             <th>Nama</th>
+                            <th>NIK</th>
                             <th>Email</th>
                             <th>Telepon</th>
+                            <th>TTL</th>
+                            <th>Usia</th>
+                            <th>Pekerjaan</th>
                             <th>Tanggal Daftar</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -82,8 +95,12 @@
                             <tr>
                                 <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ $member->no_member ?: '-' }}</span></td>
                                 <td><div class="title-cell">{{ $member->name }}</div></td>
+                                <td style="font-size:13px;font-family:monospace;">{{ $member->nik ?: '-' }}</td>
                                 <td style="font-size:13px;">{{ $member->email }}</td>
                                 <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>
+                                <td style="font-size:13px;white-space:nowrap;">{{ $member->tempat_lahir ?: '-' }}{{ $member->tanggal_lahir ? ', ' . $member->tanggal_lahir->timezone('Asia/Jakarta')->locale('id')->isoFormat('d MMM Y') : '' }}</td>
+                                <td style="font-size:13px;white-space:nowrap;">{{ $member->usia_label ?: '-' }}</td>
+                                <td style="font-size:13px;">{{ $member->jenis_pekerjaan ?: '-' }}</td>
                                 <td style="font-size:13px;">{{ $member->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                                 <td>
                                     <span style="display:inline-block;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700;color:#ffffff;
@@ -168,6 +185,15 @@
                     Pilih Mode Lain
                 </a>
             </p>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+                <div style="position:relative;flex:1;min-width:240px;max-width:420px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="search" id="searchPendaftarProgram" placeholder="Cari pendaftar program: nama, NIK, email, telepon, no. member…"
+                        style="width:100%;padding:10px 14px 10px 36px;background:#1c2129;border:1px solid #30363d;border-radius:8px;color:#e6edf3;font-size:13px;font-family:inherit;outline:none;transition:border-color 0.15s;"
+                        onfocus="this.style.borderColor='#3fb950'" onblur="this.style.borderColor='#30363d'">
+                </div>
+                <span id="searchPendaftarCount" style="font-size:12px;color:#8b949e;"></span>
+            </div>
             <div id="pd-kelas-list"></div>
         </div>
     </div>
@@ -282,6 +308,9 @@ function pdPilihMode(jenis, mode) {
             rows += '<tr>' +
                 '<td><span style="font-family:monospace;font-size:12px;font-weight:600;color:#3fb950;">' + (p.user && p.user.no_member ? p.user.no_member : '-') + '</span></td>' +
                 '<td><div class="title-cell">' + (p.user ? p.user.name : '-') + '</div></td>' +
+                '<td style="font-family:monospace;font-size:12px;">' + (p.user && p.user.nik ? p.user.nik : '-') + '</td>' +
+                '<td style="white-space:nowrap;">' + (p.user && p.user.usia_label ? p.user.usia_label : '-') + '</td>' +
+                '<td style="white-space:nowrap;">' + (p.user && p.user.jenis_pekerjaan ? p.user.jenis_pekerjaan : '-') + '</td>' +
                 '<td style="word-break:break-word;">' + (p.user ? p.user.email : '-') + '</td>' +
                 '<td style="white-space:nowrap;">' + (p.user && p.user.phone ? p.user.phone : '-') + '</td>' +
                 '<td>' + st + '</td>' +
@@ -300,13 +329,19 @@ function pdPilihMode(jenis, mode) {
             '</div>' +
             '<div class="table-wrap">' +
                 '<table class="data-table">' +
-                    '<thead><tr><th>Nomor Member</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal</th></tr></thead>' +
+                    '<thead><tr><th>Nomor Member</th><th>Nama</th><th>NIK</th><th>Usia</th><th>Pekerjaan</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal</th></tr></thead>' +
                     '<tbody>' + rows + '</tbody>' +
                 '</table>' +
             '</div>';
 
         wrap.appendChild(card);
     });
+
+    // Reset pencarian pendaftar program setiap membuka daftar kelas baru
+    const sPendaftar = document.getElementById('searchPendaftarProgram');
+    if (sPendaftar) { sPendaftar.value = ''; sPendaftar.dispatchEvent(new Event('input')); }
+    const cPendaftar = document.getElementById('searchPendaftarCount');
+    if (cPendaftar) cPendaftar.textContent = '';
 
     pdShow('kelas');
 }
@@ -370,6 +405,78 @@ document.addEventListener('click', function(e) {
     if (wrap && menu && !wrap.contains(e.target)) {
         menu.style.display = 'none';
     }
+});
+</script>
+<script>
+// ===== PENCARIAN MEMBER (Tab Pendaftar Member) =====
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('searchMember');
+    const countEl = document.getElementById('searchMemberCount');
+    if (!input) return;
+
+    const rows = document.querySelectorAll('#tab-member .data-table tbody tr');
+
+    input.addEventListener('input', function() {
+        const q = this.value.toLowerCase().trim();
+        let visible = 0;
+        rows.forEach(function(row) {
+            const match = !q || row.textContent.toLowerCase().includes(q);
+            row.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+        if (countEl) countEl.textContent = q ? visible + ' / ' + rows.length + ' member ditemukan' : '';
+        if (q && visible === 0 && !document.getElementById('searchMemberEmpty')) {
+            const tbody = document.querySelector('#tab-member .data-table tbody');
+            const tr = document.createElement('tr');
+            tr.id = 'searchMemberEmpty';
+            tr.innerHTML = '<td colspan="11" style="text-align:center;color:#8b949e;padding:24px;">Tidak ada member yang cocok dengan pencarian.</td>';
+            tbody.appendChild(tr);
+        } else if ((!q || visible > 0)) {
+            const empty = document.getElementById('searchMemberEmpty');
+            if (empty) empty.remove();
+        }
+    });
+});
+
+// ===== PENCARIAN PENDAFTAR PROGRAM (Tab Pendaftar Program) =====
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('searchPendaftarProgram');
+    const countEl = document.getElementById('searchPendaftarCount');
+    if (!input) return;
+
+    input.addEventListener('input', function() {
+        const q = this.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.pd-kelas-card');
+        let totalVisible = 0;
+        let totalRows = 0;
+
+        cards.forEach(function(card) {
+            const rows = card.querySelectorAll('tbody tr');
+            let visible = 0;
+            rows.forEach(function(row) {
+                const match = !q || row.textContent.toLowerCase().includes(q);
+                row.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+            totalVisible += visible;
+            totalRows += rows.length;
+            card.style.display = visible ? '' : 'none';
+        });
+
+        const noMatch = document.getElementById('searchPendaftarEmpty');
+        if (q && totalVisible === 0 && cards.length && !noMatch) {
+            const wrap = document.getElementById('pd-kelas-list');
+            const p = document.createElement('p');
+            p.id = 'searchPendaftarEmpty';
+            p.style.cssText = 'color:#8b949e;font-size:13px;padding:20px;text-align:center;border:1px dashed #30363d;border-radius:12px;';
+            p.textContent = 'Tidak ada pendaftar program yang cocok dengan pencarian.';
+            wrap.appendChild(p);
+        } else if ((!q || totalVisible > 0) && noMatch) {
+            noMatch.remove();
+        }
+
+        if (countEl) countEl.textContent = q && cards.length ? totalVisible + ' / ' + totalRows + ' pendaftar ditemukan' : '';
+    });
 });
 </script>
 @endsection

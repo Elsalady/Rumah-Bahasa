@@ -365,10 +365,19 @@
                                                             {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB
                                                             @if($j->pengajar) &middot; {{ $j->pengajar }} @endif
                                                         </p>
+                                                        @if($j->tema_kelas)
+                                                            <p style="font-size:12px;font-weight:600;color:#b45309;margin:2px 0 0;">🎯 Tema: {{ $j->tema_kelas }}</p>
+                                                        @endif
                                                     </div>
                                                     <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
                                                         <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:10px;font-weight:600;{{ $j->jenis === 'tematik' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#fef3c7;color:#b45309;' }}">{{ ucfirst($j->jenis) }}</span>
                                                         <span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:10px;font-weight:600;{{ $j->mode === 'online' ? 'background:#e0f2fe;color:#0369a1;' : 'background:#ecfdf5;color:#166534;' }}">{{ ucfirst($j->mode) }}</span>
+                                                        @if(isset($pendaftaranByJadwal[$j->id]))
+                                                            <form action="{{ route('member.pendaftaran.batal', $pendaftaranByJadwal[$j->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pendaftaran {{ $j->nama_kelas }} ini? Kuota kelas akan kembali tersedia untuk member lain.');">
+                                                                @csrf @method('DELETE')
+                                                                <button type="submit" style="font-size:10px;font-weight:600;padding:4px 10px;border-radius:50px;background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;cursor:pointer;transition:background 0.2s;font-family:inherit;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">Batal Daftar</button>
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -411,10 +420,6 @@
                                     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
                                         @if($p->status === 'confirmed')
                                             <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;background:#1d4ed8;color:#fff;">Terdaftar</span>
-                                            <form action="{{ route('member.pendaftaran.batal', $p->id) }}" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pendaftaran {{ $p->program }}?');">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" style="font-size:11px;font-weight:600;padding:5px 12px;border-radius:50px;background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'">Batal Daftar</button>
-                                            </form>
                                         @elseif($p->status === 'rejected')
                                             <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;background:#dc2626;color:#fff;">Kuota Penuh</span>
                                         @endif

@@ -354,6 +354,46 @@
                     @enderror
                 </div>
 
+                {{-- Data Kependudukan (NIK, TTL, Umur) --}}
+                <hr style="border:none;border-top:2px solid var(--teal-100);margin:20px 0;">
+                <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:4px;">Data Kependudukan</h3>
+                <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">Data ini dipakai untuk pendataan & verifikasi saat mendaftar kelas. Tanda <span class="required-star">*</span> wajib diisi.</p>
+
+                <div class="form-group">
+                    <label for="nik">Nomor NIK <span class="required-star">*</span></label>
+                    <input type="text" id="nik" name="nik" value="{{ old('nik') }}" placeholder="16 digit angka, sesuai KTP" required maxlength="16" inputmode="numeric" pattern="[0-9]{16}"
+                        style="{{ $errors->has('nik') ? 'border-color:#dc2626;background:#fef2f2;' : '' }}">
+                    @error('nik')
+                        <span style="color:#dc2626;font-size:12px;margin-top:4px;display:block;">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tempat_lahir">Tempat Lahir <span class="required-star">*</span></label>
+                        <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir') }}" placeholder="Contoh: Surabaya" required
+                            style="{{ $errors->has('tempat_lahir') ? 'border-color:#dc2626;background:#fef2f2;' : '' }}">
+                        @error('tempat_lahir')
+                            <span style="color:#dc2626;font-size:12px;margin-top:4px;display:block;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_lahir">Tanggal Lahir <span class="required-star">*</span></label>
+                        <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required max="{{ date('Y-m-d') }}"
+                            style="{{ $errors->has('tanggal_lahir') ? 'border-color:#dc2626;background:#fef2f2;' : '' }}">
+                        @error('tanggal_lahir')
+                            <span style="color:#dc2626;font-size:12px;margin-top:4px;display:block;">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="jenis_pekerjaan">Jenis Pekerjaan <span class="required-star">*</span></label>
+                    <input type="text" id="jenis_pekerjaan" name="jenis_pekerjaan" value="{{ old('jenis_pekerjaan') }}" placeholder="Contoh: Pelajar, Karyawan Swasta, Wirausaha" required maxlength="255"
+                        style="{{ $errors->has('jenis_pekerjaan') ? 'border-color:#dc2626;background:#fef2f2;' : '' }}">
+                    @error('jenis_pekerjaan')
+                        <span style="color:#dc2626;font-size:12px;margin-top:4px;display:block;">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 {{-- Dokumen Wajib --}}
                 <hr style="border:none;border-top:2px solid var(--teal-100);margin:20px 0;">
                 <h3 style="font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:8px;">Upload Dokumen</h3>
@@ -369,25 +409,34 @@
                     @enderror
                 </div>
 
-                {{-- Pilih jenis & upload dokumen pendukung — 1 upload saja --}}
+                {{-- KTP (WAJIB) — kolom tersendiri, terpisah dari berkas pendukung opsional --}}
                 <div class="form-group">
-                    <label for="jenis_dokumen">
-                        Dokumen Pendukung <span class="required-star">*</span>
-                    </label>
+                    <label for="ktp">Scan/Foto KTP <span class="required-star">*</span></label>
+                    <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">Wajib diunggah untuk verifikasi identitas semua pendaftar.</p>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="ktp" name="ktp" accept="image/jpeg,image/png,image/jpg" required>
+                    </div>
+                    @error('ktp')
+                        <span style="color:#dc2626;font-size:12px;margin-top:4px;display:block;">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                {{-- Dokumen pendukung LAINNYA (opsional) — tidak ikut di sini, KTP sudah di atas --}}
+                <div class="form-group">
+                    <label for="jenis_dokumen">Dokumen Pendukung Lainnya (Opsional)</label>
                     <p style="font-size:12px;color:var(--gray-400);margin-bottom:6px;">
-                        Pilih salah satu jenis dokumen yang kamu miliki, lalu upload filenya.
+                        Tidak wajib. Pilih salah satu jika kamu punya, lalu upload filenya.
                         <button type="button" id="lihatContohSurat" style="background:none;border:none;padding:0;color:var(--teal-600);font-weight:500;cursor:pointer;font-size:inherit;text-decoration:underline;">Lihat contoh surat →</button>
                     </p>
-                    <select id="jenis_dokumen" name="jenis_dokumen" required
+                    <select id="jenis_dokumen" name="jenis_dokumen"
                         style="width:100%;padding:12px 16px;border:1.5px solid {{ $errors->has('jenis_dokumen') ? '#dc2626' : 'var(--gray-200)' }};border-radius:10px;font-size:15px;outline:none;color:var(--gray-900);background:var(--gray-50);margin-bottom:12px;box-sizing:border-box;transition:border-color 0.2s;">
-                        <option value="">— Pilih jenis dokumen —</option>
-                        <option value="ktp" {{ old('jenis_dokumen') === 'ktp' ? 'selected' : '' }}>KTP</option>
+                        <option value="">— Tidak ada / tidak perlu —</option>
                         <option value="surat_domisili" {{ old('jenis_dokumen') === 'surat_domisili' ? 'selected' : '' }}>Surat Domisili / Surat Keterangan Bekerja di Surabaya</option>
                         <option value="ktm" {{ old('jenis_dokumen') === 'ktm' ? 'selected' : '' }}>KTM / Kartu Pelajar / Identitas Lembaga Pendidikan</option>
                         <option value="kk" {{ old('jenis_dokumen') === 'kk' ? 'selected' : '' }}>Kartu Keluarga (KK)</option>
                     </select>
                     <div class="file-input-wrapper">
-                        <input type="file" id="dokumen" name="dokumen" accept="image/jpeg,image/png,image/jpg" required>
+                        <input type="file" id="dokumen" name="dokumen" accept="image/jpeg,image/png,image/jpg">
                     </div>
                     @error('jenis_dokumen')
                         <span style="color:#dc2626;font-size:12px;margin-top:4px;display:block;">{{ $message }}</span>
@@ -433,6 +482,9 @@
                 closed.style.display = 'none';
             }
         }
+
+        // Usia & rentang usia dihitung otomatis di server (AuthController@register)
+        // berdasarkan tanggal lahir — tidak ditampilkan ke member di form ini.
     </script>
 
     <script>

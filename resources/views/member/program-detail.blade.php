@@ -96,6 +96,9 @@
                                         @if($item->pengajar)
                                             <p style="font-size:12px;color:var(--gray-500);margin:2px 0 0;">Pengajar: {{ $item->pengajar }}</p>
                                         @endif
+                                        @if($item->tema_kelas)
+                                            <p style="font-size:12px;font-weight:600;color:#b45309;margin:2px 0 0;">🎯 Tema: {{ $item->tema_kelas }}</p>
+                                        @endif
                                     </div>
                                     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                                         <span style="display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:600;background:#e0f2fe;color:#0369a1;">{{ ucfirst($item->jenis) }}</span>
@@ -211,6 +214,7 @@
                                         @foreach($jadwalProgram as $j)
                                             <option value="{{ $j->id }}" data-jenis="{{ $j->jenis }}">
                                                 {{ $j->tanggal ? $j->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') . ' (' . $j->hari . ')' : $j->hari }}, {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB · {{ ucfirst($j->jenis) }} · {{ ucfirst($j->mode) }}
+                                                @if($j->tema_kelas) · 🎯 {{ $j->tema_kelas }} @endif
                                                 @if($j->pengajar) · {{ $j->pengajar }} @endif
                                             </option>
                                         @endforeach

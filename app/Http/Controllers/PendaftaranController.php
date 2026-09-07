@@ -62,6 +62,39 @@ class PendaftaranController extends Controller
                 ->with('error', 'Kamu sudah terdaftar di kelas ' . ucfirst($validated['jenis']) . ' pada program ini.');
         }
 
+        // ===== CEK BENTROK JAM DENGAN KELAS LAIN =====
+        // Member tidak bisa mengikuti 2 kelas pada tanggal & jam yang sama (misal offline vs online).
+        // Deteksi via NIK: kalau NIK user sudah terdaftar confirmed di jadwal lain yang waktunya
+        // tumpang tindih dengan jadwal yang dipilih, pendaftaran ditolak otomatis.
+        $bentrok = Pendaftaran::where('status', 'confirmed')
+            ->whereHas('jadwal', function ($q) use ($jadwal) {
+                $q->where('is_active', true);
+                if ($jadwal->tanggal) {
+                    $q->where('tanggal', $jadwal->tanggal->toDateString());
+                }
+            })
+            ->where(function ($q) use ($jadwal) {
+                $q->where('user_id', auth()->id())
+                    ->orWhereHas('user', function ($qq) {
+                        $qq->where('nik', auth()->user()->nik);
+                    });
+            })
+            ->where('jadwal_id', '!=', $jadwal->id)
+            ->where(function ($q) use ($jadwal) {
+                // Tumpang tindih waktu: mulai < selesai tujuan DAN selesai > mulai tujuan
+                $q->whereHas('jadwal', function ($qq) use ($jadwal) {
+                    $qq->where('jam_mulai', '<', $jadwal->jam_selesai)
+                        ->where('jam_selesai', '>', $jadwal->jam_mulai);
+                });
+            })
+            ->with('jadwal')
+            ->first();
+
+        if ($bentrok) {
+            return redirect()->route('member.program.detail', $validated['program'])
+                ->with('error', 'Kamu tidak bisa mendaftar kelas ini karena waktunya bentrok dengan kelas ' . ($bentrok->jadwal?->nama_kelas ?: 'lain') . ' yang sudah kamu ikuti. Satu orang hanya bisa mengikuti satu kelas di jam yang sama.');
+        }
+
         // ===== CEK KUOTA JADWAL YANG DIPILIH =====
         // Kuota 0 = kelas tidak menerima pendaftaran (admin belum membuka kuota)
         if ($jadwal->kuota <= 0) {

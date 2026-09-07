@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\KontakController as AdminKontak;
 use App\Http\Controllers\Admin\PendaftaranController as AdminPendaftaran;
 use App\Http\Controllers\Admin\MemberController as AdminMember;
 use App\Http\Controllers\Admin\KontenController as AdminKonten;
+use App\Http\Controllers\Admin\LaporanController as AdminLaporan;
 
 // ===== PUBLIC =====
 Route::get('/', [BeritaController::class, 'index'])->name('home');
@@ -101,11 +102,16 @@ Route::middleware(['auth', 'admin.auth'])->prefix('admin')->name('admin.')->grou
     Route::get('/pendaftaran', [AdminPendaftaran::class, 'index'])->name('pendaftaran.index');
     Route::get('/pendaftaran/export', [AdminPendaftaran::class, 'export'])->name('pendaftaran.export');
     Route::post('/pendaftaran/reset', [AdminPendaftaran::class, 'resetPendaftar'])->name('pendaftaran.reset');
+    Route::delete('/pendaftaran/{id}', [AdminPendaftaran::class, 'destroy'])->name('pendaftaran.destroy');
+
+    Route::get('/laporan', [AdminLaporan::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/export', [AdminLaporan::class, 'export'])->name('laporan.export');
 
     Route::prefix('member')->name('member.')->group(function () {
         Route::get('/kelola', [AdminMember::class, 'kelola'])->name('kelola');
         Route::get('/export', [AdminMember::class, 'export'])->name('export');
         Route::post('/reset', [AdminMember::class, 'resetMember'])->name('reset');
+        Route::get('/{id}/dokumen/{kolom}', [AdminMember::class, 'showDokumen'])->name('dokumen');
         Route::get('/{id}', [AdminMember::class, 'show'])->name('show');
         Route::put('/{id}', [AdminMember::class, 'update'])->name('update');
     });

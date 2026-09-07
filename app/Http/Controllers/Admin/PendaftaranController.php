@@ -78,7 +78,7 @@ class PendaftaranController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
-            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th style="text-align:center;">Program</th><th style="text-align:center;">Status</th><th>Tanggal Daftar</th></tr>';
+            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>NIK</th><th>Usia</th><th>Jenis Pekerjaan</th><th>Email</th><th style="text-align:center;">Telepon</th><th style="text-align:center;">Program</th><th style="text-align:center;">Status</th><th>Tanggal Daftar</th></tr>';
             foreach ($daftar as $i => $p) {
                 $warna = match($p->status) {
                     'pending' => '#b45309',
@@ -90,6 +90,9 @@ class PendaftaranController extends Controller
                 echo '<td>' . ($i + 1) . '</td>';
                 echo '<td>' . htmlspecialchars($p->user->no_member ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($p->user->name) . '</td>';
+                echo '<td>' . htmlspecialchars($p->user->nik ?? '-') . '</td>';
+                echo '<td>' . htmlspecialchars($p->user->usia_label ?? '-') . '</td>';
+                echo '<td>' . htmlspecialchars($p->user->jenis_pekerjaan ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($p->user->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($p->user->phone ?? '-') . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($p->program) . '</td>';
@@ -101,6 +104,24 @@ class PendaftaranController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Hapus pendaftaran member dari kelas tertentu.
+     * Baris pendaftaran dihapus → kuota kelas otomatis longgar
+     * sehingga member lain bisa memakai slot tersebut.
+     */
+    public function destroy($id)
+    {
+        $pendaftaran = Pendaftaran::findOrFail($id);
+
+        $namaMember = optional($pendaftaran->user)->name ?: 'Member';
+        $namaKelas = $pendaftaran->jadwal?->nama_kelas ?: $pendaftaran->program ?: 'kelas';
+
+        $pendaftaran->delete();
+
+        return redirect()->route('admin.pendaftaran.index')
+            ->with('success', "Pendaftaran {$namaMember} dari {$namaKelas} berhasil dihapus. Kuota kelas kembali tersedia.");
     }
 
     /**

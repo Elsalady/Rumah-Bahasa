@@ -176,7 +176,9 @@
         <div class="profile-card-header">
             @php $fotoSrc = $member->fileSource('foto_profile'); @endphp
             @if($fotoSrc)
-                <img src="{{ $fotoSrc }}" alt="Foto Profil" class="profile-avatar">
+                <a href="{{ route('admin.member.dokumen', [$member->id, 'foto_profile']) }}" target="_blank" title="Klik untuk lihat foto profil ukuran penuh" style="display:flex;text-decoration:none;">
+                    <img src="{{ $fotoSrc }}" alt="Foto Profil" class="profile-avatar" style="cursor:pointer;">
+                </a>
             @else
                 <div class="profile-avatar-placeholder">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5">
@@ -197,6 +199,34 @@
             <div class="info-item">
                 <span class="info-label">Nama Lengkap</span>
                 <span class="info-value" style="font-size:15px;font-weight:700;color:var(--gray-900);">{{ $member->name }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">NIK</span>
+                <span class="info-value" style="font-family:monospace;letter-spacing:0.5px;">{{ $member->nik ?: '-' }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Tempat, Tanggal Lahir</span>
+                <span class="info-value">
+                    {{ $member->tempat_lahir ?: '-' }}{{ $member->tanggal_lahir ? ', ' . $member->tanggal_lahir->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') : '' }}
+                </span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Usia</span>
+                <span class="info-value">
+                    @if($member->usia_label)
+                        {{ $member->usia_label }}
+                    @else
+                        -
+                    @endif
+                </span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Jenis Pekerjaan</span>
+                <span class="info-value">{{ $member->jenis_pekerjaan ?: '-' }}</span>
             </div>
 
             <div class="info-item">
@@ -258,7 +288,7 @@
                 <div class="doc-item">
                     <span class="doc-label">{{ $label }}</span>
                     @if($member->fileSource($field))
-                        <a href="{{ $member->fileSource($field) }}" target="_blank" class="btn-sm btn-edit" style="text-decoration:none;font-size:12px;white-space:nowrap;">Lihat</a>
+                        <a href="{{ route('admin.member.dokumen', [$member->id, $field]) }}" target="_blank" rel="noopener" class="btn-sm btn-edit" style="text-decoration:none;font-size:12px;white-space:nowrap;">Lihat</a>
                     @else
                         <span style="font-size:12px;color:var(--gray-400);white-space:nowrap;">Belum ada</span>
                     @endif

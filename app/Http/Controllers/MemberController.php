@@ -40,11 +40,13 @@ class MemberController extends Controller
 
         // Jadwal mingguan: kelas confirmed yang jadwalnya masih tersedia (belum lewat), urut per hari & jam
         $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-        $jadwalMingguan = Pendaftaran::where('user_id', $user->id)
+        $pendaftaranConfirmed = Pendaftaran::where('user_id', $user->id)
             ->where('status', 'confirmed')
             ->whereNotNull('jadwal_id')
             ->with('jadwal')
-            ->get()
+            ->get();
+
+        $jadwalMingguan = $pendaftaranConfirmed
             ->map(function ($p) {
                 return $p->jadwal;
             })
@@ -57,7 +59,10 @@ class MemberController extends Controller
             ->values()
             ->groupBy('hari');
 
-        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'jadwalMingguan', 'hariList'));
+        // Peta jadwal_id → id pendaftaran (untuk tombol Batal di kartu jadwal)
+        $pendaftaranByJadwal = $pendaftaranConfirmed->pluck('id', 'jadwal_id');
+
+        return view('member.dashboard', compact('user', 'pendaftaran', 'notifikasi', 'notifUnread', 'jadwalMingguan', 'hariList', 'pendaftaranByJadwal'));
     }
 
     public function edit()
@@ -74,13 +79,15 @@ class MemberController extends Controller
             'name' => 'required|max:255',
             'phone' => 'nullable|max:20',
             'address' => 'nullable|max:500',
+            'jenis_pekerjaan' => 'nullable|max:255',
             'password' => 'nullable|min:6|confirmed',
             'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'jenis_dokumen' => 'nullable|in:ktp,surat_domisili,ktm,kk',
+            'ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'jenis_dokumen' => 'nullable|in:surat_domisili,ktm,kk',
             'dokumen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = $request->only(['name', 'phone', 'address']);
+        $data = $request->only(['name', 'phone', 'address', 'jenis_pekerjaan']);
         if ($request->filled('password')) {
             $data['password'] = $request->password;
         }
@@ -93,6 +100,16 @@ class MemberController extends Controller
             $foto = $request->file('foto_profile');
             $data['foto_profile'] = $foto->store('member-dokumen', 'public');
             $data['foto_profile_data'] = User::fileToDataUri($foto);
+        }
+
+        // Upload KTP — wajib (diisi terpisah dari dokumen pendukung lain)
+        if ($request->hasFile('ktp')) {
+            if ($user->ktp) {
+                Storage::disk('public')->delete($user->ktp);
+            }
+            $ktp = $request->file('ktp');
+            $data['ktp'] = $ktp->store('member-dokumen', 'public');
+            $data['ktp_data'] = User::fileToDataUri($ktp);
         }
 
         // Upload dokumen pendukung — simpan ke kolom sesuai jenis yang dipilih

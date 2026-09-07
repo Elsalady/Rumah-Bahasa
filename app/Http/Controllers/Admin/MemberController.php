@@ -51,6 +51,9 @@ class MemberController extends Controller
                     'user' => $p->user ? [
                         'name' => $p->user->name,
                         'no_member' => $p->user->no_member,
+                        'nik' => $p->user->nik,
+                        'usia_label' => $p->user->usia_label,
+                        'jenis_pekerjaan' => $p->user->jenis_pekerjaan,
                         'email' => $p->user->email,
                         'phone' => $p->user->phone,
                     ] : null,
@@ -87,6 +90,49 @@ class MemberController extends Controller
     {
         $member = User::where('role', 'member')->findOrFail($id);
         return view('admin.member.show', compact('member'));
+    }
+
+    /**
+     * Streaming file dokumen/foto member (base64 di DB atau path storage).
+     * Dipakai supaya gambar bisa dibuka di tab baru — browser memblokir buka data: URI langsung.
+     */
+    public function showDokumen($id, $kolom)
+    {
+        if (!array_key_exists($kolom, User::DOKUMEN_MAP)) {
+            abort(404);
+        }
+
+        $member = User::where('role', 'member')->findOrFail($id);
+        $src = $member->fileSource($kolom);
+
+        if (!$src) {
+            abort(404);
+        }
+
+        if (preg_match('#^data:(?<mime>[a-zA-Z0-9.+/\\-]+);base64,(?<b64>.*)$#s', $src, $m)) {
+            $bytes = base64_decode($m['b64'], true);
+            if ($bytes === false) {
+                abort(404);
+            }
+            $mime = $m['mime'];
+            $ext = match (true) {
+                str_contains($mime, 'png') => 'png',
+                str_contains($mime, 'webp') => 'webp',
+                str_contains($mime, 'gif') => 'gif',
+                default => 'jpg',
+            };
+            return response($bytes, 200, [
+                'Content-Type' => $mime,
+                'Content-Disposition' => 'inline; filename="' . $kolom . '.' . $ext . '"',
+                'Cache-Control' => 'private, max-age=3600',
+            ]);
+        }
+
+        $path = storage_path('app/public/' . ltrim($src, '/'));
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        return response()->file($path);
     }
 
     public function update(Request $request, $id)
@@ -157,7 +203,7 @@ class MemberController extends Controller
             echo 'tr:nth-child(even){background:#f0fdfa;}';
             echo '</style></head><body>';
             echo '<table>';
-            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
+            echo '<tr><th>No</th><th>Nomor Member</th><th>Nama</th><th>NIK</th><th style="text-align:center;">Tempat Lahir</th><th style="text-align:center;">Tanggal Lahir</th><th style="text-align:center;">Usia</th><th style="text-align:center;">Jenis Pekerjaan</th><th>Email</th><th style="text-align:center;">Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr>';
             foreach ($members as $i => $m) {
                 $warna = match($m->status) {
                     'pending' => '#b45309',
@@ -169,6 +215,11 @@ class MemberController extends Controller
                 echo '<td>' . ($i + 1) . '</td>';
                 echo '<td>' . htmlspecialchars($m->no_member ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($m->name) . '</td>';
+                echo '<td>' . htmlspecialchars($m->nik ?? '-') . '</td>';
+                echo '<td style="text-align:center;">' . htmlspecialchars($m->tempat_lahir ?? '-') . '</td>';
+                echo '<td style="text-align:center;">' . ($m->tanggal_lahir ? $m->tanggal_lahir->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') : '-') . '</td>';
+                echo '<td style="text-align:center;">' . htmlspecialchars($m->usia_label ?? '-') . '</td>';
+                echo '<td style="text-align:center;">' . htmlspecialchars($m->jenis_pekerjaan ?? '-') . '</td>';
                 echo '<td>' . htmlspecialchars($m->email) . '</td>';
                 echo '<td style="text-align:center;">' . htmlspecialchars($m->phone ?? '-') . '</td>';
                 echo '<td style="text-align:center;color:' . $warna . ';font-weight:600;">' . ucfirst($m->status) . '</td>';

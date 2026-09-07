@@ -18,8 +18,12 @@
                     <tr>
                         <th>Nomor Member</th>
                         <th>Nama</th>
+                        <th>NIK</th>
                         <th>Email</th>
                         <th>Telepon</th>
+                        <th>TTL</th>
+                        <th>Usia</th>
+                        <th>Pekerjaan</th>
                         <th>Tanggal Daftar</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -30,8 +34,12 @@
                         <tr>
                             <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ $member->no_member ?: '-' }}</span></td>
                             <td><div class="title-cell">{{ $member->name }}</div></td>
+                            <td style="font-size:13px;font-family:monospace;">{{ $member->nik ?: '-' }}</td>
                             <td style="font-size:13px;">{{ $member->email }}</td>
                             <td style="font-size:13px;">{{ $member->phone ?: '-' }}</td>
+                            <td style="font-size:13px;white-space:nowrap;">{{ $member->tempat_lahir ?: '-' }}{{ $member->tanggal_lahir ? ', ' . $member->tanggal_lahir->timezone('Asia/Jakarta')->locale('id')->isoFormat('d MMM Y') : '' }}</td>
+                            <td style="font-size:13px;white-space:nowrap;">{{ $member->usia_label ?: '-' }}</td>
+                            <td style="font-size:13px;">{{ $member->jenis_pekerjaan ?: '-' }}</td>
                             <td style="font-size:13px;">{{ $member->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
                             <td>
                                 <span style="display:inline-block;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:700;color:#ffffff;

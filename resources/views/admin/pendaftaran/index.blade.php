@@ -56,12 +56,15 @@
                                     @if($kelas['anggota']->count())
                                         <div class="table-wrap">
                                             <table class="data-table">
-                                                <thead><tr><th>Nomor Member</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal Daftar</th></tr></thead>
+                                                <thead><tr><th>Nomor Member</th><th>Nama</th><th>NIK</th><th>Usia</th><th>Pekerjaan</th><th>Email</th><th>Telepon</th><th>Status</th><th>Tanggal Daftar</th><th style="text-align:right;">Aksi</th></tr></thead>
                                                 <tbody>
                                                     @foreach($kelas['anggota'] as $p)
                                                         <tr>
                                                             <td><span style="font-family:monospace;font-size:12px;font-weight:600;color:var(--teal-700);">{{ optional($p->user)->no_member ?: '-' }}</span></td>
                                                             <td><div class="title-cell">{{ $p->user->name }}</div></td>
+                                                            <td style="font-size:13px;font-family:monospace;">{{ optional($p->user)->nik ?: '-' }}</td>
+                                                            <td style="font-size:13px;white-space:nowrap;">{{ optional($p->user)->usia_label ?: '-' }}</td>
+                                                            <td style="font-size:13px;">{{ optional($p->user)->jenis_pekerjaan ?: '-' }}</td>
                                                             <td style="font-size:13px;">{{ $p->user->email }}</td>
                                                             <td style="font-size:13px;">{{ $p->user->phone ?: '-' }}</td>
                                                             <td>
@@ -72,6 +75,17 @@
                                                                 </span>
                                                             </td>
                                                             <td style="font-size:13px;">{{ $p->created_at->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}</td>
+                                                            <td>
+                                                                <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;">
+                                                                    @if($p->user)
+                                                                        <a href="{{ route('admin.member.show', $p->user_id) }}" class="btn-sm btn-edit" style="text-decoration:none;white-space:nowrap;">Edit</a>
+                                                                    @endif
+                                                                    <form action="{{ route('admin.pendaftaran.destroy', $p->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus pendaftaran {{ $p->user->name ?? 'member ini' }} dari kelas ini? Kuota akan kembali tersedia.')">
+                                                                        @csrf @method('DELETE')
+                                                                        <button type="submit" class="btn-sm btn-delete" style="white-space:nowrap;">Hapus</button>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

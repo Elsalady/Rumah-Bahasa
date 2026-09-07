@@ -142,6 +142,10 @@
                                 <label>Tanggal</label>
                                 <input type="date" name="tanggal" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
                             </div>
+                            <div class="form-group">
+                                <label>Tema Kelas</label>
+                                <input type="text" name="tema_kelas" placeholder="cth: Perkenalan & Salam" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;">
+                            </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                                 <div class="form-group">
                                     <label>Jam Mulai</label>
@@ -205,6 +209,9 @@
                                             @if($item->pengajar)
                                                 <p style="font-size:11px;color:var(--gray-400);margin:2px 0 0;">{{ $item->pengajar }}</p>
                                             @endif
+                                            @if($item->tema_kelas)
+                                                <p style="font-size:11px;font-weight:600;color:var(--teal-300);margin:2px 0 0;">🎯 Tema: {{ $item->tema_kelas }}</p>
+                                            @endif
                                         </div>
                                         <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
                                             <span style="display:inline-block;padding:2px 6px;border-radius:50px;font-size:10px;font-weight:600;background:#2d333b;color:#c9d1d9;border:1px solid #3d444d;">{{ ucfirst($item->jenis) }}</span>
@@ -217,11 +224,84 @@
                                             @endif
                                         </div>
                                         <div style="display:flex;gap:4px;">
+                                            <button type="button" class="btn-sm btn-edit" onclick="toggleEditJadwal({{ $item->id }})">Edit</button>
                                             <form action="{{ route('admin.jadwal-kelas.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus jadwal ini?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="btn-sm btn-delete">Hapus</button>
                                             </form>
                                         </div>
+                                    </div>
+
+                                    {{-- Form Edit Jadwal (inline) --}}
+                                    <div class="jadwal-form" id="edit-form-{{ $item->id }}" style="margin-top:-4px;">
+                                        <h4 style="margin:0 0 12px;font-size:14px;">Edit Jadwal</h4>
+                                        <form action="{{ route('admin.jadwal-kelas.update', $item->id) }}" method="POST">
+                                            @csrf @method('PUT')
+                                            <div class="jadwal-form-grid">
+                                                <div class="form-group">
+                                                    <label>Nama Kelas</label>
+                                                    <input type="text" name="nama_kelas" value="{{ $item->nama_kelas }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tema Kelas</label>
+                                                    <input type="text" name="tema_kelas" value="{{ $item->tema_kelas }}" placeholder="cth: Perkenalan & Salam" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Hari</label>
+                                                    <select name="hari" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'] as $h)
+                                                            <option value="{{ $h }}" {{ $item->hari === $h ? 'selected' : '' }}>{{ $h }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tanggal</label>
+                                                    <input type="date" name="tanggal" value="{{ $item->tanggal ? $item->tanggal->format('Y-m-d') : '' }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                                    <div class="form-group">
+                                                        <label>Jam Mulai</label>
+                                                        <input type="time" name="jam_mulai" value="{{ $item->jam_mulai ? \Carbon\Carbon::parse($item->jam_mulai)->format('H:i') : '' }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Jam Selesai</label>
+                                                        <input type="time" name="jam_selesai" value="{{ $item->jam_selesai ? \Carbon\Carbon::parse($item->jam_selesai)->format('H:i') : '' }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Pengajar</label>
+                                                    <input type="text" name="pengajar" value="{{ $item->pengajar }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;">
+                                                </div>
+                                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                                    <div class="form-group">
+                                                        <label>Jenis</label>
+                                                        <select name="jenis" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                            <option value="tematik" {{ $item->jenis === 'tematik' ? 'selected' : '' }}>Tematik</option>
+                                                            <option value="tentative" {{ $item->jenis === 'tentative' ? 'selected' : '' }}>Tentative</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Mode</label>
+                                                        <select name="mode" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;" required>
+                                                            <option value="offline" {{ $item->mode === 'offline' ? 'selected' : '' }}>Offline</option>
+                                                            <option value="online" {{ $item->mode === 'online' ? 'selected' : '' }}>Online</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Ruangan / Link</label>
+                                                    <input type="text" name="ruangan_link" value="{{ $item->ruangan_link }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Kuota</label>
+                                                    <input type="number" name="kuota" value="{{ $item->kuota }}" min="0" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:13px;outline:none;background:#fff;">
+                                                </div>
+                                            </div>
+                                            <div style="display:flex;gap:10px;margin-top:12px;">
+                                                <button type="submit" class="btn-submit" style="padding:10px 20px;font-size:13px;width:auto;">Simpan Perubahan</button>
+                                                <button type="button" onclick="toggleEditJadwal({{ $item->id }})" style="padding:10px 20px;font-size:13px;background:var(--gray-200);color:var(--gray-700);border:none;border-radius:8px;cursor:pointer;">Batal</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 @endforeach
                             </div>
@@ -256,6 +336,12 @@ function toggleProgram(id) {
         body.style.display = 'none';
         toggle.classList.remove('open');
     }
+}
+
+function toggleEditJadwal(id) {
+    const form = document.getElementById('edit-form-' + id);
+    if (!form) return;
+    form.classList.toggle('open');
 }
 </script>
 @endsection

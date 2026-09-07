@@ -74,6 +74,9 @@
                                                     &middot; {{ $item->pengajar }}
                                                 @endif
                                             </p>
+                                            @if($item->tema_kelas)
+                                                <p style="font-size:13px;font-weight:600;color:#b45309;margin:4px 0 0;">🎯 Tema: {{ $item->tema_kelas }}</p>
+                                            @endif
                                         </div>
                                         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                                             <span class="badge {{ $item->jenis === 'tematik' ? 'badge-tematik' : 'badge-tentative' }}">{{ ucfirst($item->jenis) }}</span>
