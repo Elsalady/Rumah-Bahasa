@@ -117,6 +117,11 @@ class User extends Authenticatable
      */
     public function getUsiaLabelAttribute(): ?string
     {
+        // Hitung langsung dari tanggal_lahir bila kolom umur belum terisi
+        // (mis. member dibuat sebelum kolom kependudukan ditambahkan / DB di-reset).
+        if ($this->umur === null && $this->tanggal_lahir) {
+            return \Carbon\Carbon::parse($this->tanggal_lahir)->age . ' (' . (self::UMUR_MAP[self::kategoriUsia($this->tanggal_lahir)] ?? '-') . ')';
+        }
         if ($this->umur === null) {
             return null;
         }

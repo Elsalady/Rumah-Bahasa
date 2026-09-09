@@ -8,6 +8,28 @@ php artisan optimize:clear || true
 echo ">>> Running database migrations..."
 php artisan migrate --force --no-interaction
 
+echo ">>> Cek isi database (diagnostik)..." 
+php artisan tinker --execute="
+echo 'users: ' . \App\Models\User::count() . PHP_EOL;
+echo 'jadwal_kelas: ' . \App\Models\JadwalKelas::count() . PHP_EOL;
+echo 'pendaftaran: ' . \App\Models\Pendaftaran::count() . PHP_EOL;
+echo 'layanan: ' . \App\Models\Layanan::count() . PHP_EOL;
+" || true
+
+echo ">>> Backfill umur & rentang_usia dari tanggal_lahir (jika kosong)..." 
+php artisan tinker --execute="
+\$updated = 0;
+foreach (\App\Models\User::whereNotNull('tanggal_lahir')->get() as \$u) {
+    \$umur = \Carbon\Carbon::parse(\$u->tanggal_lahir)->age;
+    \$kategori = \App\Models\User::kategoriUsia(\$u->tanggal_lahir);
+    if (\$u->umur !== \$umur || \$u->rentang_usia !== \$kategori) {
+        \$u->update(['umur' => \$umur, 'rentang_usia' => \$kategori]);
+        \$updated++;
+    }
+}
+echo 'Backfill umur/rentang_usia: ' . \$updated . ' member.' . PHP_EOL;
+" || true
+
 echo ">>> Membersihkan data duplikat dari seed sebelumnya..."
 php artisan tinker --execute="
 \$dup = \App\Models\Profil::select('judul')->groupBy('judul')->havingRaw('COUNT(*) > 1')->pluck('judul');
