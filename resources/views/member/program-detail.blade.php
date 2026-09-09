@@ -133,15 +133,10 @@
                 @endif
 
                 {{-- Tombol Daftar --}}
+                @php $jadwalTersisa = $jadwalProgram->filter(fn ($j) => !in_array($j->id, $jadwalTerdaftarIds))->values(); @endphp
                 <div style="max-width:400px;margin:0 auto;">
                     <div class="dashboard-card" style="padding:28px;text-align:center;">
-                        @if($semuaTerdaftar)
-                            <div style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#ecfdf5;color:#166534;border-radius:8px;font-size:15px;font-weight:600;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                kamu sudah terdaftar di semua kelas
-                            </div>
-                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Kamu sudah terdaftar di semua jenis kelas program ini.</p>
-                        @elseif(!$jadwalProgram->count())
+                        @if(!$jadwalProgram->count())
                             <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">
                                 Jadwal kelas minggu ini belum tersedia. Silakan tunggu admin mengatur jadwalnya.
@@ -149,11 +144,22 @@
                             <button type="button" class="btn-submit" style="width:100%;padding:14px 24px;font-size:15px;background:#e5e7eb;color:#9ca3af;cursor:not-allowed;border:none;" disabled>
                                 Daftar Tidak Tersedia
                             </button>
+                        @elseif(!$jadwalTersisa->count())
+                            <div style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#ecfdf5;color:#166534;border-radius:8px;font-size:15px;font-weight:600;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                kamu sudah terdaftar di semua jadwal program ini
+                            </div>
+                            <p style="color:var(--gray-400);font-size:13px;margin-top:12px;">Cek jadwal baru di minggu berikutnya untuk mendaftar lagi.</p>
                         @else
                             <h3 style="margin-bottom:8px;">Daftar {{ $program->nama }}</h3>
                             <p style="color:var(--gray-400);font-size:13px;margin-bottom:16px;">
                                 Kamu terdaftar sebagai: <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->email }})
                             </p>
+                            @if($jadwalTerdaftarIds)
+                                <p style="color:var(--gray-500);font-size:12px;margin-bottom:16px;background:#f8fafc;padding:8px 12px;border-radius:8px;">
+                                    ✅ Kelas yang sudah kamu ikuti di program ini otomatis dinonaktifkan di form di bawah.
+                                </p>
+                            @endif
                             <form action="{{ route('pendaftaran.store') }}" method="POST" id="form-daftar">
                                 @csrf
                                 <input type="hidden" name="program" value="{{ $program->nama }}">
@@ -167,9 +173,9 @@
                                         $tentativeAda = in_array('tentative', $jenisTersedia);
                                         $tematikTerdaftar = in_array('tematik', $jenisTerdaftar);
                                         $tentativeTerdaftar = in_array('tentative', $jenisTerdaftar);
-                                        // Bisa dipilih jika tersedia & belum terdaftar
-                                        $tematikPilih = $tematikAda && !$tematikTerdaftar;
-                                        $tentativePilih = $tentativeAda && !$tentativeTerdaftar;
+                                        // Jenis tetap bisa dipilih selama masih ada jadwal jenis itu
+                                        $tematikPilih = $tematikAda;
+                                        $tentativePilih = $tentativeAda;
                                         // Abu-abu hanya jika tidak tersedia (bukan karena sudah terdaftar)
                                         $tematikGelap = !$tematikAda;
                                         $tentativeGelap = !$tentativeAda;
@@ -180,7 +186,7 @@
                                         <div style="text-align:left;">
                                             <strong style="font-size:13px;color:var(--gray-900);display:block;">Tematik</strong>
                                             <span style="font-size:12px;color:var(--gray-500);line-height:1.5;display:block;margin-top:2px;">
-                                                1 tema/buku dibahas dalam beberapa pertemuan berturut-turut. Cukup daftar sekali, kamu otomatis mengikuti kelas sampai tema/buku tersebut selesai.
+                                                1 tema/buku dibahas dalam beberapa pertemuan berturut-turut. Kamu tetap bisa mendaftar di tiap kelas/jadwal yang tersedia.
                                             </span>
                                             @if($tematikTerdaftar)
                                                 <span style="font-size:11px;font-weight:700;color:#166534;background:#ecfdf5;display:inline-block;padding:2px 10px;border-radius:50px;margin-top:4px;">✓ Sudah terdaftar</span>
@@ -212,10 +218,11 @@
                                     <select name="jadwal_id" id="jadwal_id" required style="width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;outline:none;background:var(--gray-50);color:var(--gray-900);box-sizing:border-box;">
                                         <option value="">— Pilih jadwal —</option>
                                         @foreach($jadwalProgram as $j)
-                                            <option value="{{ $j->id }}" data-jenis="{{ $j->jenis }}">
+                                            <option value="{{ $j->id }}" data-jenis="{{ $j->jenis }}" {{ in_array($j->id, $jadwalTerdaftarIds) ? 'disabled' : '' }}>
                                                 {{ $j->tanggal ? $j->tanggal->timezone('Asia/Jakarta')->locale('id')->isoFormat('D MMM YYYY') . ' (' . $j->hari . ')' : $j->hari }}, {{ \Carbon\Carbon::parse($j->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($j->jam_selesai)->format('H:i') }} WIB · {{ ucfirst($j->jenis) }} · {{ ucfirst($j->mode) }}
                                                 @if($j->tema_kelas) · 🎯 {{ $j->tema_kelas }} @endif
                                                 @if($j->pengajar) · {{ $j->pengajar }} @endif
+                                                @if(in_array($j->id, $jadwalTerdaftarIds)) · ✓ sudah daftar @endif
                                             </option>
                                         @endforeach
                                     </select>
@@ -240,7 +247,7 @@
         let ada = false;
         Array.from(select.options).forEach(opt => {
             if (opt.value === '') return;
-            const cocok = opt.dataset.jenis === target;
+            const cocok = opt.dataset.jenis === target && !opt.disabled;
             opt.style.display = cocok ? '' : 'none';
             if (cocok) ada = true;
         });

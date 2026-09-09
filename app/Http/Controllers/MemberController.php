@@ -168,6 +168,16 @@ class MemberController extends Controller
 
         $baruDaftar = session('baru_daftar_program') === $program->nama;
 
+        // Jadwal yang sudah didaftar member (pending/confirmed) — jadwal ini dinonaktifkan di form.
+        $jadwalTerdaftarIds = Pendaftaran::where('user_id', auth()->id())
+            ->where('program', $program->nama)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereNotNull('jadwal_id')
+            ->pluck('jadwal_id')
+            ->unique()
+            ->values()
+            ->toArray();
+
         // Jadwal untuk program ini (hanya yang belum lewat tanggalnya)
         $jadwalProgram = $program->jadwal()
             ->where('is_active', true)
@@ -182,10 +192,7 @@ class MemberController extends Controller
         // Jenis kelas yang tersedia di jadwal program ini (tematik / tentative)
         $jenisTersedia = $jadwalProgram->pluck('jenis')->unique()->values()->toArray();
 
-        // Sudah terdaftar di SEMUA jenis yang tersedia?
-        $semuaTerdaftar = !empty($jenisTersedia) && empty(array_diff($jenisTersedia, $jenisTerdaftar));
-
-        return view('member.program-detail', compact('program', 'jenisTerdaftar', 'baruDaftar', 'jadwalProgram', 'jenisTersedia', 'semuaTerdaftar'));
+        return view('member.program-detail', compact('program', 'jenisTerdaftar', 'baruDaftar', 'jadwalProgram', 'jenisTersedia', 'jadwalTerdaftarIds'));;
     }
 
     public function jadwal()

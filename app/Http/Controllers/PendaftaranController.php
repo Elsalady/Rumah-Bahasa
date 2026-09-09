@@ -51,15 +51,16 @@ class PendaftaranController extends Controller
                 ->with('error', 'Jadwal kelas ini sudah lewat. Silakan pilih jadwal yang masih tersedia.');
         }
 
-        $sudahTerdaftar = Pendaftaran::where('user_id', auth()->id())
-            ->where('program', $validated['program'])
-            ->where('jenis', $validated['jenis'])
+        // Member boleh mendaftar di banyak kelas (tematik/tentative mana pun),
+        // TAPI tidak boleh daftar 2x di kelas/jadwal yang sama (pending/confirmed).
+        $sudahJadwalIni = Pendaftaran::where('user_id', auth()->id())
+            ->where('jadwal_id', $jadwal->id)
             ->whereIn('status', ['pending', 'confirmed'])
             ->exists();
 
-        if ($sudahTerdaftar) {
+        if ($sudahJadwalIni) {
             return redirect()->route('member.program.detail', $validated['program'])
-                ->with('error', 'Kamu sudah terdaftar di kelas ' . ucfirst($validated['jenis']) . ' pada program ini.');
+                ->with('error', 'Kamu sudah terdaftar di kelas/jadwal ini.');
         }
 
         // ===== CEK BENTROK JAM DENGAN KELAS LAIN =====
