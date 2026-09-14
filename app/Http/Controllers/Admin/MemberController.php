@@ -81,9 +81,26 @@ class MemberController extends Controller
     public function kelola()
     {
         $members = User::where('role', 'member')->orderBy('created_at', 'desc')->get();
-        $daftar = Pendaftaran::with('user')->orderBy('created_at', 'desc')->get();
+
+        // Hanya pendaftar program yang terdaftar pada MINGGU INI.
+        // Jadwal kelas bersifat mingguan (di-reset tiap minggu), jadi pendaftaran
+        // dari minggu-minggu sebelumnya tidak ikut terhitung / tertampil.
+        $daftar = Pendaftaran::with('user')
+            ->where('created_at', '>=', \Carbon\Carbon::now()->startOfWeek())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         $grup = $this->grupPendaftar($daftar);
-        return view('admin.member.kelola', compact('members', 'daftar', 'grup'));
+
+        // Jumlah pendaftar yang benar-benar tampil di tab (yang cocok dengan jadwal aktif)
+        // — supaya angka di tombol selalu sama dengan isi tab.
+        $jumlahPendaftar = collect($grup)->sum(
+            fn ($modes) => collect($modes)->sum(
+                fn ($kelasList) => collect($kelasList)->sum(fn ($k) => count($k['anggota']))
+            )
+        );
+
+        return view('admin.member.kelola', compact('members', 'daftar', 'grup', 'jumlahPendaftar'));
     }
 
     public function show($id)
@@ -234,11 +251,14 @@ class MemberController extends Controller
 
     /**
      * Reset semua data member (untuk persiapan user review / demo).
+     * Wajib verifikasi kredensial admin (nama + password) sebelum dijalankan.
      * Hapus member, pendaftaran program, notifikasi member, dan file dokumen upload.
      * Admin dan konten lain (berita, program, jadwal) TIDAK terhapus.
      */
-    public function resetMember()
+    public function resetMember(Request $request)
     {
+        $this->verifikasiKredensialAdmin($request);
+
         $memberIds = User::where('role', 'member')->pluck('id');
 
         Pendaftaran::whereIn('user_id', $memberIds)->delete();

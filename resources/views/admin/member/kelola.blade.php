@@ -15,26 +15,20 @@
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </button>
                 <div id="resetDropdownMenu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,0.15);min-width:260px;z-index:100;overflow:hidden;">
-                    <form action="{{ route('admin.pendaftaran.reset') }}" method="POST" onsubmit="return confirm('⚠️ Yakin ingin menghapus SEMUA PENDAFTAR PROGRAM?\n\nHanya data pendaftaran program kelas yang dihapus.\nAkun member TETAP tersimpan. Lanjutkan?');" style="border-bottom:1px solid #f3f4f6;">
-                        @csrf
-                        <button type="submit" style="width:100%;text-align:left;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;gap:10px;align-items:flex-start;">
-                            <span style="font-size:18px;line-height:1;">🗂️</span>
-                            <span>
-                                <strong style="display:block;font-size:13px;color:#b45309;">Reset Pendaftar Program</strong>
-                                <span style="font-size:11px;color:var(--gray-500);line-height:1.4;display:block;">Hapus pendaftaran kelas program saja. Akun member tetap ada.</span>
-                            </span>
-                        </button>
-                    </form>
-                    <form action="{{ route('admin.member.reset') }}" method="POST" onsubmit="return confirm('⚠️ Yakin ingin menghapus SEMUA PENDAFTAR MEMBER?\n\nAkun member, pendaftaran program-nya, notifikasi, dan file dokumen member akan dihapus permanen.\n\nAdmin dan konten lain (berita, program, jadwal) TIDAK terhapus. Lanjutkan?');">
-                        @csrf
-                        <button type="submit" style="width:100%;text-align:left;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;gap:10px;align-items:flex-start;">
-                            <span style="font-size:18px;line-height:1;">👥</span>
-                            <span>
-                                <strong style="display:block;font-size:13px;color:#dc2626;">Reset Pendaftar Member</strong>
-                                <span style="font-size:11px;color:var(--gray-500);line-height:1.4;display:block;">Hapus semua akun member + data terkaitnya. Mulai daftar dari nol.</span>
-                            </span>
-                        </button>
-                    </form>
+                    <button type="button" onclick="bukaModalReset('pendaftar')" style="width:100%;text-align:left;padding:12px 16px;background:#fff;border:none;cursor:pointer;font-family:inherit;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid #f3f4f6;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
+                        <span style="font-size:18px;line-height:1;">🗂️</span>
+                        <span>
+                            <strong style="display:block;font-size:13px;color:#b45309;">Reset Pendaftar Program</strong>
+                            <span style="font-size:11px;color:var(--gray-500);line-height:1.4;display:block;">Hapus pendaftaran kelas program saja. Akun member tetap ada.</span>
+                        </span>
+                    </button>
+                    <button type="button" onclick="bukaModalReset('member')" style="width:100%;text-align:left;padding:12px 16px;background:#fff;border:none;cursor:pointer;font-family:inherit;display:flex;gap:10px;align-items:flex-start;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
+                        <span style="font-size:18px;line-height:1;">👥</span>
+                        <span>
+                            <strong style="display:block;font-size:13px;color:#dc2626;">Reset Pendaftar Member</strong>
+                            <span style="font-size:11px;color:var(--gray-500);line-height:1.4;display:block;">Hapus semua akun member + data terkaitnya. Mulai daftar dari nol.</span>
+                        </span>
+                    </button>
                 </div>
             </div>
 
@@ -57,7 +51,7 @@
         </button>
         <button type="button" class="member-tab" data-tab="tab-pendaftar" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1px solid #30363d;font-family:inherit;transition:all 0.15s;background:#2d333b;color:#c9d1d9;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            Pendaftar Program ({{ $daftar->count() }})
+            Pendaftar Program ({{ $jumlahPendaftar ?? 0 }})
         </button>
     </div>
 
@@ -196,6 +190,45 @@
             </div>
             <div id="pd-kelas-list"></div>
         </div>
+    </div>
+</div>
+
+<!-- ===== MODAL FORM RESET DATA (konfirmasi aman sebelum reset) ===== -->
+<div id="modalResetData" style="{{ $errors->hasAny(['password', 'nama_admin']) ? 'display:flex;' : 'display:none;' }}position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;">
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);" onclick="tutupModalReset()"></div>
+    <div style="position:relative;z-index:1;background:#ffffff;border-radius:16px;padding:32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 20px 60px rgba(0,0,0,0.35);">
+        <h3 style="margin:0 0 4px;text-align:center;font-size:18px;color:#111827;letter-spacing:0.5px;">FORM RESET DATA</h3>
+        <p style="text-align:center;font-size:12px;color:#6b7280;margin:0 0 20px;line-height:1.5;">Masukkan nama &amp; password admin untuk konfirmasi sebelum data benar-benar direset.</p>
+
+        <div id="resetDataJenisInfo" style="text-align:center;font-size:12px;color:#6b7280;margin-bottom:20px;background:#f9fafb;border:1px dashed #d1d5db;border-radius:8px;padding:8px 12px;line-height:1.5;"></div>
+
+        <form id="formResetData" method="POST" action="{{ route('admin.pendaftaran.reset') }}">
+            @csrf
+            <input type="hidden" name="jenis" id="resetJenis" value="{{ old('jenis', '') }}">
+
+            <div style="margin-bottom:14px;">
+                <label for="nama_admin" style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">Nama Admin</label>
+                <input type="text" id="nama_admin" name="nama_admin" value="{{ old('nama_admin') }}" required autocomplete="off" placeholder="Nama admin yang sedang login"
+                    style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;color:#111827;background:#f9fafb;box-sizing:border-box;outline:none;">
+                @error('nama_admin')
+                    <p style="color:#dc2626;font-size:11px;margin:4px 0 0;">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label for="password" style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">Password Admin</label>
+                <input type="password" id="password" name="password" required autocomplete="off" placeholder="Password akun admin ini"
+                    style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;color:#111827;background:#f9fafb;box-sizing:border-box;outline:none;">
+                @error('password')
+                    <p style="color:#dc2626;font-size:11px;margin:4px 0 0;">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div style="display:flex;gap:10px;">
+                <button type="submit" style="flex:1;padding:11px;font-size:13px;font-weight:600;border:none;border-radius:8px;cursor:pointer;background:#dc2626;color:#ffffff;">Konfirmasi Reset</button>
+                <button type="button" onclick="tutupModalReset()" style="flex:1;padding:11px;font-size:13px;font-weight:600;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;background:#f9fafb;color:#374151;">Batal</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -404,6 +437,42 @@ document.addEventListener('click', function(e) {
     const menu = document.getElementById('resetDropdownMenu');
     if (wrap && menu && !wrap.contains(e.target)) {
         menu.style.display = 'none';
+    }
+});
+
+// ===== MODAL FORM RESET DATA (konfirmasi nama + password admin) =====
+function setJenisInfo(jenis) {
+    const info = document.getElementById('resetDataJenisInfo');
+    if (!info) return;
+    info.innerHTML = jenis === 'member'
+        ? '<strong style="color:#dc2626;display:block;font-size:13px;">Reset Pendaftar Member</strong>Seluruh akun member, pendaftaran, notifikasi, dan file dokumen member akan dihapus permanen.'
+        : '<strong style="color:#b45309;display:block;font-size:13px;">Reset Pendaftar Program</strong>Hanya data pendaftaran program kelas yang dihapus. Akun member tetap tersimpan.';
+}
+
+function bukaModalReset(jenis) {
+    const modal = document.getElementById('modalResetData');
+    if (!modal) return;
+    const form = document.getElementById('formResetData');
+    document.getElementById('resetJenis').value = jenis;
+    form.action = jenis === 'member'
+        ? "{{ route('admin.member.reset') }}"
+        : "{{ route('admin.pendaftaran.reset') }}";
+    setJenisInfo(jenis);
+    form.querySelectorAll('input[name="nama_admin"], input[name="password"]').forEach(function(i) { i.value = ''; });
+    modal.style.display = 'flex';
+    document.getElementById('nama_admin').focus();
+}
+
+function tutupModalReset() {
+    const modal = document.getElementById('modalResetData');
+    if (modal) modal.style.display = 'none';
+}
+
+// Saat halaman dimuat ulang karena verifikasi gagal, buka kembali modal + tampilkan info jenis aksi
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modalResetData');
+    if (modal && modal.style.display === 'flex') {
+        setJenisInfo(document.getElementById('resetJenis').value || 'pendaftar');
     }
 });
 </script>

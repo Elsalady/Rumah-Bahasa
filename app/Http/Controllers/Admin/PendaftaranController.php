@@ -126,10 +126,13 @@ class PendaftaranController extends Controller
 
     /**
      * Reset semua data pendaftar program (tabel pendaftaran).
+     * Wajib verifikasi kredensial admin (nama + password) sebelum dijalankan.
      * Hanya menghapus pendaftaran program — akun member TIDAK dihapus.
      */
-    public function resetPendaftar()
+    public function resetPendaftar(Request $request)
     {
+        $this->verifikasiKredensialAdmin($request);
+
         Pendaftaran::query()->delete();
 
         return redirect()->route('admin.member.kelola', ['tab' => 'pendaftar'])
