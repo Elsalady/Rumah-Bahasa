@@ -13,7 +13,7 @@
     $heroSlides = [
         asset('images/rumbas.jpg'),
         asset('images/rumbas2.jpeg'),
-        asset('images/rumbas5.jpg'),
+        asset('images/depanrumbas.jpg'),
         asset('images/rumbas4.jpeg'),
     ];
 @endphp
@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $gambarBeritaCadangan = [
                 asset('images/rumbas.jpg'),
                 asset('images/rumbas2.jpeg'),
-                asset('images/rumbas5.jpg'),
+                asset('images/depanrumbas.jpg'),
                 asset('images/rumbas4.jpeg'),
             ];
             $beritaArr = $berita->values();
