@@ -11,9 +11,9 @@
 {{-- ===== 1. HERO (BERANDA) - SLIDER ===== --}}
 @php
     $heroSlides = [
+        asset('images/depanrumbas.jpg'),
         asset('images/rumbas.jpg'),
         asset('images/rumbas2.jpeg'),
-        asset('images/depanrumbas.jpg'),
         asset('images/rumbas4.jpeg'),
     ];
 @endphp
@@ -428,9 +428,9 @@ document.addEventListener('DOMContentLoaded', function() {
         @php
             // Gambar sementara untuk berita tanpa foto (pakai foto rumbas)
             $gambarBeritaCadangan = [
+                asset('images/depanrumbas.jpg'),
                 asset('images/rumbas.jpg'),
                 asset('images/rumbas2.jpeg'),
-                asset('images/depanrumbas.jpg'),
                 asset('images/rumbas4.jpeg'),
             ];
             $beritaArr = $berita->values();

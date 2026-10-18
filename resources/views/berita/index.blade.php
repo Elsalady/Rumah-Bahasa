@@ -22,7 +22,7 @@
                         @if($item->gambar_url)
                             <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">
                         @else
-                            @php $rumbas = ['rumbas.jpg','rumbas2.jpeg','depanrumbas.jpg','rumbas4.jpeg']; @endphp
+                            @php $rumbas = ['depanrumbas.jpg','rumbas.jpg','rumbas2.jpeg','rumbas4.jpeg']; @endphp
                             <img src="{{ asset('images/' . $rumbas[$loop->index % 4]) }}" alt="{{ $item->judul }}" style="width:100%;height:100%;object-fit:cover;">
                         @endif
                     </div>
