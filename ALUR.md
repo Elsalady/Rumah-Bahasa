@@ -18,6 +18,7 @@ Dibangun dengan: Laravel 12 (PHP 8.2+) · PostgreSQL · Tailwind CSS v4
 8. [Diagram Status Member & Pendaftaran](#8-diagram-status-member--pendaftaran)
 9. [Alur Otomatis / Scheduler](#9-alur-otomatis--scheduler)
 10. [Rute Utama (Route Map)](#10-rute-utama-route-map)
+11. [Batasan Sistem Saat Ini](#11-batasan-sistem-saat-ini)
 
 ---
 
@@ -173,15 +174,28 @@ Alur ini yang penting — hasilnya muncul di panel Admin **Pendaftaran**.
       │
       ├─ [Cek] Jadwal aktif? JadwalKelas::is_active
       │
-      ├─ [Cek] Sudah pernah daftar program ini?
-      │        (status pending/confirmed) → "Kamu sudah terdaftar di program ini"
-      │
-      ├─ [Cek] KUOTA kelas penuh?
-      │        jumlah confirmed >= kuota jadwal
-      │        → buat Pendaftaran status = 'rejected'
-      │          catatan = "Kuota kelas sudah penuh."
-      │        → pesan error, minta pilih jadwal lain / hubungi admin
-      │
+├─ [Cek] Sudah pernah daftar jadwal ini?
+       │        (status pending/confirmed, jadwal_id sama)
+       │        → "Kamu sudah terdaftar di jadwal ini"
+       │
+       ├─ [Cek] Tanggal jadwal sudah lewat?
+       │        tanggal < hari ini → ditolak
+       │
+       ├─ [Cek] BENTROK JADWAL by NIK
+       │        NIK sama sudah punya pendaftaran confirmed
+       │        pada tanggal & jam yang overlap
+       │        (seseorang tidak boleh daftar 2 kelas bentrok)
+       │
+       ├─ [Cek] Kuota = 0?
+       │        → buat Pendaftaran status = 'rejected'
+       │          catatan = "Kuota kelas belum dibuka (0)."
+       │
+       ├─ [Cek] KUOTA kelas penuh?
+       │        jumlah confirmed >= kuota jadwal
+       │        → buat Pendaftaran status = 'rejected'
+       │          catatan = "Kuota kelas sudah penuh."
+       │        → pesan error, minta pilih jadwal lain / hubungi admin
+       │
       └─ [Berhasil] Buat Pendaftaran:
              status  = 'confirmed'     ← LANGSUNG TERVERIFIKASI
              mode    = online/offline (dari jadwal)
@@ -195,6 +209,10 @@ Alur ini yang penting — hasilnya muncul di panel Admin **Pendaftaran**.
 
 Data pendaftaran ini kemudian terkelola di panel Admin → **Pendaftaran** (lihat alur #6).
 
+> ⚠️ Saat kuota penuh, member **ditolak**, bukan masuk antrean. Slot kosong akibat pembatalan
+> bisa langsung diambil member lain yang daftar ulang, tapi tidak ada waiting list otomatis.
+> Ini salah satu celah sistem yang direncanakan untuk dikembangkan dalam tugas akhir.
+
 ---
 
 ## 6. Alur Admin
@@ -203,12 +221,16 @@ Semua rute admin dibungkus middleware `['auth','admin.auth']` + prefix `/admin`.
 
 ### 6.1. Dashboard Admin (`/admin`)
 
-Kartu statistik:
-- Total berita, pendaftar program, pesan baru
-- Member menunggu approval (`pending`)
-- Member terverifikasi (`approved`)
-- Total member, jumlah profil, jumlah jadwal kelas
-- + daftar pendaftar terbaru & pesan terbaru
+Kartu statistik (9 angka, tanpa visualisasi):
+- Total berita, total profil, jumlah jadwal kelas
+- Pendaftar program: total, `pending`, `confirmed`
+- Member: total, menunggu approval (`pending`), terverifikasi (`approved`)
+- Pesan baru belum dibaca
+- + daftar 5 pendaftar terbaru & 5 pesan terbaru
+
+> Catatan: dashboard ini baru menampilkan **angka statis** — belum ada grafik distribusi usia,
+> tren pendaftaran, maupun tingkat keterisian kelas. Visualisasi ini salah satu rencana
+> pengembangan dalam tugas akhir.
 
 ### 6.2. Kelola Member (`/admin/member/kelola`)
 
@@ -218,17 +240,31 @@ Ini tempat **menyetujui akun member baru** (menjawab flow register `pending`):
 /member/kelola        → tabel semua member (desc by created_at)
   ├─ klik member → /admin/member/{id}   (detail + dokumen KTP/domisili/KTM/KK + foto)
   │
-  └─ PUT /admin/member/{id}  (Admin\MemberController@update)
-       status diubah ke salah satu:
-         ├─ 'pending'  (default saat register)
-         ├─ 'approved' → member bisa daftar program
-         └─ 'rejected' → member diblokir (boleh isi catatan_member)
-       catatan_member: alasan, opsional
+└─ PUT /admin/member/{id}  (Admin\MemberController@update)
+            status diubah ke salah satu:
+              ├─ 'pending'  (default saat register)
+              ├─ 'approved' → member bisa daftar program
+              │    • nomor member (no_member) dibuat otomatis format RB-YYMMDD-NNNN
+              │      (urutan global, tidak direset)
+              │    • notifikasi in-app "Akun Kamu Disetujui" dikirim
+              └─ 'rejected' → member diblokir (boleh isi catatan_member)
+                   • notifikasi in-app "Akun Kamu Ditolak" + alasan dari catatan_member
+            catatan_member: alasan, opsional
 ```
 
 Setelah status = `approved`, member langsung bisa mengakses program & pendaftaran.
 
+Dokumen member (KTP, surat domisili, KTM, KK, foto profil) dilihat lewat
+`GET /admin/member/{id}/dokumen/{kolom}` — file dilayani baik dari storage maupun dari
+kolom base64.
+
 > Export data member: `GET /admin/member/export` (file .xls).
+>
+> **Reset massal** (berguna untuk demo/reset data):
+> `POST /admin/member/reset` dan `POST /admin/pendaftaran/reset` — keduanya menghapus
+> data (member + pendaftaran + notifikasi + file dokumen, atau seluruh tabel pendaftaran).
+> Karena destruktif, kedua endpoint ini memverifikasi ulang **nama admin + password**
+> (`Controller@verifikasiKredensialAdmin`) sebelum menjalankan.
 
 ### 6.3. Kelola Pendaftaran Program (`/admin/pendaftaran`)
 
@@ -236,27 +272,62 @@ Setelah status = `approved`, member langsung bisa mengakses program & pendaftara
 /pendaftaran          → daftar pendaftar program dikelompokkan
                         jenis (tematik/tentative) → mode (online/offline) → kelas
 /pendaftaran/export   → export .xls semua pendaftar
+DELETE /pendaftaran/{id} → hapus satu pendaftaran (kuota kembali tersedia)
 ```
 
-Karena pendaftaran program **langsung `confirmed`**, di sini admin hanya **melihat & mengekspor**, tidak ada tombol approve/reject.
+Karena pendaftaran program **langsung `confirmed`**, di sini admin pada dasarnya hanya
+**melihat, mengekspor, dan menghapus** — tidak ada tombol approve/reject.
 
-### 6.4. Kelola Konten
+Baris pendaftaran lama yang belum punya `jadwal_id` tetap ditampilkan dengan cara
+menCocokkan nama program sebagai fallback.
+
+### 6.4. Laporan (`/admin/laporan`)
+
+Modul analitik yang sudah ada. Filter periode: **minggu** (`input type="week"`),
+**bulan** (`input type="month"`), atau **semua**.
+
+Metrik ringkasan:
+- `total_pendaftar` — jumlah baris pendaftaran `confirmed` dalam periode
+- `total_member` — jumlah member unik di antara pendaftar tersebut
+- `member_approved` — berapa di antaranya yang akunnya sudah `approved`
+
+Rincian per kategori (dihitung dengan Collection, bukan SQL `GROUP BY`):
+- `per_kelas` — jumlah pendaftar tiap kelas
+- `per_jenis` — tematik vs tentative
+- `per_mode` — online vs offline
+
+Export: `GET /admin/laporan/export` → file `.xls` berisi ringkasan, rincian per kelas,
+dan detail 13 kolom (No, Tanggal Daftar, No Member, Nama, NIK, Usia, Pekerjaan, Email, HP,
+Jenis, Mode, Program/Kelas, Status Anggota). Seluruh tanggal sudah diformat WIB / locale `id`.
+
+### 6.5. Kelola Konten
 
 | Menu | Rute | Aksi |
 |------|------|------|
 | **Konten** (berita) | `POST /admin/berita`, `PUT /admin/berita/{id}`, `DELETE /admin/berita/{id}` | Tambah / edit / hapus berita |
-| **Profil** | `POST /admin/profil`, `PUT /admin/profil/{id}`, `DELETE /admin/profil/{id}` | Kelola sejarah, visi misi, dsb. |
-| **Program** | `/admin/program`, `POST/PUT/DELETE` | Kelola daftar program & kelas |
-| **Jadwal Kelas** | `POST/PUT/DELETE /admin/jadwal-kelas/{id}` | Kelola jadwal mingguan, kuota, pengajar |
-| **Program-Jadwal** | `/admin/program-jadwal` | Halaman gabungan program + jadwal |
+| **Profil** | `POST /admin/profil`, `PUT /admin/profil/{id}`, `DELETE /admin/profil/{id}` | Kelola sejarah, visi misi, volunteer, sasaran |
+| **Program** | `/admin/program`, `POST/PUT/DELETE` | Kelola daftar program bahasa |
+| **Jadwal Kelas** | `POST/PUT/DELETE /admin/jadwal-kelas/{id}` | Kelola jadwal mingguan, kuota, pengajar, tema |
+| **Program-Jadwal** | `/admin/program-jadwal` | Halaman gabungan program + jadwal (jadwal lewat tanggal dibersihkan saat dibuka) |
 
-### 6.5. Kelola Kontak Masuk (`/admin/kontak`)
+Setiap perubahan pada **jadwal kelas** (buat / ubah / hapus) otomatis mengirim notifikasi
+in-app **broadcast ke seluruh member yang sudah `approved`** —titles varies antara
+"Jadwal Kelas Baru", "Jadwal Kelas Diperbarui", atau "Jadwal Kelas Dihapus".
+
+Gambar berita disimpan dua kali: ke file storage **dan** ke kolom base64 (`gambar_data`),
+supaya tetap tampil di Railway yang filesystem-nya nggak persisten.
+
+### 6.6. Kelola Kontak Masuk (`/admin/kontak`)
 
 ```
 /kontak                → daftar pesan pengunjung (terbaru dulu)
 /kontak/{id}/read      → tandai sudah dibaca
 DELETE /kontak/{id}    → hapus pesan
 ```
+
+Pesan yang masuk dari form kontak `/kontak` disimpan ke tabel `kontak` **dan** dikirim
+via email ke semua admin (`KontakMasukMail`, mode `MAIL_MAILER=log` saat development
+jadi email ditulis ke `storage/logs/laravel.log`). Panel admin tetap jadi inbox utama.
 
 ---
 
@@ -315,22 +386,32 @@ Ilustrasi perjalanan satu pengguna dari pertama datang sampai menjadi member akt
         ▼
    ┌─────────┐   approved (admin)   ┌──────────┐
    │ pending ├──────────────────────► approved │  → bisa daftar program
-   └────┬────┘                      └──────────┘
+   │         │                       │          │    no_member dibuat: RB-YYMMDD-NNNN
+   └────┬────┘                       └──────────┘
         │
         └── rejected (admin) → akun diblokir, tidak bisa lanjut
 ```
+
+Status juga bisa dikembalikan ke `pending` kapan saja dari panel admin.
 
 **Status Pendaftaran (program):**
 
 ```
     daftar program
         │
-        ├── kuota penuh ──────► rejected  (otomatis, catatan "Kuota kelas sudah penuh")
+        ├── kuota = 0 ─────────► rejected  (catatan "Kuota kelas belum dibuka (0).")
         │
-        └── kuota tersedia ───► confirmed (instan)
+        ├── kuota penuh ───────► rejected  (catatan "Kuota kelas sudah penuh.")
+        │
+        └── kuota tersedia ────► confirmed (instan)
                                     │
-                                    └── member bisa batalkan (delete)
+                                    └── member batalkan (delete)
+                                        atau admin hapus (delete)
+                                        → kuota kembali tersedia
 ```
+
+> Belum ada status `waiting` / antrean — inilah celah yang jadi objek pengembangan
+> smart waiting list pada tugas akhir.
 
 ---
 
@@ -342,7 +423,11 @@ Ilustrasi perjalanan satu pengguna dari pertama datang sampai menjadi member akt
 - **Bersihkan pendaftaran tentative** (di `MemberController@bersihkanPendaftaranTentative`):
   - Saat dashboard/program dibuka, pendaftaran kelas **tentative** (1 pertemuan = 1 materi) yang `confirmed` dan `created_at` sebelum awal minggu berjalan otomatis dihapus — member harus daftar lagi untuk pertemuan/materi berikutnya.
   - Kelas **tematik** (1 tema/buku dibahas beberapa pertemuan) tidak dihapus — member tetap terdaftar sampai tema selesai.
-- **Throttle form publik** → `throttle:public-forms` pada login, register, dan form kontak untuk cegah spam.
+- **Throttle form publik** → `throttle:public-forms` (10 permintaan/menit per IP) pada login,
+  register, dan form kontak untuk cegah spam.
+- **Pembersihan otomatis saat deploy** (`.docker/entrypoint.sh`): clear cache, `migrate --force`,
+  backfill kolom `umur` & `rentang_usia`, deduplikat `profil`, dan seed awal bila tabel
+  `layanan` masih kosong.
 
 > Untuk production, pastikan cron scheduler jalan:
 > ```bash
@@ -419,7 +504,41 @@ Ilustrasi perjalanan satu pengguna dari pertama datang sampai menjadi member akt
 | DELETE | `/admin/jadwal-kelas/{id}` | `admin.jadwal-kelas.destroy` |
 | GET | `/admin/pendaftaran` | `admin.pendaftaran.index` |
 | GET | `/admin/pendaftaran/export` | `admin.pendaftaran.export` |
+| POST | `/admin/pendaftaran/reset` | `admin.pendaftaran.reset` |
+| DELETE | `/admin/pendaftaran/{id}` | `admin.pendaftaran.destroy` |
+| GET | `/admin/laporan` | `admin.laporan.index` |
+| GET | `/admin/laporan/export` | `admin.laporan.export` |
 | GET | `/admin/member/kelola` | `admin.member.kelola` |
 | GET | `/admin/member/export` | `admin.member.export` |
+| POST | `/admin/member/reset` | `admin.member.reset` |
+| GET | `/admin/member/{id}/dokumen/{kolom}` | `admin.member.dokumen` |
 | GET | `/admin/member/{id}` | `admin.member.show` |
 | PUT | `/admin/member/{id}` | `admin.member.update` |
+
+> Tervalidasi: 61 rute di `routes/web.php` = 61 baris tabel di dokumen ini.
+
+---
+
+## 11. Batasan Sistem Saat Ini
+
+Bagian ini sengaja dicatat karena jadi bahan analisis untuk pengembangan tugas akhir.
+
+| Area | Kondisi sekarang | Catatan |
+|------|------------------|---------|
+| Dashboard admin | 9 angka statis, tanpa chart | Belum ada visualisasi distribusi usia, tren pendaftaran, tingkat keterisian |
+| Kuota penuh | Member **ditolak** (`rejected`) | Tidak ada waiting list / auto-promote saat ada pembatalan |
+| Notifikasi | In-app (tabel `notifikasi`) saja | Tidak ada email ke member, tidak ada pengingat H-1, tidak ada web push |
+| Lupa password | Tidak ada | Tabel `password_reset_tokens` sudah di-drop lewat migration; reset hanya manual oleh admin (`php artisan admin:reset-password`) |
+| Absensi | Link eksternal ke SIPUS | Tidak ada tabel absensi sendiri, tidak ada rekap kehadiran |
+| Akses peserta | Web saja (Blade server-rendered) | Tidak ada `routes/api.php`, tidak ada token auth, tidak ada PWA |
+| Relasi program ↔ jadwal | Dicocokkan by `LIKE %nama_kelas%` | Bukan foreign key; mengganti nama program diam-diam memutus relasi jadwal |
+| Pengujian | Hanya 2 test bawaan Laravel | Belum ada test fitur aplikasi |
+
+### Command yang tersedia
+
+| Command | Fungsi |
+|---------|--------|
+| `php artisan jadwal:reset-mingguan` | Hapus jadwal kelas yang tanggalnya sudah lewat |
+| `php artisan admin:reset-password [email] [password]` | Reset password admin (password acak 16 karakter bila tidak diisi) |
+| `composer dev` | Jalankan server + queue + log + vite bersamaan |
+| `composer test` | Jalankan PHPUnit |

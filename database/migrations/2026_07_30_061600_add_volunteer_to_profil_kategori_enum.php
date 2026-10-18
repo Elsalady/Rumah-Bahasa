@@ -7,12 +7,20 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (DB::getDriverName() !== 'pgsql') {
+            return;
+        }
+
         DB::statement("ALTER TABLE profil DROP CONSTRAINT IF EXISTS profil_kategori_check");
         DB::statement("ALTER TABLE profil ADD CONSTRAINT profil_kategori_check CHECK (kategori::text = ANY (ARRAY['sejarah', 'visi_misi', 'tugas_fungsi', 'struktur', 'volunteer']::text[]))");
     }
 
     public function down(): void
     {
+        if (DB::getDriverName() !== 'pgsql') {
+            return;
+        }
+
         DB::statement("ALTER TABLE profil DROP CONSTRAINT IF EXISTS profil_kategori_check");
         DB::statement("ALTER TABLE profil ADD CONSTRAINT profil_kategori_check CHECK (kategori::text = ANY (ARRAY['sejarah', 'visi_misi', 'tugas_fungsi', 'struktur']::text[]))");
     }
